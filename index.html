@@ -950,6 +950,7 @@ Key Insights:
         renderApp();
         refreshContentFromFeed();
         loadTeachings();
+        loadWeather();
         return;
       }
 
@@ -986,6 +987,7 @@ Key Insights:
         renderApp();
         refreshContentFromFeed();
         loadTeachings();
+        loadWeather();
       } catch (err) {
         // Failed decryption / wrong PIN
         const sec = getSecurityState();
@@ -1123,6 +1125,7 @@ Key Insights:
         renderApp();
         refreshContentFromFeed();
         loadTeachings();
+        loadWeather();
         return true;
       } catch (e) {
         return false; // stale/tampered device key - normal gate takes over
@@ -1222,7 +1225,7 @@ Key Insights:
     function updateDateDisplay() {
       const options = { weekday: 'long', month: 'long', day: 'numeric' };
       const todayStr = new Date().toLocaleDateString(undefined, options);
-      document.getElementById('header-date').textContent = `${todayStr} • End-to-End Encrypted`;
+      document.getElementById('header-date').textContent = `${todayStr} • Encrypted on this device`;
     }
 
     // ------------------------------------------------------------------
@@ -1484,6 +1487,100 @@ Key Insights:
       });
     }
 
+    // ------------------------------------------------------------------
+    // Honest signals: live weather, content-driven greeting, fresh starts
+    // (fake placeholder values removed — everything shown is real or absent)
+    // ------------------------------------------------------------------
+    const WEATHER_CACHE_KEY = 'pulseboard_weather_v1'; // non-sensitive: forecast only
+    let lastWeather = null;
+
+    function wmoEmoji(code, isNight) {
+      if (code === 0) return isNight ? '🌙' : '☀️';
+      if (code === 1 || code === 2) return isNight ? '☁️' : '🌤️';
+      if (code === 3) return '☁️';
+      if (code === 45 || code === 48) return '🌫️';
+      if ([51, 53, 55, 56, 57].includes(code)) return '🌦️';
+      if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return '🌧️';
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return '🌨️';
+      if ([95, 96, 99].includes(code)) return '⛈️';
+      return isNight ? '🌙' : '🌤️';
+    }
+
+    function wmoText(code) {
+      const map = { 0: 'Clear sky', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Overcast', 45: 'Fog', 48: 'Rime fog', 51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle', 61: 'Light rain', 63: 'Rain', 65: 'Heavy rain', 66: 'Freezing rain', 67: 'Freezing rain', 71: 'Light snow', 73: 'Snow', 75: 'Heavy snow', 77: 'Snow grains', 80: 'Rain showers', 81: 'Rain showers', 82: 'Violent showers', 85: 'Snow showers', 86: 'Snow showers', 95: 'Thunderstorm', 96: 'Thunderstorm, hail', 99: 'Severe thunderstorm' };
+      return map[code] || 'Mixed sky';
+    }
+
+    function renderWeather(isNight) {
+      const emojiEl = document.getElementById('weather-emoji');
+      const tempEl = document.getElementById('weather-temp');
+      const descEl = document.getElementById('weather-desc');
+      const focusEl = document.getElementById('focus-status');
+      if (!lastWeather) {
+        emojiEl.textContent = isNight ? '🌙' : '☀️';
+        tempEl.textContent = '––°';
+        descEl.textContent = 'Weather unavailable';
+        focusEl.textContent = '';
+        return;
+      }
+      emojiEl.textContent = wmoEmoji(lastWeather.code, isNight);
+      tempEl.textContent = `${lastWeather.temp}°C`;
+      descEl.textContent = wmoText(lastWeather.code) + (lastWeather.feels != null ? ` · feels ${lastWeather.feels}°` : '');
+      focusEl.className = 'text-xs font-medium mt-0.5 ' + (isNight ? 'text-indigo-400' : 'text-emerald-700');
+      focusEl.textContent = isNight
+        ? `Wind-down mode${lastWeather.sunset ? ` · sunset was ${lastWeather.sunset}` : ''}`
+        : (lastWeather.sunset ? `Sunset today at ${lastWeather.sunset}` : 'Make today count');
+    }
+
+    async function loadWeather() {
+      try {
+        const cached = JSON.parse(localStorage.getItem(WEATHER_CACHE_KEY) || 'null');
+        if (cached && Date.now() - cached.t < 30 * 60 * 1000) {
+          lastWeather = cached;
+        } else {
+          const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.9039&longitude=34.8116&current=temperature_2m,weather_code,apparent_temperature&daily=sunset&timezone=auto&forecast_days=1');
+          if (!res.ok) throw new Error('weather http ' + res.status);
+          const d = await res.json();
+          lastWeather = {
+            t: Date.now(),
+            temp: Math.round(d.current.temperature_2m),
+            feels: Math.round(d.current.apparent_temperature),
+            code: d.current.weather_code,
+            sunset: ((d.daily && d.daily.sunset && d.daily.sunset[0]) || '').slice(11, 16)
+          };
+          try { localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(lastWeather)); } catch (e) { /* storage full: skip cache */ }
+        }
+      } catch (e) { /* offline or API down: honest placeholder stays */ }
+      renderWeather(state.edition === 'night');
+    }
+
+    // Fresh-start effect (Dai, Milkman & Riis 2014): temporal landmarks
+    // motivate goal pursuit — surface them when the date provides one.
+    function freshStartKicker(base) {
+      const now = new Date();
+      if (now.getMonth() === 0 && now.getDate() === 1) return 'NEW YEAR • A CLEAN SLATE';
+      if (now.getDate() === 1) return 'NEW MONTH • FRESH START';
+      if (now.getDay() === 1) return 'NEW WEEK • CLEAN SLATE';
+      return base;
+    }
+
+    function buildGreetingTitle() {
+      const hour = new Date().getHours();
+      if (hour < 5) return 'Deep night. Let the day rest.';
+      if (state.edition === 'night') return 'Good evening. Time to unwind and reflect.';
+      return 'Good morning. Here is what shapes your world today.';
+    }
+
+    function buildGreetingSubtitle(isNight) {
+      const ed = s => s.edition === state.edition || s.edition === 'morning';
+      const stories = state.stories.filter(ed);
+      const papers = state.papers.filter(ed).length;
+      const words = stories.reduce((n, s) => n + (s.content || s.dek || '').split(/\s+/).filter(Boolean).length, 0);
+      const mins = Math.max(1, Math.round(words / 220));
+      if (isNight) return `${stories.length} briefings (~${mins} min) and ${papers} research digests to close the day with — plus your wind-down routine and a teaching.`;
+      return `${stories.length} briefings (~${mins} min) and ${papers} research digests — plus your routine, schedule, and one teaching to sit with.`;
+    }
+
     function renderApp() {
       const isNight = state.edition === 'night';
       const body = document.getElementById('app-body');
@@ -1513,17 +1610,13 @@ Key Insights:
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1';
-        document.getElementById('greeting-kicker').textContent = 'NIGHT EDITION • CALM EVENING WRAP-UP';
-        document.getElementById('greeting-title').textContent = 'Good evening. Time to unwind and reflect on today’s breakthroughs.';
+        document.getElementById('greeting-kicker').textContent = freshStartKicker('NIGHT EDITION • CALM EVENING WRAP-UP');
+        document.getElementById('greeting-title').textContent = buildGreetingTitle();
         document.getElementById('greeting-subtitle').className = 'text-sm text-slate-300 mt-1 max-w-2xl';
-        document.getElementById('greeting-subtitle').textContent = 'Tonight’s edition features deep-space surveys, overnight thermal batteries, your wind-down routine, and mindful reflection.';
+        document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(true);
 
         document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm shrink-0';
-        document.getElementById('weather-emoji').textContent = '🌌';
-        document.getElementById('weather-temp').textContent = '19°C';
-        document.getElementById('weather-desc').textContent = 'Calm Night Sky';
-        document.getElementById('focus-status').className = 'text-xs text-indigo-400 font-medium mt-0.5';
-        document.getElementById('focus-status').textContent = 'Wind-down mode • Low-glare theme active';
+        renderWeather(true);
 
         document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
         document.getElementById('schedule-title').textContent = '🌙 Evening Wind-Down';
@@ -1549,17 +1642,13 @@ Key Insights:
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1';
-        document.getElementById('greeting-kicker').textContent = 'MORNING BRIEFING • 5 MIN READ';
-        document.getElementById('greeting-title').textContent = 'Good morning! Here is what shapes your world today.';
+        document.getElementById('greeting-kicker').textContent = freshStartKicker('MORNING BRIEFING • TODAY’S PULSE');
+        document.getElementById('greeting-title').textContent = buildGreetingTitle();
         document.getElementById('greeting-subtitle').className = 'text-sm text-slate-600 mt-1 max-w-2xl';
-        document.getElementById('greeting-subtitle').textContent = 'We curated top visual stories, research papers with quick-read summaries, your daily routine, and a grounded spiritual reflection.';
+        document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(false);
 
         document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
-        document.getElementById('weather-emoji').textContent = '🌤️';
-        document.getElementById('weather-temp').textContent = '24°C';
-        document.getElementById('weather-desc').textContent = 'Clear & Breezy';
-        document.getElementById('focus-status').className = 'text-xs text-emerald-700 font-medium mt-0.5';
-        document.getElementById('focus-status').textContent = 'Peak focus window: 9:30 AM – 12:00 PM';
+        renderWeather(false);
 
         document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
         document.getElementById('schedule-title').textContent = '🗓️ Your Day Ahead';
