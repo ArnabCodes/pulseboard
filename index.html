@@ -924,6 +924,7 @@ Key Insights:
 
         await persistEncryptedState();
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
+        armTrustedDevice(enteredPin);
         
         // Reset security counters
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
@@ -959,6 +960,7 @@ Key Insights:
         state.routines = decrypted.routines || STARTER_DATA.routines;
 
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
+        armTrustedDevice(enteredPin);
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
 
         offerBiometricEnrollment();
@@ -1052,11 +1054,74 @@ Key Insights:
       if (m) m.setAttribute('content', dark ? '#04060b' : '#f59e0b');
     }
 
+    // ---- Trusted-device persistence: unlock once per machine ----
+    // Any successful unlock wraps the PIN with a random device key in
+    // localStorage (same model as the fingerprint link) and marks this
+    // machine trusted. Cold starts then decrypt silently - no gate prompt.
+    function armTrustedDevice(pin) {
+      try {
+        if (!pin || pin.length !== 4) return;
+        let dkBytes = null;
+        const dkStr = localStorage.getItem('pulseboard_device_key');
+        if (dkStr) {
+          try { const a = JSON.parse(dkStr); if (Array.isArray(a) && a.length === 16) dkBytes = new Uint8Array(a); } catch (e) {}
+        }
+        if (!dkBytes) {
+          dkBytes = crypto.getRandomValues(new Uint8Array(16));
+          localStorage.setItem('pulseboard_device_key', JSON.stringify(Array.from(dkBytes)));
+        }
+        crypto.subtle.importKey('raw', dkBytes, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']).then(k => {
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+          crypto.subtle.encrypt({ name: 'AES-GCM', iv }, k, new TextEncoder().encode(pin)).then(ct => {
+            localStorage.setItem('pulseboard_device_pin_vault', JSON.stringify({ iv: Array.from(iv), data: Array.from(new Uint8Array(ct)) }));
+            localStorage.setItem('pulseboard_stay_unlocked', '1');
+          });
+        }).catch(() => {});
+      } catch (e) { /* best-effort persistence */ }
+    }
+
+    async function trySilentUnlock() {
+      try {
+        if (localStorage.getItem('pulseboard_stay_unlocked') !== '1') return false;
+        if (getSecurityState().lockedUntil > Date.now()) return false; // respect active lockout
+        const saltStr = localStorage.getItem('pulseboard_vault_salt');
+        const vaultStr = localStorage.getItem('pulseboard_encrypted_vault');
+        const dkStr = localStorage.getItem('pulseboard_device_key');
+        const dpvStr = localStorage.getItem('pulseboard_device_pin_vault');
+        if (!saltStr || !vaultStr || !dkStr || !dpvStr) return false;
+        const dk = await crypto.subtle.importKey('raw', new Uint8Array(JSON.parse(dkStr)), { name: 'AES-GCM' }, false, ['decrypt']);
+        const wrapped = JSON.parse(dpvStr);
+        const pin = new TextDecoder().decode(await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: new Uint8Array(wrapped.iv) }, dk, new Uint8Array(wrapped.data)
+        ));
+        const candidateKey = await deriveKey(pin, new Uint8Array(JSON.parse(saltStr)));
+        const decrypted = await decryptData(JSON.parse(vaultStr), candidateKey);
+        activeKey = candidateKey;
+        state.stories = decrypted.stories || STARTER_DATA.stories;
+        state.papers = decrypted.papers || STARTER_DATA.papers;
+        state.tasks = decrypted.tasks || STARTER_DATA.tasks;
+        state.routines = decrypted.routines || STARTER_DATA.routines;
+        saveSecurityState({ attempts: 0, lockedUntil: 0 });
+        const gateScreen = document.getElementById('pin-gate-screen');
+        gateScreen.classList.add('opacity-0', 'pointer-events-none');
+        setGateThemeColor(false);
+        setTimeout(() => gateScreen.classList.add('hidden'), 300);
+        document.getElementById('new-task-input').disabled = false;
+        document.querySelector('#add-task-form button').disabled = false;
+        updateDateDisplay();
+        renderApp();
+        return true;
+      } catch (e) {
+        return false; // stale/tampered device key - normal gate takes over
+      }
+    }
+
     function initSecurityGate() {
       updateGateClock();
       setInterval(updateGateClock, 15000);
       setGateThemeColor(true);
       refreshGateMode();
+      trySilentUnlock();
 
       checkLockout();
       updateBiometricButtonState();
@@ -1092,6 +1157,7 @@ Key Insights:
 
       document.getElementById('btn-lock-now').addEventListener('click', () => {
         activeKey = null;
+        localStorage.removeItem('pulseboard_stay_unlocked');
         sessionStorage.removeItem('pulseboard_session_unlocked');
         sessionStorage.removeItem('pb_bio_fails');
         sessionStorage.removeItem('pb_pin_revealed');
