@@ -1,5 +1,5 @@
 // Service Worker for PulseBoard PWA (Network-First Navigation Strategy)
-const CACHE_NAME = 'pulseboard-v7';
+const CACHE_NAME = 'pulseboard-v8';
 const ASSETS = [
   './manifest.json',
   './icon.svg',
