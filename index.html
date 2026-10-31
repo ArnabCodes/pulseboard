@@ -55,6 +55,20 @@
       <h2 id="gate-title" class="text-xl font-bold text-white mb-1">PulseBoard Private Access</h2>
       <p id="gate-subtitle" class="text-xs text-slate-400 mb-6">Enter your 4-digit PIN to decrypt your dashboard</p>
       
+      
+      <!-- Biometric Fingerprint / Touch ID Button -->
+      <div id="biometric-unlock-wrap" class="mb-5 hidden">
+        <button type="button" id="btn-bio-unlock" class="w-full py-3.5 px-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-sm hover:bg-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
+          <span class="text-xl">👆</span>
+          <span id="bio-button-label">Unlock with Fingerprint</span>
+        </button>
+        <div class="flex items-center my-4">
+          <div class="flex-1 border-t border-slate-800"></div>
+          <span class="px-3 text-[11px] font-semibold tracking-wider uppercase text-slate-500">Or use PIN</span>
+          <div class="flex-1 border-t border-slate-800"></div>
+        </div>
+      </div>
+
       <!-- PIN Dots -->
       <div id="pin-dots" class="flex justify-center gap-3 mb-6">
         <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors"></div>
@@ -770,6 +784,11 @@
         
         // Reset security counters
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
+
+        if (await checkBiometricSupport()) {
+          registerBiometric(enteredPin);
+        }
+
         gateScreen.classList.add('opacity-0', 'pointer-events-none');
         setTimeout(() => gateScreen.classList.add('hidden'), 300);
         
@@ -798,6 +817,11 @@
 
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
+
+        if (await checkBiometricSupport()) {
+          registerBiometric(enteredPin);
+        }
+
         
         gateScreen.classList.add('opacity-0', 'pointer-events-none');
         setTimeout(() => gateScreen.classList.add('hidden'), 300);
@@ -822,6 +846,17 @@
         enteredPin = '';
         updatePinDots();
         checkLockout();
+
+      checkBiometricSupport().then(supported => {
+        if (supported && localStorage.getItem('pulseboard_bio_cred_id')) {
+          document.getElementById('biometric-unlock-wrap').classList.remove('hidden');
+          // Auto-prompt biometric on launch
+          setTimeout(unlockWithBiometric, 300);
+        }
+      });
+
+      document.getElementById('btn-bio-unlock').addEventListener('click', unlockWithBiometric);
+
         if (sec.attempts < 3) {
           errorEl.textContent = `Incorrect PIN (${3 - sec.attempts} attempts remaining)`;
           setTimeout(() => { if (!checkLockout()) errorEl.textContent = ''; }, 2500);
@@ -844,6 +879,17 @@
       }
 
       checkLockout();
+
+      checkBiometricSupport().then(supported => {
+        if (supported && localStorage.getItem('pulseboard_bio_cred_id')) {
+          document.getElementById('biometric-unlock-wrap').classList.remove('hidden');
+          // Auto-prompt biometric on launch
+          setTimeout(unlockWithBiometric, 300);
+        }
+      });
+
+      document.getElementById('btn-bio-unlock').addEventListener('click', unlockWithBiometric);
+
 
       document.querySelectorAll('.pin-key').forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -1427,6 +1473,122 @@
     }
 
     // Initialize Security Engine
+    
+    // WebAuthn Biometric Engine (Touch ID / Face ID / Android Fingerprint)
+    let biometricSupported = false;
+
+    async function checkBiometricSupport() {
+      if (window.PublicKeyCredential && 
+          PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+        try {
+          biometricSupported = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+        } catch(e) {
+          biometricSupported = false;
+        }
+      }
+      return biometricSupported;
+    }
+
+    async function registerBiometric(pin) {
+      if (!window.PublicKeyCredential) return false;
+      try {
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+        const userId = crypto.getRandomValues(new Uint8Array(16));
+        
+        const credential = await navigator.credentials.create({
+          publicKey: {
+            challenge,
+            rp: { name: 'PulseBoard Personal App' },
+            user: {
+              id: userId,
+              name: 'ArnabCodes',
+              displayName: 'Arnab'
+            },
+            pubKeyCredParams: [
+              { alg: -7, type: 'public-key' },  // ES256
+              { alg: -257, type: 'public-key' } // RS256
+            ],
+            authenticatorSelection: {
+              authenticatorAttachment: 'platform',
+              userVerification: 'required',
+              residentKey: 'preferred'
+            },
+            timeout: 60000
+          }
+        });
+
+        if (credential) {
+          // Store raw credential ID and encrypt PIN with device biometric token
+          const credId = Array.from(new Uint8Array(credential.rawId));
+          localStorage.setItem('pulseboard_bio_cred_id', JSON.stringify(credId));
+          
+          // Encrypt PIN with device local biometric key
+          const bioKeyBytes = crypto.getRandomValues(new Uint8Array(16));
+          localStorage.setItem('pulseboard_bio_key', JSON.stringify(Array.from(bioKeyBytes)));
+          
+          const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+          const encryptedPin = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, bioKey, new TextEncoder().encode(pin));
+          
+          localStorage.setItem('pulseboard_bio_pin_vault', JSON.stringify({
+            iv: Array.from(iv),
+            data: Array.from(new Uint8Array(encryptedPin))
+          }));
+          return true;
+        }
+      } catch (e) {
+        console.warn('Biometric registration skipped or cancelled:', e);
+      }
+      return false;
+    }
+
+    async function unlockWithBiometric() {
+      if (!window.PublicKeyCredential) return false;
+      const credIdStr = localStorage.getItem('pulseboard_bio_cred_id');
+      const bioKeyStr = localStorage.getItem('pulseboard_bio_key');
+      const bioVaultStr = localStorage.getItem('pulseboard_bio_pin_vault');
+      if (!credIdStr || !bioKeyStr || !bioVaultStr) return false;
+
+      try {
+        const credId = new Uint8Array(JSON.parse(credIdStr));
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+
+        const assertion = await navigator.credentials.get({
+          publicKey: {
+            challenge,
+            allowCredentials: [{
+              id: credId,
+              type: 'public-key',
+              transports: ['internal']
+            }],
+            userVerification: 'required',
+            timeout: 60000
+          }
+        });
+
+        if (assertion) {
+          // Biometric confirmed by hardware sensor! Recover PIN and unlock vault
+          const bioKeyBytes = new Uint8Array(JSON.parse(bioKeyStr));
+          const bioVault = JSON.parse(bioVaultStr);
+          const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['decrypt']);
+          
+          const decryptedPinBuf = await crypto.subtle.decrypt(
+            { name: 'AES-GCM', iv: new Uint8Array(bioVault.iv) },
+            bioKey,
+            new Uint8Array(bioVault.data)
+          );
+          
+          const restoredPin = new TextDecoder().decode(decryptedPinBuf);
+          enteredPin = restoredPin;
+          await handlePinSubmit();
+          return true;
+        }
+      } catch (e) {
+        console.warn('Biometric authentication cancelled or failed:', e);
+      }
+      return false;
+    }
+
     initSecurityGate();
   </script>
 </body>
