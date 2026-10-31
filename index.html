@@ -427,7 +427,7 @@
   <div id="story-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
     <div id="modal-panel" class="relative w-full max-w-2xl rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
       <div class="relative h-52 sm:h-64 w-full bg-slate-900 shrink-0 overflow-hidden">
-        <img id="modal-image" src="" alt="Story visual" class="w-full h-full object-cover max-w-full" />
+        <img id="modal-image" src="" alt="Story visual" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
         <button type="button" id="btn-close-modal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-900/75 text-white flex items-center justify-center hover:bg-slate-900 transition-colors" aria-label="Close reader">
           ✕
         </button>
@@ -552,6 +552,17 @@ Key Insights:
         saved: false
       }
     ];
+    // Graceful placeholder when a story's own image fails to load (dead CDN
+    // link, hotlink block): dark slate + subtle amber pulse line, no network.
+    window.PB_IMG_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#1e293b"/>' +
+      '</linearGradient></defs>' +
+      '<rect width="1200" height="800" fill="url(#g)"/>' +
+      '<path d="M0 400 H480 l40 -90 60 180 50 -120 30 60 h120 l40 -60 50 90 H1200" ' +
+      'stroke="#f59e0b" stroke-width="6" fill="none" opacity="0.45"/>' +
+      '</svg>');
     const STARTER_DATA = {
       stories: [
       {
@@ -1384,7 +1395,7 @@ Key Insights:
         return `
           <article class="${spanFull} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col">
             <div class="relative ${spanFull ? 'h-52 sm:h-64' : 'h-44'} w-full bg-slate-900 overflow-hidden cursor-pointer" data-open-story="${story.id}">
-              <img src="${story.image}" alt="${story.title}" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105" />
+              <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
               <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
                 ${story.category}

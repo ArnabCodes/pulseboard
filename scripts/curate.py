@@ -77,11 +77,20 @@ PAPER_TAG_RULES = [
 PAPER_TAG_DEFAULT = 'Spin & Quantum'
 
 NEWS_SOURCES = {
+    # Balanced across the political spectrum; ~15 outlets were tested and only
+    # ones with working RSS kept. Text-fetchability varies (bot walls) and the
+    # picker rotates to whichever outlet's copy is fetchable, so an
+    # RSS-corroboration-only outlet (Times of Israel, Israel Hayom) still
+    # boosts stories it covers without ever having to serve the briefing.
     'Geopolitics & Global': [
-        ('Al Jazeera', 'https://www.aljazeera.com/xml/rss/all.xml'),
-        ('BBC World', 'http://feeds.bbci.co.uk/news/world/rss.xml'),
-        ('The Guardian', 'https://www.theguardian.com/world/rss'),
-        ('Times of Israel', 'https://www.timesofisrael.com/feed/'),
+        ('BBC World', 'http://feeds.bbci.co.uk/news/world/rss.xml'),          # center
+        ('The Guardian', 'https://www.theguardian.com/world/rss'),            # left
+        ('NPR World', 'https://feeds.npr.org/1004/rss.xml'),                  # center-left
+        ('CBC World', 'https://www.cbc.ca/webfeed/rss/rss-world'),            # center-left
+        ('The Hindu', 'https://www.thehindu.com/news/national/feeder/default.rss'),  # center-left (India)
+        ('Times of Israel', 'https://www.timesofisrael.com/feed/'),           # center-right (Israel)
+        ('Israel Hayom', 'https://www.israelhayom.com/feed/'),                # right (Israel)
+        ('NY Post', 'https://nypost.com/world-news/feed/'),                   # right
     ],
     'Tech & AI': [
         ('Ars Technica', 'https://feeds.arstechnica.com/arstechnica/index'),
@@ -91,6 +100,16 @@ NEWS_SOURCES = {
         ('Phys.org', 'https://phys.org/rss-feed/'),
         ('ScienceDaily Physics', 'https://www.sciencedaily.com/rss/matter_energy/physics.xml'),
     ],
+}
+
+# Political-spectrum tag per outlet (for the cross-spectrum corroboration
+# bonus): stories covered by outlets on BOTH sides rank higher, so the
+# briefing favors what left and right agree is news.
+NEWS_SPECTRUM = {
+    'The Guardian': 'left', 'NPR World': 'left', 'CBC World': 'left',
+    'The Hindu': 'left',
+    'BBC World': 'center',
+    'Times of Israel': 'right', 'Israel Hayom': 'right', 'NY Post': 'right',
 }
 
 NEWS_KEYWORDS = {
@@ -113,7 +132,7 @@ NEWS_KEYWORDS = {
     },
 }
 
-NEWS_QUOTAS = {'Geopolitics & Global': 2, 'Tech & AI': 1, 'Quantum & Physics': 1}
+NEWS_QUOTAS = {'Geopolitics & Global': 3, 'Tech & AI': 1, 'Quantum & Physics': 1}
 
 # A full briefing must be at least this many words of the outlet's own text.
 BRIEF_MIN_WORDS = 200
@@ -436,9 +455,13 @@ def pick_news_stories():
                      + keyword_score(it['description'], kw[topic], 1)) * fresh
                 if best is None or s > best[0]:
                     best = (s, it)
-            # corroboration boost: several outlets running the same story
+            # corroboration boost: several outlets running the same story,
+            # plus a cross-spectrum bonus — coverage agreed on by both the
+            # left- and right-tagged outlets ranks highest
             if best is not None:
-                scored.append((best[0] * (1 + 0.4 * (len(cl['items']) - 1)), best[1], cl))
+                sides = {NEWS_SPECTRUM.get(i['outlet'], 'center') for i in cl['items']}
+                spread = 1 + 0.1 * (len(sides) - 1)
+                scored.append((best[0] * (1 + 0.4 * (len(cl['items']) - 1)) * spread, best[1], cl))
         scored.sort(key=lambda x: -x[0])
 
         # Detailed-briefing-aware selection, three passes:
@@ -454,7 +477,7 @@ def pick_news_stories():
         consumed = set()   # indices of scored clusters already tried
         cache = {}         # link -> extracted text (dedupes refetches)
         fetches = {'n': 0}
-        FETCH_BUDGET = 45  # per-topic page-fetch cap so bad days stay fast
+        FETCH_BUDGET = 60  # per-topic page-fetch cap so bad days stay fast
 
         def full_text(link):
             if link not in cache:
