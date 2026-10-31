@@ -1,6 +1,58 @@
 {
-  "generated_at": "2026-10-31T15:48:56Z",
+  "generated_at": "2026-10-31T16:04:49Z",
   "stories": [
+    {
+      "id": "news-geopolitics-20261031-534a9424",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "Times of Israel • 2 min read",
+      "sourceUrl": "https://www.timesofisrael.com/khamenei-orders-military-response-without-geographic-limits-if-us-israel-attacks/",
+      "title": "Khamenei said to order military response without ‘geographic limits’ if US, Israel attacks",
+      "dek": "Supreme leader, still not seen in public, reportedly tells Iran's army to target Israeli and US 'tangible and intangible assets' if war resumes; Arab diplomat 'extremely worried' renewed war would be …",
+      "content": "Supreme leader, still not seen in public, reportedly tells Iran's army to target Israeli and US 'tangible and intangible assets' if war resumes; Arab diplomat 'extremely worried' renewed war would be more destructive",
+      "image": "https://images.unsplash.com/photo-1544620347-c4fd4a3ca5b7?w=800&q=70&auto=format&fit=crop",
+      "saved": false
+    },
+    {
+      "id": "news-geopolitics-20261031-750fe67c",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "The Guardian • 2 min read",
+      "sourceUrl": "https://www.theguardian.com/world/2026/oct/30/gulf-states-rethink-trillion-dollar-defence-us-iran-war-iiss-report",
+      "title": "Gulf states must rethink trillion-dollar defence in light of US-Iran war, says report",
+      "dek": "IISS study questions overreliance on American support and ‘overdependence on expensive, high-end systems’ Gulf states are going to have to reconfigure their trillion-dollar defences given the damage i…",
+      "content": "IISS study questions overreliance on American support and ‘overdependence on expensive, high-end systems’ Gulf states are going to have to reconfigure their trillion-dollar defences given the damage inflicted on their economies and the questionable continued value of US bases in the face of Iranian attack, according to a study by the International Institute for Strategic Studies. The report says that in the weeks before the 8 April ceasefire, 12 regional states, overwhelmingly in the Gulf, faced 4,670 Iranian one-way attack drones and more than 1,400 ballistic missiles. Nearly half were aimed at the United Arab Emirates. Although the vast majority were repelled, one estimate of the damage to energy infrastructure cited by the report is put as high as $58bn (£43bn). Continue reading...",
+      "image": "https://images.unsplash.com/photo-1544620347-c4fd4a3ca5b7?w=800&q=70&auto=format&fit=crop",
+      "saved": false
+    },
+    {
+      "id": "news-tech-20261031-137157c1",
+      "edition": "morning",
+      "featured": false,
+      "category": "Tech & AI",
+      "source": "The Verge • 2 min read",
+      "sourceUrl": "https://www.theverge.com/tech/1023528/google-project-suncatcher-ai-satellite-transmission",
+      "title": "Google’s satellite AI server transmits its first response to Earth",
+      "dek": "Google's AI chip-equipped satellite has generated its first response from space.",
+      "content": "Google's AI chip-equipped satellite has generated its first response from space. In a blog post on Friday, Google says it successfully booted up the satellite's Tensor Processing Units (TPUs), allowing the on-board Gemma 4 model to follow through on a prompt to create a haiku about being in space: Blue marble below Data streams in […]",
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=70&auto=format&fit=crop",
+      "saved": false
+    },
+    {
+      "id": "news-quantum-20261031-881829fb",
+      "edition": "morning",
+      "featured": false,
+      "category": "Quantum & Physics",
+      "source": "Phys.org • 2 min read",
+      "sourceUrl": "https://phys.org/news/2026-10-superconducting-cables-link-large-quantum.html",
+      "title": "Four superconducting cables link two large quantum processors into one",
+      "dek": "As quantum computers grow more ambitious, many researchers believe the best way forward is to build them in multiple interconnected parts.",
+      "content": "As quantum computers grow more ambitious, many researchers believe the best way forward is to build them in multiple interconnected parts. In these modular designs, separate quantum processors are linked so they can work together as one larger machine. For this to happen, however, connections must carry fragile quantum information without destroying it.",
+      "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=70&auto=format&fit=crop",
+      "saved": false
+    },
     {
       "id": "geo-20261031",
       "edition": "morning",
@@ -60,40 +112,84 @@
   ],
   "papers": [
     {
-      "id": "arxiv-1",
-      "title": "Reconstructing hidden observables via quantum snapshot thermometry",
-      "journal": "arXiv:quant-ph preprint",
-      "url": "http://arxiv.org/abs/2610.40652v1",
-      "tldr": "Projective snapshots are a standard readout tool for quantum simulators, but they directly probe only observables that are diagonal in the measurement basis.",
+      "id": "arxiv-2610.24815",
+      "edition": "morning",
+      "tag": "NMR & Spin Control",
+      "title": "Low-Field J-Coupling Spectroscopy Measured with a Diamond Nitrogen Vacancy Spectrometer",
+      "journal": "arXiv:2610.24815 [physics.chem-ph]",
+      "url": "https://arxiv.org/abs/2610.24815",
+      "readTime": "2 min read",
+      "tldr": "Nitrogen vacancy centers in diamond (NVs) are point defects well suited to quantum sensing of magnetic fields. NV spin states can be initialized and read out optically with high spatial resolution, enabling detection of pL-scale volumes of nuclear spins.",
       "takeaways": [
-        "Investigates non-equilibrium dynamics and coherence preservation in spin registers.",
-        "Provides analytical and numerical boundaries for noise suppression.",
-        "Directly relevant to solid-state quantum sensing and optimal control protocols."
-      ]
+        "Nitrogen vacancy centers in diamond (NVs) are point defects well suited to quantum sensing of magnetic fields.",
+        "Using Coherently Averaged Synchronized Readout (CASR), standard NMR spectroscopy techniques such as free decay, spin echo, and PGSE have been performed with Hz-scale spectral resolution using NV-diamond sensors.",
+        "We acquire initial NV-NMR measurements of T$_1$, T$_2$, and Overhauser DNP in glycerol before advancing to SEDOR spectroscopy of methanol-$^{13}$C and a methanol-$^{13}$C/acetonitrile-2-$^{13}$C mixture at sample volumes $\\sim$50 pL, in which we demonstrate measurement of $^1J_\\text{CH}$ couplings and resolution between species."
+      ],
+      "saved": false
     },
     {
-      "id": "arxiv-2",
-      "title": "Optimal Diamond Distance Estimation for Unitary Channels",
-      "journal": "arXiv:quant-ph preprint",
-      "url": "http://arxiv.org/abs/2610.40623v1",
-      "tldr": "The diamond distance between two quantum channels determines the optimal probability of distinguishing them from a single use.",
+      "id": "arxiv-2610.39693",
+      "edition": "morning",
+      "tag": "NV & Quantum Sensing",
+      "title": "Optimized Dynamical Decoupling for Spin Ensembles with Large Inhomogeneities",
+      "journal": "arXiv:2610.39693 [quant-ph]",
+      "url": "https://arxiv.org/abs/2610.39693",
+      "readTime": "2 min read",
+      "tldr": "Spin ensembles show increasing promise for highly efficient quantum sensing and quantum technologies. However, protecting their coherent properties remains a significant challenge.",
       "takeaways": [
-        "Investigates non-equilibrium dynamics and coherence preservation in spin registers.",
-        "Provides analytical and numerical boundaries for noise suppression.",
-        "Directly relevant to solid-state quantum sensing and optimal control protocols."
-      ]
+        "Spin ensembles show increasing promise for highly efficient quantum sensing and quantum technologies.",
+        "In this work, we compare the performance of an extensive number of DD protocols for coherence protection and quantum sensing in an ensemble of negatively charged NV centers under ambient conditions.",
+        "While our particular demonstration is with NV centers in diamond, the optimized protocol is generally applicable to other spin ensembles and to systems with high amplitude and/or frequency inhomogeneities."
+      ],
+      "saved": false
     },
     {
-      "id": "arxiv-3",
-      "title": "Probing fluctuations in photon emission statistics of spin injected quantum dots with time dependent...",
-      "journal": "arXiv:quant-ph preprint",
-      "url": "http://arxiv.org/abs/2610.40593v1",
-      "tldr": "Electrically spin-injected ensembles of InGaAs/GaAs quantum dots emit circularly polarized single photons, with the emission helicity determined by the spin polarization of the injected electrons.",
+      "id": "arxiv-2610.39022",
+      "edition": "morning",
+      "tag": "NV & Quantum Sensing",
+      "title": "High bandwidth heterodyne sensing with bulk NV diamond",
+      "journal": "arXiv:2610.39022 [quant-ph]",
+      "url": "https://arxiv.org/abs/2610.39022",
+      "readTime": "2 min read",
+      "tldr": "Developing high performance portable sensors is of significant importance for both terrestrial and satellite communications, with quantum sensors offering potential advantages in sensitivity and bandwidth. The nitrogen vacancy center in diamond is a popular quantum sensing platform for its relative simplicity and wide range of acceptable operating conditions, but suffers a limited instantaneous bandwidth due to the narrow linewidth of the spin resonance.",
       "takeaways": [
-        "Investigates non-equilibrium dynamics and coherence preservation in spin registers.",
-        "Provides analytical and numerical boundaries for noise suppression.",
-        "Directly relevant to solid-state quantum sensing and optimal control protocols."
-      ]
+        "Developing high performance portable sensors is of significant importance for both terrestrial and satellite communications, with quantum sensors offering potential advantages in sensitivity and bandwidth.",
+        "The nitrogen vacancy center in diamond is a popular quantum sensing platform for its relative simplicity and wide range of acceptable operating conditions, but suffers a limited instantaneous bandwidth due to the narrow linewidth of the spin resonance.",
+        "In this work, we first present a magnetic quantum sensing scheme utilizing heterodyne mixing with strong optical and microwave driving, achieving MHz-scale instantaneous bandwidth with a sensitivity of $548 \\; \\text{pT/}\\sqrt{\\text{Hz}}$ in an active diamond volume of $ 2.5\\times 10^{-4} \\; \\text{mm}^3$ with $2 \\times 10^{11}$ NV centers."
+      ],
+      "saved": false
+    },
+    {
+      "id": "arxiv-2610.37293",
+      "edition": "morning",
+      "tag": "Coherence & Open Systems",
+      "title": "Experimental evidence for quantum Brownian motion in electron-metal decoherence",
+      "journal": "arXiv:2610.37293 [quant-ph]",
+      "url": "https://arxiv.org/abs/2610.37293",
+      "readTime": "2 min read",
+      "tldr": "Feynman once remarked that the double-slit experiment has in its heart the only mystery of quantum mechanics. Arguably, the scientific significance of double-slit experiments lies in motional decoherence and the mechanism behind it.",
+      "takeaways": [
+        "Arguably, the scientific significance of double-slit experiments lies in motional decoherence and the mechanism behind it.",
+        "Decoherence of motional states underpins our understanding of quantum-to-classical transition.",
+        "In this work, we provide experimental evidence for the critical role of quantum Brownian motion in electron motional decoherence."
+      ],
+      "saved": false
+    },
+    {
+      "id": "arxiv-2610.38878",
+      "edition": "morning",
+      "tag": "Floquet & Driven Systems",
+      "title": "Drive-tunable Floquet exchange spectroscopy with Hong--Ou--Mandel interference",
+      "journal": "arXiv:2610.38878 [quant-ph]",
+      "url": "https://arxiv.org/abs/2610.38878",
+      "readTime": "2 min read",
+      "tldr": "Floquet driving reshapes cavity spectra, but single-photon sideband populations do not reveal how it changes two-photon exchange. Here we show theoretically that delay-resolved Hong--Ou--Mandel (HOM) coincidences can probe this response in a collectively coupled cavity.",
+      "takeaways": [
+        "Floquet driving reshapes cavity spectra, but single-photon sideband populations do not reveal how it changes two-photon exchange.",
+        "Fourier transformation of the coincidence trace yields two drive-dependent exchange branches associated with the Floquet-polariton spectrum.",
+        "Floquet control thus adds a tunable exchange spectrum to HOM interferometry and gives quantitative targets for an experiment."
+      ],
+      "saved": false
     }
   ]
 }

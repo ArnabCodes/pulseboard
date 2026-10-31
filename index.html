@@ -1066,8 +1066,21 @@ Key Insights:
         if (!feed || !feed.generated_at) return;
         if (localStorage.getItem('pulseboard_feed_stamp') === feed.generated_at) return;
         if (!Array.isArray(feed.stories) || !feed.stories.length) return;
-        state.stories = feed.stories;
-        if (Array.isArray(feed.papers) && feed.papers.length) state.papers = feed.papers;
+        // Preserve the user's saved items across feed rotations
+        const prevS = Array.isArray(state.stories) ? state.stories : [];
+        const savedS = prevS.filter(s => s && s.saved);
+        state.stories = feed.stories.map(s => {
+          const old = prevS.find(o => o.id === s.id);
+          return (old && old.saved) ? Object.assign({}, s, { saved: true }) : s;
+        }).concat(savedS.filter(s => !feed.stories.some(n => n.id === s.id)));
+        if (Array.isArray(feed.papers) && feed.papers.length) {
+          const prevP = Array.isArray(state.papers) ? state.papers : [];
+          const savedP = prevP.filter(p => p && p.saved);
+          state.papers = feed.papers.map(p => {
+            const old = prevP.find(o => o.id === p.id);
+            return (old && old.saved) ? Object.assign({}, p, { saved: true }) : p;
+          }).concat(savedP.filter(p => !feed.papers.some(n => n.id === p.id)));
+        }
         localStorage.setItem('pulseboard_feed_stamp', feed.generated_at);
         if (activeKey) await persistEncryptedState();
         renderApp();
