@@ -33,6 +33,10 @@
     .card-hover:hover {
       transform: translateY(-2px);
     }
+    /* Touch feedback (Material motion guidance): instant, subtle */
+    .card-hover:active { transform: scale(0.985); }
+    button:active { opacity: 0.85; }
+    :focus-visible { outline: 2px solid rgba(99, 102, 241, 0.8); outline-offset: 2px; }
     .skeleton {
       background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
       background-size: 200% 100%;
@@ -85,6 +89,10 @@
   /* --- Card entrance: staggered, reduced-motion safe (global rule above) --- */
   @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   .card-enter { animation: card-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+
+  /* Save-star micro-interaction: a small pop when bookmarking */
+  @keyframes star-pop { 0% { transform: scale(1); } 45% { transform: scale(1.28); } 100% { transform: scale(1); } }
+  .star-pop { animation: star-pop 0.32s cubic-bezier(0.3, 1.4, 0.5, 1); }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
@@ -1013,6 +1021,7 @@ Key Insights:
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
         armTrustedDevice(enteredPin);
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
+        try { navigator.vibrate && navigator.vibrate(20); } catch (e) {}
 
         offerBiometricEnrollment();
 
@@ -1988,6 +1997,8 @@ Key Insights:
             story.saved = !story.saved;
             await persistEncryptedState();
             renderApp();
+            const fresh = document.querySelector(`[data-save-story="${id}"]`);
+            if (fresh) { fresh.classList.add('star-pop'); setTimeout(() => fresh.classList.remove('star-pop'), 340); }
           }
         });
       });
@@ -2084,6 +2095,8 @@ Key Insights:
             paper.saved = !paper.saved;
             await persistEncryptedState();
             renderApp();
+            const fresh = document.querySelector(`[data-save-paper="${id}"]`);
+            if (fresh) { fresh.classList.add('star-pop'); setTimeout(() => fresh.classList.remove('star-pop'), 340); }
           }
         });
       });
