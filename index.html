@@ -495,7 +495,14 @@
         source: 'Physical Review Applied • 10 min deep read',
         title: 'Machine-Learning-Assisted Initialization for GRAPE Quantum Optimal Control in Dense Spin Networks',
         dek: 'Combining reinforcement learning with Lie-algebraic gradient ascent to avoid local traps in high-dimensional Hilbert spaces.',
-        content: ,
+        content: `Designing high-fidelity radiofrequency and microwave control pulses for multi-qubit systems is fundamentally constrained by the non-convex optimization landscape of the unitary fidelity functional. Traditional gradient ascent pulse engineering (GRAPE) routines frequently converge into suboptimal local extrema, particularly when dealing with strongly coupled spins subject to experimental bandwidth constraints.
+
+This deep-dive analyzes a hybrid architecture pairing deep reinforcement learning (RL) agents with Lie-algebraic gradient ascent. The RL policy networks explore the global pulse trajectory space, providing seed initialization vectors that place the system near the global basin of attraction. Subsequent GRAPE optimization then converges in a fraction of the iterations with 99.99% fidelity, resilient against RF amplitude inhomogeneities and static magnetic field drift.
+
+Key Technical Highlights:
+1. Neural Value Landscapes: The RL agent learns an approximation of the quantum control landscape, bypassing the high computational cost of full-state propagation during exploratory phases.
+2. Commutator Control Symmetries: Symmetries in the system Hamiltonian are leveraged directly in the policy representation, enforcing physical constraints and reducing dimensionality.
+3. Experimental Benchmarks: Demonstrated on realistic multi-spin systems in liquid and solid-state NMR, cutting pulse design latency from hours to seconds.`,
         whyItMatters: 'Accelerates pulse optimization in quantum simulations, NMR spectroscopy, and high-fidelity quantum gate implementation.',
         image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80',
         saved: false
@@ -508,12 +515,19 @@
         source: 'Physica A & IEEE Trans. Network Science • 9 min deep read',
         title: 'Structural Vulnerability, Cascading Failures, and Modularity in High-Voltage Electrical Transmission Networks',
         dek: 'Network-theoretic assessment of vulnerable lines and percolation thresholds under dynamic load redistribution.',
-        content: ,
+        content: `Modern electrical power grids are complex, self-organizing dynamical networks that operate near critical stability boundaries. When a key transmission line trips, the instantaneous load redistribution governed by Kirchhoff’s current laws can trigger non-local overload cascades, culminating in catastrophic regional blackouts.
+
+By analyzing electrical transmission topologies through spectral graph theory and community modularity algorithms, researchers identify critical transmission bottlenecks that traditional N-1 security criteria overlook. Modularity-preserving islanding protocols partition the network dynamically into stable self-sustaining microgrids during emergency disturbances, preventing cascading failure waves from propagating across continental synchronous zones.
+
+Key Insights:
+1. Non-Local Load Transfer: Geometric distance does not dictate overload susceptibility; electrical impedance networks induce non-local surges across distant corridors.
+2. Topological Bottlenecks vs Physical Flow: Lines with high edge betweenness centrality under Kirchhoff weighting are 4x more prone to trigger widespread disconnection cascades.
+3. Controlled Islanding: Automated splitting algorithms that preserve internal power balance can save 75% of grid capacity during catastrophic line dropouts.`,
         whyItMatters: 'Directly applicable to power grid resilience, complex network vulnerability analysis, and critical infrastructure protection.',
         image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
         saved: false
-      },
-];
+      }
+    ];
     const STARTER_DATA = {
       stories: [
       {
@@ -755,6 +769,18 @@
       } catch (e) {}
     }
 
+    // One-time biometric enrollment offer after a successful unlock. Fire-and-forget:
+    // never blocks the unlock (the keypad tap still counts as the WebAuthn activation
+    // gesture). Declining once suppresses future offers until the user taps the
+    // "Set Up Fingerprint" button explicitly.
+    function offerBiometricEnrollment() {
+      if (localStorage.getItem('pulseboard_bio_cred_id')) return;
+      if (localStorage.getItem('pulseboard_bio_declined')) return;
+      checkPlatformBiometrics().then(supported => {
+        if (supported) enrollBiometric(true);
+      }).catch(() => {});
+    }
+
     // Application state (populated strictly after decryption)
     let state = {
       edition: defaultEdition,
@@ -841,6 +867,12 @@
         }
         return true;
       }
+      // Lockout expired — reset the attempt counter for a clean slate instead of
+      // re-locking instantly on the next single mistake (attempts used to
+      // accumulate across sessions forever).
+      if ((sec.attempts || 0) >= 3) {
+        saveSecurityState({ attempts: 0, lockedUntil: 0 });
+      }
       return false;
     }
 
@@ -869,9 +901,8 @@
         // Reset security counters
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
 
-        if (await checkBiometricSupport()) {
-          registerBiometric(enteredPin);
-        }
+        // Offer one-time biometric enrollment (non-blocking sensor prompt)
+        offerBiometricEnrollment();
 
         gateScreen.classList.add('opacity-0', 'pointer-events-none');
         setTimeout(() => gateScreen.classList.add('hidden'), 300);
@@ -902,9 +933,7 @@
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
 
-        if (await checkBiometricSupport()) {
-          registerBiometric(enteredPin);
-        }
+        offerBiometricEnrollment();
 
         
         gateScreen.classList.add('opacity-0', 'pointer-events-none');
@@ -930,17 +959,6 @@
         enteredPin = '';
         updatePinDots();
         checkLockout();
-      updateBiometricButtonState();
-
-      checkBiometricSupport().then(supported => {
-        if (supported && localStorage.getItem('pulseboard_bio_cred_id')) {
-          document.getElementById('biometric-unlock-wrap').classList.remove('hidden');
-          // Auto-prompt biometric on launch
-          setTimeout(unlockWithBiometric, 300);
-        }
-      });
-
-      document.getElementById('btn-bio-unlock').addEventListener('click', unlockWithBiometric);
 
         if (sec.attempts < 3) {
           errorEl.textContent = `Incorrect PIN (${3 - sec.attempts} attempts remaining)`;
@@ -960,22 +978,15 @@
       const hasVault = localStorage.getItem('pulseboard_vault_salt');
       if (!hasVault) {
         document.getElementById('gate-title').textContent = 'Set Your Private 4-Digit PIN';
-        document.getElementById('gate-subtitle').textContent = 'Choose a 4-digit passcode to encrypt your private briefing';
+        document.getElementById('gate-subtitle').textContent = 'Choose a 4-digit passcode or tap Set Up Fingerprint';
       }
 
       checkLockout();
       updateBiometricButtonState();
 
-      checkBiometricSupport().then(supported => {
-        if (supported && localStorage.getItem('pulseboard_bio_cred_id')) {
-          document.getElementById('biometric-unlock-wrap').classList.remove('hidden');
-          // Auto-prompt biometric on launch
-          setTimeout(unlockWithBiometric, 300);
-        }
-      });
-
-      document.getElementById('btn-bio-unlock').addEventListener('click', unlockWithBiometric);
-
+      // NOTE: no auto biometric prompt on launch — WebAuthn ceremonies require a
+      // user gesture, and Safari/Android reject timer-initiated prompts. The user
+      // taps "Unlock with Fingerprint / Touch ID" instead.
 
       document.querySelectorAll('.pin-key').forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -1614,50 +1625,50 @@
         if (actionLabel) {
           actionLabel.textContent = isBioEnrolled 
             ? 'Unlock with Fingerprint / Touch ID' 
-            : 'Enable Fingerprint / Touch ID';
+            : 'Set Up Fingerprint / Touch ID';
         }
       });
     }
 
-    async function enrollBiometric() {
+    async function enrollBiometric(autoPrompt) {
       const errorEl = document.getElementById('gate-error');
+
+      // Enrollment requires the vault PIN: typed on the keypad, or still in RAM
+      // after a successful unlock. Never fall back to a hidden/default PIN.
       if (!enteredPin || enteredPin.length !== 4) {
         errorEl.textContent = 'Enter your 4-digit PIN first, then tap to link.';
+        setTimeout(() => { if (errorEl.textContent.includes('Enter your 4-digit PIN')) errorEl.textContent = ''; }, 3500);
         return;
       }
+      const pinToStore = enteredPin;
 
       try {
         errorEl.textContent = 'Touch your fingerprint sensor...';
         const challenge = crypto.getRandomValues(new Uint8Array(32));
         const userId = crypto.getRandomValues(new Uint8Array(16));
-        const hostname = window.location.hostname || undefined;
 
-        const options = {
+        const cred = await navigator.credentials.create({
           publicKey: {
             challenge,
-            rp: { name: 'PulseBoard App' },
+            rp: { name: 'PulseBoard' },
             user: {
               id: userId,
-              name: 'ArnabCodes',
+              name: 'arnab',
               displayName: 'Arnab'
             },
             pubKeyCredParams: [
-              { alg: -7, type: 'public-key' },
-              { alg: -257, type: 'public-key' }
+              { alg: -7, type: 'public-key' },  // ES256
+              { alg: -257, type: 'public-key' } // RS256
             ],
             authenticatorSelection: {
               authenticatorAttachment: 'platform',
-              userVerification: 'required'
+              userVerification: 'required',
+              residentKey: 'preferred'
             },
             timeout: 60000
           }
-        };
+        });
 
-        if (hostname && hostname !== 'localhost' && !hostname.includes(':')) {
-          options.publicKey.rp.id = hostname;
-        }
-
-        const cred = await navigator.credentials.create(options);
         if (cred) {
           const credId = Array.from(new Uint8Array(cred.rawId));
           localStorage.setItem('pulseboard_bio_cred_id', JSON.stringify(credId));
@@ -1668,7 +1679,7 @@
           
           const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
           const iv = crypto.getRandomValues(new Uint8Array(12));
-          const encryptedPin = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, bioKey, new TextEncoder().encode(enteredPin));
+          const encryptedPin = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, bioKey, new TextEncoder().encode(pinToStore));
           
           localStorage.setItem('pulseboard_bio_pin_vault', JSON.stringify({
             iv: Array.from(iv),
@@ -1685,8 +1696,16 @@
         }
       } catch (err) {
         console.error('Biometric enrollment error:', err);
-        errorEl.textContent = 'Sensor cancelled or not available.';
-        setTimeout(() => { errorEl.textContent = ''; }, 3000);
+        // A dismissed auto-offer (user had an activation gesture and cancelled)
+        // suppresses future automatic offers.
+        if (autoPrompt && err && err.name === 'NotAllowedError') {
+          localStorage.setItem('pulseboard_bio_declined', '1');
+        }
+        const msg = (err && err.name === 'NotAllowedError') 
+          ? 'Sensor request timed out or was dismissed.' 
+          : ('Sensor error: ' + (err.message || err.name || 'Check screen lock settings'));
+        errorEl.textContent = msg;
+        setTimeout(() => { if (errorEl.textContent === msg) errorEl.textContent = ''; }, 4500);
       }
     }
 
@@ -1702,12 +1721,11 @@
       }
 
       try {
-        errorEl.textContent = 'Verifying fingerprint...';
+        errorEl.textContent = 'Touch your fingerprint sensor...';
         const credId = new Uint8Array(JSON.parse(credIdStr));
         const challenge = crypto.getRandomValues(new Uint8Array(32));
-        const hostname = window.location.hostname || undefined;
 
-        const options = {
+        const assertion = await navigator.credentials.get({
           publicKey: {
             challenge,
             allowCredentials: [{
@@ -1718,13 +1736,8 @@
             userVerification: 'required',
             timeout: 60000
           }
-        };
+        });
 
-        if (hostname && hostname !== 'localhost' && !hostname.includes(':')) {
-          options.publicKey.rpId = hostname;
-        }
-
-        const assertion = await navigator.credentials.get(options);
         if (assertion) {
           // Hardware verified! Decrypt stored PIN
           const bioKeyBytes = new Uint8Array(JSON.parse(bioKeyStr));
@@ -1743,19 +1756,26 @@
         }
       } catch (err) {
         console.warn('Biometric unlock cancelled or failed:', err);
-        errorEl.textContent = 'Biometric cancelled. Use PIN below.';
-        setTimeout(() => { errorEl.textContent = ''; }, 3000);
+        const msg = (err && err.name === 'NotAllowedError')
+          ? 'Sensor request cancelled or timed out.'
+          : 'Biometric verification failed. Use PIN below.';
+        errorEl.textContent = msg;
+        setTimeout(() => { if (errorEl.textContent === msg) errorEl.textContent = ''; }, 3500);
       }
     }
     
     // Wire biometric events
-    document.getElementById('btn-bio-action').addEventListener('click', () => {
-      if (isBioEnrolled) {
-        triggerBiometricUnlock();
-      } else {
-        enrollBiometric();
-      }
-    });
+    const bioActionBtn = document.getElementById('btn-bio-action');
+    if (bioActionBtn) {
+      bioActionBtn.addEventListener('click', () => {
+        if (isBioEnrolled) {
+          triggerBiometricUnlock();
+        } else {
+          localStorage.removeItem('pulseboard_bio_declined'); // explicit tap = re-offer
+          enrollBiometric(false);
+        }
+      });
+    }
 
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
@@ -1764,123 +1784,6 @@
           console.log('ServiceWorker registration skipped:', err);
         });
       });
-    }
-
-    // Initialize Security Engine
-    
-    // WebAuthn Biometric Engine (Touch ID / Face ID / Android Fingerprint)
-    let biometricSupported = false;
-
-    async function checkBiometricSupport() {
-      if (window.PublicKeyCredential && 
-          PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
-        try {
-          biometricSupported = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-        } catch(e) {
-          biometricSupported = false;
-        }
-      }
-      return biometricSupported;
-    }
-
-    async function registerBiometric(pin) {
-      if (!window.PublicKeyCredential) return false;
-      try {
-        const challenge = crypto.getRandomValues(new Uint8Array(32));
-        const userId = crypto.getRandomValues(new Uint8Array(16));
-        
-        const credential = await navigator.credentials.create({
-          publicKey: {
-            challenge,
-            rp: { name: 'PulseBoard Personal App' },
-            user: {
-              id: userId,
-              name: 'ArnabCodes',
-              displayName: 'Arnab'
-            },
-            pubKeyCredParams: [
-              { alg: -7, type: 'public-key' },  // ES256
-              { alg: -257, type: 'public-key' } // RS256
-            ],
-            authenticatorSelection: {
-              authenticatorAttachment: 'platform',
-              userVerification: 'required',
-              residentKey: 'preferred'
-            },
-            timeout: 60000
-          }
-        });
-
-        if (credential) {
-          // Store raw credential ID and encrypt PIN with device biometric token
-          const credId = Array.from(new Uint8Array(credential.rawId));
-          localStorage.setItem('pulseboard_bio_cred_id', JSON.stringify(credId));
-          
-          // Encrypt PIN with device local biometric key
-          const bioKeyBytes = crypto.getRandomValues(new Uint8Array(16));
-          localStorage.setItem('pulseboard_bio_key', JSON.stringify(Array.from(bioKeyBytes)));
-          
-          const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
-          const iv = crypto.getRandomValues(new Uint8Array(12));
-          const encryptedPin = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, bioKey, new TextEncoder().encode(pin));
-          
-          localStorage.setItem('pulseboard_bio_pin_vault', JSON.stringify({
-            iv: Array.from(iv),
-            data: Array.from(new Uint8Array(encryptedPin))
-          }));
-          return true;
-        }
-      } catch (e) {
-        console.warn('Biometric registration skipped or cancelled:', e);
-      }
-      return false;
-    }
-
-    async function unlockWithBiometric() {
-      if (!window.PublicKeyCredential) return false;
-      const credIdStr = localStorage.getItem('pulseboard_bio_cred_id');
-      const bioKeyStr = localStorage.getItem('pulseboard_bio_key');
-      const bioVaultStr = localStorage.getItem('pulseboard_bio_pin_vault');
-      if (!credIdStr || !bioKeyStr || !bioVaultStr) return false;
-
-      try {
-        const credId = new Uint8Array(JSON.parse(credIdStr));
-        const challenge = crypto.getRandomValues(new Uint8Array(32));
-
-        const assertion = await navigator.credentials.get({
-          publicKey: {
-            challenge,
-            allowCredentials: [{
-              id: credId,
-              type: 'public-key',
-              transports: ['internal']
-            }],
-            userVerification: 'required',
-            timeout: 60000
-          }
-        });
-
-        if (assertion) {
-          // Biometric confirmed by hardware sensor! Recover PIN and unlock vault
-          const bioKeyBytes = new Uint8Array(JSON.parse(bioKeyStr));
-          const bioVault = JSON.parse(bioVaultStr);
-          const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['decrypt']);
-          
-          const decryptedPinBuf = await crypto.subtle.decrypt(
-            { name: 'AES-GCM', iv: new Uint8Array(bioVault.iv) },
-            bioKey,
-            new Uint8Array(bioVault.data)
-          );
-          
-          const restoredPin = new TextDecoder().decode(decryptedPinBuf);
-          enteredPin = restoredPin;
-          await handlePinSubmit();
-          return true;
-        }
-      } catch (e) {
-        console.warn('Biometric authentication cancelled or failed:', e);
-      }
-      return false;
     }
 
     initSecurityGate();
