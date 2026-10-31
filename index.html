@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PulseBoard — Morning &amp; Night Custom News Dashboard</title>
+  
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f59e0b" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="PulseBoard" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+    .font-serif-editorial {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
+
+  <!-- Top Navigation & Edition Switcher -->
+  <header id="app-header" class="sticky top-0 z-30 border-b border-amber-200/70 bg-white/90 backdrop-blur-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div id="brand-badge" class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-sm transition-colors">
+          <svg id="edition-icon-sun" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+          </svg>
+          <svg id="edition-icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg sm:text-xl font-bold tracking-tight">PulseBoard</h1>
+            <span id="edition-pill" class="text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">
+              Morning Edition
+            </span>
+          </div>
+          <p id="header-date" class="text-xs text-slate-500">Custom Curated Daily Briefing</p>
+        </div>
+      </div>
+
+      <!-- Edition Toggle + Saved Counter -->
+      <div class="flex items-center gap-3">
+        <div id="edition-switcher" class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
+          <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
+            <span>☀️</span>
+            <span>Morning</span>
+          </button>
+          <button type="button" id="btn-night" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">
+            <span>🌙</span>
+            <span>Night</span>
+          </button>
+        </div>
+
+        <button type="button" id="btn-view-saved" class="relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
+          <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+          </svg>
+          <span>Saved</span>
+          <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- Greeting Banner & Quick Snapshot -->
+    <section id="hero-banner" class="rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <p id="greeting-kicker" class="text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1">
+            MORNING BRIEFING • 5 MIN READ
+          </p>
+          <h2 id="greeting-title" class="text-2xl sm:text-3xl font-bold font-serif-editorial tracking-tight">
+            Good morning! Here is what shapes your world today.
+          </h2>
+          <p id="greeting-subtitle" class="text-sm text-slate-600 mt-1 max-w-2xl">
+            We curated top visual stories, research papers with quick-read summaries, your daily routine, and a grounded spiritual reflection.
+          </p>
+        </div>
+
+        <!-- Weather & Focus Pill -->
+        <div id="weather-card" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0">
+          <div class="text-3xl" id="weather-emoji">🌤️</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="weather-temp" class="text-base font-bold">24°C</span>
+              <span id="weather-desc" class="text-xs font-medium text-slate-500">Clear &amp; Breezy</span>
+            </div>
+            <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Peak focus window: 9:30 AM – 12:00 PM</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECULAR SPIRITUAL / BUDDHA TEACHING BANNER -->
+    <section id="wisdom-card" class="rounded-2xl p-5 sm:p-6 mb-8 border border-amber-200/90 bg-gradient-to-r from-amber-100/60 via-amber-50/50 to-orange-50/60 shadow-sm transition-all">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-start gap-3.5">
+          <span class="text-2xl sm:text-3xl shrink-0 mt-0.5">🪷</span>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="wisdom-tradition" class="text-xs font-bold uppercase tracking-wider text-amber-800">
+                Teaching of the Buddha • Dhammapada
+              </span>
+              <span class="text-slate-300">•</span>
+              <span id="wisdom-theme" class="text-xs font-medium text-slate-500">Equanimity &amp; Mindful Action</span>
+            </div>
+            <blockquote id="wisdom-quote" class="text-base sm:text-lg font-serif-editorial italic text-slate-900 leading-snug">
+              "Just as a solid rock is not shaken by the storm, even so the wise are not affected by praise or blame."
+            </blockquote>
+            <p id="wisdom-reflection" class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
+              Anchor your focus today in what is within your control. Let external praise or disruption pass like weather.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="btn-next-wisdom"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0 self-start md:self-center"
+        >
+          <span>↻ Next Teaching</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3-Column Dashboard Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <!-- Left/Center Column: Visual Newsboard + Research Papers (8 cols) -->
+      <div class="lg:col-span-8 space-y-10">
+
+        <!-- SECTION 1: Visual Newsboard -->
+        <section aria-labelledby="newsboard-heading">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 id="newsboard-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+                <span>📰 Visual Newsboard</span>
+              </h3>
+              <p class="text-xs text-slate-500">Click any card to read the full briefing or save it to your bookmarks</p>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div id="category-filters" class="flex flex-wrap items-center gap-1.5">
+              <button type="button" data-category="all" class="cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white transition-colors">All</button>
+              <button type="button" data-category="Tech & AI" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">Tech &amp; AI</button>
+              <button type="button" data-category="Climate" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">Climate</button>
+              <button type="button" data-category="Space & Science" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">Space &amp; Science</button>
+              <button type="button" data-category="saved" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">★ Saved Only</button>
+            </div>
+          </div>
+
+          <!-- News Cards Container -->
+          <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Rendered by JavaScript -->
+          </div>
+        </section>
+
+        <!-- SECTION 2: Interesting Papers to Read (with Summaries) -->
+        <section aria-labelledby="papers-heading">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 id="papers-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+                <span>🔬 Papers Worth Reading</span>
+              </h3>
+              <p class="text-xs text-slate-500">Plain-English summaries &amp; takeaways so you can decide what to read deeply</p>
+            </div>
+            <button type="button" id="btn-expand-all-papers" class="text-xs font-semibold text-amber-700 hover:text-amber-900 underline underline-offset-4">
+              Expand all summaries
+            </button>
+          </div>
+
+          <div id="papers-list" class="space-y-4">
+            <!-- Rendered by JavaScript -->
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right Column: Routines, Schedule & Priorities Sidebar (4 cols) -->
+      <aside class="lg:col-span-4 space-y-6">
+
+        <!-- DEDICATED ROUTINE CHECKLIST (Morning / Night Dynamic) -->
+        <div id="routine-card" class="rounded-2xl p-5 border border-amber-200/90 bg-white shadow-sm transition-all">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 id="routine-title" class="text-base font-bold tracking-tight flex items-center gap-1.5">
+                <span id="routine-emoji">☀️</span>
+                <span id="routine-heading-text">Morning Routine</span>
+              </h3>
+              <p id="routine-subtitle" class="text-xs text-slate-500">Daily "Never Zero" foundation</p>
+            </div>
+            <span id="routine-progress" class="text-xs font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
+              2/4 done
+            </span>
+          </div>
+
+          <!-- Routine Progress Bar -->
+          <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden mb-3.5">
+            <div id="routine-progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 50%"></div>
+          </div>
+
+          <div id="routine-list" class="space-y-2 mb-3">
+            <!-- Rendered by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Schedule & Day Ahead Card -->
+        <div id="schedule-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 id="schedule-title" class="text-base font-bold tracking-tight">🗓️ Your Day Ahead</h3>
+              <p id="schedule-subtitle" class="text-xs text-slate-500">Key blocks &amp; upcoming focus</p>
+            </div>
+            <span id="schedule-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">4 items</span>
+          </div>
+
+          <div id="schedule-timeline" class="space-y-3">
+            <!-- Rendered by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Daily Priorities Checklist Card -->
+        <div id="tasks-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 id="checklist-title" class="text-base font-bold tracking-tight">✅ Today's Top Priorities</h3>
+              <p class="text-xs text-slate-500">Check off goals or add your own</p>
+            </div>
+            <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">1/3 done</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden mb-4">
+            <div id="tasks-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 33%"></div>
+          </div>
+
+          <div id="tasks-list" class="space-y-2 mb-4">
+            <!-- Rendered by JavaScript -->
+          </div>
+
+          <!-- Add New Priority Input -->
+          <form id="add-task-form" class="flex gap-2">
+            <input
+              type="text"
+              id="new-task-input"
+              placeholder="Add a priority or paper to read..."
+              class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none"
+            />
+            <button
+              type="submit"
+              class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white transition-colors shrink-0"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- Story Reader Modal -->
+  <div id="story-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
+    <div id="modal-panel" class="relative w-full max-w-2xl rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="relative h-52 sm:h-64 w-full bg-slate-900 shrink-0 overflow-hidden">
+        <img id="modal-image" src="" alt="Story visual" class="w-full h-full object-cover max-w-full" />
+        <button type="button" id="btn-close-modal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-900/75 text-white flex items-center justify-center hover:bg-slate-900 transition-colors" aria-label="Close reader">
+          ✕
+        </button>
+        <span id="modal-category" class="absolute bottom-3 left-4 px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow">
+          Category
+        </span>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-4">
+        <div class="flex items-center justify-between text-xs text-slate-500">
+          <span id="modal-source">Publication • Read time</span>
+          <button type="button" id="modal-save-btn" class="font-semibold text-amber-600 hover:text-amber-700">★ Save Story</button>
+        </div>
+        <h3 id="modal-title" class="text-xl sm:text-2xl font-bold font-serif-editorial leading-snug">Story Headline</h3>
+        <p id="modal-summary" class="text-sm text-slate-700 leading-relaxed"></p>
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Why It Matters Today</p>
+          <p id="modal-why" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Visual assets with clean editorial fallback photos
+    const IMAGES = {
+      ai: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
+      climate: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80",
+      space: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+      night_space: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80",
+      night_brain: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=1200&q=80",
+      night_battery: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80"
+    };
+
+    // Determine default edition based on current local hour (morning 5 AM - 6 PM, night 6 PM - 5 AM)
+    const currentHour = new Date().getHours();
+    const defaultEdition = (currentHour >= 5 && currentHour < 18) ? 'morning' : 'night';
+
+    // Curated Secular Spiritual & Buddhist Teachings Collection
+    const WISDOM_TEACHINGS = {
+      morning: [
+        {
+          tradition: "Teaching of the Buddha • Dhammapada 81",
+          theme: "Equanimity & Inner Grounding",
+          quote: "Just as a solid rock is not shaken by the storm, even so the wise are not affected by praise or blame.",
+          reflection: "Begin the morning grounded from within. Notice external urgency or distractions without letting them hijack your peace."
+        },
+        {
+          tradition: "Early Buddhist Discourse • Satipatthana",
+          theme: "The Gift of the Present Morning",
+          quote: "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",
+          reflection: "Bring full presence to your first cup of water, your morning breath, and the singular task in front of you."
+        },
+        {
+          tradition: "Secular Mindfulness • Thich Nhat Hanh",
+          theme: "Mindful Intention",
+          quote: "Waking up this morning, I smile. Twenty-four brand new hours are before me. I vow to live fully in each moment.",
+          reflection: "Today is an unwritten canvas. Protect your attention as your most precious renewable resource."
+        }
+      ],
+      night: [
+        {
+          tradition: "Teaching of the Buddha • Majjhima Nikaya",
+          theme: "Letting Go of the Day",
+          quote: "Peace comes from within. Do not seek it without. Let what has passed remain in the past.",
+          reflection: "Whatever went well or remained unfinished today, set down the mental luggage. Tonight is for rest and renewal."
+        },
+        {
+          tradition: "Secular Wisdom • Marcus Aurelius",
+          theme: "Evening Clarity & Stillness",
+          quote: "Nowhere can man find a quieter or more untroubled retreat than in his own soul.",
+          reflection: "Unplug from external inputs. Allow your thoughts to settle like silt in clear water before sleep."
+        },
+        {
+          tradition: "Zen Proverb",
+          theme: "Unburdening the Mind",
+          quote: "The day is done. The cup is poured out. Sleep lightly, wake unburdened.",
+          reflection: "Give yourself permission to fully clock out. Tomorrow's challenges will be met with fresh vitality."
+        }
+      ]
+    };
+
+    // Routine templates
+    const DEFAULT_ROUTINES = {
+      morning: [
+        { id: 'm-r1', text: '500ml Water + Morning Sunlight exposure', done: true },
+        { id: 'm-r2', text: 'Daily "Never Zero" Movement: 5-min walk or mobility', done: true },
+        { id: 'm-r3', text: 'Mindful Breathing (3 min) + Review daily intention', done: false },
+        { id: 'm-r4', text: 'First 90-min Deep Work Block (Zero notifications)', done: false }
+      ],
+      night: [
+        { id: 'n-r1', text: 'Digital Sunset: Screens off / Night Shift enabled', done: false },
+        { id: 'n-r2', text: 'Write down Top 3 Priorities for tomorrow', done: false },
+        { id: 'n-r3', text: '10 min Non-screen reading (fiction or philosophy)', done: false },
+        { id: 'n-r4', text: 'Cool, dark bedroom check & 5 deep sigh breaths', done: false }
+      ]
+    };
+
+    // State with LocalStorage persistence support
+    function loadSavedState() {
+      try {
+        const saved = localStorage.getItem('pulseboard_state_v2');
+        if (saved) return JSON.parse(saved);
+      } catch (e) {
+        console.warn('LocalStorage unavailable:', e);
+      }
+      return null;
+    }
+
+    const defaultStories = [
+      {
+        id: 'story-1',
+        edition: 'morning',
+        featured: true,
+        category: 'Tech & AI',
+        source: 'Compute Digest • 4 min read',
+        title: 'Small Reasoning Models Now Run Locally on Everyday Laptops',
+        dek: 'New quantization breakthroughs allow 8-billion-parameter reasoning models to run offline at 45 tokens per second without cloud GPUs.',
+        whyItMatters: 'Researchers and developers can now summarize research papers, test algorithms, and analyze datasets privately on their own machines with zero latency and zero API cost.',
+        image: IMAGES.ai,
+        saved: true
+      },
+      {
+        id: 'story-2',
+        edition: 'morning',
+        featured: false,
+        category: 'Climate',
+        source: 'CleanGrid Weekly • 3 min read',
+        title: 'Coastal Cities Pair Next-Gen Perovskite Solar Glass with Offshore Wind',
+        dek: 'Transparent solar facades installed on commercial high-rises generated 28% of daytime building electricity in a 12-month pilot.',
+        whyItMatters: 'Combining vertical solar skins with evening offshore wind smooths out the daily clean power curve without requiring additional land footprints.',
+        image: IMAGES.climate,
+        saved: false
+      },
+      {
+        id: 'story-3',
+        edition: 'morning',
+        featured: false,
+        category: 'Space & Science',
+        source: 'AstroBrief • 5 min read',
+        title: 'High-Altitude Infrared Array Maps Water Vapor in Three Exoplanet Atmospheres',
+        dek: 'Using adaptive mirror calibration, astronomers separated planetary atmospheric signals from host star glare in unprecedented detail.',
+        whyItMatters: 'The technique cuts observation time in half for identifying habitable-zone rocky worlds ahead of space telescope follow-up missions.',
+        image: IMAGES.space,
+        saved: false
+      },
+      {
+        id: 'story-4',
+        edition: 'night',
+        featured: true,
+        category: 'Space & Science',
+        source: 'Evening Science Review • 6 min read',
+        title: 'Deep-Sky Survey Reveals Ancient Star Streams Orbiting the Milky Way Halo',
+        dek: 'Tonight’s release maps 140,000 metal-poor stars, tracing how early dwarf galaxies merged over 10 billion years ago.',
+        whyItMatters: 'Provides a high-resolution gravitational map of dark matter distribution across our galaxy’s outer halo.',
+        image: IMAGES.night_space,
+        saved: false
+      },
+      {
+        id: 'story-5',
+        edition: 'night',
+        featured: false,
+        category: 'Tech & AI',
+        source: 'Systems Lab Note • 4 min read',
+        title: 'How Biological Sleep Spindles Inspired Continual Learning in Neural Nets',
+        dek: 'An evening look at how "offline replay" phases prevent catastrophic forgetting when AI agents learn new tasks overnight.',
+        whyItMatters: 'Bridges neuroscience and machine learning, demonstrating why periodic consolidation beats endless raw training.',
+        image: IMAGES.night_brain,
+        saved: false
+      },
+      {
+        id: 'story-6',
+        edition: 'night',
+        featured: false,
+        category: 'Climate',
+        source: 'Energy Horizon • 3 min read',
+        title: 'Overnight Thermal Battery Storage Reaches 92% Round-Trip Efficiency',
+        dek: 'Grid-scale carbon blocks heated by daytime surplus solar power cleanly dispatch steam-turbine electricity through the night.',
+        whyItMatters: 'Offers a low-cost, zero-lithium path to decarbonizing industrial heat and overnight electricity demand.',
+        image: IMAGES.night_battery,
+        saved: false
+      }
+    ];
+
+    const defaultPapers = [
+      {
+        id: 'paper-1',
+        edition: 'morning',
+        tag: 'Machine Learning • arXiv',
+        title: 'Sparse Attention Horizons for Long-Context Scientific Literature Synthesis',
+        authors: 'L. Chen, M. Alvarez, R. Patel (2026)',
+        readTime: '12 min paper • 1 min summary',
+        tldr: 'Introduces a hierarchical citation-aware attention mechanism that summarizes 50+ full-text research papers simultaneously with 60% less memory.',
+        takeaways: [
+          'Cuts hallucinated citations from 8.4% down to 1.1% on multi-paper synthesis benchmarks.',
+          'Preserves mathematical notation and experimental table values across long contexts.',
+          'Open-source weights and evaluation dataset released for consumer GPUs.'
+        ],
+        expanded: true,
+        saved: false
+      },
+      {
+        id: 'paper-2',
+        edition: 'morning',
+        tag: 'Neuroscience & Productivity • Nature Human Behaviour',
+        title: 'Circadian Rhythms and Cognitive Switching Costs in Knowledge Work',
+        authors: 'H. Lindqvist, S. K. Rao et al. (2026)',
+        readTime: '15 min paper • 1 min summary',
+        tldr: 'Tracks 1,400 engineers and researchers, showing that grouping deep reading into a single 90-minute morning block increases retention by 38%.',
+        takeaways: [
+          'Checking fragmented notifications mid-block requires 19 minutes of cognitive ramp-up to recover.',
+          'An evening review of 3 bullet takeaways locks in long-term recall during sleep.'
+        ],
+        expanded: false,
+        saved: false
+      },
+      {
+        id: 'paper-3',
+        edition: 'night',
+        tag: 'Astrophysics • ApJ Letters',
+        title: 'Spectroscopic Biosignature False-Positive Filters for Temperate Sub-Neptunes',
+        authors: 'D. K. Morales, E. Vance (2026)',
+        readTime: '18 min paper • 1 min summary',
+        tldr: 'Models photochemical reactions in hydrogen-rich atmospheres to distinguish biological methane from volcanic outgassing.',
+        takeaways: [
+          'Identifies a clear carbon-monoxide to methane ratio threshold for abiotic vs. biotic origins.',
+          'Directly applicable to upcoming 2027 space observatory target lists.'
+        ],
+        expanded: true,
+        saved: false
+      },
+      {
+        id: 'paper-4',
+        edition: 'night',
+        tag: 'Materials Science • Joule',
+        title: 'Self-Healing Solid-State Electrolytes Under Rapid Thermal Cycling',
+        authors: 'Y. Takahashi, A. Omer, K. Park (2026)',
+        readTime: '14 min paper • 1 min summary',
+        tldr: 'Demonstrates a polymer-ceramic composite battery layer that repairs micro-cracks during overnight rest cycles.',
+        takeaways: [
+          'Retains 94% capacity after 2,000 fast-charge cycles.',
+          'Eliminates dendrite short-circuits at low ambient temperatures.'
+        ],
+        expanded: false,
+        saved: false
+      }
+    ];
+
+    const defaultTasks = [
+      { id: 't1', text: 'Read summary of the Sparse Attention paper', done: true },
+      { id: 't2', text: 'Finish 90-minute morning deep work block', done: false },
+      { id: 't3', text: 'Bookmark 2 articles for weekend deep reading', done: false }
+    ];
+
+    const savedData = loadSavedState();
+
+    const state = {
+      edition: defaultEdition,
+      selectedCategory: 'all',
+      expandAllPapers: false,
+      activeModalStoryId: null,
+      wisdomIndex: 0,
+      stories: savedData?.stories || defaultStories,
+      papers: savedData?.papers || defaultPapers,
+      tasks: savedData?.tasks || defaultTasks,
+      routines: savedData?.routines || DEFAULT_ROUTINES,
+      schedules: {
+        morning: [
+          { time: '08:30 AM', title: 'Morning Hydration & Paper Triage', tag: 'Routine' },
+          { time: '10:00 AM', title: 'Deep Work: Core Project Architecture', tag: 'Focus Block' },
+          { time: '01:30 PM', title: 'Team Sync & Design Walkthrough', tag: 'Collab' },
+          { time: '04:30 PM', title: 'Wrap-up & Review Key Notes', tag: 'Admin' }
+        ],
+        night: [
+          { time: '08:30 PM', title: 'Evening Newsboard & 1 Research Summary', tag: 'Wind-Down' },
+          { time: '09:15 PM', title: 'Jot Down Top 3 Priorities for Tomorrow', tag: 'Planning' },
+          { time: '10:00 PM', title: 'Screens Off & Fiction Reading', tag: 'Rest' }
+        ]
+      }
+    };
+
+    function persistState() {
+      try {
+        localStorage.setItem('pulseboard_state_v2', JSON.stringify({
+          stories: state.stories,
+          papers: state.papers,
+          tasks: state.tasks,
+          routines: state.routines
+        }));
+      } catch (e) {
+        console.warn('Could not save to LocalStorage:', e);
+      }
+    }
+
+    function updateDateDisplay() {
+      const options = { weekday: 'long', month: 'long', day: 'numeric' };
+      const todayStr = new Date().toLocaleDateString(undefined, options);
+      document.getElementById('header-date').textContent = `${todayStr} • Curated Daily Briefing`;
+    }
+
+    function renderWisdom(isNight) {
+      const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
+      const current = list[state.wisdomIndex % list.length];
+
+      const card = document.getElementById('wisdom-card');
+      if (isNight) {
+        card.className = 'rounded-2xl p-5 sm:p-6 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/70 to-slate-900 shadow-sm transition-all';
+        document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-indigo-300';
+        document.getElementById('wisdom-quote').className = 'text-base sm:text-lg font-serif-editorial italic text-slate-100 leading-snug';
+        document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed';
+        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-indigo-800 bg-slate-800 text-indigo-200 hover:bg-slate-700 transition-colors shrink-0 self-start md:self-center';
+      } else {
+        card.className = 'rounded-2xl p-5 sm:p-6 mb-8 border border-amber-200/90 bg-gradient-to-r from-amber-100/60 via-amber-50/50 to-orange-50/60 shadow-sm transition-all';
+        document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-amber-800';
+        document.getElementById('wisdom-quote').className = 'text-base sm:text-lg font-serif-editorial italic text-slate-900 leading-snug';
+        document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed';
+        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0 self-start md:self-center';
+      }
+
+      document.getElementById('wisdom-tradition').textContent = current.tradition;
+      document.getElementById('wisdom-theme').textContent = current.theme;
+      document.getElementById('wisdom-quote').textContent = `"${current.quote.replace(/^"|"$/g, '')}"`;
+      document.getElementById('wisdom-reflection').textContent = current.reflection;
+    }
+
+    function renderRoutine(isNight) {
+      const routineCard = document.getElementById('routine-card');
+      const title = document.getElementById('routine-heading-text');
+      const subtitle = document.getElementById('routine-subtitle');
+      const emoji = document.getElementById('routine-emoji');
+      const container = document.getElementById('routine-list');
+      const progressBadge = document.getElementById('routine-progress');
+      const progressBar = document.getElementById('routine-progress-bar');
+
+      const currentList = state.routines[state.edition] || [];
+      const doneCount = currentList.filter(item => item.done).length;
+      const total = currentList.length;
+      const pct = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+
+      progressBadge.textContent = `${doneCount}/${total} done`;
+      progressBar.style.width = `${pct}%`;
+
+      if (isNight) {
+        routineCard.className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm transition-all';
+        title.textContent = 'Night Wind-Down Routine';
+        subtitle.textContent = 'Digital sunset & restorative sleep prep';
+        emoji.textContent = '🌙';
+        progressBadge.className = 'text-xs font-semibold text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-800';
+        progressBar.className = 'h-full bg-indigo-500 transition-all duration-300';
+      } else {
+        routineCard.className = 'rounded-2xl p-5 border border-amber-200/90 bg-white shadow-sm transition-all';
+        title.textContent = 'Morning Routine';
+        subtitle.textContent = 'Daily "Never Zero" foundation & clarity';
+        emoji.textContent = '☀️';
+        progressBadge.className = 'text-xs font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full';
+        progressBar.className = 'h-full bg-amber-500 transition-all duration-300';
+      }
+
+      container.innerHTML = currentList.map(item => `
+        <label class="flex items-center gap-2.5 p-2 rounded-xl cursor-pointer transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
+          <input
+            type="checkbox"
+            data-routine-id="${item.id}"
+            ${item.done ? 'checked' : ''}
+            class="w-4 h-4 rounded accent-amber-600 cursor-pointer"
+          />
+          <span class="text-xs sm:text-sm flex-1 ${item.done ? 'line-through opacity-50' : ''}">
+            ${item.text}
+          </span>
+        </label>
+      `).join('');
+
+      container.querySelectorAll('[data-routine-id]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          const id = checkbox.getAttribute('data-routine-id');
+          const item = currentList.find(r => r.id === id);
+          if (item) {
+            item.done = checkbox.checked;
+            persistState();
+            renderRoutine(isNight);
+          }
+        });
+      });
+    }
+
+    function renderApp() {
+      const isNight = state.edition === 'night';
+      const body = document.getElementById('app-body');
+      const header = document.getElementById('app-header');
+      const brandBadge = document.getElementById('brand-badge');
+      const sunIcon = document.getElementById('edition-icon-sun');
+      const moonIcon = document.getElementById('edition-icon-moon');
+      const editionPill = document.getElementById('edition-pill');
+      const btnMorning = document.getElementById('btn-morning');
+      const btnNight = document.getElementById('btn-night');
+      const heroBanner = document.getElementById('hero-banner');
+
+      if (isNight) {
+        body.className = 'min-h-screen bg-slate-950 text-slate-100 antialiased';
+        header.className = 'sticky top-0 z-30 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md transition-colors duration-300';
+        brandBadge.className = 'w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center shadow-sm transition-colors';
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+        editionPill.className = 'text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800';
+        editionPill.textContent = 'Night Edition';
+
+        btnMorning.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-white transition-all';
+        btnNight.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-indigo-600 text-white shadow-sm transition-all';
+        document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-800 border border-slate-700';
+        document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
+
+        heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 shadow-sm transition-all';
+        document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1';
+        document.getElementById('greeting-kicker').textContent = 'NIGHT EDITION • CALM EVENING WRAP-UP';
+        document.getElementById('greeting-title').textContent = 'Good evening. Time to unwind and reflect on today’s breakthroughs.';
+        document.getElementById('greeting-subtitle').className = 'text-sm text-slate-300 mt-1 max-w-2xl';
+        document.getElementById('greeting-subtitle').textContent = 'Tonight’s edition features deep-space surveys, overnight thermal batteries, your wind-down routine, and mindful reflection.';
+
+        document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm shrink-0';
+        document.getElementById('weather-emoji').textContent = '🌌';
+        document.getElementById('weather-temp').textContent = '19°C';
+        document.getElementById('weather-desc').textContent = 'Calm Night Sky';
+        document.getElementById('focus-status').className = 'text-xs text-indigo-400 font-medium mt-0.5';
+        document.getElementById('focus-status').textContent = 'Wind-down mode • Low-glare theme active';
+
+        document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
+        document.getElementById('schedule-title').textContent = '🌙 Evening Wind-Down';
+        document.getElementById('schedule-subtitle').textContent = 'Tonight’s calm schedule';
+
+        document.getElementById('tasks-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
+        document.getElementById('checklist-title').textContent = '✅ Before You Unplug';
+        document.getElementById('new-task-input').className = 'flex-1 min-w-0 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-100 placeholder-slate-400 focus:border-indigo-500 focus:outline-none';
+      } else {
+        body.className = 'min-h-screen bg-amber-50/40 text-slate-900 antialiased';
+        header.className = 'sticky top-0 z-30 border-b border-amber-200/70 bg-white/90 backdrop-blur-md transition-colors duration-300';
+        brandBadge.className = 'w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-sm transition-colors';
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+        editionPill.className = 'text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
+        editionPill.textContent = 'Morning Edition';
+
+        btnMorning.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all';
+        btnNight.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all';
+        document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80';
+        document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors';
+
+        heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all';
+        document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1';
+        document.getElementById('greeting-kicker').textContent = 'MORNING BRIEFING • 5 MIN READ';
+        document.getElementById('greeting-title').textContent = 'Good morning! Here is what shapes your world today.';
+        document.getElementById('greeting-subtitle').className = 'text-sm text-slate-600 mt-1 max-w-2xl';
+        document.getElementById('greeting-subtitle').textContent = 'We curated top visual stories, research papers with quick-read summaries, your daily routine, and a grounded spiritual reflection.';
+
+        document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
+        document.getElementById('weather-emoji').textContent = '🌤️';
+        document.getElementById('weather-temp').textContent = '24°C';
+        document.getElementById('weather-desc').textContent = 'Clear & Breezy';
+        document.getElementById('focus-status').className = 'text-xs text-emerald-700 font-medium mt-0.5';
+        document.getElementById('focus-status').textContent = 'Peak focus window: 9:30 AM – 12:00 PM';
+
+        document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
+        document.getElementById('schedule-title').textContent = '🗓️ Your Day Ahead';
+        document.getElementById('schedule-subtitle').textContent = 'Key blocks & upcoming focus';
+
+        document.getElementById('tasks-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
+        document.getElementById('checklist-title').textContent = '✅ Today’s Top Priorities';
+        document.getElementById('new-task-input').className = 'flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none';
+      }
+
+      // Update saved count badge
+      const totalSaved = state.stories.filter(s => s.saved).length + state.papers.filter(p => p.saved).length;
+      document.getElementById('saved-count-badge').textContent = String(totalSaved);
+
+      // Update Category Filter Buttons
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        const cat = btn.getAttribute('data-category');
+        const active = cat === state.selectedCategory;
+        if (active) {
+          btn.className = isNight
+            ? 'cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500 text-white transition-colors'
+            : 'cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white transition-colors';
+        } else {
+          btn.className = isNight
+            ? 'cat-btn px-3 py-1 rounded-full text-xs font-medium bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors'
+            : 'cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors';
+        }
+      });
+
+      renderWisdom(isNight);
+      renderRoutine(isNight);
+      renderNewsGrid(isNight);
+      renderPapers(isNight);
+      renderSchedule(isNight);
+      renderTasks(isNight);
+    }
+
+    function renderNewsGrid(isNight) {
+      const container = document.getElementById('news-grid');
+      let filtered = state.stories.filter(s => {
+        if (state.selectedCategory === 'saved') return s.saved;
+        if (state.selectedCategory !== 'all') return s.category === state.selectedCategory;
+        return s.edition === state.edition;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="md:col-span-2 rounded-2xl border border-dashed ${isNight ? 'border-slate-700 bg-slate-900/50 text-slate-400' : 'border-slate-300 bg-white/60 text-slate-500'} p-8 text-center">
+            <p class="text-sm font-medium">No stories match this filter right now.</p>
+            <button type="button" id="btn-reset-filter" class="mt-2 text-xs font-semibold underline">Show all stories for this edition</button>
+          </div>
+        `;
+        const resetBtn = document.getElementById('btn-reset-filter');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            state.selectedCategory = 'all';
+            renderApp();
+          });
+        }
+        return;
+      }
+
+      container.innerHTML = filtered.map((story, idx) => {
+        const spanFull = idx === 0 && filtered.length >= 3 ? 'md:col-span-2' : '';
+        const cardBg = isNight
+          ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50'
+          : 'bg-white border-slate-200/90 hover:border-amber-400';
+        const textMuted = isNight ? 'text-slate-400' : 'text-slate-600';
+
+        return `
+          <article class="${spanFull} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col">
+            <div class="relative ${spanFull ? 'h-52 sm:h-64' : 'h-44'} w-full bg-slate-900 overflow-hidden cursor-pointer" data-open-story="${story.id}">
+              <img src="${story.image}" alt="${story.title}" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
+                ${story.category}
+              </span>
+              <button
+                type="button"
+                data-save-story="${story.id}"
+                class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${story.saved ? 'bg-amber-500 text-white' : 'bg-slate-900/75 text-slate-200 hover:bg-slate-900'} backdrop-blur-sm transition-colors"
+                title="Bookmark story"
+              >
+                ${story.saved ? '★ Saved' : '☆ Save'}
+              </button>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-xs ${textMuted} mb-1.5">
+                  <span>${story.source}</span>
+                  <span class="font-medium">${story.edition === 'morning' ? '☀️ Morning' : '🌙 Night'}</span>
+                </div>
+                <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug mb-2 cursor-pointer hover:underline" data-open-story="${story.id}">
+                  ${story.title}
+                </h4>
+                <p class="text-xs sm:text-sm ${textMuted} leading-relaxed">
+                  ${story.dek}
+                </p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'} flex items-center justify-between">
+                <button type="button" data-open-story="${story.id}" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">
+                  Read Full Briefing →
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      container.querySelectorAll('[data-open-story]').forEach(el => {
+        el.addEventListener('click', () => {
+          openStoryModal(el.getAttribute('data-open-story'));
+        });
+      });
+
+      container.querySelectorAll('[data-save-story]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-save-story');
+          const story = state.stories.find(s => s.id === id);
+          if (story) {
+            story.saved = !story.saved;
+            persistState();
+            renderApp();
+          }
+        });
+      });
+    }
+
+    function renderPapers(isNight) {
+      const container = document.getElementById('papers-list');
+      const papersForEdition = state.papers.filter(p => {
+        if (state.selectedCategory === 'saved') return p.saved;
+        return p.edition === state.edition;
+      });
+
+      if (papersForEdition.length === 0) {
+        container.innerHTML = `
+          <div class="rounded-2xl border border-dashed ${isNight ? 'border-slate-700 text-slate-400' : 'border-slate-300 text-slate-500'} p-6 text-center text-xs">
+            No saved papers yet. Click "☆ Save Paper" on any research digest to bookmark it.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = papersForEdition.map(paper => {
+        const cardStyle = isNight
+          ? 'bg-slate-900 border-slate-800'
+          : 'bg-white border-slate-200/90';
+        const summaryBg = isNight
+          ? 'bg-slate-950/80 border-slate-800 text-slate-300'
+          : 'bg-amber-50/60 border-amber-200/70 text-slate-700';
+
+        return `
+          <div class="rounded-2xl border ${cardStyle} p-5 shadow-sm transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${isNight ? 'bg-indigo-950 text-indigo-300' : 'bg-slate-100 text-slate-700'}">
+                ${paper.tag}
+              </span>
+              <div class="flex items-center gap-3">
+                <span class="text-xs text-slate-400">${paper.readTime}</span>
+                <button
+                  type="button"
+                  data-save-paper="${paper.id}"
+                  class="text-xs font-semibold ${paper.saved ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}"
+                >
+                  ${paper.saved ? '★ Saved Paper' : '☆ Save Paper'}
+                </button>
+              </div>
+            </div>
+
+            <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug">
+              ${paper.title}
+            </h4>
+            <p class="text-xs text-slate-400 mt-0.5 mb-3">${paper.authors}</p>
+
+            <p class="text-xs sm:text-sm ${isNight ? 'text-slate-300' : 'text-slate-600'} leading-relaxed mb-3">
+              <strong class="font-semibold">TL;DR:</strong> ${paper.tldr}
+            </p>
+
+            <button
+              type="button"
+              data-toggle-paper="${paper.id}"
+              class="inline-flex items-center gap-1.5 text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}"
+            >
+              <span>${paper.expanded ? '▼ Hide Key Takeaways' : '▶ Show Key Takeaways'}</span>
+            </button>
+
+            ${paper.expanded ? `
+              <div class="mt-3 rounded-xl border ${summaryBg} p-4">
+                <p class="text-xs font-bold uppercase tracking-wider mb-2 opacity-75">Key Findings &amp; Summary</p>
+                <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm">
+                  ${paper.takeaways.map(t => `<li>${t}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('[data-toggle-paper]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-toggle-paper');
+          const paper = state.papers.find(p => p.id === id);
+          if (paper) {
+            paper.expanded = !paper.expanded;
+            renderApp();
+          }
+        });
+      });
+
+      container.querySelectorAll('[data-save-paper]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-save-paper');
+          const paper = state.papers.find(p => p.id === id);
+          if (paper) {
+            paper.saved = !paper.saved;
+            persistState();
+            renderApp();
+          }
+        });
+      });
+    }
+
+    function renderSchedule(isNight) {
+      const items = state.schedules[state.edition] || [];
+      document.getElementById('schedule-count').textContent = `${items.length} items`;
+      const container = document.getElementById('schedule-timeline');
+
+      container.innerHTML = items.map(item => `
+        <div class="flex items-start gap-3 p-3 rounded-xl ${isNight ? 'bg-slate-800/70' : 'bg-slate-50'}">
+          <span class="text-xs font-bold ${isNight ? 'text-indigo-400' : 'text-amber-700'} shrink-0 pt-0.5">${item.time}</span>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs sm:text-sm font-semibold leading-snug">${item.title}</p>
+            <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded-md ${isNight ? 'bg-slate-700 text-slate-300' : 'bg-white border border-slate-200 text-slate-600'}">
+              ${item.tag}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTasks(isNight) {
+      const container = document.getElementById('tasks-list');
+      const doneCount = state.tasks.filter(t => t.done).length;
+      const total = state.tasks.length;
+      const pct = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+
+      document.getElementById('tasks-progress').textContent = `${doneCount}/${total} done`;
+      document.getElementById('tasks-progress-bar').style.width = `${pct}%`;
+
+      container.innerHTML = state.tasks.map(task => `
+        <label class="flex items-center gap-2.5 p-2.5 rounded-xl cursor-pointer transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
+          <input
+            type="checkbox"
+            data-task-id="${task.id}"
+            ${task.done ? 'checked' : ''}
+            class="w-4 h-4 rounded accent-emerald-600 cursor-pointer"
+          />
+          <span class="text-xs sm:text-sm flex-1 ${task.done ? 'line-through opacity-50' : ''}">
+            ${task.text}
+          </span>
+        </label>
+      `).join('');
+
+      container.querySelectorAll('[data-task-id]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          const id = checkbox.getAttribute('data-task-id');
+          const task = state.tasks.find(t => t.id === id);
+          if (task) {
+            task.done = checkbox.checked;
+            persistState();
+            renderTasks(state.edition === 'night');
+          }
+        });
+      });
+    }
+
+    function openStoryModal(storyId) {
+      const story = state.stories.find(s => s.id === storyId);
+      if (!story) return;
+      state.activeModalStoryId = storyId;
+
+      document.getElementById('modal-image').src = story.image;
+      document.getElementById('modal-category').textContent = story.category;
+      document.getElementById('modal-source').textContent = story.source;
+      document.getElementById('modal-title').textContent = story.title;
+      document.getElementById('modal-summary').textContent = story.dek;
+      document.getElementById('modal-why').textContent = story.whyItMatters;
+      document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
+
+      const modal = document.getElementById('story-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeStoryModal() {
+      const modal = document.getElementById('story-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      state.activeModalStoryId = null;
+    }
+
+    // Top-level Event Listeners
+    document.getElementById('btn-morning').addEventListener('click', () => {
+      state.edition = 'morning';
+      if (state.selectedCategory === 'saved') state.selectedCategory = 'all';
+      renderApp();
+    });
+
+    document.getElementById('btn-night').addEventListener('click', () => {
+      state.edition = 'night';
+      if (state.selectedCategory === 'saved') state.selectedCategory = 'all';
+      renderApp();
+    });
+
+    document.getElementById('btn-view-saved').addEventListener('click', () => {
+      state.selectedCategory = state.selectedCategory === 'saved' ? 'all' : 'saved';
+      renderApp();
+    });
+
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.selectedCategory = btn.getAttribute('data-category');
+        renderApp();
+      });
+    });
+
+    document.getElementById('btn-expand-all-papers').addEventListener('click', () => {
+      state.expandAllPapers = !state.expandAllPapers;
+      state.papers.forEach(p => { p.expanded = state.expandAllPapers; });
+      document.getElementById('btn-expand-all-papers').textContent = state.expandAllPapers
+        ? 'Collapse all summaries'
+        : 'Expand all summaries';
+      renderApp();
+    });
+
+    document.getElementById('btn-next-wisdom').addEventListener('click', () => {
+      state.wisdomIndex++;
+      renderWisdom(state.edition === 'night');
+    });
+
+    document.getElementById('add-task-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('new-task-input');
+      const text = input.value.trim();
+      if (!text) return;
+      state.tasks.push({
+        id: 't-' + Date.now(),
+        text,
+        done: false
+      });
+      persistState();
+      input.value = '';
+      renderTasks(state.edition === 'night');
+    });
+
+    document.getElementById('btn-close-modal').addEventListener('click', closeStoryModal);
+    document.getElementById('story-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'story-modal') closeStoryModal();
+    });
+
+    document.getElementById('modal-save-btn').addEventListener('click', () => {
+      if (!state.activeModalStoryId) return;
+      const story = state.stories.find(s => s.id === state.activeModalStoryId);
+      if (story) {
+        story.saved = !story.saved;
+        persistState();
+        document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
+        renderApp();
+      }
+    });
+
+    
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.log('ServiceWorker registration skipped:', err);
+        });
+      });
+    }
+
+    // Initialize date & view
+    updateDateDisplay();
+    renderApp();
+  </script>
+</body>
+</html>

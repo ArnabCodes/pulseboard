@@ -1,0 +1,8 @@
+{
+  "name": "pulseboard",
+  "version": "1.0.0",
+  "description": "Custom Morning and Night News & Research Dashboard",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}
