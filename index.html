@@ -2004,6 +2004,55 @@ Key Insights:
       });
     }
 
+    // ------------------------------------------------------------------
+    // Papers: citation helpers (plain + BibTeX) and clipboard with fallback
+    // ------------------------------------------------------------------
+    async function copyText(text, btn) {
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+      if (!ok) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          ok = document.execCommand('copy');
+          ta.remove();
+        } catch (e) {}
+      }
+      if (btn) {
+        const old = btn.textContent;
+        btn.textContent = ok ? '✓ Copied' : '✗ Copy failed';
+        setTimeout(() => { btn.textContent = old; }, 1500);
+      }
+    }
+
+    function paperCitation(p) {
+      const title = (p.title || '').replace(/\.\.\.$/, '');
+      const parts = [];
+      if (p.authors && p.authors !== 'arXiv authors') parts.push(p.authors);
+      if (p.year) parts.push(`(${p.year}).`);
+      parts.push(title + '.');
+      if (p.arxivId) parts.push(`arXiv:${p.arxivId}.`);
+      else if (p.journal) parts.push(p.journal + '.');
+      if (p.url) parts.push(p.url);
+      return parts.join(' ');
+    }
+
+    function paperBibtex(p) {
+      const id = (p.arxivId || 'paper').replace(/[^A-Za-z0-9.]/g, '');
+      let names = '';
+      if (p.authors && p.authors !== 'arXiv authors') {
+        names = p.authors.replace(/ et al\.$/, '').split(', ').map(n => {
+          const w = n.trim().split(/\s+/);
+          return w.length > 1 ? `${w[w.length - 1]}, ${w.slice(0, -1).join(' ')}` : n;
+        }).join(' and ');
+      }
+      const title = (p.title || '').replace(/\.\.\.$/, '');
+      return `@article{arxiv${id},\n  title   = {${title}},\n${names ? `  author  = {${names}},\n` : ''}  journal = {arXiv preprint arXiv:${p.arxivId || id}},\n  year    = {${p.year || ''}},\n  url     = {${p.url || ''}}\n}`;
+    }
+
     function renderPapers(isNight) {
       const container = document.getElementById('papers-list');
       const papersForEdition = state.papers.filter(p => {
@@ -2050,7 +2099,11 @@ Key Insights:
             <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug">
               ${paper.title}
             </h4>
-            <p class="text-xs text-slate-400 mt-0.5 mb-3">${paper.authors}</p>
+            <p class="text-xs text-slate-400 mt-0.5">${paper.authors || ''}${paper.year ? ' · ' + paper.year : ''}${paper.journal ? ' · ' + paper.journal : ''}</p>
+            ${(paper.matched && paper.matched.length) ? `
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              ${paper.matched.map(k => `<span class="text-[10px] font-medium px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200'}" title="Matched your research profile">${k}</span>`).join('')}
+            </div>` : ''}
 
             <p class="text-xs sm:text-sm ${isNight ? 'text-slate-300' : 'text-slate-600'} leading-relaxed mb-3">
               <strong class="font-semibold">TL;DR:</strong> ${paper.tldr}
@@ -2072,6 +2125,13 @@ Key Insights:
                 </ul>
               </div>
             ` : ''}
+
+            <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'} flex flex-wrap items-center gap-x-4 gap-y-2">
+              ${paper.url ? `<a href="${paper.url}" target="_blank" rel="noopener" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">Read on arXiv ↗</a>` : ''}
+              ${paper.arxivId ? `<a href="https://www.semanticscholar.org/arxiv/${paper.arxivId}" target="_blank" rel="noopener" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">Citations ↗</a>` : ''}
+              <button type="button" data-cite-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ Cite</button>
+              <button type="button" data-bibtex-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ BibTeX</button>
+            </div>
           </div>
         `;
       }).join('');
@@ -2098,6 +2158,20 @@ Key Insights:
             const fresh = document.querySelector(`[data-save-paper="${id}"]`);
             if (fresh) { fresh.classList.add('star-pop'); setTimeout(() => fresh.classList.remove('star-pop'), 340); }
           }
+        });
+      });
+
+      container.querySelectorAll('[data-cite-paper]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = state.papers.find(x => x.id === btn.getAttribute('data-cite-paper'));
+          if (p) copyText(paperCitation(p), btn);
+        });
+      });
+
+      container.querySelectorAll('[data-bibtex-paper]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = state.papers.find(x => x.id === btn.getAttribute('data-bibtex-paper'));
+          if (p) copyText(paperBibtex(p), btn);
         });
       });
     }

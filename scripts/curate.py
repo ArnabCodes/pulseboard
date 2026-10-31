@@ -229,6 +229,15 @@ def keyword_score(text, weights, multiplier=1.0):
     return sum(w * multiplier for kw, w in weights.items() if kw in t)
 
 
+def matched_keywords(*texts):
+    """Which research-profile keywords actually appear — powers the honest
+    'why this paper' chips in the app (no hidden magic in curation)."""
+    blob = ' '.join(texts).lower()
+    hits = [kw for kw in PAPER_KEYWORDS if kw in blob]
+    hits.sort(key=lambda k: -PAPER_KEYWORDS[k])
+    return hits
+
+
 def parse_date(s):
     if not s:
         return None
@@ -262,6 +271,12 @@ def fetch_arxiv_candidates():
             summary_el = entry.find('a:summary', ns)
             if id_el is None or title_el is None or summary_el is None or not title_el.text:
                 continue
+            authors = []
+            for a in entry.findall('a:author', ns):
+                name = a.find('a:name', ns)
+                if name is not None and name.text:
+                    authors.append(' '.join(name.text.split()))
+            pub_el = entry.find('a:published', ns)
             abs_id = (id_el.text or '').strip().rsplit('/', 1)[-1]
             base_id = abs_id.split('v')[0]
             if base_id in seen:
@@ -272,6 +287,8 @@ def fetch_arxiv_candidates():
                 'title': ' '.join((title_el.text or '').split()),
                 'summary': ' '.join((summary_el.text or '').split()),
                 'cats': [c.get('term') for c in entry.findall('a:category', ns)],
+                'authors': authors,
+                'year': (pub_el.text or '')[:4] if pub_el is not None and pub_el.text else '',
             })
         time.sleep(3)  # arXiv API etiquette
     return entries
@@ -306,16 +323,24 @@ def pick_papers():
         ranked = sorted(sents, key=lambda x: -keyword_score(x, PAPER_KEYWORDS))[:3]
         takeaways = [sent for sent in sents if sent in ranked] or sents[:2]
         primary_cat = p['cats'][0] if p['cats'] else 'quant-ph'
+        author_str = ''
+        if p.get('authors'):
+            author_str = ', '.join(p['authors'][:3]) + (' et al.' if len(p['authors']) > 3 else '')
         papers.append({
             'id': f'arxiv-{p["id"]}',
             'edition': EDITION,
             'tag': tag,
             'title': p['title'][:140] + ('...' if len(p['title']) > 140 else ''),
+            'authors': author_str or 'arXiv authors',
+            'year': p.get('year') or '',
+            'arxivId': p['id'],
             'journal': f'arXiv:{p["id"]} [{primary_cat}]',
             'url': f'https://arxiv.org/abs/{p["id"]}',
             'readTime': f'{read_time_minutes(tldr, " ".join(takeaways))} min read',
             'tldr': tldr,
             'takeaways': takeaways,
+            # Honest 'why this paper': the profile keywords it actually matched
+            'matched': matched_keywords(p['title'], p['summary'])[:4],
             'saved': False,
         })
     return papers

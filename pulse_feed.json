@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T22:16:47Z",
+  "generated_at": "2026-10-31T23:52:20Z",
   "stories": [
     {
       "id": "news-geopolitics-20261031-fcb28481",
@@ -139,6 +139,9 @@
       "edition": "morning",
       "tag": "NMR & Spin Control",
       "title": "Low-Field J-Coupling Spectroscopy Measured with a Diamond Nitrogen Vacancy Spectrometer",
+      "authors": "Stephen J. DeVience, John W. Blanchard, Camille G. McDonnell et al.",
+      "year": "2026",
+      "arxivId": "2610.24815",
       "journal": "arXiv:2610.24815 [physics.chem-ph]",
       "url": "https://arxiv.org/abs/2610.24815",
       "readTime": "2 min read",
@@ -148,6 +151,12 @@
         "Using Coherently Averaged Synchronized Readout (CASR), standard NMR spectroscopy techniques such as free decay, spin echo, and PGSE have been performed with Hz-scale spectral resolution using NV-diamond sensors.",
         "We acquire initial NV-NMR measurements of T$_1$, T$_2$, and Overhauser DNP in glycerol before advancing to SEDOR spectroscopy of methanol-$^{13}$C and a methanol-$^{13}$C/acetonitrile-2-$^{13}$C mixture at sample volumes $\\sim$50 pL, in which we demonstrate measurement of $^1J_\\text{CH}$ couplings and resolution between species."
       ],
+      "matched": [
+        "nmr",
+        "quantum sensing",
+        "dnp",
+        "diamond"
+      ],
       "saved": false
     },
     {
@@ -155,6 +164,9 @@
       "edition": "morning",
       "tag": "NV & Quantum Sensing",
       "title": "Optimized Dynamical Decoupling for Spin Ensembles with Large Inhomogeneities",
+      "authors": "Rajan Paul, Genko Genov, Oliver Schmid et al.",
+      "year": "2026",
+      "arxivId": "2610.39693",
       "journal": "arXiv:2610.39693 [quant-ph]",
       "url": "https://arxiv.org/abs/2610.39693",
       "readTime": "2 min read",
@@ -164,6 +176,12 @@
         "In this work, we compare the performance of an extensive number of DD protocols for coherence protection and quantum sensing in an ensemble of negatively charged NV centers under ambient conditions.",
         "While our particular demonstration is with NV centers in diamond, the optimized protocol is generally applicable to other spin ensembles and to systems with high amplitude and/or frequency inhomogeneities."
       ],
+      "matched": [
+        "nv center",
+        "quantum sensing",
+        "diamond",
+        "dynamical decoupling"
+      ],
       "saved": false
     },
     {
@@ -171,6 +189,9 @@
       "edition": "morning",
       "tag": "NV & Quantum Sensing",
       "title": "High bandwidth heterodyne sensing with bulk NV diamond",
+      "authors": "H. A. M. Taylor, J. P. Duff, L. B. Miller et al.",
+      "year": "2026",
+      "arxivId": "2610.39022",
       "journal": "arXiv:2610.39022 [quant-ph]",
       "url": "https://arxiv.org/abs/2610.39022",
       "readTime": "2 min read",
@@ -180,6 +201,12 @@
         "The nitrogen vacancy center in diamond is a popular quantum sensing platform for its relative simplicity and wide range of acceptable operating conditions, but suffers a limited instantaneous bandwidth due to the narrow linewidth of the spin resonance.",
         "In this work, we first present a magnetic quantum sensing scheme utilizing heterodyne mixing with strong optical and microwave driving, achieving MHz-scale instantaneous bandwidth with a sensitivity of $548 \\; \\text{pT/}\\sqrt{\\text{Hz}}$ in an active diamond volume of $ 2.5\\times 10^{-4} \\; \\text{mm}^3$ with $2 \\times 10^{11}$ NV centers."
       ],
+      "matched": [
+        "nv center",
+        "quantum sensing",
+        "diamond",
+        "sensor"
+      ],
       "saved": false
     },
     {
@@ -187,6 +214,9 @@
       "edition": "morning",
       "tag": "Coherence & Open Systems",
       "title": "Experimental evidence for quantum Brownian motion in electron-metal decoherence",
+      "authors": "Wayne Cheng-Wei Huang, Zilin Chen, Herman Batelaan",
+      "year": "2026",
+      "arxivId": "2610.37293",
       "journal": "arXiv:2610.37293 [quant-ph]",
       "url": "https://arxiv.org/abs/2610.37293",
       "readTime": "2 min read",
@@ -196,6 +226,11 @@
         "Decoherence of motional states underpins our understanding of quantum-to-classical transition.",
         "In this work, we provide experimental evidence for the critical role of quantum Brownian motion in electron motional decoherence."
       ],
+      "matched": [
+        "decoherence",
+        "coherence",
+        "quantum"
+      ],
       "saved": false
     },
     {
@@ -203,6 +238,9 @@
       "edition": "morning",
       "tag": "Floquet & Driven Systems",
       "title": "Drive-tunable Floquet exchange spectroscopy with Hong--Ou--Mandel interference",
+      "authors": "Eric R Bittner",
+      "year": "2026",
+      "arxivId": "2610.38878",
       "journal": "arXiv:2610.38878 [quant-ph]",
       "url": "https://arxiv.org/abs/2610.38878",
       "readTime": "2 min read",
@@ -211,6 +249,10 @@
         "Floquet driving reshapes cavity spectra, but single-photon sideband populations do not reveal how it changes two-photon exchange.",
         "Fourier transformation of the coincidence trace yields two drive-dependent exchange branches associated with the Floquet-polariton spectrum.",
         "Floquet control thus adds a tunable exchange spectrum to HOM interferometry and gives quantitative targets for an experiment."
+      ],
+      "matched": [
+        "floquet",
+        "coherence"
       ],
       "saved": false
     }
