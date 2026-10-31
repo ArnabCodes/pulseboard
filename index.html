@@ -33,46 +33,57 @@
     .card-hover:hover {
       transform: translateY(-2px);
     }
+    .skeleton {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+    }
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
 
-  <!-- Private PIN Gate Screen (Zero Backend Required) -->
-  <div id="pin-gate-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 p-4 transition-opacity duration-300">
+  <!-- ZERO-KNOWLEDGE SECURITY LOCK SCREEN OVERLAY -->
+  <div id="pin-gate-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 p-4 transition-all duration-300">
     <div class="w-full max-w-sm rounded-3xl bg-slate-900 border border-slate-800 p-7 text-center shadow-2xl">
-      <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-4 border border-amber-500/30">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl mb-4 border border-amber-500/20">
         🔒
       </div>
       <h2 id="gate-title" class="text-xl font-bold text-white mb-1">PulseBoard Private Access</h2>
-      <p id="gate-subtitle" class="text-xs text-slate-400 mb-6">Enter your 4-digit PIN to unlock your personal briefing</p>
+      <p id="gate-subtitle" class="text-xs text-slate-400 mb-6">Enter your 4-digit PIN to decrypt your dashboard</p>
       
       <!-- PIN Dots -->
       <div id="pin-dots" class="flex justify-center gap-3 mb-6">
-        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
-        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
-        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
-        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors"></div>
       </div>
 
-      <!-- Keypad -->
-      <div class="grid grid-cols-3 gap-2.5 max-w-[220px] mx-auto mb-4">
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="1">1</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="2">2</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="3">3</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="4">4</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="5">5</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="6">6</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="7">7</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="8">8</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="9">9</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/40 text-slate-400 font-medium text-xs hover:bg-slate-700 active:scale-95 transition-all" data-key="clear">Clear</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="0">0</button>
-        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/40 text-slate-400 font-medium text-xs hover:bg-slate-700 active:scale-95 transition-all" data-key="backspace">⌫</button>
+      <!-- Numeric Keypad -->
+      <div id="pin-keypad" class="grid grid-cols-3 gap-2.5 max-w-[230px] mx-auto mb-4">
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="1">1</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="2">2</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="3">3</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="4">4</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="5">5</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="6">6</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="7">7</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="8">8</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="9">9</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/40 text-slate-400 font-medium text-xs hover:bg-slate-700 active:scale-95 transition-all" data-key="clear">Clear</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/80 text-white font-bold text-lg hover:bg-slate-700 active:scale-95 transition-all" data-key="0">0</button>
+        <button type="button" class="pin-key py-3.5 rounded-2xl bg-slate-800/40 text-slate-400 font-medium text-xs hover:bg-slate-700 active:scale-95 transition-all" data-key="backspace">⌫</button>
       </div>
-      <p id="gate-error" class="text-xs text-rose-400 font-medium min-h-[16px]"></p>
+      
+      <!-- Security Status & Rate-Limit Timer -->
+      <p id="gate-error" class="text-xs text-rose-400 font-semibold min-h-[18px]"></p>
+      <p id="rate-limit-timer" class="text-xs text-amber-400 font-mono mt-1 hidden"></p>
     </div>
   </div>
-
 
   <!-- Top Navigation & Edition Switcher -->
   <header id="app-header" class="sticky top-0 z-30 border-b border-amber-200/70 bg-white/90 backdrop-blur-md transition-colors duration-300">
@@ -94,11 +105,11 @@
               Morning Edition
             </span>
           </div>
-          <p id="header-date" class="text-xs text-slate-500">Custom Curated Daily Briefing • Cloud Connected</p>
+          <p id="header-date" class="text-xs text-slate-500">Encrypted Personal Briefing</p>
         </div>
       </div>
 
-      <!-- Edition Toggle + Saved Counter -->
+      <!-- Edition Toggle + Saved Counter + Lock Button -->
       <div class="flex items-center gap-3">
         <div id="edition-switcher" class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
           <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
@@ -118,37 +129,41 @@
           <span>Saved</span>
           <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">0</span>
         </button>
+
+        <button type="button" id="btn-lock-now" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Lock Dashboard">
+          <span>🔒</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- Main Content Container (Contains Skeleton Placeholders Until Decrypted) -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
-    <!-- Greeting Banner & Quick Snapshot -->
+    <!-- Greeting Banner -->
     <section id="hero-banner" class="rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <p id="greeting-kicker" class="text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1">
-            MORNING BRIEFING • 5 MIN READ
+            ENCRYPTED BRIEFING
           </p>
           <h2 id="greeting-title" class="text-2xl sm:text-3xl font-bold font-serif-editorial tracking-tight">
-            Good morning! Here is what shapes your world today.
+            Dashboard Locked
           </h2>
           <p id="greeting-subtitle" class="text-sm text-slate-600 mt-1 max-w-2xl">
-            We curated top visual stories, research papers with quick-read summaries, your daily routine, and a grounded spiritual reflection.
+            Authenticate with your private PIN to decrypt your curated stories, papers, and routines.
           </p>
         </div>
 
-        <!-- Weather & Focus Pill -->
+        <!-- Weather Card -->
         <div id="weather-card" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0">
           <div class="text-3xl" id="weather-emoji">🌤️</div>
           <div>
             <div class="flex items-center gap-2">
-              <span id="weather-temp" class="text-base font-bold">24°C</span>
-              <span id="weather-desc" class="text-xs font-medium text-slate-500">Clear &amp; Breezy</span>
+              <span id="weather-temp" class="text-base font-bold">--°C</span>
+              <span id="weather-desc" class="text-xs font-medium text-slate-500">Encrypted</span>
             </div>
-            <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Peak focus window: 9:30 AM – 12:00 PM</p>
+            <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Focus block locked</p>
           </div>
         </div>
       </div>
@@ -162,16 +177,16 @@
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span id="wisdom-tradition" class="text-xs font-bold uppercase tracking-wider text-amber-800">
-                Teaching of the Buddha • Dhammapada
+                Daily Reflection
               </span>
               <span class="text-slate-300">•</span>
-              <span id="wisdom-theme" class="text-xs font-medium text-slate-500">Equanimity &amp; Mindful Action</span>
+              <span id="wisdom-theme" class="text-xs font-medium text-slate-500">Mindful Awareness</span>
             </div>
             <blockquote id="wisdom-quote" class="text-base sm:text-lg font-serif-editorial italic text-slate-900 leading-snug">
-              "Just as a solid rock is not shaken by the storm, even so the wise are not affected by praise or blame."
+              "Enter your private PIN to reveal today's reflection."
             </blockquote>
             <p id="wisdom-reflection" class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
-              Anchor your focus today in what is within your control. Let external praise or disruption pass like weather.
+              Protected by client-side AES-256-GCM encryption.
             </p>
           </div>
         </div>
@@ -188,20 +203,20 @@
     <!-- 3-Column Dashboard Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-      <!-- Left/Center Column: Visual Newsboard + Research Papers (8 cols) -->
+      <!-- Left Column: Visual Newsboard + Papers (8 cols) -->
       <div class="lg:col-span-8 space-y-10">
 
-        <!-- SECTION 1: Visual Newsboard -->
+        <!-- Newsboard -->
         <section aria-labelledby="newsboard-heading">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div>
               <h3 id="newsboard-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
                 <span>📰 Visual Newsboard</span>
               </h3>
-              <p class="text-xs text-slate-500">Click any card to read the full briefing or save it to your bookmarks</p>
+              <p class="text-xs text-slate-500">Curated stories decrypted in memory</p>
             </div>
 
-            <!-- Category Filter Pills -->
+            <!-- Filters -->
             <div id="category-filters" class="flex flex-wrap items-center gap-1.5">
               <button type="button" data-category="all" class="cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white transition-colors">All</button>
               <button type="button" data-category="Tech & AI" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">Tech &amp; AI</button>
@@ -211,20 +226,21 @@
             </div>
           </div>
 
-          <!-- News Cards Container -->
+          <!-- News Cards Container (Skeleton placeholders when locked) -->
           <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <!-- Rendered by JavaScript -->
+            <div class="h-64 rounded-2xl skeleton border border-slate-200/80"></div>
+            <div class="h-64 rounded-2xl skeleton border border-slate-200/80"></div>
           </div>
         </section>
 
-        <!-- SECTION 2: Interesting Papers to Read (with Summaries) -->
+        <!-- Papers Section -->
         <section aria-labelledby="papers-heading">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div>
               <h3 id="papers-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
                 <span>🔬 Papers Worth Reading</span>
               </h3>
-              <p class="text-xs text-slate-500">Plain-English summaries &amp; takeaways so you can decide what to read deeply</p>
+              <p class="text-xs text-slate-500">Plain-English summaries decrypted upon authentication</p>
             </div>
             <button type="button" id="btn-expand-all-papers" class="text-xs font-semibold text-amber-700 hover:text-amber-900 underline underline-offset-4">
               Expand all summaries
@@ -232,7 +248,8 @@
           </div>
 
           <div id="papers-list" class="space-y-4">
-            <!-- Rendered by JavaScript -->
+            <div class="h-32 rounded-2xl skeleton border border-slate-200/80"></div>
+            <div class="h-32 rounded-2xl skeleton border border-slate-200/80"></div>
           </div>
         </section>
 
@@ -241,28 +258,29 @@
       <!-- Right Column: Routines, Schedule & Priorities Sidebar (4 cols) -->
       <aside class="lg:col-span-4 space-y-6">
 
-        <!-- DEDICATED ROUTINE CHECKLIST (Morning / Night Dynamic) -->
+        <!-- Dedicated Routine Checklist -->
         <div id="routine-card" class="rounded-2xl p-5 border border-amber-200/90 bg-white shadow-sm transition-all">
           <div class="flex items-center justify-between mb-3">
             <div>
               <h3 id="routine-title" class="text-base font-bold tracking-tight flex items-center gap-1.5">
                 <span id="routine-emoji">☀️</span>
-                <span id="routine-heading-text">Morning Routine</span>
+                <span id="routine-heading-text">Daily Routine</span>
               </h3>
-              <p id="routine-subtitle" class="text-xs text-slate-500">Daily "Never Zero" foundation</p>
+              <p id="routine-subtitle" class="text-xs text-slate-500">Encrypted personal habits</p>
             </div>
             <span id="routine-progress" class="text-xs font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
-              2/4 done
+              -- done
             </span>
           </div>
 
-          <!-- Routine Progress Bar -->
           <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden mb-3.5">
-            <div id="routine-progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 50%"></div>
+            <div id="routine-progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
           </div>
 
           <div id="routine-list" class="space-y-2 mb-3">
-            <!-- Rendered by JavaScript -->
+            <div class="h-8 rounded-xl skeleton"></div>
+            <div class="h-8 rounded-xl skeleton"></div>
+            <div class="h-8 rounded-xl skeleton"></div>
           </div>
         </div>
 
@@ -270,14 +288,15 @@
         <div id="schedule-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <div>
-              <h3 id="schedule-title" class="text-base font-bold tracking-tight">🗓️ Your Day Ahead</h3>
-              <p id="schedule-subtitle" class="text-xs text-slate-500">Key blocks &amp; upcoming focus</p>
+              <h3 id="schedule-title" class="text-base font-bold tracking-tight">🗓️ Your Schedule</h3>
+              <p id="schedule-subtitle" class="text-xs text-slate-500">Encrypted calendar blocks</p>
             </div>
-            <span id="schedule-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">4 items</span>
+            <span id="schedule-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Locked</span>
           </div>
 
           <div id="schedule-timeline" class="space-y-3">
-            <!-- Rendered by JavaScript -->
+            <div class="h-12 rounded-xl skeleton"></div>
+            <div class="h-12 rounded-xl skeleton"></div>
           </div>
         </div>
 
@@ -285,32 +304,33 @@
         <div id="tasks-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <div>
-              <h3 id="checklist-title" class="text-base font-bold tracking-tight">✅ Today's Top Priorities</h3>
-              <p class="text-xs text-slate-500">Check off goals or add your own</p>
+              <h3 id="checklist-title" class="text-base font-bold tracking-tight">✅ Top Priorities</h3>
+              <p class="text-xs text-slate-500">Personal daily goals</p>
             </div>
-            <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">1/3 done</span>
+            <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">Locked</span>
           </div>
 
-          <!-- Progress Bar -->
           <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden mb-4">
-            <div id="tasks-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 33%"></div>
+            <div id="tasks-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
           </div>
 
           <div id="tasks-list" class="space-y-2 mb-4">
-            <!-- Rendered by JavaScript -->
+            <div class="h-8 rounded-xl skeleton"></div>
+            <div class="h-8 rounded-xl skeleton"></div>
           </div>
 
-          <!-- Add New Priority Input -->
           <form id="add-task-form" class="flex gap-2">
             <input
               type="text"
               id="new-task-input"
-              placeholder="Add a priority or paper to read..."
+              placeholder="Unlock to add tasks..."
+              disabled
               class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none"
             />
             <button
               type="submit"
-              class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white transition-colors shrink-0"
+              disabled
+              class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white transition-colors shrink-0 disabled:opacity-50"
             >
               Add
             </button>
@@ -359,7 +379,7 @@
       night_battery: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80"
     };
 
-    // Determine default edition based on current local hour (morning 5 AM - 6 PM, night 6 PM - 5 AM)
+    // Determine default edition based on current local hour
     const currentHour = new Date().getHours();
     const defaultEdition = (currentHour >= 5 && currentHour < 18) ? 'morning' : 'night';
 
@@ -407,190 +427,247 @@
       ]
     };
 
-    // Routine templates
-    const DEFAULT_ROUTINES = {
-      morning: [
-        { id: 'm-r1', text: '500ml Water + Morning Sunlight exposure', done: true },
-        { id: 'm-r2', text: 'Daily "Never Zero" Movement: 5-min walk or mobility', done: true },
-        { id: 'm-r3', text: 'Mindful Breathing (3 min) + Review daily intention', done: false },
-        { id: 'm-r4', text: 'First 90-min Deep Work Block (Zero notifications)', done: false }
+    // Default starter data
+    const STARTER_DATA = {
+      stories: [
+        {
+          id: 'story-1',
+          edition: 'morning',
+          featured: true,
+          category: 'Tech & AI',
+          source: 'Compute Digest • 4 min read',
+          title: 'Small Reasoning Models Now Run Locally on Everyday Laptops',
+          dek: 'New quantization breakthroughs allow 8-billion-parameter reasoning models to run offline at 45 tokens per second without cloud GPUs.',
+          whyItMatters: 'Researchers and developers can now summarize research papers, test algorithms, and analyze datasets privately on their own machines with zero latency and zero API cost.',
+          image: IMAGES.ai,
+          saved: true
+        },
+        {
+          id: 'story-2',
+          edition: 'morning',
+          featured: false,
+          category: 'Climate',
+          source: 'CleanGrid Weekly • 3 min read',
+          title: 'Coastal Cities Pair Next-Gen Perovskite Solar Glass with Offshore Wind',
+          dek: 'Transparent solar facades installed on commercial high-rises generated 28% of daytime building electricity in a 12-month pilot.',
+          whyItMatters: 'Combining vertical solar skins with evening offshore wind smooths out the daily clean power curve without requiring additional land footprints.',
+          image: IMAGES.climate,
+          saved: false
+        },
+        {
+          id: 'story-3',
+          edition: 'morning',
+          featured: false,
+          category: 'Space & Science',
+          source: 'AstroBrief • 5 min read',
+          title: 'High-Altitude Infrared Array Maps Water Vapor in Three Exoplanet Atmospheres',
+          dek: 'Using adaptive mirror calibration, astronomers separated planetary atmospheric signals from host star glare in unprecedented detail.',
+          whyItMatters: 'The technique cuts observation time in half for identifying habitable-zone rocky worlds ahead of space telescope follow-up missions.',
+          image: IMAGES.space,
+          saved: false
+        },
+        {
+          id: 'story-4',
+          edition: 'night',
+          featured: true,
+          category: 'Space & Science',
+          source: 'Evening Science Review • 6 min read',
+          title: 'Deep-Sky Survey Reveals Ancient Star Streams Orbiting the Milky Way Halo',
+          dek: 'Tonight’s release maps 140,000 metal-poor stars, tracing how early dwarf galaxies merged over 10 billion years ago.',
+          whyItMatters: 'Provides a high-resolution gravitational map of dark matter distribution across our galaxy’s outer halo.',
+          image: IMAGES.night_space,
+          saved: false
+        },
+        {
+          id: 'story-5',
+          edition: 'night',
+          featured: false,
+          category: 'Tech & AI',
+          source: 'Systems Lab Note • 4 min read',
+          title: 'How Biological Sleep Spindles Inspired Continual Learning in Neural Nets',
+          dek: 'An evening look at how "offline replay" phases prevent catastrophic forgetting when AI agents learn new tasks overnight.',
+          whyItMatters: 'Bridges neuroscience and machine learning, demonstrating why periodic consolidation beats endless raw training.',
+          image: IMAGES.night_brain,
+          saved: false
+        },
+        {
+          id: 'story-6',
+          edition: 'night',
+          featured: false,
+          category: 'Climate',
+          source: 'Energy Horizon • 3 min read',
+          title: 'Overnight Thermal Battery Storage Reaches 92% Round-Trip Efficiency',
+          dek: 'Grid-scale carbon blocks heated by daytime surplus solar power cleanly dispatch steam-turbine electricity through the night.',
+          whyItMatters: 'Offers a low-cost, zero-lithium path to decarbonizing industrial heat and overnight electricity demand.',
+          image: IMAGES.night_battery,
+          saved: false
+        }
       ],
-      night: [
-        { id: 'n-r1', text: 'Digital Sunset: Screens off / Night Shift enabled', done: false },
-        { id: 'n-r2', text: 'Write down Top 3 Priorities for tomorrow', done: false },
-        { id: 'n-r3', text: '10 min Non-screen reading (fiction or philosophy)', done: false },
-        { id: 'n-r4', text: 'Cool, dark bedroom check & 5 deep sigh breaths', done: false }
-      ]
+      papers: [
+        {
+          id: 'paper-1',
+          edition: 'morning',
+          tag: 'Machine Learning • arXiv',
+          title: 'Sparse Attention Horizons for Long-Context Scientific Literature Synthesis',
+          authors: 'L. Chen, M. Alvarez, R. Patel (2026)',
+          readTime: '12 min paper • 1 min summary',
+          tldr: 'Introduces a hierarchical citation-aware attention mechanism that summarizes 50+ full-text research papers simultaneously with 60% less memory.',
+          takeaways: [
+            'Cuts hallucinated citations from 8.4% down to 1.1% on multi-paper synthesis benchmarks.',
+            'Preserves mathematical notation and experimental table values across long contexts.',
+            'Open-source weights and evaluation dataset released for consumer GPUs.'
+          ],
+          expanded: true,
+          saved: false
+        },
+        {
+          id: 'paper-2',
+          edition: 'morning',
+          tag: 'Neuroscience & Productivity • Nature Human Behaviour',
+          title: 'Circadian Rhythms and Cognitive Switching Costs in Knowledge Work',
+          authors: 'H. Lindqvist, S. K. Rao et al. (2026)',
+          readTime: '15 min paper • 1 min summary',
+          tldr: 'Tracks 1,400 engineers and researchers, showing that grouping deep reading into a single 90-minute morning block increases retention by 38%.',
+          takeaways: [
+            'Checking fragmented notifications mid-block requires 19 minutes of cognitive ramp-up to recover.',
+            'An evening review of 3 bullet takeaways locks in long-term recall during sleep.'
+          ],
+          expanded: false,
+          saved: false
+        },
+        {
+          id: 'paper-3',
+          edition: 'night',
+          tag: 'Astrophysics • ApJ Letters',
+          title: 'Spectroscopic Biosignature False-Positive Filters for Temperate Sub-Neptunes',
+          authors: 'D. K. Morales, E. Vance (2026)',
+          readTime: '18 min paper • 1 min summary',
+          tldr: 'Models photochemical reactions in hydrogen-rich atmospheres to distinguish biological methane from volcanic outgassing.',
+          takeaways: [
+            'Identifies a clear carbon-monoxide to methane ratio threshold for abiotic vs. biotic origins.',
+            'Directly applicable to upcoming 2027 space observatory target lists.'
+          ],
+          expanded: true,
+          saved: false
+        },
+        {
+          id: 'paper-4',
+          edition: 'night',
+          tag: 'Materials Science • Joule',
+          title: 'Self-Healing Solid-State Electrolytes Under Rapid Thermal Cycling',
+          authors: 'Y. Takahashi, A. Omer, K. Park (2026)',
+          readTime: '14 min paper • 1 min summary',
+          tldr: 'Demonstrates a polymer-ceramic composite battery layer that repairs micro-cracks during overnight rest cycles.',
+          takeaways: [
+            'Retains 94% capacity after 2,000 fast-charge cycles.',
+            'Eliminates dendrite short-circuits at low ambient temperatures.'
+          ],
+          expanded: false,
+          saved: false
+        }
+      ],
+      tasks: [
+        { id: 't1', text: 'Read summary of the Sparse Attention paper', done: true },
+        { id: 't2', text: 'Finish 90-minute morning deep work block', done: false },
+        { id: 't3', text: 'Bookmark 2 articles for weekend deep reading', done: false }
+      ],
+      routines: {
+        morning: [
+          { id: 'm-r1', text: '500ml Water + Morning Sunlight exposure', done: true },
+          { id: 'm-r2', text: 'Daily "Never Zero" Movement: 5-min walk or mobility', done: true },
+          { id: 'm-r3', text: 'Mindful Breathing (3 min) + Review daily intention', done: false },
+          { id: 'm-r4', text: 'First 90-min Deep Work Block (Zero notifications)', done: false }
+        ],
+        night: [
+          { id: 'n-r1', text: 'Digital Sunset: Screens off / Night Shift enabled', done: false },
+          { id: 'n-r2', text: 'Write down Top 3 Priorities for tomorrow', done: false },
+          { id: 'n-r3', text: '10 min Non-screen reading (fiction or philosophy)', done: false },
+          { id: 'n-r4', text: 'Cool, dark bedroom check & 5 deep sigh breaths', done: false }
+        ]
+      }
     };
 
-    // State with LocalStorage persistence support
-    function loadSavedState() {
-      try {
-        const saved = localStorage.getItem('pulseboard_state_v2');
-        if (saved) return JSON.parse(saved);
-      } catch (e) {
-        console.warn('LocalStorage unavailable:', e);
-      }
-      return null;
+    // ZERO-KNOWLEDGE CRYPTOGRAPHY & SECURITY ENGINE
+    // Uses PBKDF2 (250,000 rounds of SHA-256) + AES-256-GCM authenticated encryption
+    const PBKDF2_ITERATIONS = 250000;
+    let activeKey = null; // Stored exclusively in RAM
+
+    async function deriveKey(pin, saltBytes) {
+      const pinBuffer = new TextEncoder().encode(pin);
+      const baseKey = await crypto.subtle.importKey(
+        'raw',
+        pinBuffer,
+        'PBKDF2',
+        false,
+        ['deriveKey']
+      );
+
+      return await crypto.subtle.deriveKey(
+        {
+          name: 'PBKDF2',
+          salt: saltBytes,
+          iterations: PBKDF2_ITERATIONS,
+          hash: 'SHA-256'
+        },
+        baseKey,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['encrypt', 'decrypt']
+      );
     }
 
-    const defaultStories = [
-      {
-        id: 'story-1',
-        edition: 'morning',
-        featured: true,
-        category: 'Tech & AI',
-        source: 'Compute Digest • 4 min read',
-        title: 'Small Reasoning Models Now Run Locally on Everyday Laptops',
-        dek: 'New quantization breakthroughs allow 8-billion-parameter reasoning models to run offline at 45 tokens per second without cloud GPUs.',
-        whyItMatters: 'Researchers and developers can now summarize research papers, test algorithms, and analyze datasets privately on their own machines with zero latency and zero API cost.',
-        image: IMAGES.ai,
-        saved: true
-      },
-      {
-        id: 'story-2',
-        edition: 'morning',
-        featured: false,
-        category: 'Climate',
-        source: 'CleanGrid Weekly • 3 min read',
-        title: 'Coastal Cities Pair Next-Gen Perovskite Solar Glass with Offshore Wind',
-        dek: 'Transparent solar facades installed on commercial high-rises generated 28% of daytime building electricity in a 12-month pilot.',
-        whyItMatters: 'Combining vertical solar skins with evening offshore wind smooths out the daily clean power curve without requiring additional land footprints.',
-        image: IMAGES.climate,
-        saved: false
-      },
-      {
-        id: 'story-3',
-        edition: 'morning',
-        featured: false,
-        category: 'Space & Science',
-        source: 'AstroBrief • 5 min read',
-        title: 'High-Altitude Infrared Array Maps Water Vapor in Three Exoplanet Atmospheres',
-        dek: 'Using adaptive mirror calibration, astronomers separated planetary atmospheric signals from host star glare in unprecedented detail.',
-        whyItMatters: 'The technique cuts observation time in half for identifying habitable-zone rocky worlds ahead of space telescope follow-up missions.',
-        image: IMAGES.space,
-        saved: false
-      },
-      {
-        id: 'story-4',
-        edition: 'night',
-        featured: true,
-        category: 'Space & Science',
-        source: 'Evening Science Review • 6 min read',
-        title: 'Deep-Sky Survey Reveals Ancient Star Streams Orbiting the Milky Way Halo',
-        dek: 'Tonight’s release maps 140,000 metal-poor stars, tracing how early dwarf galaxies merged over 10 billion years ago.',
-        whyItMatters: 'Provides a high-resolution gravitational map of dark matter distribution across our galaxy’s outer halo.',
-        image: IMAGES.night_space,
-        saved: false
-      },
-      {
-        id: 'story-5',
-        edition: 'night',
-        featured: false,
-        category: 'Tech & AI',
-        source: 'Systems Lab Note • 4 min read',
-        title: 'How Biological Sleep Spindles Inspired Continual Learning in Neural Nets',
-        dek: 'An evening look at how "offline replay" phases prevent catastrophic forgetting when AI agents learn new tasks overnight.',
-        whyItMatters: 'Bridges neuroscience and machine learning, demonstrating why periodic consolidation beats endless raw training.',
-        image: IMAGES.night_brain,
-        saved: false
-      },
-      {
-        id: 'story-6',
-        edition: 'night',
-        featured: false,
-        category: 'Climate',
-        source: 'Energy Horizon • 3 min read',
-        title: 'Overnight Thermal Battery Storage Reaches 92% Round-Trip Efficiency',
-        dek: 'Grid-scale carbon blocks heated by daytime surplus solar power cleanly dispatch steam-turbine electricity through the night.',
-        whyItMatters: 'Offers a low-cost, zero-lithium path to decarbonizing industrial heat and overnight electricity demand.',
-        image: IMAGES.night_battery,
-        saved: false
-      }
-    ];
+    async function encryptData(plainObj, key) {
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const encoded = new TextEncoder().encode(JSON.stringify(plainObj));
+      const ciphertext = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        encoded
+      );
 
-    const defaultPapers = [
-      {
-        id: 'paper-1',
-        edition: 'morning',
-        tag: 'Machine Learning • arXiv',
-        title: 'Sparse Attention Horizons for Long-Context Scientific Literature Synthesis',
-        authors: 'L. Chen, M. Alvarez, R. Patel (2026)',
-        readTime: '12 min paper • 1 min summary',
-        tldr: 'Introduces a hierarchical citation-aware attention mechanism that summarizes 50+ full-text research papers simultaneously with 60% less memory.',
-        takeaways: [
-          'Cuts hallucinated citations from 8.4% down to 1.1% on multi-paper synthesis benchmarks.',
-          'Preserves mathematical notation and experimental table values across long contexts.',
-          'Open-source weights and evaluation dataset released for consumer GPUs.'
-        ],
-        expanded: true,
-        saved: false
-      },
-      {
-        id: 'paper-2',
-        edition: 'morning',
-        tag: 'Neuroscience & Productivity • Nature Human Behaviour',
-        title: 'Circadian Rhythms and Cognitive Switching Costs in Knowledge Work',
-        authors: 'H. Lindqvist, S. K. Rao et al. (2026)',
-        readTime: '15 min paper • 1 min summary',
-        tldr: 'Tracks 1,400 engineers and researchers, showing that grouping deep reading into a single 90-minute morning block increases retention by 38%.',
-        takeaways: [
-          'Checking fragmented notifications mid-block requires 19 minutes of cognitive ramp-up to recover.',
-          'An evening review of 3 bullet takeaways locks in long-term recall during sleep.'
-        ],
-        expanded: false,
-        saved: false
-      },
-      {
-        id: 'paper-3',
-        edition: 'night',
-        tag: 'Astrophysics • ApJ Letters',
-        title: 'Spectroscopic Biosignature False-Positive Filters for Temperate Sub-Neptunes',
-        authors: 'D. K. Morales, E. Vance (2026)',
-        readTime: '18 min paper • 1 min summary',
-        tldr: 'Models photochemical reactions in hydrogen-rich atmospheres to distinguish biological methane from volcanic outgassing.',
-        takeaways: [
-          'Identifies a clear carbon-monoxide to methane ratio threshold for abiotic vs. biotic origins.',
-          'Directly applicable to upcoming 2027 space observatory target lists.'
-        ],
-        expanded: true,
-        saved: false
-      },
-      {
-        id: 'paper-4',
-        edition: 'night',
-        tag: 'Materials Science • Joule',
-        title: 'Self-Healing Solid-State Electrolytes Under Rapid Thermal Cycling',
-        authors: 'Y. Takahashi, A. Omer, K. Park (2026)',
-        readTime: '14 min paper • 1 min summary',
-        tldr: 'Demonstrates a polymer-ceramic composite battery layer that repairs micro-cracks during overnight rest cycles.',
-        takeaways: [
-          'Retains 94% capacity after 2,000 fast-charge cycles.',
-          'Eliminates dendrite short-circuits at low ambient temperatures.'
-        ],
-        expanded: false,
-        saved: false
-      }
-    ];
+      return {
+        iv: Array.from(iv),
+        data: Array.from(new Uint8Array(ciphertext))
+      };
+    }
 
-    const defaultTasks = [
-      { id: 't1', text: 'Read summary of the Sparse Attention paper', done: true },
-      { id: 't2', text: 'Finish 90-minute morning deep work block', done: false },
-      { id: 't3', text: 'Bookmark 2 articles for weekend deep reading', done: false }
-    ];
+    async function decryptData(cipherObj, key) {
+      const iv = new Uint8Array(cipherObj.iv);
+      const data = new Uint8Array(cipherObj.data);
+      const decrypted = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        data
+      );
+      return JSON.parse(new TextDecoder().decode(decrypted));
+    }
 
-    const savedData = loadSavedState();
+    // Attempt rate-limiting and exponential backoff
+    function getSecurityState() {
+      try {
+        const s = localStorage.getItem('pulseboard_sec_v1');
+        if (s) return JSON.parse(s);
+      } catch (e) {}
+      return { attempts: 0, lockedUntil: 0 };
+    }
 
-    const state = {
+    function saveSecurityState(s) {
+      try {
+        localStorage.setItem('pulseboard_sec_v1', JSON.stringify(s));
+      } catch (e) {}
+    }
+
+    // Application state (populated strictly after decryption)
+    let state = {
       edition: defaultEdition,
       selectedCategory: 'all',
       expandAllPapers: false,
       activeModalStoryId: null,
       wisdomIndex: 0,
-      stories: savedData?.stories || defaultStories,
-      papers: savedData?.papers || defaultPapers,
-      tasks: savedData?.tasks || defaultTasks,
-      routines: savedData?.routines || DEFAULT_ROUTINES,
+      stories: [],
+      papers: [],
+      tasks: [],
+      routines: { morning: [], night: [] },
       schedules: {
         morning: [
           { time: '08:30 AM', title: 'Morning Hydration & Paper Triage', tag: 'Routine' },
@@ -606,30 +683,209 @@
       }
     };
 
-    function persistState() {
+    async function persistEncryptedState() {
+      if (!activeKey) return;
       try {
-        localStorage.setItem('pulseboard_state_v2', JSON.stringify({
+        const encrypted = await encryptData({
           stories: state.stories,
           papers: state.papers,
           tasks: state.tasks,
           routines: state.routines
-        }));
+        }, activeKey);
+        localStorage.setItem('pulseboard_encrypted_vault', JSON.stringify(encrypted));
       } catch (e) {
-        console.warn('Could not save to LocalStorage:', e);
+        console.warn('Failed to encrypt state:', e);
       }
+    }
+
+    let enteredPin = '';
+    let countdownInterval = null;
+
+    function updatePinDots() {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach((dot, idx) => {
+        if (idx < enteredPin.length) {
+          dot.className = 'pin-dot w-3.5 h-3.5 rounded-full bg-amber-400 border border-amber-300 shadow-sm transition-colors';
+        } else {
+          dot.className = 'pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors';
+        }
+      });
+    }
+
+    function checkLockout() {
+      const sec = getSecurityState();
+      const now = Date.now();
+      const errorEl = document.getElementById('gate-error');
+      const timerEl = document.getElementById('rate-limit-timer');
+      const keypad = document.getElementById('pin-keypad');
+
+      if (sec.lockedUntil > now) {
+        const remaining = Math.ceil((sec.lockedUntil - now) / 1000);
+        keypad.classList.add('opacity-40', 'pointer-events-none');
+        errorEl.textContent = 'Too many failed attempts.';
+        timerEl.classList.remove('hidden');
+        timerEl.textContent = `Try again in ${remaining}s`;
+
+        if (!countdownInterval) {
+          countdownInterval = setInterval(() => {
+            const curNow = Date.now();
+            if (sec.lockedUntil <= curNow) {
+              clearInterval(countdownInterval);
+              countdownInterval = null;
+              keypad.classList.remove('opacity-40', 'pointer-events-none');
+              errorEl.textContent = '';
+              timerEl.classList.add('hidden');
+            } else {
+              const rem = Math.ceil((sec.lockedUntil - curNow) / 1000);
+              timerEl.textContent = `Try again in ${rem}s`;
+            }
+          }, 1000);
+        }
+        return true;
+      }
+      return false;
+    }
+
+    async function handlePinSubmit() {
+      if (checkLockout()) return;
+      const errorEl = document.getElementById('gate-error');
+      const gateScreen = document.getElementById('pin-gate-screen');
+
+      // Check if vault exists
+      let saltStr = localStorage.getItem('pulseboard_vault_salt');
+      let saltBytes;
+      if (!saltStr) {
+        // First-time setup: initialize salt and encrypt starter data
+        saltBytes = crypto.getRandomValues(new Uint8Array(16));
+        localStorage.setItem('pulseboard_vault_salt', JSON.stringify(Array.from(saltBytes)));
+        activeKey = await deriveKey(enteredPin, saltBytes);
+        
+        state.stories = STARTER_DATA.stories;
+        state.papers = STARTER_DATA.papers;
+        state.tasks = STARTER_DATA.tasks;
+        state.routines = STARTER_DATA.routines;
+
+        await persistEncryptedState();
+        sessionStorage.setItem('pulseboard_session_unlocked', 'true');
+        
+        // Reset security counters
+        saveSecurityState({ attempts: 0, lockedUntil: 0 });
+        gateScreen.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => gateScreen.classList.add('hidden'), 300);
+        
+        // Hydrate DOM
+        document.getElementById('new-task-input').disabled = false;
+        document.querySelector('#add-task-form button').disabled = false;
+        updateDateDisplay();
+        renderApp();
+        return;
+      }
+
+      saltBytes = new Uint8Array(JSON.parse(saltStr));
+      try {
+        const candidateKey = await deriveKey(enteredPin, saltBytes);
+        const vaultStr = localStorage.getItem('pulseboard_encrypted_vault');
+        if (!vaultStr) throw new Error('No vault data');
+        
+        const decrypted = await decryptData(JSON.parse(vaultStr), candidateKey);
+        
+        // Decryption succeeded! Tag verified.
+        activeKey = candidateKey;
+        state.stories = decrypted.stories || STARTER_DATA.stories;
+        state.papers = decrypted.papers || STARTER_DATA.papers;
+        state.tasks = decrypted.tasks || STARTER_DATA.tasks;
+        state.routines = decrypted.routines || STARTER_DATA.routines;
+
+        sessionStorage.setItem('pulseboard_session_unlocked', 'true');
+        saveSecurityState({ attempts: 0, lockedUntil: 0 });
+        
+        gateScreen.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => gateScreen.classList.add('hidden'), 300);
+        
+        // Enable inputs & hydrate UI
+        document.getElementById('new-task-input').disabled = false;
+        document.querySelector('#add-task-form button').disabled = false;
+        updateDateDisplay();
+        renderApp();
+      } catch (err) {
+        // Failed decryption / wrong PIN
+        const sec = getSecurityState();
+        sec.attempts = (sec.attempts || 0) + 1;
+        
+        if (sec.attempts >= 5) {
+          sec.lockedUntil = Date.now() + 300000; // 5 min lockout
+        } else if (sec.attempts >= 3) {
+          sec.lockedUntil = Date.now() + 30000; // 30s lockout
+        }
+        saveSecurityState(sec);
+
+        enteredPin = '';
+        updatePinDots();
+        checkLockout();
+        if (sec.attempts < 3) {
+          errorEl.textContent = `Incorrect PIN (${3 - sec.attempts} attempts remaining)`;
+          setTimeout(() => { if (!checkLockout()) errorEl.textContent = ''; }, 2500);
+        }
+      }
+    }
+
+    function initSecurityGate() {
+      // Check if unlocked in current active session
+      if (sessionStorage.getItem('pulseboard_session_unlocked') === 'true') {
+        const saltStr = localStorage.getItem('pulseboard_vault_salt');
+        const vaultStr = localStorage.getItem('pulseboard_encrypted_vault');
+        // If session unlocked and vault exists, request PIN to restore key in RAM
+      }
+
+      const hasVault = localStorage.getItem('pulseboard_vault_salt');
+      if (!hasVault) {
+        document.getElementById('gate-title').textContent = 'Set Your Private 4-Digit PIN';
+        document.getElementById('gate-subtitle').textContent = 'Choose a 4-digit passcode to encrypt your private briefing';
+      }
+
+      checkLockout();
+
+      document.querySelectorAll('.pin-key').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (checkLockout()) return;
+          const key = btn.getAttribute('data-key');
+          if (key === 'clear') {
+            enteredPin = '';
+          } else if (key === 'backspace') {
+            enteredPin = enteredPin.slice(0, -1);
+          } else if (enteredPin.length < 4) {
+            enteredPin += key;
+          }
+          updatePinDots();
+          if (enteredPin.length === 4) {
+            setTimeout(handlePinSubmit, 60);
+          }
+        });
+      });
+
+      document.getElementById('btn-lock-now').addEventListener('click', () => {
+        activeKey = null;
+        sessionStorage.removeItem('pulseboard_session_unlocked');
+        enteredPin = '';
+        updatePinDots();
+        const gateScreen = document.getElementById('pin-gate-screen');
+        gateScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+        document.getElementById('new-task-input').disabled = true;
+        document.querySelector('#add-task-form button').disabled = true;
+      });
     }
 
     function updateDateDisplay() {
       const options = { weekday: 'long', month: 'long', day: 'numeric' };
       const todayStr = new Date().toLocaleDateString(undefined, options);
-      document.getElementById('header-date').textContent = `${todayStr} • Curated Daily Briefing`;
+      document.getElementById('header-date').textContent = `${todayStr} • End-to-End Encrypted`;
     }
 
     function renderWisdom(isNight) {
       const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
       const current = list[state.wisdomIndex % list.length];
-
       const card = document.getElementById('wisdom-card');
+
       if (isNight) {
         card.className = 'rounded-2xl p-5 sm:p-6 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/70 to-slate-900 shadow-sm transition-all';
         document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-indigo-300';
@@ -698,12 +954,12 @@
       `).join('');
 
       container.querySelectorAll('[data-routine-id]').forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
+        checkbox.addEventListener('change', async () => {
           const id = checkbox.getAttribute('data-routine-id');
           const item = currentList.find(r => r.id === id);
           if (item) {
             item.done = checkbox.checked;
-            persistState();
+            await persistEncryptedState();
             renderRoutine(isNight);
           }
         });
@@ -735,6 +991,7 @@
         btnNight.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-indigo-600 text-white shadow-sm transition-all';
         document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-800 border border-slate-700';
         document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-lock-now').className = 'inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1';
@@ -770,6 +1027,7 @@
         btnNight.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all';
         document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80';
         document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors';
+        document.getElementById('btn-lock-now').className = 'inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors';
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1';
@@ -902,13 +1160,13 @@
       });
 
       container.querySelectorAll('[data-save-story]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
           e.stopPropagation();
           const id = btn.getAttribute('data-save-story');
           const story = state.stories.find(s => s.id === id);
           if (story) {
             story.saved = !story.saved;
-            persistState();
+            await persistEncryptedState();
             renderApp();
           }
         });
@@ -998,12 +1256,12 @@
       });
 
       container.querySelectorAll('[data-save-paper]').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
           const id = btn.getAttribute('data-save-paper');
           const paper = state.papers.find(p => p.id === id);
           if (paper) {
             paper.saved = !paper.saved;
-            persistState();
+            await persistEncryptedState();
             renderApp();
           }
         });
@@ -1052,12 +1310,12 @@
       `).join('');
 
       container.querySelectorAll('[data-task-id]').forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
+        checkbox.addEventListener('change', async () => {
           const id = checkbox.getAttribute('data-task-id');
           const task = state.tasks.find(t => t.id === id);
           if (task) {
             task.done = checkbox.checked;
-            persistState();
+            await persistEncryptedState();
             renderTasks(state.edition === 'night');
           }
         });
@@ -1087,95 +1345,6 @@
       modal.classList.add('hidden');
       modal.classList.remove('flex');
       state.activeModalStoryId = null;
-    }
-
-    
-    // Private PIN Lock Protection
-    const PIN_SALT = 'pulse_salt_v1_';
-    let enteredPin = '';
-
-    function getStoredPinHash() {
-      try {
-        return localStorage.getItem('pulseboard_pin_hash');
-      } catch (e) {
-        return null;
-      }
-    }
-
-    async function hashPin(pin) {
-      const msgBuffer = new TextEncoder().encode(PIN_SALT + pin);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    function updatePinDots() {
-      const dots = document.querySelectorAll('.pin-dot');
-      dots.forEach((dot, idx) => {
-        if (idx < enteredPin.length) {
-          dot.className = 'pin-dot w-3.5 h-3.5 rounded-full bg-amber-400 border border-amber-300 shadow-sm transition-colors';
-        } else {
-          dot.className = 'pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors';
-        }
-      });
-    }
-
-    async function checkPin() {
-      const storedHash = getStoredPinHash();
-      const currentHash = await hashPin(enteredPin);
-
-      if (!storedHash) {
-        // First time: set this as user's PIN
-        try {
-          localStorage.setItem('pulseboard_pin_hash', currentHash);
-          sessionStorage.setItem('pulseboard_unlocked', 'true');
-        } catch(e) {}
-        document.getElementById('pin-gate-screen').classList.add('hidden');
-      } else if (currentHash === storedHash) {
-        try {
-          sessionStorage.setItem('pulseboard_unlocked', 'true');
-        } catch(e) {}
-        document.getElementById('pin-gate-screen').classList.add('hidden');
-      } else {
-        document.getElementById('gate-error').textContent = 'Incorrect PIN. Try again.';
-        enteredPin = '';
-        updatePinDots();
-        setTimeout(() => {
-          document.getElementById('gate-error').textContent = '';
-        }, 2000);
-      }
-    }
-
-    function initPinGate() {
-      try {
-        if (sessionStorage.getItem('pulseboard_unlocked') === 'true') {
-          document.getElementById('pin-gate-screen').classList.add('hidden');
-          return;
-        }
-      } catch (e) {}
-
-      const storedHash = getStoredPinHash();
-      if (!storedHash) {
-        document.getElementById('gate-title').textContent = 'Set Your 4-Digit PIN';
-        document.getElementById('gate-subtitle').textContent = 'Choose a private 4-digit PIN for your device';
-      }
-
-      document.querySelectorAll('.pin-key').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const key = btn.getAttribute('data-key');
-          if (key === 'clear') {
-            enteredPin = '';
-          } else if (key === 'backspace') {
-            enteredPin = enteredPin.slice(0, -1);
-          } else if (enteredPin.length < 4) {
-            enteredPin += key;
-          }
-          updatePinDots();
-          if (enteredPin.length === 4) {
-            setTimeout(checkPin, 100);
-          }
-        });
-      });
     }
 
     // Top-level Event Listeners
@@ -1217,7 +1386,7 @@
       renderWisdom(state.edition === 'night');
     });
 
-    document.getElementById('add-task-form').addEventListener('submit', (e) => {
+    document.getElementById('add-task-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const input = document.getElementById('new-task-input');
       const text = input.value.trim();
@@ -1227,7 +1396,7 @@
         text,
         done: false
       });
-      persistState();
+      await persistEncryptedState();
       input.value = '';
       renderTasks(state.edition === 'night');
     });
@@ -1237,18 +1406,17 @@
       if (e.target.id === 'story-modal') closeStoryModal();
     });
 
-    document.getElementById('modal-save-btn').addEventListener('click', () => {
+    document.getElementById('modal-save-btn').addEventListener('click', async () => {
       if (!state.activeModalStoryId) return;
       const story = state.stories.find(s => s.id === state.activeModalStoryId);
       if (story) {
         story.saved = !story.saved;
-        persistState();
+        await persistEncryptedState();
         document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
         renderApp();
       }
     });
 
-    
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -1258,10 +1426,8 @@
       });
     }
 
-    // Initialize date & view
-    initPinGate();
-    updateDateDisplay();
-    renderApp();
+    // Initialize Security Engine
+    initSecurityGate();
   </script>
 </body>
 </html>
