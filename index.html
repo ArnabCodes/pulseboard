@@ -81,6 +81,10 @@
   }
   .med-preset:hover { background: rgba(148,163,184,0.15); }
   .med-preset.active { background: rgb(251,191,36); color: rgb(2,6,23); border-color: rgb(251,191,36); }
+
+  /* --- Card entrance: staggered, reduced-motion safe (global rule above) --- */
+  @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .card-enter { animation: card-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
@@ -275,7 +279,7 @@
               <h3 id="newsboard-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
                 <span>📰 Visual Newsboard</span>
               </h3>
-              <p class="text-xs text-slate-500">Curated stories decrypted in memory</p>
+              <p id="feed-freshness" class="text-xs text-slate-500">Curated stories decrypted in memory</p>
             </div>
 
             <!-- Diverse Multi-Pillar Filters -->
@@ -1493,6 +1497,7 @@ Key Insights:
     // ------------------------------------------------------------------
     const WEATHER_CACHE_KEY = 'pulseboard_weather_v1'; // non-sensitive: forecast only
     let lastWeather = null;
+    let lastGridSig = '';
 
     function wmoEmoji(code, isNight) {
       if (code === 0) return isNight ? '🌙' : '☀️';
@@ -1579,6 +1584,19 @@ Key Insights:
       const mins = Math.max(1, Math.round(words / 220));
       if (isNight) return `${stories.length} briefings (~${mins} min) and ${papers} research digests to close the day with — plus your wind-down routine and a teaching.`;
       return `${stories.length} briefings (~${mins} min) and ${papers} research digests — plus your routine, schedule, and one teaching to sit with.`;
+    }
+
+    // Visibility of system status (Nielsen heuristic): show feed age honestly
+    function updateFreshness() {
+      const el = document.getElementById('feed-freshness');
+      if (!el) return;
+      const stamp = localStorage.getItem('pulseboard_feed_stamp');
+      if (!stamp) { el.textContent = 'First sync pending • stories decrypt in memory'; return; }
+      const ms = Date.now() - new Date(stamp).getTime();
+      if (ms < 0 || isNaN(ms)) { el.textContent = 'Stories decrypt in memory'; return; }
+      const mins = Math.floor(ms / 60000);
+      const text = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : mins < 1440 ? `${Math.floor(mins / 60)} h ago` : `${Math.floor(mins / 1440)} d ago`;
+      el.textContent = `Updated ${text} • stories decrypt in memory`;
     }
 
     function renderApp() {
@@ -1680,6 +1698,7 @@ Key Insights:
 
       renderWisdom(isNight);
       renderRoutine(isNight);
+      updateFreshness();
       renderNewsGrid(isNight);
       renderPapers(isNight);
       renderSchedule(isNight);
@@ -1712,16 +1731,28 @@ Key Insights:
         return;
       }
 
+      // Stagger animation only when the set of visible cards actually
+      // changes — not on every unrelated re-render (checkbox ticks etc.)
+      const sig = filtered.map(s => s.id).join(',');
+      const animate = sig !== lastGridSig;
+      lastGridSig = sig;
+
       container.innerHTML = filtered.map((story, idx) => {
-        const spanFull = idx === 0 && filtered.length >= 3 ? 'md:col-span-2' : '';
+        const isHero = idx === 0 && filtered.length >= 3;
+        const spanFull = isHero ? 'md:col-span-2' : '';
+        const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
+        const readMin = story.readMin || Math.max(1, Math.round(words / 220));
         const cardBg = isNight
           ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50'
           : 'bg-white border-slate-200/90 hover:border-amber-400';
         const textMuted = isNight ? 'text-slate-400' : 'text-slate-600';
+        const spectrumChip = story.spectrum
+          ? `<span class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200'}" title="Outlet's lean in the curated pool">${story.spectrum}</span>`
+          : '';
 
         return `
-          <article class="${spanFull} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col">
-            <div class="relative ${spanFull ? 'h-52 sm:h-64' : 'h-44'} w-full bg-slate-900 overflow-hidden cursor-pointer" data-open-story="${story.id}">
+          <article class="${spanFull} ${animate ? 'card-enter' : ''} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''}>
+            <div class="relative ${isHero ? 'h-56 sm:h-72' : 'h-44'} w-full bg-slate-900 overflow-hidden cursor-pointer" data-open-story="${story.id}">
               <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
               <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
@@ -1739,14 +1770,19 @@ Key Insights:
 
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between text-xs ${textMuted} mb-1.5">
-                  <span>${story.source}</span>
-                  <span class="font-medium">${story.edition === 'morning' ? '☀️ Morning' : '🌙 Night'}</span>
+                <div class="flex items-center justify-between gap-2 text-xs ${textMuted} mb-1.5">
+                  <span class="flex items-center gap-1.5 min-w-0">
+                    <span class="truncate">${story.source}</span>${spectrumChip}
+                  </span>
+                  <span class="flex items-center gap-1.5 shrink-0">
+                    <span class="font-medium">${readMin} min</span>
+                    <span>${story.edition === 'morning' ? '☀️' : '🌙'}</span>
+                  </span>
                 </div>
-                <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug mb-2 cursor-pointer hover:underline" data-open-story="${story.id}">
+                <h4 class="${isHero ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} font-bold font-serif-editorial leading-snug mb-2 cursor-pointer hover:underline" data-open-story="${story.id}">
                   ${story.title}
                 </h4>
-                <p class="text-xs sm:text-sm ${textMuted} leading-relaxed">
+                <p class="${isHero ? 'text-sm' : 'text-xs sm:text-sm'} ${textMuted} leading-relaxed">
                   ${story.dek}
                 </p>
               </div>

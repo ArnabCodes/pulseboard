@@ -525,7 +525,11 @@ def pick_news_stories():
                 'edition': EDITION,
                 'featured': False,
                 'category': topic,
-                'source': f"{rep['outlet']} • {read_time_minutes(content)} min read",
+                'source': rep['outlet'],
+                'readMin': read_time_minutes(content),
+                # Political lean of the outlet in the curated pool; the app
+                # shows a tiny chip so balance is visible, not just claimed.
+                'spectrum': NEWS_SPECTRUM.get(rep['outlet'], ''),
                 'sourceUrl': rep['link'],
                 'title': rep['title'][:140] + ('...' if len(rep['title']) > 140 else ''),
                 'dek': dek[:200] + ('…' if len(dek) > 200 else ''),
