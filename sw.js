@@ -1,5 +1,5 @@
 // Service Worker for PulseBoard PWA (Network-First Navigation Strategy)
-const CACHE_NAME = 'pulseboard-v8';
+const CACHE_NAME = 'pulseboard-v9';
 const ASSETS = [
   './manifest.json',
   './icon.svg',
@@ -7,7 +7,8 @@ const ASSETS = [
   './icon-512.png',
   './icon-maskable-192.png',
   './icon-maskable-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './pulse_feed.json'
 ];
 
 self.addEventListener('install', (e) => {
@@ -33,6 +34,22 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   
+  // Fresh editorial feed: network-first, cache only as offline fallback
+  if (req.url.includes('pulse_feed.json')) {
+    e.respondWith(
+      fetch(req)
+        .then((networkRes) => {
+          if (networkRes && networkRes.status === 200) {
+            const clone = networkRes.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+          }
+          return networkRes;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
   if (req.mode === 'navigate') {
     e.respondWith(
       fetch(req)

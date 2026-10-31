@@ -1,8 +1,38 @@
-import os, re, json, urllib.request
+#!/usr/bin/env python3
+"""Regenerate pulse_feed.json for PulseBoard.
+
+Stories are hand-curated in articles_db.json (edited by the human/Gemini).
+This script folds them together with a live arXiv paper fetch and stamps the
+feed. The app fetches pulse_feed.json after every unlock, so existing
+installs pick up new editorial content without touching the personal data
+(tasks, routines) stored in their encrypted vault.
+
+Run locally or via .github/workflows/update-pulse.yml (cron 04:00/19:00 UTC).
+The workflow commits the result; Vercel deploys it; devices pick it up on
+their next app open.
+"""
+import json
+import os
+import urllib.request
 import xml.etree.ElementTree as ET
+from datetime import datetime, timezone
+
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def heal_escapes(s):
+    """Hand-authored content sometimes carries literal backslash-n sequences;
+    convert them to real newlines so the app's whitespace-pre-line rendering
+    shows proper paragraphs instead of visible "\\n"."""
+    if not isinstance(s, str):
+        return s
+    return s.replace("\\n", "\n").replace("\\r", "")
+
 
 def fetch_arxiv():
-    url = 'http://export.arxiv.org/api/query?search_query=cat:quant-ph+AND+(all:spin+OR+all:diamond+OR+all:Floquet)&sortBy=submittedDate&sortOrder=descending&max_results=3'
+    url = ('http://export.arxiv.org/api/query?search_query=cat:quant-ph+AND+'
+           '(all:spin+OR+all:diamond+OR+all:Floquet)&sortBy=submittedDate'
+           '&sortOrder=descending&max_results=3')
     papers = []
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'PulseBoard-Curator/1.0'})
@@ -57,32 +87,25 @@ def fetch_arxiv():
         ]
     return papers
 
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(base_dir, 'articles_db.json'), 'r') as f:
-    stories = json.load(f)
 
-papers = fetch_arxiv()
+def main():
+    with open(os.path.join(BASE, 'articles_db.json'), 'r', encoding='utf-8') as f:
+        stories = json.load(f)
+    for st in stories:
+        for k in ('title', 'dek', 'content', 'whyItMatters', 'source'):
+            if k in st:
+                st[k] = heal_escapes(st[k])
 
-html_path = os.path.join(base_dir, 'index.html')
-with open(html_path, 'r') as f:
-    html = f.read()
+    feed = {
+        'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'stories': stories,
+        'papers': fetch_arxiv(),
+    }
+    out = os.path.join(BASE, 'pulse_feed.json')
+    with open(out, 'w', encoding='utf-8') as f:
+        json.dump(feed, f, indent=2, ensure_ascii=False)
+    print(f'pulse_feed.json written: {len(stories)} stories, {len(feed["papers"])} papers, stamp {feed["generated_at"]}')
 
-s_idx = html.find('const STARTER_DATA = {')
-e_idx = html.find('tasks: [', s_idx)
-if s_idx != -1 and e_idx != -1:
-    rep = 'const STARTER_DATA = {\n      stories: ' + json.dumps(stories, indent=6) + ',\n      papers: ' + json.dumps(papers, indent=6) + ',\n      '
-    html = html[:s_idx] + rep + html[e_idx:]
-    with open(html_path, 'w') as f:
-        f.write(html)
-    print('Updated index.html STARTER_DATA')
 
-sw_path = os.path.join(base_dir, 'sw.js')
-with open(sw_path, 'r') as f:
-    sw = f.read()
-m = re.search(r"const CACHE_NAME = 'pulseboard-v(\d+)';", sw)
-if m:
-    cur_v = int(m.group(1))
-    sw = sw.replace(f'pulseboard-v{cur_v}', f'pulseboard-v{cur_v+1}')
-    with open(sw_path, 'w') as f:
-        f.write(sw)
-    print(f'Bumped sw to v{cur_v+1}')
+if __name__ == '__main__':
+    main()
