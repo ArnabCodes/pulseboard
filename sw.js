@@ -1,8 +1,13 @@
 // Service Worker for PulseBoard PWA (Network-First Navigation Strategy)
-const CACHE_NAME = 'pulseboard-v5';
+const CACHE_NAME = 'pulseboard-v6';
 const ASSETS = [
   './manifest.json',
-  './icon.svg'
+  './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-192.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png'
 ];
 
 self.addEventListener('install', (e) => {
