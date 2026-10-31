@@ -1,0 +1,30 @@
+name: Autonomous Daily Pulse Curation
+on:
+  schedule:
+    # 6:00 AM IST (04:00 UTC) and 9:00 PM IST (19:00 UTC)
+    - cron: '0 4,19 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run autonomous briefing curation
+        run: python3 scripts/curate.py
+
+      - name: Commit and push updates to main
+        run: |
+          git config --global user.name 'PulseBoard Bot'
+          git config --global user.email 'bot@pulseboard.local'
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-curated daily PulseBoard briefing [skip ci]" && git push origin main)
