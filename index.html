@@ -56,19 +56,18 @@
       <p id="gate-subtitle" class="text-xs text-slate-400 mb-6">Enter your 4-digit PIN to decrypt your dashboard</p>
       
       
-      <!-- Biometric Fingerprint / Touch ID Button -->
-      <div id="biometric-unlock-wrap" class="mb-5 hidden">
-        <button type="button" id="btn-bio-unlock" class="w-full py-3.5 px-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-sm hover:bg-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
-          <span class="text-xl">👆</span>
-          <span id="bio-button-label">Unlock with Fingerprint</span>
+      <!-- Biometric Fingerprint / Touch ID Section -->
+      <div id="biometric-section" class="mb-5">
+        <button type="button" id="btn-bio-action" class="w-full py-3 px-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-xs sm:text-sm hover:bg-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
+          <span class="text-lg">👆</span>
+          <span id="bio-action-label">Set Up Fingerprint / Touch ID</span>
         </button>
-        <div class="flex items-center my-4">
+        <div class="flex items-center my-3.5">
           <div class="flex-1 border-t border-slate-800"></div>
-          <span class="px-3 text-[11px] font-semibold tracking-wider uppercase text-slate-500">Or use PIN</span>
+          <span class="px-2.5 text-[10px] font-semibold tracking-wider uppercase text-slate-500">Or Unlock with PIN</span>
           <div class="flex-1 border-t border-slate-800"></div>
         </div>
       </div>
-
       <!-- PIN Dots -->
       <div id="pin-dots" class="flex justify-center gap-3 mb-6">
         <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 transition-colors"></div>
@@ -846,6 +845,7 @@
         enteredPin = '';
         updatePinDots();
         checkLockout();
+      updateBiometricButtonState();
 
       checkBiometricSupport().then(supported => {
         if (supported && localStorage.getItem('pulseboard_bio_cred_id')) {
@@ -879,6 +879,7 @@
       }
 
       checkLockout();
+      updateBiometricButtonState();
 
       checkBiometricSupport().then(supported => {
         if (supported && localStorage.getItem('pulseboard_bio_cred_id')) {
@@ -1460,6 +1461,190 @@
         await persistEncryptedState();
         document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
         renderApp();
+      }
+    });
+
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.log('ServiceWorker registration skipped:', err);
+        });
+      });
+    }
+
+    // Initialize Security Engine
+    
+    // WebAuthn Biometric Engine (Touch ID / Face ID / Android Fingerprint)
+    let isBioEnrolled = false;
+
+    async function checkPlatformBiometrics() {
+      if (window.PublicKeyCredential && 
+          typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable === 'function') {
+        try {
+          return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+        } catch (e) {
+          return false;
+        }
+      }
+      return false;
+    }
+
+    function updateBiometricButtonState() {
+      const bioSection = document.getElementById('biometric-section');
+      const actionLabel = document.getElementById('bio-action-label');
+      const hasCred = !!localStorage.getItem('pulseboard_bio_cred_id');
+      isBioEnrolled = hasCred;
+
+      checkPlatformBiometrics().then(supported => {
+        if (!supported) {
+          if (bioSection) bioSection.classList.add('hidden');
+          return;
+        }
+        if (bioSection) bioSection.classList.remove('hidden');
+        if (actionLabel) {
+          actionLabel.textContent = isBioEnrolled 
+            ? 'Unlock with Fingerprint / Touch ID' 
+            : 'Enable Fingerprint / Touch ID';
+        }
+      });
+    }
+
+    async function enrollBiometric() {
+      const errorEl = document.getElementById('gate-error');
+      if (!enteredPin || enteredPin.length !== 4) {
+        errorEl.textContent = 'Enter your 4-digit PIN first, then tap to link.';
+        return;
+      }
+
+      try {
+        errorEl.textContent = 'Touch your fingerprint sensor...';
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+        const userId = crypto.getRandomValues(new Uint8Array(16));
+        const hostname = window.location.hostname || undefined;
+
+        const options = {
+          publicKey: {
+            challenge,
+            rp: { name: 'PulseBoard App' },
+            user: {
+              id: userId,
+              name: 'ArnabCodes',
+              displayName: 'Arnab'
+            },
+            pubKeyCredParams: [
+              { alg: -7, type: 'public-key' },
+              { alg: -257, type: 'public-key' }
+            ],
+            authenticatorSelection: {
+              authenticatorAttachment: 'platform',
+              userVerification: 'required'
+            },
+            timeout: 60000
+          }
+        };
+
+        if (hostname && hostname !== 'localhost' && !hostname.includes(':')) {
+          options.publicKey.rp.id = hostname;
+        }
+
+        const cred = await navigator.credentials.create(options);
+        if (cred) {
+          const credId = Array.from(new Uint8Array(cred.rawId));
+          localStorage.setItem('pulseboard_bio_cred_id', JSON.stringify(credId));
+
+          // Encrypt PIN with device local biometric key
+          const bioKeyBytes = crypto.getRandomValues(new Uint8Array(16));
+          localStorage.setItem('pulseboard_bio_key', JSON.stringify(Array.from(bioKeyBytes)));
+          
+          const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+          const encryptedPin = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, bioKey, new TextEncoder().encode(enteredPin));
+          
+          localStorage.setItem('pulseboard_bio_pin_vault', JSON.stringify({
+            iv: Array.from(iv),
+            data: Array.from(new Uint8Array(encryptedPin))
+          }));
+
+          errorEl.textContent = 'Fingerprint linked successfully!';
+          isBioEnrolled = true;
+          updateBiometricButtonState();
+          setTimeout(() => {
+            errorEl.textContent = '';
+            handlePinSubmit();
+          }, 600);
+        }
+      } catch (err) {
+        console.error('Biometric enrollment error:', err);
+        errorEl.textContent = 'Sensor cancelled or not available.';
+        setTimeout(() => { errorEl.textContent = ''; }, 3000);
+      }
+    }
+
+    async function triggerBiometricUnlock() {
+      const errorEl = document.getElementById('gate-error');
+      const credIdStr = localStorage.getItem('pulseboard_bio_cred_id');
+      const bioKeyStr = localStorage.getItem('pulseboard_bio_key');
+      const bioVaultStr = localStorage.getItem('pulseboard_bio_pin_vault');
+
+      if (!credIdStr || !bioKeyStr || !bioVaultStr) {
+        enrollBiometric();
+        return;
+      }
+
+      try {
+        errorEl.textContent = 'Verifying fingerprint...';
+        const credId = new Uint8Array(JSON.parse(credIdStr));
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+        const hostname = window.location.hostname || undefined;
+
+        const options = {
+          publicKey: {
+            challenge,
+            allowCredentials: [{
+              id: credId,
+              type: 'public-key',
+              transports: ['internal']
+            }],
+            userVerification: 'required',
+            timeout: 60000
+          }
+        };
+
+        if (hostname && hostname !== 'localhost' && !hostname.includes(':')) {
+          options.publicKey.rpId = hostname;
+        }
+
+        const assertion = await navigator.credentials.get(options);
+        if (assertion) {
+          // Hardware verified! Decrypt stored PIN
+          const bioKeyBytes = new Uint8Array(JSON.parse(bioKeyStr));
+          const bioVault = JSON.parse(bioVaultStr);
+          const bioKey = await crypto.subtle.importKey('raw', bioKeyBytes, { name: 'AES-GCM' }, false, ['decrypt']);
+          
+          const decryptedPinBuf = await crypto.subtle.decrypt(
+            { name: 'AES-GCM', iv: new Uint8Array(bioVault.iv) },
+            bioKey,
+            new Uint8Array(bioVault.data)
+          );
+          
+          enteredPin = new TextDecoder().decode(decryptedPinBuf);
+          errorEl.textContent = '';
+          await handlePinSubmit();
+        }
+      } catch (err) {
+        console.warn('Biometric unlock cancelled or failed:', err);
+        errorEl.textContent = 'Biometric cancelled. Use PIN below.';
+        setTimeout(() => { errorEl.textContent = ''; }, 3000);
+      }
+    }
+    
+    // Wire biometric events
+    document.getElementById('btn-bio-action').addEventListener('click', () => {
+      if (isBioEnrolled) {
+        triggerBiometricUnlock();
+      } else {
+        enrollBiometric();
       }
     });
 
