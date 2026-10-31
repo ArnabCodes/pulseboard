@@ -22,12 +22,14 @@ after every unlock.
 """
 import email.utils
 import hashlib
+import html as htmllib
 import json
 import math
 import os
 import re
 import time
 import urllib.request
+from urllib.parse import urljoin
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
@@ -138,12 +140,23 @@ def http_get(url, timeout=20, ua=None):
 
 
 def fetch_full_text(url, max_words=380):
-    """Fetch the article page and extract its own paragraph text (never rewritten).
-    Returns '' if the page is unreachable or nothing can be extracted."""
+    """Fetch the article page and extract its own paragraph text (never
+    rewritten) plus its og:image lead image. Returns (text, image);
+    ('', '') if the page is unreachable."""
     try:
         raw = http_get(url, timeout=15, ua=BROWSER_UA).decode('utf-8', 'ignore')
     except Exception:
-        return ''
+        return '', ''
+    og = ''
+    m = (re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', raw, re.I)
+         or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', raw, re.I)
+         or re.search(r'<meta[^>]+name=["\']og:image["\'][^>]+content=["\']([^"\']+)', raw, re.I))
+    if m:
+        cand = htmllib.unescape(m.group(1)).strip()
+        if cand.startswith(('http://', 'https://')):
+            og = cand
+        elif cand and not cand.startswith('data:'):
+            og = urljoin(url, cand)
     scope = raw
     m = re.search(r'<article[^>]*>(.*?)</article>', raw, re.S | re.I) \
         or re.search(r'<main[^>]*>(.*?)</main>', raw, re.S | re.I)
@@ -162,7 +175,7 @@ def fetch_full_text(url, max_words=380):
         total += len(t.split())
         if total >= max_words:
             break
-    return ' '.join(out)
+    return ' '.join(out), og
 
 
 def strip_html(s):
@@ -293,6 +306,26 @@ def pick_papers():
 # News: multi-source RSS, structural balance, outlet-written text
 # --------------------------------------------------------------------------
 
+def item_image_from_xml(el):
+    """The story's own image from feed XML: media:thumbnail / media:content /
+    image enclosure / first inline <img>. Returns '' when absent."""
+    try:
+        raw = ET.tostring(el, encoding='unicode')
+    except Exception:
+        return ''
+    m = (re.search(r'<media:thumbnail[^>]+url="([^"]+)"', raw)
+         or re.search(r'<media:content[^>]+url="([^"]+)"', raw))
+    if not m:
+        m = (re.search(r'<enclosure[^>]+url="([^"]+)"[^>]+type="image', raw)
+             or re.search(r'<enclosure[^>]+type="image[^"]*"[^>]+url="([^"]+)"', raw))
+    if not m:
+        m = re.search(r'<img[^>]+src="([^"]+)"', raw)
+    if not m:
+        return ''
+    url = htmllib.unescape(m.group(1)).strip()
+    return url if url.startswith(('http://', 'https://')) else ''
+
+
 def parse_feed_items(xml_bytes):
     items = []
     try:
@@ -305,6 +338,7 @@ def parse_feed_items(xml_bytes):
             'link': (item.findtext('link') or '').strip(),
             'description': strip_html(item.findtext('description') or ''),
             'pubDate': item.findtext('pubDate') or '',
+            'image': item_image_from_xml(item),
         })
     if not items:  # Atom fallback
         ns = {'a': 'http://www.w3.org/2005/Atom'}
@@ -319,6 +353,7 @@ def parse_feed_items(xml_bytes):
                 'link': link,
                 'description': strip_html(entry.findtext('a:summary', namespaces=ns) or ''),
                 'pubDate': entry.findtext('a:updated', namespaces=ns) or '',
+                'image': item_image_from_xml(entry),
             })
     return [i for i in items if i['title'] and i['link']]
 
@@ -424,7 +459,7 @@ def pick_news_stories():
         def full_text(link):
             if link not in cache:
                 if fetches['n'] >= FETCH_BUDGET:
-                    cache[link] = ''
+                    cache[link] = ('', '')
                 else:
                     fetches['n'] += 1
                     cache[link] = fetch_full_text(link)
@@ -432,29 +467,30 @@ def pick_news_stories():
 
         def attempt(cl, allow_used):
             """Rotate the cluster's outlets (same corroborated story) until
-            one copy yields a full briefing; return (rep, desc, content)."""
+            one copy yields a full briefing; return (rep, desc, content, image)."""
             cands = [c for c in cl['items'] if allow_used or c['outlet'] not in used_sources]
             if not cands:
                 return None
             cands.sort(key=lambda x: -len(x['description']))
-            rep, desc, content = None, '', ''
+            rep, desc, content, img = None, '', '', ''
             for c in cands:
                 d = c['description'] or ''
                 if len(d) > 1000:
                     d = d[:1000].rsplit(' ', 1)[0] + '…'
                 # Detailed briefing: the article's own paragraphs, verbatim;
                 # keep whichever text is longer so a failed fetch never
-                # degrades the summary.
-                t = full_text(c['link'])
+                # degrades the summary. og:image beats the feed-level image.
+                t, og = full_text(c['link'])
                 if len(t.split()) <= len(d.split()):
                     t = d
+                story_img = og or c.get('image') or ''
                 if len(t.split()) >= BRIEF_MIN_WORDS:
-                    return c, d, t
+                    return c, d, t, story_img
                 if rep is None or len(t.split()) > len(content.split()):
-                    rep, desc, content = c, d, t
-            return (rep, desc, content) if rep is not None else None
+                    rep, desc, content, img = c, d, t, story_img
+            return (rep, desc, content, img) if rep is not None else None
 
-        def build_story(rep, desc, content):
+        def build_story(rep, desc, content, image):
             dek = sentences(desc)[0] if sentences(desc) else desc[:180]
             date_slug = now.strftime('%Y%m%d')
             # Unique per story (topic+date alone would collide when a topic
@@ -471,7 +507,9 @@ def pick_news_stories():
                 'title': rep['title'][:140] + ('...' if len(rep['title']) > 140 else ''),
                 'dek': dek[:200] + ('…' if len(dek) > 200 else ''),
                 'content': content,
-                'image': imgs.get(topic, FALLBACK_CATEGORY_IMAGES.get(topic, '')),
+                # The story's own lead image (og:image or the feed's media/
+                # enclosure); the category image is only a last resort.
+                'image': image or imgs.get(topic, FALLBACK_CATEGORY_IMAGES.get(topic, '')),
                 'saved': False,
             }
 
@@ -482,9 +520,9 @@ def pick_news_stories():
             got = attempt(cl, allow_used=False)
             if got is None:
                 continue
-            rep, desc, content = got
+            rep, desc, content, image = got
             used_sources.add(rep['outlet'])
-            story = build_story(rep, desc, content)
+            story = build_story(rep, desc, content, image)
             if len(content.split()) >= BRIEF_MIN_WORDS:
                 picks.append(story)
             else:
@@ -498,11 +536,11 @@ def pick_news_stories():
                 got = attempt(cl, allow_used=True)
                 if got is None:
                     continue
-                rep, desc, content = got
+                rep, desc, content, image = got
                 if len(content.split()) < BRIEF_MIN_WORDS:
                     continue
                 used_sources.add(rep['outlet'])
-                picks.append(build_story(rep, desc, content))
+                picks.append(build_story(rep, desc, content, image))
         for story in fallbacks:
             if len(picks) >= quota:
                 break
