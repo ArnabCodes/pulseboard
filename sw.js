@@ -1,16 +1,15 @@
-// Service Worker for PulseBoard PWA
-const CACHE_NAME = 'pulseboard-v1';
+// Service Worker for PulseBoard PWA (Network-First Navigation Strategy)
+const CACHE_NAME = 'pulseboard-v4';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
+  './manifest.json',
+  './icon.svg'
 ];
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
@@ -21,13 +20,38 @@ self.addEventListener('activate', (e) => {
           if (k !== CACHE_NAME) return caches.delete(k);
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
+// Network-First for HTML navigation so updates appear immediately
 self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  
+  if (req.mode === 'navigate') {
+    e.respondWith(
+      fetch(req)
+        .then((networkRes) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(req, networkRes.clone());
+            return networkRes;
+          });
+        })
+        .catch(() => caches.match(req).then((res) => res || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Stale-while-revalidate for static assets
   e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request).catch(() => caches.match('./index.html')))
+    caches.match(req).then((cached) => {
+      const networked = fetch(req).then((res) => {
+        if (res && res.status === 200) {
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, res.clone()));
+        }
+        return res;
+      }).catch(() => null);
+      return cached || networked;
+    })
   );
 });

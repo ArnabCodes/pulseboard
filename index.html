@@ -246,6 +246,50 @@
           </div>
         </section>
 
+
+        <!-- Deep Reading Archive / Backup Articles for Deep Mood -->
+        <section id="backup-articles-section" class="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-bold tracking-tight flex items-center gap-2">
+                <span>📚 Deep-Reading Vault (Extra Curated Briefings)</span>
+              </h3>
+              <p class="text-xs text-slate-500">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm cursor-pointer hover:border-amber-400 dark:hover:border-indigo-400 transition-all" data-open-story="backup-1">
+              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                <span>Quantum Control &amp; Optimization</span>
+                <span>10 min deep read</span>
+              </div>
+              <h4 class="text-base font-bold font-serif-editorial mb-1.5 hover:underline">
+                Machine-Learning-Assisted Initialization for GRAPE Quantum Optimal Control in Dense Spin Networks
+              </h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+                Combining reinforcement learning with Lie-algebraic gradient ascent to avoid local traps in high-dimensional Hilbert spaces.
+              </p>
+              <button type="button" class="text-xs font-semibold text-amber-700 dark:text-indigo-400 hover:underline">Read Deep Briefing →</button>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm cursor-pointer hover:border-amber-400 dark:hover:border-indigo-400 transition-all" data-open-story="backup-2">
+              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                <span>Complex Systems &amp; Power Grids</span>
+                <span>9 min deep read</span>
+              </div>
+              <h4 class="text-base font-bold font-serif-editorial mb-1.5 hover:underline">
+                Structural Vulnerability, Cascading Failures, and Modularity in High-Voltage Electrical Transmission Networks
+              </h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+                Network-theoretic assessment of vulnerable lines and percolation thresholds under dynamic load redistribution.
+              </p>
+              <button type="button" class="text-xs font-semibold text-amber-700 dark:text-indigo-400 hover:underline">Read Deep Briefing →</button>
+            </div>
+          </div>
+        </section>
+
+
         <!-- Papers Section -->
         <section aria-labelledby="papers-heading">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -441,8 +485,116 @@
     };
 
     // Default starter data
+    const EXTRA_STORIES = [
+      {
+        id: 'backup-1',
+        edition: 'morning',
+        featured: false,
+        category: 'Quantum Control & Optimization',
+        source: 'Physical Review Applied • 10 min deep read',
+        title: 'Machine-Learning-Assisted Initialization for GRAPE Quantum Optimal Control in Dense Spin Networks',
+        dek: 'Combining reinforcement learning with Lie-algebraic gradient ascent to avoid local traps in high-dimensional Hilbert spaces.',
+        content: ,
+        whyItMatters: 'Accelerates pulse optimization in quantum simulations, NMR spectroscopy, and high-fidelity quantum gate implementation.',
+        image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80',
+        saved: false
+      },
+      {
+        id: 'backup-2',
+        edition: 'morning',
+        featured: false,
+        category: 'Complex Systems & Power Grids',
+        source: 'Physica A & IEEE Trans. Network Science • 9 min deep read',
+        title: 'Structural Vulnerability, Cascading Failures, and Modularity in High-Voltage Electrical Transmission Networks',
+        dek: 'Network-theoretic assessment of vulnerable lines and percolation thresholds under dynamic load redistribution.',
+        content: ,
+        whyItMatters: 'Directly applicable to power grid resilience, complex network vulnerability analysis, and critical infrastructure protection.',
+        image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+        saved: false
+      },
+];
     const STARTER_DATA = {
       stories: [
+      {
+            "id": "story-1",
+            "edition": "morning",
+            "featured": true,
+            "category": "Quantum Dynamics & Sensing",
+            "source": "Weizmann & Physical Review X \u2022 8 min read",
+            "title": "Sub-Microsecond Spin Dynamics in Diamond NV Centers: Benchmarking Cavity QED and Coherence Limits",
+            "dek": "Overcoming dipolar dephasing and hyperfine bath interactions in dense diamond NV ensembles coupled to microwave resonators.",
+            "content": "Nitrogen-vacancy (NV) color centers in diamond have established themselves as the preeminent solid-state platform for room-temperature quantum metrology, nanoscale magnetic resonance, and quantum information processing. However, transitioning from isolated single-spin defects to collective high-density ensembles (densities exceeding 1\u201310 ppm) introduces formidable many-body challenges: dense dipolar spin-spin cross-relaxation and inhomogeneous hyperfine dephasing driven by the surrounding 13C nuclear spin bath.\n\nIn this deep briefing, we examine recent experimental and theoretical advances coupling high-density NV ensembles to high-Q dielectric and superconducting microwave cavities under non-equilibrium Floquet driving. By implementing tailored microwave pulse sequences that dynamically decouple central electron spins from environmental thermal fluctuations, researchers have demonstrated order-of-magnitude prolongations of the effective coherence time (T2*), extending the sub-microsecond envelope toward the millisecond regime.\n\nKey Theoretical & Experimental Pillars:\n1. Cooperative Purcell Enhancement: Coupling an ensemble of 10^11 NV spins to a concentrated microwave resonator mode enters the collective strong coupling regime. Here, the effective coupling parameter scales cooperatively with the square root of the spin count (g_eff ~ sqrt(N) * g_0), facilitating rapid optical hyperpolarization readout and cavity-mediated superradiant emission.\n2. Suppression of Spin-Diffusion Loss: Operating within an orientation-aligned crystallographic subspace eliminates cross-talk between distinct NV axes, suppressing dissipative spin-flip dynamics without requiring high external magnetic fields.\n3. Quantum Metrology Horizons: Sustained ensemble coherence enables sub-picotesla magnetic field sensitivities at ambient temperatures, unlocking non-invasive single-cell nuclear magnetic resonance (NMR) and real-time mapping of cellular action potentials without cryogenic cooling.",
+            "whyItMatters": "Directly informs the design of room-temperature diamond quantum magnetometers, microwave cavity loading, and advanced Floquet decoupling protocols in spin dynamics.",
+            "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+            "saved": true
+      },
+      {
+            "id": "story-2",
+            "edition": "morning",
+            "featured": false,
+            "category": "Computational Many-Body Physics",
+            "source": "J. Chem. Phys. & SIAM Review \u2022 9 min read",
+            "title": "Beyond Standard Expmv: Lie-Algebraic Integrators and Magnus Expansions for High-Dimensional Quantum Ensembles",
+            "dek": "Accelerating large-scale density matrix propagation without exponential Hilbert-space explosion.",
+            "content": "Simulating the non-equilibrium time evolution of driven, interacting many-spin ensembles represents one of computational physics\u2019 steepest challenges. Conventional numerical propagation of the Liouville-von Neumann equation via Krylov-subspace matrix exponential-vector routines (expmv) scales exponentially with the Hilbert space dimension (4^N for N spin-1/2 particles), creating severe computational bottlenecks when modeling more than 15\u201320 coupled spins.\n\nRecent developments in Lie-algebraic decomposition methods and commutator-free Magnus integrators offer an elegant mathematical path forward. Rather than propagating the full dense density matrix uniformly across uniform time slices, these geometric integrators preserve the symplectic and unitary invariants of the underlying Lie group automatically.\n\nAlgorithmic Advances:\n1. Low-Rank Tensor Train & Matrix Product State (MPS) Representation: Decomposing the evolving density matrix into tensor trains allows entanglement entropy growth to be tracked locally, truncating insignificant singular values while strictly preserving trace conservation and positivity.\n2. Commutator-Free Magnus Expansions: Fourth- and sixth-order commutator-free integrators evaluate exponential actions using linear combinations of the Hamiltonian at specific Gauss-Legendre quadrature nodes, eliminating expensive nested commutator evaluations.\n3. GPU Monte Carlo Optimal Control: Parallelized Lie-algebraic propagators implemented on CUDA achieve 40x speedups for GRAPE and Krotov optimal control pulses, enabling autonomous pulse shaping for complex spin topologies in NMR spectroscopy and quantum computing.",
+            "whyItMatters": "Essential for simulating large spin dynamics in packages like Spinach, designing distortion-free pulse sequences, and scaling open quantum system models.",
+            "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+            "saved": false
+      },
+      {
+            "id": "story-3",
+            "edition": "morning",
+            "featured": false,
+            "category": "Nonlinear Quantum Dynamics",
+            "source": "Physica D & Phys. Rev. E \u2022 7 min read",
+            "title": "Strange Nonchaotic Dynamics and Fractal Spectra in Periodically Driven Open Quantum Oscillators",
+            "dek": "Observing singular-continuous spectral transitions and non-ergodic quantum states in driven soft impact systems.",
+            "content": "In classical nonlinear dynamics, strange nonchaotic attractors (SNAs) occupy a fascinating intermediate realm: their phase-space trajectories exhibit fractal geometry (strangeness) yet possess non-positive maximal Lyapunov exponents (non-chaotic predictability). While extensively mapped in quasiperiodically forced classical systems, their quantum mechanical counterparts have long eluded clear physical realization.\n\nRecent studies of driven quantum impact oscillators and Morse potentials coupled to dissipationless environments reveal distinct quantum signatures of this transition. When a soft quantum impact barrier is periodically driven across non-resonant frequencies, the Floquet spectrum transitions from discrete point eigenvalues into a singular-continuous, multifractal distribution.\n\nPhysical & Theoretical Insights:\n1. Measurement-Induced Localization: Periodically repeated position measurements on an oscillator create an effective non-Hermitian potential, locking the wavefunction into localized state distributions that resist classical chaotic diffusive heating.\n2. Experimental Realization Platforms: Ultracold atomic cantilevers in atomic force microscopy (AFM) and optomechanical membrane resonators currently provide realistic experimental setups capable of verifying these singular-continuous signatures before environmental decoherence sets in.\n3. Wavefunction Objective Collapse Probing: The high sensitivity of these localized states to non-unitary perturbations makes driven nonlinear oscillators promising testbeds for testing macroscopic objective collapse models (such as the Di\u00f3si-Penrose gravitational collapse hypothesis).",
+            "whyItMatters": "Deepens our understanding of the quantum-to-classical boundary, non-ergodic quantum dynamics, and open system measurements.",
+            "image": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=1200&q=80",
+            "saved": false
+      },
+      {
+            "id": "story-4",
+            "edition": "night",
+            "featured": true,
+            "category": "Quantum Foundations & Optomechanics",
+            "source": "Foundations of Physics & Nature Physics \u2022 9 min read",
+            "title": "Can Gravitational Decoherence and Macroscopic Wavefunction Collapse Be Probed in Levitated Nanoparticles?",
+            "dek": "Precision optomechanical interferometry testing the limits of standard Schr\u00f6dinger evolution.",
+            "content": "Does the linear superposition principle of quantum mechanics extend indefinitely to macroscopic masses, or does a fundamental physical mechanism enforce an objective boundary where classical reality crystallizes?\n\nThe Di\u00f3si-Penrose model suggests that the fundamental incompatibility between general relativity and quantum mechanics leads to gravitational self-energy fluctuations that cause spontaneous state vector reduction. The collapse rate scales with the gravitational self-energy of the difference between spatial branches, predicting that objects larger than ~10^14 atomic mass units cannot sustain spatial superpositions over macroscopic durations.\n\nTechnological Innovations in Precision Testing:\n1. Optical Levitation in Ultra-High Vacuum: Silica and diamond nanoparticles levitated in optical tweezers inside cryogenic ultra-high vacuum chambers isolate the center-of-mass motion from acoustic vibrations and gas collisions down to the quantum ground state.\n2. Dissipationless Decoherence Discrimination: Disentangling genuine gravitational collapse from classical thermal dephasing requires measuring the non-thermal momentum diffusion (excess heating) of the center-of-mass coordinate under dark cavity conditions.\n3. The Role of Internal Crystalline Degrees of Freedom: Theoretical calculations incorporating microscopic lattice densities reveal that the nuclear mass density distribution significantly enhances the predicted Penrose collapse rate compared to continuous-mass approximations.",
+            "whyItMatters": "Explores the foundational frontier of quantum theory, bridging general relativity, measurement theory, and table-top optomechanics.",
+            "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+            "saved": false
+      },
+      {
+            "id": "story-5",
+            "edition": "night",
+            "featured": false,
+            "category": "Neuromorphic & Energy Systems",
+            "source": "Nature Electronics & Joule \u2022 7 min read",
+            "title": "Biological Sleep Spindles in Solid-State Memory: Overnight Consolidation in Continual Learning Networks",
+            "dek": "How offline replay cycles and phase-change thermal storage solve catastrophic forgetting and overnight grid imbalances.",
+            "content": "A dual look at physical systems that rely on cyclic rest periods to optimize performance:\n\nPart 1: Neuromorphic Synaptic Replay\nArtificial neural networks suffer notoriously from catastrophic forgetting: learning a new task overwrites the weight manifolds of previously mastered skills. Mammalian brains solve this during non-REM slow-wave sleep through 'sleep spindles' and hippocampal-cortical sharp-wave ripples\u2014replaying compressed memories at accelerated time scales.\nRecent solid-state neuromorphic chips utilizing memristive crossbar arrays incorporate an autonomous 'sleep phase' that replays sparse synthetic activations across inactive synaptic arrays overnight, locking in continual multi-task recall with 85% lower power dissipation.\n\nPart 2: Industrial Phase-Change Thermal Batteries\nOn the energy grid, managing the overnight intermittency of renewable power has shifted toward thermal storage. Grid-scale carbon block thermal batteries store daytime solar energy at 1,800\u00b0C with 92% round-trip heat-to-electricity efficiency, proving that cyclic regeneration is as foundational in mechanical energy systems as it is in biological cognition.",
+            "whyItMatters": "Connects biological sleep architecture with neuromorphic hardware and renewable overnight thermodynamic balance.",
+            "image": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80",
+            "saved": false
+      },
+      {
+            "id": "story-6",
+            "edition": "night",
+            "featured": false,
+            "category": "Astrophysics & Spectroscopy",
+            "source": "Astrophysical Journal & Monthly Notices \u2022 8 min read",
+            "title": "High-Resolution Infrared Array Profiling: Disentangling Abiotic Methane from Exoplanetary Biosignatures",
+            "dek": "Adaptive optics and transmission spectroscopy establish quantitative atmospheric chemical filters for habitable-zone sub-Neptunes.",
+            "content": "The search for extraterrestrial life has entered a rigorous quantitative phase. Rather than celebrating isolated molecular detections of atmospheric methane (CH4) or carbon dioxide (CO2), astrophysicists must rigorously rule out abiotic geochemical pathways\u2014such as serpentinization, volcanic outgassing, and photochemical atmospheric impacts.\n\nA new spectroscopic framework based on high-altitude adaptive infrared imaging establishes a multi-molecule diagnostic ratio:\n1. Carbon Monoxide Quenching: A biological origin for methane in a temperate, hydrogen-rich atmosphere requires a strong depletion of carbon monoxide (CO < 0.1% of CH4). In non-biological atmospheres driven by high-temperature volcanic equilibria, CO and CH4 coexist in comparable abundance.\n2. Water Vapor Disentanglement: Adaptive deformable secondary mirrors on ground-based 30-meter class telescopes can now subtract telluric water absorption lines from the Earth\u2019s atmosphere in real time, isolating the planetary terminator signal with unprecedented signal-to-noise ratios.\n3. Target Prioritization for 2027 Missions: This diagnostic filter has narrowed down the list of prime targets to four nearby temperate sub-Neptunes orbiting quiet M-dwarf stars.",
+            "whyItMatters": "Establishes a rigorous analytical framework for validating genuine biosignatures across exoplanetary atmospheres.",
+            "image": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
+            "saved": false
+      }
+], /* replaced */
+      /* old stories */ ignore_old: [
         {
           id: 'story-1',
           edition: 'morning',
@@ -1378,7 +1530,28 @@
       document.getElementById('modal-category').textContent = story.category;
       document.getElementById('modal-source').textContent = story.source;
       document.getElementById('modal-title').textContent = story.title;
-      document.getElementById('modal-summary').textContent = story.dek;
+      document.getElementById('modal-summary').textContent = story.content || story.dek;
+      
+      // Dynamic Dark/Light Theme for Story Reader Modal
+      const isNight = state.edition === 'night';
+      const modalPanel = document.getElementById('modal-panel');
+      const whyBox = modalPanel.querySelector('.rounded-xl.bg-slate-50') || modalPanel.querySelector('.rounded-xl.bg-slate-800');
+      const closeBtn = document.getElementById('btn-close-modal');
+
+      if (isNight) {
+        modalPanel.className = 'relative w-full max-w-2xl rounded-2xl bg-slate-900 text-slate-100 shadow-2xl border border-slate-700 overflow-hidden max-h-[90vh] flex flex-col';
+        if (whyBox) whyBox.className = 'rounded-xl bg-slate-800/80 border border-slate-700 p-4 text-slate-200';
+        if (closeBtn) closeBtn.className = 'absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-800/80 text-white flex items-center justify-center hover:bg-slate-700 transition-colors border border-slate-600';
+        document.getElementById('modal-summary').className = 'text-sm text-slate-300 leading-relaxed space-y-3 whitespace-pre-line';
+        document.getElementById('modal-title').className = 'text-xl sm:text-2xl font-bold font-serif-editorial leading-snug text-white';
+      } else {
+        modalPanel.className = 'relative w-full max-w-2xl rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col';
+        if (whyBox) whyBox.className = 'rounded-xl bg-amber-50/80 border border-amber-200/80 p-4 text-slate-700';
+        if (closeBtn) closeBtn.className = 'absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-900/75 text-white flex items-center justify-center hover:bg-slate-900 transition-colors';
+        document.getElementById('modal-summary').className = 'text-sm text-slate-700 leading-relaxed space-y-3 whitespace-pre-line';
+        document.getElementById('modal-title').className = 'text-xl sm:text-2xl font-bold font-serif-editorial leading-snug text-slate-900';
+      }
+
       document.getElementById('modal-why').textContent = story.whyItMatters;
       document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
 
