@@ -7,7 +7,7 @@
   
   <!-- PWA & Mobile Web App Meta Tags -->
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#f59e0b" />
+  <meta name="theme-color" content="#04060b" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -60,6 +60,9 @@
     body { -webkit-tap-highlight-color: transparent; }
     button, a, input { touch-action: manipulation; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+  /* Fullscreen display: keep content clear of cutout + gesture bar */
+    #app-header { padding-top: env(safe-area-inset-top); }
+    #app-body { padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
@@ -1897,6 +1900,33 @@ Key Insights:
     }
 
     initSecurityGate();
+
+    // --- Strip Vercel toolbar / preview widgets if the platform injects them ---
+    (function stripVercelWidgets() {
+      const looksVercel = (n) => {
+        if (n.nodeType !== 1) return false;
+        const tag = (n.tagName || '').toLowerCase();
+        if (tag.includes('vercel')) return true;
+        const id = (n.id || '').toLowerCase();
+        const cls = (typeof n.className === 'string' ? n.className : '').toLowerCase();
+        if (id.includes('vercel') || cls.includes('vercel')) return true;
+        if (tag === 'iframe' || tag === 'script') {
+          const src = (n.getAttribute('src') || '').toLowerCase();
+          if (src.includes('vercel.com/toolbar') || src.includes('/_vercel/')) return true;
+        }
+        return false;
+      };
+      const purge = () => {
+        document.querySelectorAll('vercel-toolbar, vercel-live-feedback, [data-vercel-toolbar], iframe[src*="vercel.com/"], iframe[src*="/_vercel/"]').forEach((n) => n.remove());
+      };
+      purge();
+      const mo = new MutationObserver((muts) => {
+        for (const m of muts) for (const node of m.addedNodes) {
+          if (looksVercel(node)) { try { node.remove(); } catch (e) {} }
+        }
+      });
+      mo.observe(document.documentElement, { childList: true, subtree: true });
+    })();
   </script>
 </body>
 </html>

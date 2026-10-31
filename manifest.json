@@ -5,9 +5,10 @@
   "description": "Your custom morning and night curated news, papers, and routines dashboard.",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
-  "background_color": "#fffbeb",
-  "theme_color": "#f59e0b",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "background_color": "#04060b",
+  "theme_color": "#04060b",
   "orientation": "portrait-primary",
   "icons": [
     {

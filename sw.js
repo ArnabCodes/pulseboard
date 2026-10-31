@@ -1,5 +1,5 @@
 // Service Worker for PulseBoard PWA (Network-First Navigation Strategy)
-const CACHE_NAME = 'pulseboard-v6';
+const CACHE_NAME = 'pulseboard-v7';
 const ASSETS = [
   './manifest.json',
   './icon.svg',
@@ -37,10 +37,12 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       fetch(req)
         .then((networkRes) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(req, networkRes.clone());
-            return networkRes;
-          });
+          networkRes.clone().text().then((body) => {
+            if (networkRes.ok && !/vercel\.com\/toolbar|\/_vercel\//i.test(body)) {
+              caches.open(CACHE_NAME).then((cache) => cache.put(req, networkRes.clone()));
+            }
+          }).catch(() => {});
+          return networkRes;
         })
         .catch(() => caches.match(req).then((res) => res || caches.match('./index.html')))
     );
