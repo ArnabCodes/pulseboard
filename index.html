@@ -37,6 +37,43 @@
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
 
+  <!-- Private PIN Gate Screen (Zero Backend Required) -->
+  <div id="pin-gate-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 p-4 transition-opacity duration-300">
+    <div class="w-full max-w-sm rounded-3xl bg-slate-900 border border-slate-800 p-7 text-center shadow-2xl">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-4 border border-amber-500/30">
+        🔒
+      </div>
+      <h2 id="gate-title" class="text-xl font-bold text-white mb-1">PulseBoard Private Access</h2>
+      <p id="gate-subtitle" class="text-xs text-slate-400 mb-6">Enter your 4-digit PIN to unlock your personal briefing</p>
+      
+      <!-- PIN Dots -->
+      <div id="pin-dots" class="flex justify-center gap-3 mb-6">
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
+        <div class="pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors"></div>
+      </div>
+
+      <!-- Keypad -->
+      <div class="grid grid-cols-3 gap-2.5 max-w-[220px] mx-auto mb-4">
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="1">1</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="2">2</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="3">3</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="4">4</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="5">5</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="6">6</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="7">7</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="8">8</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="9">9</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/40 text-slate-400 font-medium text-xs hover:bg-slate-700 active:scale-95 transition-all" data-key="clear">Clear</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/80 text-white font-bold text-base hover:bg-slate-700 active:scale-95 transition-all" data-key="0">0</button>
+        <button type="button" class="pin-key py-3 rounded-2xl bg-slate-800/40 text-slate-400 font-medium text-xs hover:bg-slate-700 active:scale-95 transition-all" data-key="backspace">⌫</button>
+      </div>
+      <p id="gate-error" class="text-xs text-rose-400 font-medium min-h-[16px]"></p>
+    </div>
+  </div>
+
+
   <!-- Top Navigation & Edition Switcher -->
   <header id="app-header" class="sticky top-0 z-30 border-b border-amber-200/70 bg-white/90 backdrop-blur-md transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
@@ -1052,6 +1089,95 @@
       state.activeModalStoryId = null;
     }
 
+    
+    // Private PIN Lock Protection
+    const PIN_SALT = 'pulse_salt_v1_';
+    let enteredPin = '';
+
+    function getStoredPinHash() {
+      try {
+        return localStorage.getItem('pulseboard_pin_hash');
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function hashPin(pin) {
+      const msgBuffer = new TextEncoder().encode(PIN_SALT + pin);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function updatePinDots() {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach((dot, idx) => {
+        if (idx < enteredPin.length) {
+          dot.className = 'pin-dot w-3.5 h-3.5 rounded-full bg-amber-400 border border-amber-300 shadow-sm transition-colors';
+        } else {
+          dot.className = 'pin-dot w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-800 transition-colors';
+        }
+      });
+    }
+
+    async function checkPin() {
+      const storedHash = getStoredPinHash();
+      const currentHash = await hashPin(enteredPin);
+
+      if (!storedHash) {
+        // First time: set this as user's PIN
+        try {
+          localStorage.setItem('pulseboard_pin_hash', currentHash);
+          sessionStorage.setItem('pulseboard_unlocked', 'true');
+        } catch(e) {}
+        document.getElementById('pin-gate-screen').classList.add('hidden');
+      } else if (currentHash === storedHash) {
+        try {
+          sessionStorage.setItem('pulseboard_unlocked', 'true');
+        } catch(e) {}
+        document.getElementById('pin-gate-screen').classList.add('hidden');
+      } else {
+        document.getElementById('gate-error').textContent = 'Incorrect PIN. Try again.';
+        enteredPin = '';
+        updatePinDots();
+        setTimeout(() => {
+          document.getElementById('gate-error').textContent = '';
+        }, 2000);
+      }
+    }
+
+    function initPinGate() {
+      try {
+        if (sessionStorage.getItem('pulseboard_unlocked') === 'true') {
+          document.getElementById('pin-gate-screen').classList.add('hidden');
+          return;
+        }
+      } catch (e) {}
+
+      const storedHash = getStoredPinHash();
+      if (!storedHash) {
+        document.getElementById('gate-title').textContent = 'Set Your 4-Digit PIN';
+        document.getElementById('gate-subtitle').textContent = 'Choose a private 4-digit PIN for your device';
+      }
+
+      document.querySelectorAll('.pin-key').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const key = btn.getAttribute('data-key');
+          if (key === 'clear') {
+            enteredPin = '';
+          } else if (key === 'backspace') {
+            enteredPin = enteredPin.slice(0, -1);
+          } else if (enteredPin.length < 4) {
+            enteredPin += key;
+          }
+          updatePinDots();
+          if (enteredPin.length === 4) {
+            setTimeout(checkPin, 100);
+          }
+        });
+      });
+    }
+
     // Top-level Event Listeners
     document.getElementById('btn-morning').addEventListener('click', () => {
       state.edition = 'morning';
@@ -1133,6 +1259,7 @@
     }
 
     // Initialize date & view
+    initPinGate();
     updateDateDisplay();
     renderApp();
   </script>
