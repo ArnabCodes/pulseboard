@@ -113,22 +113,56 @@ NEWS_KEYWORDS = {
 
 NEWS_QUOTAS = {'Geopolitics & Global': 2, 'Tech & AI': 1, 'Quantum & Physics': 1}
 
+# A full briefing must be at least this many words of the outlet's own text.
+BRIEF_MIN_WORDS = 200
+
 FALLBACK_CATEGORY_IMAGES = {
-    'Geopolitics & Global': 'https://images.unsplash.com/photo-1544620347-c4fd4a3ca5b7?w=800&q=70&auto=format&fit=crop',
-    'Quantum & Physics': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=70&auto=format&fit=crop',
-    'Tech & AI': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=70&auto=format&fit=crop',
-    'Mind & Habits': 'https://images.unsplash.com/photo-1506703719100-a0fd414b6bed?w=800&q=70&auto=format&fit=crop',
+    'Geopolitics & Global': 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
+    'Quantum & Physics': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80',
+    'Tech & AI': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
+    'Mind & Habits': 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80',
 }
+
+BROWSER_UA = ('Mozilla/5.0 (Linux; Android 13; Pixel 6a) AppleWebKit/537.36 '
+              '(KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36')
 
 
 # --------------------------------------------------------------------------
 # Small utilities
 # --------------------------------------------------------------------------
 
-def http_get(url, timeout=20):
-    req = urllib.request.Request(url, headers={'User-Agent': UA})
+def http_get(url, timeout=20, ua=None):
+    req = urllib.request.Request(url, headers={'User-Agent': ua or UA})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return resp.read()
+
+
+def fetch_full_text(url, max_words=380):
+    """Fetch the article page and extract its own paragraph text (never rewritten).
+    Returns '' if the page is unreachable or nothing can be extracted."""
+    try:
+        raw = http_get(url, timeout=15, ua=BROWSER_UA).decode('utf-8', 'ignore')
+    except Exception:
+        return ''
+    scope = raw
+    m = re.search(r'<article[^>]*>(.*?)</article>', raw, re.S | re.I) \
+        or re.search(r'<main[^>]*>(.*?)</main>', raw, re.S | re.I)
+    if m:
+        scope = m.group(1)
+    out, total = [], 0
+    for p in re.findall(r'<p[^>]*>(.*?)</p>', scope, re.S | re.I):
+        t = strip_html(p)
+        if len(t) < 60:
+            continue  # captions, bylines, nav crumbs
+        low = t.lower()
+        if any(k in low for k in ('sign up', 'subscribe', 'newsletter', 'all rights reserved',
+                                  'cookie', 'follow us', 'read more:', 'related:', 'originally published')):
+            continue
+        out.append(t)
+        total += len(t.split())
+        if total >= max_words:
+            break
+    return ' '.join(out)
 
 
 def strip_html(s):
@@ -317,8 +351,8 @@ def cluster_items(items):
 
 
 def images_map():
-    """Category images: inherit from hand-curated entries where available."""
-    imgs = dict(FALLBACK_CATEGORY_IMAGES)
+    """Category images: hand-curated entries win; fallbacks only fill gaps."""
+    imgs = {}
     try:
         with open(os.path.join(BASE, 'articles_db.json'), 'r', encoding='utf-8') as f:
             for st in json.load(f):
@@ -326,6 +360,8 @@ def images_map():
                     imgs.setdefault(st['category'], st['image'])
     except Exception:
         pass
+    for cat, url in FALLBACK_CATEGORY_IMAGES.items():
+        imgs.setdefault(cat, url)
     return imgs
 
 
@@ -370,40 +406,108 @@ def pick_news_stories():
                 scored.append((best[0] * (1 + 0.4 * (len(cl['items']) - 1)), best[1], cl))
         scored.sort(key=lambda x: -x[0])
 
-        picked = 0
-        for s, it, cl in scored:
-            if picked >= NEWS_QUOTAS[topic]:
-                break
-            if it['outlet'] in used_sources:
-                continue
-            # prefer the cluster item with the longest description for readability
-            rep = max(cl['items'], key=lambda x: len(x['description']))
-            if rep['outlet'] in used_sources and it['outlet'] not in used_sources:
-                rep = it
-            used_sources.add(rep['outlet'])
-            desc = rep['description'] or it['description']
-            if len(desc) > 1000:
-                desc = desc[:1000].rsplit(' ', 1)[0] + '…'
+        # Detailed-briefing-aware selection, three passes:
+        #   1. strict: one story per outlet, prefer clusters whose source page
+        #      yields a full (>=BRIEF_MIN_WORDS) briefing; short ones become
+        #      fallbacks in score order.
+        #   2. relaxed: if the quota still lacks full briefings, allow a
+        #      second story from an already-used outlet — a detailed story
+        #      beats a 30-word stub.
+        #   3. promote the best short fallbacks if nothing extractable exists.
+        quota = NEWS_QUOTAS[topic]
+        picks, fallbacks = [], []
+        consumed = set()   # indices of scored clusters already tried
+        cache = {}         # link -> extracted text (dedupes refetches)
+        fetches = {'n': 0}
+        FETCH_BUDGET = 45  # per-topic page-fetch cap so bad days stay fast
+
+        def full_text(link):
+            if link not in cache:
+                if fetches['n'] >= FETCH_BUDGET:
+                    cache[link] = ''
+                else:
+                    fetches['n'] += 1
+                    cache[link] = fetch_full_text(link)
+            return cache[link]
+
+        def attempt(cl, allow_used):
+            """Rotate the cluster's outlets (same corroborated story) until
+            one copy yields a full briefing; return (rep, desc, content)."""
+            cands = [c for c in cl['items'] if allow_used or c['outlet'] not in used_sources]
+            if not cands:
+                return None
+            cands.sort(key=lambda x: -len(x['description']))
+            rep, desc, content = None, '', ''
+            for c in cands:
+                d = c['description'] or ''
+                if len(d) > 1000:
+                    d = d[:1000].rsplit(' ', 1)[0] + '…'
+                # Detailed briefing: the article's own paragraphs, verbatim;
+                # keep whichever text is longer so a failed fetch never
+                # degrades the summary.
+                t = full_text(c['link'])
+                if len(t.split()) <= len(d.split()):
+                    t = d
+                if len(t.split()) >= BRIEF_MIN_WORDS:
+                    return c, d, t
+                if rep is None or len(t.split()) > len(content.split()):
+                    rep, desc, content = c, d, t
+            return (rep, desc, content) if rep is not None else None
+
+        def build_story(rep, desc, content):
             dek = sentences(desc)[0] if sentences(desc) else desc[:180]
             date_slug = now.strftime('%Y%m%d')
             # Unique per story (topic+date alone would collide when a topic
             # yields several stories), but stable across same-day reruns so
             # the app can carry saved flags between regenerations.
             title_hash = hashlib.sha1(rep['title'].encode('utf-8')).hexdigest()[:8]
-            auto.append({
+            return {
                 'id': f"news-{topic.split(' ')[0].lower()}-{date_slug}-{title_hash}",
                 'edition': EDITION,
                 'featured': False,
                 'category': topic,
-                'source': f"{rep['outlet']} • {read_time_minutes(desc)} min read",
+                'source': f"{rep['outlet']} • {read_time_minutes(content)} min read",
                 'sourceUrl': rep['link'],
                 'title': rep['title'][:140] + ('...' if len(rep['title']) > 140 else ''),
                 'dek': dek[:200] + ('…' if len(dek) > 200 else ''),
-                'content': desc,
+                'content': content,
                 'image': imgs.get(topic, FALLBACK_CATEGORY_IMAGES.get(topic, '')),
                 'saved': False,
-            })
-            picked += 1
+            }
+
+        for idx, (s, it, cl) in enumerate(scored[:35]):
+            if len(picks) >= quota:
+                break
+            consumed.add(idx)
+            got = attempt(cl, allow_used=False)
+            if got is None:
+                continue
+            rep, desc, content = got
+            used_sources.add(rep['outlet'])
+            story = build_story(rep, desc, content)
+            if len(content.split()) >= BRIEF_MIN_WORDS:
+                picks.append(story)
+            else:
+                fallbacks.append(story)
+        if len(picks) < quota:
+            for idx, (s, it, cl) in enumerate(scored):
+                if len(picks) >= quota:
+                    break
+                if idx in consumed:
+                    continue
+                got = attempt(cl, allow_used=True)
+                if got is None:
+                    continue
+                rep, desc, content = got
+                if len(content.split()) < BRIEF_MIN_WORDS:
+                    continue
+                used_sources.add(rep['outlet'])
+                picks.append(build_story(rep, desc, content))
+        for story in fallbacks:
+            if len(picks) >= quota:
+                break
+            picks.append(story)
+        auto.extend(picks)
     return auto
 
 
