@@ -1353,7 +1353,8 @@ Key Insights:
       let filtered = state.stories.filter(s => {
         if (state.selectedCategory === 'saved') return s.saved;
         if (state.selectedCategory !== 'all') return s.category === state.selectedCategory;
-        return s.edition === state.edition;
+        // The day's (morning) briefing stays visible in the evening/night edition too
+        return s.edition === state.edition || s.edition === 'morning';
       });
 
       if (filtered.length === 0) {
@@ -1446,7 +1447,8 @@ Key Insights:
       const container = document.getElementById('papers-list');
       const papersForEdition = state.papers.filter(p => {
         if (state.selectedCategory === 'saved') return p.saved;
-        return p.edition === state.edition;
+        // Research digests are edition-agnostic reading; keep them visible at night
+        return p.edition === state.edition || p.edition === 'morning';
       });
 
       if (papersForEdition.length === 0) {
