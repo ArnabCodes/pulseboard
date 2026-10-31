@@ -212,6 +212,9 @@
           <p id="greeting-subtitle" class="text-sm text-slate-600 mt-1 max-w-2xl">
             Authenticate with your private PIN to decrypt your curated stories, papers, and routines.
           </p>
+          <button type="button" id="btn-close-day" class="hidden mt-4 inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-2xl border border-indigo-700 bg-indigo-600/90 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
+            🌙 Close the day
+          </button>
         </div>
 
         <!-- Weather Card -->
@@ -511,6 +514,37 @@
           <p id="teaching-source" class="hidden text-xs text-slate-500 mt-4 italic leading-relaxed"></p>
           <a id="teaching-video" class="hidden mt-4 inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 hover:text-indigo-200" target="_blank" rel="noopener">▶ <span id="teaching-video-label"></span></a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evening ritual: close the day -->
+  <div id="dayclose-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
+    <div class="relative w-full max-w-md rounded-3xl bg-slate-950/95 border border-indigo-900/60 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col text-slate-200">
+      <button type="button" id="btn-close-dayclose" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-slate-800/80 text-white flex items-center justify-center hover:bg-slate-700 transition-colors border border-slate-700" aria-label="Close">✕</button>
+      <div class="overflow-y-auto px-6 pt-9 pb-8 flex flex-col items-center text-center">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-300/90">Evening Ritual</span>
+        <h3 class="text-2xl font-serif-editorial mt-1.5">Close the day</h3>
+        <p id="dayclose-date" class="text-xs text-slate-500 mt-1"></p>
+
+        <div id="dayclose-wins" class="mt-5 w-full rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm space-y-1.5"></div>
+
+        <div class="mt-5 w-full text-left">
+          <label for="dayclose-gratitude" class="text-xs font-semibold text-slate-400">One good thing today <span class="font-normal text-slate-600">(optional)</span></label>
+          <textarea id="dayclose-gratitude" rows="2" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none" placeholder="Three words or three sentences — whatever was good today"></textarea>
+        </div>
+
+        <div class="mt-4 w-full text-left">
+          <label for="dayclose-tomorrow" class="text-xs font-semibold text-slate-400">Tomorrow's first win <span class="font-normal text-slate-600">(optional)</span></label>
+          <input id="dayclose-tomorrow" type="text" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none" placeholder="When you wake up, this becomes task #1" />
+        </div>
+
+        <blockquote id="dayclose-quote" class="font-serif-editorial italic text-sm leading-relaxed text-slate-300 mt-6 px-2"></blockquote>
+
+        <button type="button" id="btn-finish-day" class="mt-6 px-6 py-3 rounded-2xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
+          Close the day 🌙
+        </button>
+        <p id="dayclose-after" class="hidden mt-4 text-sm text-slate-400"></p>
       </div>
     </div>
   </div>
@@ -823,6 +857,7 @@ Key Insights:
       expandAllPapers: false,
       activeModalStoryId: null,
       wisdomIndex: 0,
+      dayLog: {},
       stories: [],
       papers: [],
       tasks: [],
@@ -849,7 +884,8 @@ Key Insights:
           stories: state.stories,
           papers: state.papers,
           tasks: state.tasks,
-          routines: state.routines
+          routines: state.routines,
+          dayLog: state.dayLog
         }, activeKey);
         localStorage.setItem('pulseboard_encrypted_vault', JSON.stringify(encrypted));
       } catch (e) {
@@ -972,6 +1008,7 @@ Key Insights:
         state.papers = decrypted.papers || STARTER_DATA.papers;
         state.tasks = decrypted.tasks || STARTER_DATA.tasks;
         state.routines = decrypted.routines || STARTER_DATA.routines;
+        state.dayLog = decrypted.dayLog || {};
 
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
         armTrustedDevice(enteredPin);
@@ -1118,6 +1155,7 @@ Key Insights:
         state.papers = decrypted.papers || STARTER_DATA.papers;
         state.tasks = decrypted.tasks || STARTER_DATA.tasks;
         state.routines = decrypted.routines || STARTER_DATA.routines;
+        state.dayLog = decrypted.dayLog || {};
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
         const gateScreen = document.getElementById('pin-gate-screen');
         gateScreen.classList.add('opacity-0', 'pointer-events-none');
@@ -1603,8 +1641,11 @@ Key Insights:
       const papers = state.papers.filter(ed).length;
       const words = stories.reduce((n, s) => n + (s.content || s.dek || '').split(/\s+/).filter(Boolean).length, 0);
       const mins = Math.max(1, Math.round(words / 220));
+      // Positive retrospective acknowledgment of last night's ritual
+      const yLog = (state.dayLog || {})[dateKeyOffset(-1)];
+      const ack = (yLog && yLog.stats) ? `Yesterday you closed the day with ${yLog.stats.tDone} wins. ` : '';
       if (isNight) return `${stories.length} briefings (~${mins} min) and ${papers} research digests to close the day with — plus your wind-down routine and a teaching.`;
-      return `${stories.length} briefings (~${mins} min) and ${papers} research digests — plus your routine, schedule, and one teaching to sit with.`;
+      return `${ack}${stories.length} briefings (~${mins} min) and ${papers} research digests — plus your routine, schedule, and one teaching to sit with.`;
     }
 
     // Visibility of system status (Nielsen heuristic): show feed age honestly
@@ -1620,6 +1661,101 @@ Key Insights:
       el.textContent = `Updated ${text} • stories decrypt in memory`;
     }
 
+    // ------------------------------------------------------------------
+    // Close the day: evening shutdown ritual
+    // (peak-end rule — Kahneman/Fredrickson; shutdown ritual — Newport;
+    // gratitude journaling — Emmons & McCullough; implementation
+    // intentions — Gollwitzer)
+    // ------------------------------------------------------------------
+    function dateKeyOffset(days) {
+      const d = new Date(Date.now() + days * 86400000);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+    const todayKey = () => dateKeyOffset(0);
+
+    // A close between midnight and 4 AM belongs to the day that just ended —
+    // you're wrapping up yesterday, not today (keeps the morning-after
+    // acknowledgment and the "already closed" state aligned with intuition).
+    const closingDayKey = () => (new Date().getHours() < 4) ? dateKeyOffset(-1) : dateKeyOffset(0);
+
+    function dayStats() {
+      const routine = state.routines[state.edition] || [];
+      return {
+        tDone: state.tasks.filter(t => t.done).length,
+        tTotal: state.tasks.length,
+        rPct: routine.length ? Math.round(100 * routine.filter(i => i.done).length / routine.length) : null,
+        saved: state.stories.filter(s => s.saved).length + state.papers.filter(p => p.saved).length
+      };
+    }
+
+    // Implementation intention (Gollwitzer): last night's "tomorrow's first
+    // win" becomes today's first task — exactly once, guarded by migrated.
+    function migrateTomorrowsTask() {
+      try {
+        const entry = state.dayLog && state.dayLog[dateKeyOffset(-1)];
+        if (entry && entry.tomorrow && !entry.migrated) {
+          entry.migrated = true;
+          state.tasks.unshift({ id: 'task-' + Date.now().toString(36), text: entry.tomorrow, done: false });
+          persistEncryptedState().catch(() => {});
+        }
+      } catch (e) { /* never block rendering on this */ }
+    }
+
+    function openDayClose() {
+      const entry = (state.dayLog || {})[closingDayKey()];
+      const s = dayStats();
+      document.getElementById('dayclose-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+      const lines = [
+        `✅ ${s.tDone} of ${s.tTotal} priorities done`,
+        s.rPct !== null ? `${state.edition === 'night' ? '🌙' : '☀️'} wind-down routine at ${s.rPct}%` : null,
+        `★ ${s.saved} items saved to read later`
+      ].filter(Boolean);
+      document.getElementById('dayclose-wins').innerHTML = lines.map(l => `<p class="text-slate-300">${l}</p>`).join('');
+      const t = currentTeaching();
+      const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
+      const q = t ? t.quote : list[0].quote;
+      document.getElementById('dayclose-quote').textContent = `“${String(q).replace(/^"|"$/g, '')}”`;
+      document.getElementById('dayclose-gratitude').value = entry ? (entry.gratitude || '') : '';
+      document.getElementById('dayclose-tomorrow').value = entry ? (entry.tomorrow || '') : '';
+      const finishBtn = document.getElementById('btn-finish-day');
+      const after = document.getElementById('dayclose-after');
+      if (entry) {
+        finishBtn.classList.add('hidden');
+        after.classList.remove('hidden');
+        after.textContent = `Closed at ${new Date(entry.closedAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })} · good night`;
+      } else {
+        finishBtn.classList.remove('hidden');
+        after.classList.add('hidden');
+      }
+      const m = document.getElementById('dayclose-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+
+    function closeDayCloseModal() {
+      const m = document.getElementById('dayclose-modal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+    }
+
+    async function finishDay() {
+      const key = closingDayKey();
+      if (!state.dayLog) state.dayLog = {};
+      state.dayLog[key] = {
+        gratitude: document.getElementById('dayclose-gratitude').value.trim(),
+        tomorrow: document.getElementById('dayclose-tomorrow').value.trim(),
+        stats: dayStats(),
+        closedAt: new Date().toISOString(),
+        migrated: false
+      };
+      await persistEncryptedState();
+      playBell(0.35);
+      try { navigator.vibrate && navigator.vibrate([40, 60, 40]); } catch (e) {}
+      document.getElementById('btn-finish-day').classList.add('hidden');
+      const after = document.getElementById('dayclose-after');
+      after.classList.remove('hidden');
+      after.textContent = 'The day is closed. Rest well.';
+      renderApp();
+    }
+
     // Implementation-intention flavored task prompts (Gollwitzer):
     // one per day, stable within the day so it doesn't flicker on re-render
     const TASK_IDEAS = [
@@ -1631,6 +1767,7 @@ Key Insights:
     ];
 
     function renderApp() {
+      migrateTomorrowsTask();
       const isNight = state.edition === 'night';
       const body = document.getElementById('app-body');
       const header = document.getElementById('app-header');
@@ -1659,13 +1796,19 @@ Key Insights:
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1';
-        document.getElementById('greeting-kicker').textContent = freshStartKicker('NIGHT EDITION • CALM EVENING WRAP-UP');
+        const dayClosedToday = !!(state.dayLog && state.dayLog[closingDayKey()]);
+        document.getElementById('greeting-kicker').textContent = dayClosedToday ? 'DAY CLOSED • REST WELL' : freshStartKicker('NIGHT EDITION • CALM EVENING WRAP-UP');
         document.getElementById('greeting-title').textContent = buildGreetingTitle();
         document.getElementById('greeting-subtitle').className = 'text-sm text-slate-300 mt-1 max-w-2xl';
         document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(true);
 
         document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm shrink-0';
         renderWeather(true);
+
+        const closeDayBtn = document.getElementById('btn-close-day');
+        closeDayBtn.classList.remove('hidden');
+        closeDayBtn.textContent = dayClosedToday ? 'Day closed ✓' : '🌙 Close the day';
+        closeDayBtn.classList.toggle('opacity-70', dayClosedToday);
 
         document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
         document.getElementById('schedule-title').textContent = '🌙 Evening Wind-Down';
@@ -1698,6 +1841,7 @@ Key Insights:
 
         document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
         renderWeather(false);
+        document.getElementById('btn-close-day').classList.add('hidden');
 
         document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
         document.getElementById('schedule-title').textContent = '🗓️ Your Day Ahead';
@@ -2134,8 +2278,15 @@ Key Insights:
       renderTasks(state.edition === 'night');
     });
 
+    document.getElementById('btn-close-day').addEventListener('click', openDayClose);
+    document.getElementById('btn-close-dayclose').addEventListener('click', closeDayCloseModal);
+    document.getElementById('dayclose-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'dayclose-modal') closeDayCloseModal();
+    });
+    document.getElementById('btn-finish-day').addEventListener('click', finishDay);
+
     document.getElementById('btn-close-modal').addEventListener('click', closeStoryModal);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeStoryModal(); closeTeachingModal(); } });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeStoryModal(); closeTeachingModal(); closeDayCloseModal(); } });
     document.getElementById('story-modal').addEventListener('click', (e) => {
       if (e.target.id === 'story-modal') closeStoryModal();
     });
