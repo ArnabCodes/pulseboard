@@ -6888,14 +6888,18 @@ Key Insights:
       renderSmartDossiersSummary(isNight);
     }
 
+    function pbIsLinkVerified(item) {
+      return Boolean(item && item.verified !== false && typeof item.url === 'string' && /^https:\/\/[^\s]+/.test(item.url));
+    }
+
     async function loadDeadlines() {
       try {
         const res = await fetch('deadlines.json', { cache: 'no-store' });
         if (!res.ok) return;
         const db = await res.json();
-        if (db && Array.isArray(db.deadlines)) deadlinesDb = db.deadlines;
-        if (db && Array.isArray(db.career_jobs)) careerJobsDb = db.career_jobs;
-        if (db && Array.isArray(db.postdocs)) postdocsDb = db.postdocs;
+        if (db && Array.isArray(db.deadlines)) deadlinesDb = db.deadlines.filter(pbIsLinkVerified);
+        if (db && Array.isArray(db.career_jobs)) careerJobsDb = db.career_jobs.filter(pbIsLinkVerified);
+        if (db && Array.isArray(db.postdocs)) postdocsDb = db.postdocs.filter(pbIsLinkVerified);
         const isNight = state.edition === 'night';
         renderSmartRadar(isNight);
         renderDeadlines(isNight);
@@ -7450,7 +7454,8 @@ Key Insights:
         applyLink.target = '_blank';
         applyLink.rel = 'noopener';
         applyLink.className = 'font-mono-tabular text-[11px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
-        applyLink.textContent = 'Official Portal / Apply ↗';
+        applyLink.title = 'Verified live portal' + (item.verifiedAt ? ' (' + item.verifiedAt + ')' : '');
+        applyLink.textContent = '✓ Official Portal / Apply ↗';
         foot.appendChild(applyLink);
 
         const btns = document.createElement('div');
@@ -7654,7 +7659,8 @@ Key Insights:
         applyLink.target = '_blank';
         applyLink.rel = 'noopener';
         applyLink.className = 'font-mono-tabular text-[11px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
-        applyLink.textContent = (isLab ? 'Group Portal / Openings ↗' : 'Fellowship Portal ↗');
+        applyLink.title = 'Verified live portal' + (item.verifiedAt ? ' (' + item.verifiedAt + ')' : '');
+        applyLink.textContent = (isLab ? '✓ Group Portal / Openings ↗' : '✓ Fellowship Portal ↗');
         foot.appendChild(applyLink);
 
         const btns = document.createElement('div');

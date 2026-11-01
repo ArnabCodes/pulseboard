@@ -81,6 +81,7 @@ def test_deadlines_dates_iso_and_names_non_empty():
             f'deadline {d.get("name")!r} has no date'
         # strict YYYY-MM-DD (fromisoformat rejects anything looser)
         date.fromisoformat(d['date'])
+        assert d.get('verified') is True, f'unverified deadline link: {d.get("name")!r}'
     # past-dated entries are allowed and expected — no assertion on recency.
     for key in ('career_jobs', 'postdocs'):
         items = db.get(key, [])
@@ -91,6 +92,7 @@ def test_deadlines_dates_iso_and_names_non_empty():
             assert isinstance(x.get('name'), str) and x['name'].strip()
             assert isinstance(x.get('org'), str) and x['org'].strip()
             assert isinstance(x.get('url'), str) and x['url'].startswith('https://')
+            assert x.get('verified') is True, f'unverified opportunity link: {x.get("id")!r}'
             date.fromisoformat(x['date'])
 
 

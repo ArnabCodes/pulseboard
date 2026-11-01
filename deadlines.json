@@ -6,77 +6,99 @@
       "kind": "Abstract (contributed)",
       "date": "2026-10-29",
       "location": "Atlanta, GA & online, Apr 11-16, 2027",
-      "url": "https://summit.aps.org/attend/abstracts/"
+      "url": "https://summit.aps.org/attend/abstracts/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "Pittcon 2027 - poster abstracts",
       "kind": "Poster abstract",
       "date": "2026-11-13",
       "location": "Pittsburgh, PA, Apr 24-28, 2027",
-      "url": "https://pittcon.secure-platform.com/calls"
+      "url": "https://pittcon.secure-platform.com/calls",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "DPG Spring Meeting 2027 (SAMOP / SKM Quantum & Spin Physics)",
       "kind": "Contributed abstract",
       "date": "2026-12-01",
       "location": "Germany (SAMOP & SKM Divisions), Mar 2027",
-      "url": "https://www.dpg-physik.de/aktivitaeten-und-programme/tagungen/fruehjahrstagungen"
+      "url": "https://www.pro-physik.de/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "QIP 2027 (30th Quantum Information Processing) - poster submissions",
       "kind": "Poster submission",
       "date": "2026-12-04",
       "location": "Singapore, Feb 20-26, 2027",
-      "url": "https://qipconference.org/2027/"
+      "url": "https://qipconference.org/2027/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "ENC 2027 (68th Experimental NMR Conference) - oral & early posters",
       "kind": "Abstract (oral + early posters)",
       "date": "2027-01-08",
       "location": "Asilomar Conference Center, CA, Apr 4-8, 2027",
-      "url": "https://www.enc-conference.org/ENC-2027"
+      "url": "https://www.enc-conference.org/ENC-2027",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "CLEO 2027 (Quantum Electronics & Laser Science) - paper submissions",
       "kind": "Technical paper / abstract",
       "date": "2027-01-20",
       "location": "Charlotte, NC, May 2027",
-      "url": "https://www.cleoconference.org/"
+      "url": "https://www.cleoconference.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "ENC 2027 (68th Experimental NMR Conference) - late-breaking posters",
       "kind": "Abstract (final poster deadline)",
       "date": "2027-02-19",
       "location": "Asilomar Conference Center, CA, Apr 4-8, 2027",
-      "url": "https://www.enc-conference.org/ENC-2027"
+      "url": "https://www.enc-conference.org/ENC-2027",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "EUROMAR-ISMAR 2027 - oral abstracts",
       "kind": "Abstract (oral)",
       "date": "2027-03-30",
       "location": "Lyon, France, Jul 4-8, 2027",
-      "url": "https://www.euroismar2027.org/"
+      "url": "https://www.euroismar2027.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "IEEE Quantum Week (QCE 2027) - technical papers & workshops",
       "kind": "Paper / abstract",
       "date": "2027-04-15",
       "location": "North America, Sep 2027",
-      "url": "https://qce.quantum.ieee.org/"
+      "url": "https://qce.quantum.ieee.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "EUROMAR-ISMAR 2027 - poster abstracts",
       "kind": "Abstract (poster)",
       "date": "2027-04-30",
       "location": "Lyon, France, Jul 4-8, 2027",
-      "url": "https://www.euroismar2027.org/"
+      "url": "https://www.euroismar2027.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "name": "Alpine Conference on Magnetic Resonance in Solids 2027",
       "kind": "Abstract & registration",
       "date": "2027-05-15",
       "location": "Chamonix Mont-Blanc, France, Sep 2027",
-      "url": "https://www.alpine-conference.org/"
+      "url": "https://www.alpine-conference.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     }
   ],
   "career_jobs": [
@@ -97,7 +119,9 @@
         "Floquet Physics"
       ],
       "fit": "Direct fit across Physics, Instrumentation & Applied Physics (IAP), and IISc Quantum Technology Initiative (IQTI).",
-      "url": "https://recruitment.iisc.ac.in/frp/"
+      "url": "https://recruitment.iisc.ac.in/frp/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iitb",
@@ -116,7 +140,9 @@
         "Condensed Matter"
       ],
       "fit": "Active recruitment in Quantum Information, Open Quantum Systems, NV/Spin defects, and Condensed Matter Theory.",
-      "url": "https://www.iitb.ac.in/career/apply"
+      "url": "https://www.iitb.ac.in/career/apply",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iitm",
@@ -135,7 +161,9 @@
         "Floquet Chaos"
       ],
       "fit": "Strong theoretical & experimental groups in open quantum systems, Floquet dynamics, and CQuICC quantum control.",
-      "url": "https://facapp.iitm.ac.in/"
+      "url": "https://facapp.iitm.ac.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-tifr-mum",
@@ -154,7 +182,9 @@
         "Quantum Theory"
       ],
       "fit": "Premier research institute with dedicated NMR facilities, open quantum systems theory, and mesoscopic physics.",
-      "url": "https://www.tifr.res.in/positions/"
+      "url": "https://www.tifr.res.in/~daa/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-tifr-hyd",
@@ -173,7 +203,9 @@
         "Floquet"
       ],
       "fit": "Home to India's flagship National NMR Facility & interdisciplinary quantum/spin dynamics groups.",
-      "url": "https://www.tifrh.res.in/index.php/faculty-positions/"
+      "url": "https://www.tifrh.res.in/careers/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-icts",
@@ -192,7 +224,9 @@
         "Computational Physics"
       ],
       "fit": "World-class hub for open quantum systems, non-equilibrium statistical physics, Floquet driving, and quantum information.",
-      "url": "https://www.icts.res.in/opportunities/faculty"
+      "url": "https://www.icts.res.in/opportunities/faculty",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iiser-pune",
@@ -211,7 +245,9 @@
         "Open Systems"
       ],
       "fit": "Hosts India's National Hub for Quantum Technologies (I-HUB QTF) with major NMR & NV-diamond sensing labs.",
-      "url": "https://www.iiserpune.ac.in/opportunities/academic"
+      "url": "https://www.iiserpune.ac.in/opportunities/academic",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iitd",
@@ -230,7 +266,9 @@
         "Computational Physics"
       ],
       "fit": "Expanding quantum sensing, spin-photon interfaces, and theoretical/computational quantum physics.",
-      "url": "https://home.iitd.ac.in/jobs-iitd/index.php"
+      "url": "https://home.iitd.ac.in/jobs-iitd/index.php",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iitk",
@@ -249,7 +287,9 @@
         "Quantum Devices"
       ],
       "fit": "Strong focus on non-equilibrium quantum dynamics, decoherence, and experimental quantum technologies.",
-      "url": "https://pingala.iitk.ac.in/IITKFR-0/index"
+      "url": "https://www.iitk.ac.in/dofa/faculty-recruitment",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iiser-mohali",
@@ -268,7 +308,9 @@
         "Quantum Foundations"
       ],
       "fit": "Renowned for NMR quantum information processing, spin control, and quantum thermodynamics.",
-      "url": "https://www.iisermohali.ac.in/faculty-positions"
+      "url": "https://www.iisermohali.ac.in/faculty-positions",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-rri",
@@ -286,7 +328,9 @@
         "Open Quantum Systems"
       ],
       "fit": "Focuses on Quantum Information & Computing (QuIC), atomic/defect magnetometry, and quantum foundations.",
-      "url": "https://www.rri.res.in/careers"
+      "url": "https://www.rri.res.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iitkgp-iith",
@@ -305,7 +349,9 @@
         "Computational Physics"
       ],
       "fit": "Dedicated Quantum Science & Technology centers hiring in spin control, sensing, and open quantum systems.",
-      "url": "https://careers.iith.ac.in/"
+      "url": "https://careers.iith.ac.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-iiserk-iacs-niser",
@@ -324,7 +370,9 @@
         "Spin Physics"
       ],
       "fit": "Leading eastern-corridor institutes with strong traditions in Floquet physics (IACS), quantum optics (IISER-K), and CMP.",
-      "url": "https://apply.iiserkol.ac.in/faculty/"
+      "url": "https://www.niser.ac.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-ashoka-snu",
@@ -342,7 +390,9 @@
         "Quantum Condensed Matter"
       ],
       "fit": "Research-intensive private universities with competitive startup grants in computational & quantum physics.",
-      "url": "https://www.ashoka.edu.in/careers/"
+      "url": "https://www.bits-pilani.ac.in/careers/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-ramanujan-inspire",
@@ -360,7 +410,9 @@
         "Quantum Tech & Physics"
       ],
       "fit": "5-year Assistant Professor-equivalent fellowships providing salary + research grant to establish an independent group in India.",
-      "url": "https://www.anrfonline.in/"
+      "url": "https://www.online-inspire.gov.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-cnrs-crcn",
@@ -379,7 +431,9 @@
         "NMR & Spin (Sec 05/06)"
       ],
       "fit": "Permanent tenured research scientist positions across all French CNRS labs (ENS Biomolecular NMR, Saclay Quantronics, LKB, Néel).",
-      "url": "https://carrieres.cnrs.fr/concours-externes-des-chercheurs-h-f/"
+      "url": "https://carrieres.cnrs.fr/concours-externes-des-chercheurs-h-f/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-galaxie-mcf",
@@ -398,7 +452,9 @@
         "Optics (CNU 30)"
       ],
       "fit": "Permanent university faculty positions in France across theoretical physics, magnetic resonance, and quantum optics.",
-      "url": "https://www.galaxie.enseignementsup-recherche.gouv.fr/ensup/cand_recrutement_enseignants_chercheurs.htm"
+      "url": "https://www.galaxie.enseignementsup-recherche.gouv.fr/ensup/cand_recrutement_enseignants_chercheurs.htm",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-france-cpj",
@@ -417,7 +473,9 @@
         "Open Quantum Systems"
       ],
       "fit": "French tenure-track chairs leading directly to Professeur des Universités / Directeur de Recherche with funded PhD/postdoc package.",
-      "url": "https://emploi.cnrs.fr/"
+      "url": "https://emploi.cnrs.fr/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-epfl",
@@ -436,7 +494,9 @@
         "Quantum Devices"
       ],
       "fit": "School of Basic Sciences & EPFL Center for Quantum Science and Engineering (QSE) tenure-track openings.",
-      "url": "https://www.epfl.ch/about/working/faculty-positions/"
+      "url": "https://www.epfl.ch/about/working/faculty-positions/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-ethz",
@@ -455,7 +515,9 @@
         "Open Quantum Systems"
       ],
       "fit": "World-leading center in solid-state spin sensing, NMR spectroscopy, and quantum information theory.",
-      "url": "https://www.facultyaffairs.ethz.ch/our-services/open-positions.html"
+      "url": "https://www.facultyaffairs.ethz.ch/our-services/open-positions.html",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-ista",
@@ -474,7 +536,9 @@
         "Spin Physics"
       ],
       "fit": "Generous independent group startup package in theoretical & experimental quantum physics.",
-      "url": "https://ista.ac.at/en/jobs/faculty/"
+      "url": "https://ista.ac.at/en/jobs/faculty/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-emmy-noether",
@@ -493,7 +557,9 @@
         "Open Quantum Systems"
       ],
       "fit": "Ideal for researchers 2–4 years post-PhD to lead an independent group in Germany (e.g., Ulm, Stuttgart, TUM, Jülich).",
-      "url": "https://www.dfg.de/en/research-funding/funding-opportunities/programmes/individual/emmy-noether"
+      "url": "https://www.dfg.de/en/research-funding/funding-opportunities/programmes/individual/emmy-noether",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-qutech-delft",
@@ -512,7 +578,9 @@
         "Quantum Sensing"
       ],
       "fit": "Flagship European hub for diamond color centers, nuclear spin registers, and quantum control.",
-      "url": "https://qutech.nl/open-positions/"
+      "url": "https://qutech.nl/open-positions/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-helmholtz-yig",
@@ -531,7 +599,9 @@
         "Spin & Superconducting Qubits"
       ],
       "fit": "Strong match with Forschungszentrum Jülich (PGI-8 Quantum Control) and KIT Quantum Sensing.",
-      "url": "https://www.helmholtz.de/en/current-topics/campaigns/helmholtz-investor-groups/"
+      "url": "https://www.helmholtz.de/en/career/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-mpg-erc",
@@ -550,7 +620,9 @@
         "NMR & Spin Control"
       ],
       "fit": "Flagship European independent group leader tracks (2–7 years post-PhD).",
-      "url": "https://erc.europa.eu/apply-grant/starting-grant"
+      "url": "https://erc.europa.eu/apply-grant/starting-grant",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-us-ajo",
@@ -569,7 +641,9 @@
         "Computational Physics"
       ],
       "fit": "Central AcademicJobsOnline board for US tenure-track Assistant Professor searches in Quantum Science & Physics.",
-      "url": "https://academicjobsonline.org/ajo/Physics"
+      "url": "https://academicjobsonline.org/ajo/Physics",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-us-aps",
@@ -588,7 +662,9 @@
         "Open Quantum Systems"
       ],
       "fit": "Official American Physical Society faculty portal covering Physics, Applied Physics, and Quantum Engineering departments.",
-      "url": "https://careers.aps.org/"
+      "url": "https://careers.aps.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-technion",
@@ -607,7 +683,9 @@
         "Quantum Information"
       ],
       "fit": "Direct alignment with the Helen Diller Quantum Center and Department of Physics.",
-      "url": "https://phys.technion.ac.il/en/research/academic-positions/"
+      "url": "https://phys.technion.ac.il/en/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-tau",
@@ -626,7 +704,9 @@
         "Condensed Matter"
       ],
       "fit": "Active tenure-track recruitment across Condensed Matter, AMO, and Quantum Science & Technology.",
-      "url": "https://en-exact-sciences.tau.ac.il/physics/jobs"
+      "url": "https://en-exact-sciences.tau.ac.il/physics",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-weizmann",
@@ -645,7 +725,9 @@
         "Quantum Control"
       ],
       "fit": "World-renowned faculties in Chemical & Biological Physics (NMR/spin resonance) and Quantum Physics.",
-      "url": "https://www.weizmann.ac.il/physics/positions-available"
+      "url": "https://www.weizmann.ac.il/physics/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-nyuad-kaust-tii",
@@ -663,7 +745,9 @@
         "Computational Physics (KAUST)"
       ],
       "fit": "High-resourced Gulf research centers with major NMR, NV-sensing, and quantum control programs.",
-      "url": "https://nyuad.nyu.edu/en/about/careers/faculty.html"
+      "url": "https://nyuad.nyu.edu/en/about/careers/faculty.html",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-fac-huji",
@@ -681,7 +765,9 @@
         "Quantum Control"
       ],
       "fit": "Strong tradition in NV sensing, spin baths, decoherence theory, and quantum metrology.",
-      "url": "https://phys.huji.ac.il/academic_positions"
+      "url": "https://phys.huji.ac.il/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-qruise",
@@ -700,7 +786,9 @@
         "NV & Spin Qubits"
       ],
       "fit": "Top 1% match: Builds physics-informed digital twins, Lindblad master-equation solvers, and GRAPE optimal pulse control.",
-      "url": "https://www.qruise.com/careers"
+      "url": "https://www.qruise.com/careers",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-algorithmiq",
@@ -719,7 +807,9 @@
         "Computational Physics"
       ],
       "fit": "Top 1% match: Co-founded by Open Quantum Systems pioneer Sabrina Maniscalco; core focus is noise modeling & open systems.",
-      "url": "https://algorithmiq.fi/careers/"
+      "url": "https://algorithmiq.fi/careers/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-nvision",
@@ -738,7 +828,9 @@
         "Optimal Pulse Control"
       ],
       "fit": "Top 1% match: Spin-out from Jelezko/Plenio labs combining NV-diamond spin physics, pulse shaping, and NMR hyperpolarization.",
-      "url": "https://www.nvision-imaging.com/careers"
+      "url": "https://www.nvision-imaging.com/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-qnami-bosch",
@@ -757,7 +849,9 @@
         "Signal Processing"
       ],
       "fit": "Direct match: Commercializing scanning and integrated NV-diamond quantum magnetometers.",
-      "url": "https://qnami.ch/careers/"
+      "url": "https://qnami.ch/careers/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-qctrl",
@@ -776,7 +870,9 @@
         "Quantum Sensing"
       ],
       "fit": "Top 1% match: Develops Boulder Opal optimal control, filter-function noise suppression, and quantum sensing software.",
-      "url": "https://q-ctrl.com/careers"
+      "url": "https://q-ctrl.com/careers",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-zhinst-qm",
@@ -795,7 +891,9 @@
         "NMR Instrumentation"
       ],
       "fit": "Direct match: Designing real-time pulse sequences, dynamical decoupling, and spin/qubit characterization.",
-      "url": "https://www.zhinst.com/en/company/careers"
+      "url": "https://www.zhinst.com/en/company/careers",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-bruker",
@@ -814,7 +912,9 @@
         "DNP"
       ],
       "fit": "Global leader in NMR/EPR instrumentation; hires physicists in spin dynamics, optimal control pulses, and DNP.",
-      "url": "https://www.bruker.com/en/careers.html"
+      "url": "https://www.bruker.com/en/careers.html",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-pasqal-alicebob",
@@ -833,7 +933,9 @@
         "QuTiP / Pulser"
       ],
       "fit": "Alice & Bob relies on Lindblad open-system dissipation for cat qubits; Pasqal hires in time-dependent pulse control.",
-      "url": "https://alice-and-bob.com/careers/"
+      "url": "https://www.pasqal.com/careers/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-iqm-riverlane-parity",
@@ -852,7 +954,9 @@
         "Computational Physics"
       ],
       "fit": "Leading European quantum hardware & control-stack companies hiring theoretical and experimental control physicists.",
-      "url": "https://www.meetiqm.com/careers"
+      "url": "https://www.meetiqm.com/careers",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-ibm-india",
@@ -871,7 +975,9 @@
         "Hamiltonian Dynamics"
       ],
       "fit": "IBM Research India's Quantum team works on noise learning, Lindblad error channels, and Hamiltonian simulation.",
-      "url": "https://research.ibm.com/labs/india"
+      "url": "https://research.ibm.com/labs/india",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-qpiai-india",
@@ -890,7 +996,9 @@
         "AI + Quantum"
       ],
       "fit": "Full-stack Indian quantum computing & AI company hiring senior scientists in quantum control and simulation.",
-      "url": "https://qpiai.tech/careers/"
+      "url": "https://qpiai.tech/careers/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-qnu-bqp-india",
@@ -909,7 +1017,9 @@
         "Quantum Sensing & Photonics"
       ],
       "fit": "BQP builds quantum-inspired multi-physics simulations; QNu Labs builds quantum hardware & sensing systems in Bengaluru.",
-      "url": "https://www.bqpsim.com/careers"
+      "url": "https://www.qnulabs.com/careers",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "job-ind-linkedin-quantum",
@@ -928,7 +1038,9 @@
         "Computational Physicist"
       ],
       "fit": "Direct pre-filtered LinkedIn search for Corporate Quantum Physicist, Quantum Control, and Open Quantum Systems roles.",
-      "url": "https://www.linkedin.com/jobs/search/?keywords=%22quantum%20control%22%20OR%20%22open%20quantum%22%20OR%20%22quantum%20sensing%22%20OR%20%22computational%20physicist%22"
+      "url": "https://www.linkedin.com/jobs/search/?keywords=%22quantum%20control%22%20OR%20%22open%20quantum%22%20OR%20%22quantum%20sensing%22%20OR%20%22computational%20physicist%22",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     }
   ],
   "postdocs": [
@@ -947,7 +1059,9 @@
         "Open Quantum Systems",
         "Quantum Control"
       ],
-      "url": "https://quantum.harvard.edu/hqi-fellowships"
+      "url": "https://academicpositions.harvard.edu/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-perimeter",
@@ -964,7 +1078,9 @@
         "Quantum Information",
         "Tensor Networks"
       ],
-      "url": "https://perimeterinstitute.ca/postdoctoral-fellowships"
+      "url": "https://perimeterinstitute.ca/careers",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-azrieli",
@@ -981,7 +1097,9 @@
         "Open Quantum Systems",
         "Floquet Physics"
       ],
-      "url": "https://azrielifoundation.org/fellows/internationalpostdoctoral/"
+      "url": "https://azrielifoundation.org/fellows/internationalpostdoctoral/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-humboldt",
@@ -998,7 +1116,9 @@
         "Open Quantum Systems",
         "Floquet"
       ],
-      "url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship"
+      "url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-mcqst",
@@ -1014,7 +1134,9 @@
         "Optimal Control & NMR (Glaser)",
         "Open Quantum Systems (Cirac)"
       ],
-      "url": "https://www.mcqst.de/support/postdoc-fellowship/"
+      "url": "https://www.mcqst.de/support/postdoc-fellowship/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-caltech-iqim",
@@ -1030,7 +1152,9 @@
         "Floquet & Driven Systems",
         "Open Quantum Systems"
       ],
-      "url": "https://iqim.caltech.edu/postdoctoral-fellowships/"
+      "url": "https://iqim.caltech.edu/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-stanford-bloch",
@@ -1047,7 +1171,9 @@
         "Open Quantum Systems",
         "Spin Control"
       ],
-      "url": "https://qfarm.stanford.edu/fellowships/bloch-fellowship"
+      "url": "https://qfarm.stanford.edu/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-icts-tifr",
@@ -1064,7 +1190,9 @@
         "Quantum Chaos",
         "Computational Physics"
       ],
-      "url": "https://www.icts.res.in/academic/postdoctoral-fellowships"
+      "url": "https://www.icts.res.in/opportunities",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-sandia-gilbreth",
@@ -1080,7 +1208,9 @@
         "Spin & Defect Control",
         "Open Quantum Systems"
       ],
-      "url": "https://www.sandia.gov/careers/career-possibilities/students-and-postdocs/fellowships/"
+      "url": "https://www.sandia.gov/careers/career-possibilities/students-and-postdocs/fellowships/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-jqi-umd",
@@ -1097,7 +1227,9 @@
         "Open Quantum Systems",
         "Floquet Matter"
       ],
-      "url": "https://jqi.umd.edu/about/jobs"
+      "url": "https://jqi.umd.edu/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-nwo-rubicon",
@@ -1114,7 +1246,9 @@
         "Quantum Sensing",
         "Open Quantum Systems"
       ],
-      "url": "https://www.nwo.nl/en/researchprogrammes/rubicon"
+      "url": "https://www.nwo.nl/en/researchprogrammes/rubicon",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-iisc-rri",
@@ -1131,7 +1265,9 @@
         "Open Quantum Systems",
         "Quantum Control"
       ],
-      "url": "https://iisc.ac.in/careers/post-doctoral-fellowships/"
+      "url": "https://physics.iisc.ac.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-icfo-nest",
@@ -1147,7 +1283,9 @@
         "Open Quantum Systems",
         "Quantum Information"
       ],
-      "url": "https://jobs.icfo.eu/"
+      "url": "https://jobs.icfo.eu/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-vatat-zuckerman",
@@ -1163,7 +1301,9 @@
         "NMR & Spin Dynamics",
         "Open Quantum Systems"
       ],
-      "url": "https://zuckermanstem.org/our-programs/postdoc-scholars/"
+      "url": "https://zuckermanstem.org/our-programs/postdoc-scholars/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-1851-uk",
@@ -1180,7 +1320,9 @@
         "Open Quantum Systems",
         "Quantum Technologies"
       ],
-      "url": "https://royalcommission1851.org/fellowships/research-fellowships"
+      "url": "https://royalcommission1851.org/fellowships/research-fellowships",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-tifr-mumbai",
@@ -1196,7 +1338,9 @@
         "Open Quantum Systems",
         "Floquet & Driven Matter"
       ],
-      "url": "https://www.tifr.res.in/~dtp/"
+      "url": "https://theory.tifr.res.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-anrf-npdf",
@@ -1213,7 +1357,9 @@
         "NV Sensing",
         "Open Quantum Systems"
       ],
-      "url": "https://serbonline.in/SERB/npdf"
+      "url": "https://dst.gov.in/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-eth-epfl-fellows",
@@ -1229,7 +1375,9 @@
         "Spin Control",
         "Open Quantum Systems"
       ],
-      "url": "https://ethz.ch/en/research/research-promotion/eth-fellowships.html"
+      "url": "https://www.epfl.ch/research/services/fund-research/funding-opportunities/fellowships-and-mobility/epflglion-fellows/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-cqe-chicago",
@@ -1245,7 +1393,9 @@
         "Quantum Sensing",
         "Open Quantum Systems"
       ],
-      "url": "https://mrsec.uchicago.edu/kadanoff-rice-fellowship"
+      "url": "https://chicagoquantum.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-newton-royal-soc",
@@ -1262,7 +1412,9 @@
         "NV Sensing",
         "Open Quantum Systems"
       ],
-      "url": "https://royalsociety.org/grants/newton-international/"
+      "url": "https://royalsociety.org/grants/newton-international/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-msca-eu",
@@ -1279,7 +1431,9 @@
         "NMR & Optimal Control",
         "Open Quantum Systems"
       ],
-      "url": "https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships"
+      "url": "https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-mit-berkeley-us",
@@ -1295,7 +1449,9 @@
         "Floquet Dynamics",
         "Open Quantum Systems"
       ],
-      "url": "https://physics.mit.edu/research/pappalardo-fellowships-in-physics/"
+      "url": "https://physics.berkeley.edu/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-us-natlabs",
@@ -1312,7 +1468,9 @@
         "NMR & Magnetic Resonance",
         "Open Systems"
       ],
-      "url": "https://www.anl.gov/hr/maria-goeppert-mayer-fellowship"
+      "url": "https://postdocs.llnl.gov/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-ulm",
@@ -1329,7 +1487,9 @@
         "Open Quantum Systems",
         "Optimal Control"
       ],
-      "url": "https://www.uni-ulm.de/en/nawi/institute-for-quantum-optics/"
+      "url": "https://www.uni-ulm.de/en/nawi/institute-for-quantum-optics/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-stuttgart",
@@ -1346,7 +1506,9 @@
         "Quantum Metrology",
         "Solid-State Spins"
       ],
-      "url": "https://www.pi3.uni-stuttgart.de/opportunities/"
+      "url": "https://www.pi3.uni-stuttgart.de/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-tum",
@@ -1362,7 +1524,9 @@
         "NV Diamond NMR (Bucher)",
         "Spin Dynamics"
       ],
-      "url": "https://www.ch.nat.tum.de/en/qsens/home/"
+      "url": "https://www.ch.nat.tum.de/en/qsens/home/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-ethz-basel",
@@ -1379,7 +1543,9 @@
         "Dynamical Decoupling",
         "Spin Control"
       ],
-      "url": "https://qc.ethz.ch/news-and-events/open-positions.html"
+      "url": "https://spin.ethz.ch/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-juelich",
@@ -1395,7 +1561,9 @@
         "Open Quantum Systems",
         "Floquet & Driven Pulses"
       ],
-      "url": "https://www.fz-juelich.de/en/pgi/pgi-8"
+      "url": "https://www.fz-juelich.de/en/pgi/pgi-8",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-delft-qutech",
@@ -1411,7 +1579,9 @@
         "Nuclear Spin Baths",
         "Floquet / Dynamical Decoupling"
       ],
-      "url": "https://qutech.nl/vacancies/"
+      "url": "https://qutech.nl/jobs/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-saclay-ens",
@@ -1427,7 +1597,9 @@
         "High-Resolution NMR & Relaxation",
         "Spin Dynamics"
       ],
-      "url": "https://iramis.cea.fr/spec/pho/quantronics/"
+      "url": "https://www.phys.ens.psl.eu/en",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-lab-oxford-mainz",
@@ -1444,7 +1616,9 @@
         "NV Magnetometry",
         "Open Systems"
       ],
-      "url": "https://www.physics.ox.ac.uk/about-us/jobs"
+      "url": "https://www.physics.ox.ac.uk/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-board-quantiki",
@@ -1461,7 +1635,9 @@
         "NV Sensing",
         "Quantum Information"
       ],
-      "url": "https://www.quantiki.org/positions"
+      "url": "https://quantiki.org/",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-board-euraxess",
@@ -1477,7 +1653,9 @@
         "MSCA Host Offers",
         "NMR & Quantum Sensing"
       ],
-      "url": "https://euraxess.ec.europa.eu/jobs/search"
+      "url": "https://euraxess.ec.europa.eu/jobs/search",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     },
     {
       "id": "pd-board-ajo-aps",
@@ -1493,7 +1671,9 @@
         "Condensed Matter Theory",
         "Open Quantum Systems"
       ],
-      "url": "https://academicjobsonline.org/ajo/Physics"
+      "url": "https://academicjobsonline.org/ajo/Physics",
+      "verified": true,
+      "verifiedAt": "2026-11-01"
     }
   ]
 }

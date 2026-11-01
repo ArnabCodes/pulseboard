@@ -1146,12 +1146,48 @@ JOB_PROFILE_KEYWORDS = [
 ]
 
 
+def verify_url_live(url, timeout=10):
+    """Verify that a job, postdoc, or conference URL returns HTTP 200 and does not
+    display a 404/Page Not Found <title>. Uses curl for modern TLS 1.3 + HTTP/2
+    compatibility across university and corporate portals.
+    """
+    if not url or not url.startswith('https://'):
+        return False
+    import subprocess
+    cmd = [
+        'curl', '-L', '-s', '--compressed', '-m', str(timeout),
+        '-A', UA,
+        '-w', '\n__CURL_STATUS__:%{http_code}',
+        url,
+    ]
+    try:
+        p = subprocess.run(cmd, capture_output=True, timeout=timeout + 3)
+        out = p.stdout.decode('utf-8', errors='ignore')
+        if '__CURL_STATUS__:' not in out:
+            return False
+        body, meta = out.rsplit('__CURL_STATUS__:', 1)
+        code_str = meta.strip()
+        code = int(code_str) if code_str.isdigit() else 0
+        if code != 200:
+            return False
+        m = re.search(r'<title[^>]*>(.*?)</title>', body[:16000], re.I | re.S)
+        title = re.sub(r'\s+', ' ', m.group(1)).strip().lower() if m else ''
+        bad_markers = ('404', 'page not found', 'not found', 'error 404', "doesn't exist", 'no longer available')
+        if any(b in title for b in bad_markers):
+            return False
+        return True
+    except Exception:
+        return False
+
+
 def refresh_deadlines_db():
-    """Keep deadlines.json fresh during daily GitHub Actions runs:
+    """Keep deadlines.json fresh and link-verified during daily GitHub Actions runs:
     1. Roll recurring faculty/fellowship cutoffs that are >30 days past forward
        by 1 year so annual cycles stay current automatically.
     2. Poll live academic job RSS feeds (best-effort) for matching quantum/spin/
-       physics roles and merge any new verified entries.
+       physics roles and verify their URLs before merging.
+    3. Audit all URLs in deadlines.json in parallel and stamp verified=True/False
+       so the UI never displays a dead or broken listing.
     """
     path = os.path.join(BASE, 'deadlines.json')
     if not os.path.exists(path):
@@ -1163,6 +1199,7 @@ def refresh_deadlines_db():
         return
 
     today = datetime.now(timezone.utc).date()
+    today_str = today.strftime('%Y-%m-%d')
     changed = False
 
     # 1. Auto-advance recurring career_jobs & postdocs cutoffs >30 days past
@@ -1182,7 +1219,7 @@ def refresh_deadlines_db():
                 item['date'] = next_dt.strftime('%Y-%m-%d')
                 changed = True
 
-    # 2. Best-effort live RSS poll from academic job boards
+    # 2. Best-effort live RSS poll from academic job boards (verified before adding)
     existing_urls = {
         x.get('url') for sec in ('career_jobs', 'postdocs')
         for x in db.get(sec, []) if x.get('url')
@@ -1205,8 +1242,9 @@ def refresh_deadlines_db():
             matched = [kw for kw in JOB_PROFILE_KEYWORDS if kw in hay]
             if not matched:
                 continue
+            if not verify_url_live(link):
+                continue
             is_postdoc = any(w in hay for w in ('postdoc', 'post-doctoral', 'fellowship'))
-            # Extract deadline YYYY-MM-DD if present in description, else default 45d out
             m_date = re.search(r'\b(202[6-9]-\d{2}-\d{2})\b', desc)
             if m_date:
                 dl_date = m_date.group(1)
@@ -1226,6 +1264,8 @@ def refresh_deadlines_db():
                     'location': 'See official posting',
                     'tags': [m.title() for m in matched[:4]],
                     'url': link,
+                    'verified': True,
+                    'verifiedAt': today_str,
                 })
             else:
                 db.setdefault('career_jobs', []).append({
@@ -1241,8 +1281,24 @@ def refresh_deadlines_db():
                     'tags': [m.title() for m in matched[:4]],
                     'fit': f'Matched research profile keywords: {", ".join(matched[:4])}.',
                     'url': link,
+                    'verified': True,
+                    'verifiedAt': today_str,
                 })
             existing_urls.add(link)
+            changed = True
+
+    # 3. Parallel live link verification across all entries in deadlines.json
+    from concurrent.futures import ThreadPoolExecutor
+    all_entries = [
+        it for sec in ('deadlines', 'career_jobs', 'postdocs')
+        for it in db.get(sec, [])
+    ]
+    with ThreadPoolExecutor(max_workers=16) as ex:
+        results = list(ex.map(lambda it: verify_url_live(it.get('url', '')), all_entries))
+    for it, ok in zip(all_entries, results):
+        if it.get('verified') != ok or it.get('verifiedAt') != today_str:
+            it['verified'] = ok
+            it['verifiedAt'] = today_str
             changed = True
 
     if changed:
