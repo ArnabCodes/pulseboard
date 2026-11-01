@@ -505,6 +505,12 @@
             <span id="story-readmin" class="shrink-0 text-[11px] font-medium"></span>
             <span id="story-spectrum" class="hidden shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded"></span>
             <button type="button" id="story-save-btn" class="shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors">☆ Save</button>
+            <button type="button" id="story-font-btn" class="shrink-0 text-[11px] font-bold px-2 py-1.5 rounded-full border transition-colors" aria-label="Cycle text size" title="Cycle text size">Aa</button>
+            <button type="button" id="story-share-btn" class="shrink-0 w-8 h-8 rounded-full border transition-colors flex items-center justify-center" aria-label="Share story" title="Share">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.68 13.34a3 3 0 100 2.32m6.64-2.32a3 3 0 100 2.32M15 9V3m0 6h-6m6 0l-8.5 8.5"></path>
+              </svg>
+            </button>
           </div>
         </header>
 
@@ -618,7 +624,10 @@
 
     // Determine default edition based on current local hour
     const currentHour = new Date().getHours();
-    const defaultEdition = (currentHour >= 5 && currentHour < 18) ? 'morning' : 'night';
+    const urlEdition = (new URLSearchParams(location.search).get('edition') || '').toLowerCase();
+    const defaultEdition = (urlEdition === 'morning' || urlEdition === 'night')
+      ? urlEdition
+      : ((currentHour >= 5 && currentHour < 18) ? 'morning' : 'night');
 
     // Curated Secular Spiritual & Buddhist Teachings Collection
     const WISDOM_TEACHINGS = {
@@ -1939,6 +1948,24 @@ Key Insights:
         return s.edition === state.edition || s.edition === 'morning';
       });
 
+      // Cross-spectrum transparency: the leaning of outlets actually in view.
+      // Only shown when two or more leanings are present — never overclaims.
+      const specCounts = {};
+      filtered.forEach(s => { if (s.spectrum) specCounts[s.spectrum] = (specCounts[s.spectrum] || 0) + 1; });
+      const specKeys = Object.keys(specCounts).sort();
+      const balEl = document.getElementById('spectrum-balance') || (() => {
+        const el = document.createElement('p');
+        el.id = 'spectrum-balance';
+        container.insertAdjacentElement('afterend', el);
+        return el;
+      })();
+      if (specKeys.length >= 2) {
+        balEl.textContent = 'Cross-spectrum in view: ' + specKeys.map(k => `${specCounts[k]} ${k}`).join(' · ') + ' — so you see more than one side.';
+        balEl.className = 'mt-4 text-[11px] leading-relaxed ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+      } else {
+        balEl.className = 'hidden';
+      }
+
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="md:col-span-2 rounded-2xl border border-dashed ${isNight ? 'border-slate-700 bg-slate-900/50 text-slate-400' : 'border-slate-300 bg-white/60 text-slate-500'} p-8 text-center">
@@ -2068,6 +2095,25 @@ Key Insights:
       }
     }
 
+    async function pbShare(title, url, btn) {
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; }
+      }
+      copyText(url, btn);
+    }
+
+    function readerFontStep() {
+      const v = parseInt(localStorage.getItem('pb_reader_font') || '0', 10);
+      return (v >= 0 && v <= 2) ? v : 0;
+    }
+
+    const READER_FONT_STEPS = [
+      'text-[15px] sm:text-base leading-[1.85]',
+      'text-[17px] sm:text-lg leading-[1.85]',
+      'text-[19px] sm:text-xl leading-[1.8]'
+    ];
+
     function paperCitation(p) {
       const title = (p.title || '').replace(/\.\.\.$/, '');
       const parts = [];
@@ -2171,6 +2217,7 @@ Key Insights:
               ${paper.arxivId ? `<a href="https://www.semanticscholar.org/arxiv/${paper.arxivId}" target="_blank" rel="noopener" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">Citations ↗</a>` : ''}
               <button type="button" data-cite-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ Cite</button>
               <button type="button" data-bibtex-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ BibTeX</button>
+              <button type="button" data-share-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">↗ Share</button>
             </div>
           </div>
         `;
@@ -2212,6 +2259,13 @@ Key Insights:
         btn.addEventListener('click', () => {
           const p = state.papers.find(x => x.id === btn.getAttribute('data-bibtex-paper'));
           if (p) copyText(paperBibtex(p), btn);
+        });
+      });
+
+      container.querySelectorAll('[data-share-paper]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = state.papers.find(x => x.id === btn.getAttribute('data-share-paper'));
+          if (p) pbShare(p.title, p.url, btn);
         });
       });
     }
@@ -2464,6 +2518,13 @@ Key Insights:
 
       renderStorySaveBtn(story);
 
+      // Font-size cycler + native share, themed like the rest of the header
+      const fontBtn = document.getElementById('story-font-btn');
+      fontBtn.textContent = ['Aa', 'Aa⁺', 'Aa⁺⁺'][readerFontStep()];
+      fontBtn.className = 'shrink-0 text-[11px] font-bold px-2 py-1.5 rounded-full border transition-colors ' + (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-amber-100');
+      const shareBtn = document.getElementById('story-share-btn');
+      shareBtn.className = 'shrink-0 w-8 h-8 rounded-full border transition-colors flex items-center justify-center ' + (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-amber-100');
+
       const cat = document.getElementById('story-category');
       cat.textContent = story.category;
       cat.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm mb-4 ' + (isNight ? 'bg-indigo-500 text-white' : 'bg-amber-500 text-white');
@@ -2483,7 +2544,7 @@ Key Insights:
         .map(text => {
           const p = document.createElement('p');
           p.textContent = text;
-          p.className = 'text-[15px] sm:text-base leading-[1.85] ' + (isNight ? 'text-slate-300' : 'text-slate-700');
+          p.className = READER_FONT_STEPS[readerFontStep()] + ' ' + (isNight ? 'text-slate-300' : 'text-slate-700');
           return p;
         });
 
@@ -2652,17 +2713,30 @@ Key Insights:
       }
     });
 
-    // PWA Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => {
-          console.log('ServiceWorker registration skipped:', err);
-        });
-      });
-    }
+    document.getElementById('story-font-btn').addEventListener('click', () => {
+      const step = (readerFontStep() + 1) % 3;
+      localStorage.setItem('pb_reader_font', String(step));
+      const story = state.stories.find(s => s.id === state.activeModalStoryId);
+      if (story) renderStoryPage(story);
+    });
 
-    // Initialize Security Engine
-    
+    document.getElementById('story-share-btn').addEventListener('click', () => {
+      const story = state.stories.find(s => s.id === state.activeModalStoryId);
+      if (story) pbShare(story.title, story.sourceUrl || location.href);
+    });
+
+    // Offline honesty: a small badge when the network is gone (the service
+    // worker serves the last cached edition, so the app keeps working).
+    const offlineBadge = document.createElement('div');
+    offlineBadge.id = 'offline-badge';
+    offlineBadge.className = 'hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full text-xs font-semibold bg-amber-500 text-slate-950 shadow-lg select-none pointer-events-none';
+    offlineBadge.textContent = 'Offline — reading from your cache';
+    document.body.appendChild(offlineBadge);
+    const syncOfflineBadge = () => offlineBadge.classList.toggle('hidden', navigator.onLine);
+    window.addEventListener('online', syncOfflineBadge);
+    window.addEventListener('offline', syncOfflineBadge);
+    syncOfflineBadge();
+
     // WebAuthn Biometric Engine (Touch ID / Face ID / Android Fingerprint)
     let isBioEnrolled = false;
 
@@ -2878,7 +2952,6 @@ Key Insights:
     }
 
     initSecurityGate();
-
     // --- Strip Vercel toolbar / preview widgets if the platform injects them ---
     (function stripVercelWidgets() {
       const looksVercel = (n) => {
