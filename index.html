@@ -10,10 +10,36 @@
   <meta name="theme-color" content="#04060b" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PulseBoard" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <!-- Discovery & social preview -->
+  <meta name="description" content="A personal, private morning &amp; night briefing dashboard — balanced news, arXiv papers, weather, routines and secular teachings. Single-file PWA; no accounts, no analytics, no tracking." />
+  <meta property="og:title" content="PulseBoard — daily briefing" />
+  <meta property="og:description" content="Personal morning &amp; night briefing: balanced news, arXiv papers, weather, routines and secular teachings. Private by design." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pulseboard-arnabcodes.vercel.app/" />
+  <meta property="og:image" content="https://pulseboard-arnabcodes.vercel.app/icon-512.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="PulseBoard — daily briefing" />
+  <meta name="twitter:description" content="Personal morning &amp; night briefing: balanced news, arXiv papers, weather, routines and secular teachings. Private by design." />
+  <meta name="twitter:image" content="https://pulseboard-arnabcodes.vercel.app/icon-512.png" />
+
+  <!-- Scheme-aware theme colors (dark #04060b / light #fffdf7). The plain
+       meta above stays FIRST in tree order — per the HTML spec the first
+       matching theme-color wins — because the app manages that one at
+       runtime (amber status bar on the morning lock screen). These variants
+       carry the scheme-appropriate color whenever the runtime value is absent. -->
+  <meta name="theme-color" content="#04060b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#fffdf7" media="(prefers-color-scheme: light)" />
+
+  <!-- Fixed-origin connection hints (feed cover images come from arbitrary
+       outlet CDNs and are deliberately NOT preconnected) -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preconnect" href="https://pulseboard-arnabcodes.vercel.app" />
 
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">

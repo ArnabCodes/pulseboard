@@ -2,7 +2,9 @@
   "name": "PulseBoard Daily Briefing",
   "short_name": "PulseBoard",
   "id": "/",
-  "description": "Your custom morning and night curated news, papers, and routines dashboard.",
+  "lang": "en",
+  "dir": "ltr",
+  "description": "Personal morning and night briefing: balanced world news, arXiv research papers, weather, routines, and secular teachings — a private, offline-capable single-file PWA.",
   "start_url": "/",
   "scope": "/",
   "display": "fullscreen",
@@ -10,6 +12,7 @@
   "background_color": "#04060b",
   "theme_color": "#04060b",
   "orientation": "portrait-primary",
+  "categories": ["news", "productivity"],
   "icons": [
     {
       "src": "icon-192.png",
@@ -34,6 +37,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-1.png",
+      "sizes": "824x1784",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Night edition lock screen — PIN-protected gate over the encrypted dashboard"
+    },
+    {
+      "src": "screenshot-2.png",
+      "sizes": "824x1784",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Night edition dashboard — unlocked, showing the day's briefings and research digests"
     }
   ],
   "shortcuts": [
