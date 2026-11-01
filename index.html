@@ -625,6 +625,7 @@
             >↻ Off</button>
             <button
               type="submit"
+              id="btn-add-task"
               disabled
               class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white transition-colors shrink-0 disabled:opacity-50"
             >
@@ -1443,7 +1444,7 @@ Key Insights:
         
         // Hydrate DOM
         document.getElementById('new-task-input').disabled = false;
-        document.querySelector('#add-task-form button').disabled = false;
+        document.getElementById('btn-add-task').disabled = false;
         updateDateDisplay();
         renderApp();
         refreshContentFromFeed();
@@ -1483,7 +1484,7 @@ Key Insights:
         
         // Enable inputs & hydrate UI
         document.getElementById('new-task-input').disabled = false;
-        document.querySelector('#add-task-form button').disabled = false;
+        document.getElementById('btn-add-task').disabled = false;
         updateDateDisplay();
         renderApp();
         refreshContentFromFeed();
@@ -1623,7 +1624,7 @@ Key Insights:
         setGateThemeColor(false);
         setTimeout(() => gateScreen.classList.add('hidden'), 300);
         document.getElementById('new-task-input').disabled = false;
-        document.querySelector('#add-task-form button').disabled = false;
+        document.getElementById('btn-add-task').disabled = false;
         updateDateDisplay();
         renderApp();
         refreshContentFromFeed();
@@ -1726,7 +1727,7 @@ Key Insights:
         const gateScreen = document.getElementById('pin-gate-screen');
         gateScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
         document.getElementById('new-task-input').disabled = true;
-        document.querySelector('#add-task-form button').disabled = true;
+        document.getElementById('btn-add-task').disabled = true;
         setGateThemeColor(true);
         refreshGateMode();
       });
