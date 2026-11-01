@@ -1130,10 +1130,133 @@ def pick_news_stories():
 
 
 # --------------------------------------------------------------------------
+# Autonomous Deadlines & Academic/Quantum Job Board Refresh
+# --------------------------------------------------------------------------
+
+JOB_FEED_URLS = [
+    ('AcademicJobsOnline Physics', 'https://academicjobsonline.org/ajo?joblist-0-0-0-0----r--'),
+]
+
+JOB_PROFILE_KEYWORDS = [
+    'open quantum', 'quantum control', 'quantum sensing', 'nv center',
+    'nitrogen-vacancy', 'nmr', 'nuclear magnetic', 'spin dynamics',
+    'floquet', 'decoherence', 'master equation', 'lindblad', 'diamond',
+    'magnetometry', 'hyperpolarization', 'quantum information',
+    'computational physics', 'quantum optics', 'condensed matter',
+]
+
+
+def refresh_deadlines_db():
+    """Keep deadlines.json fresh during daily GitHub Actions runs:
+    1. Roll recurring faculty/fellowship cutoffs that are >30 days past forward
+       by 1 year so annual cycles stay current automatically.
+    2. Poll live academic job RSS feeds (best-effort) for matching quantum/spin/
+       physics roles and merge any new verified entries.
+    """
+    path = os.path.join(BASE, 'deadlines.json')
+    if not os.path.exists(path):
+        return
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            db = json.load(f)
+    except Exception:
+        return
+
+    today = datetime.now(timezone.utc).date()
+    changed = False
+
+    # 1. Auto-advance recurring career_jobs & postdocs cutoffs >30 days past
+    for section in ('career_jobs', 'postdocs'):
+        for item in db.get(section, []):
+            d_str = item.get('date', '')
+            try:
+                dt = datetime.strptime(d_str, '%Y-%m-%d').date()
+            except ValueError:
+                continue
+            if (today - dt).days > 30:
+                try:
+                    next_dt = dt.replace(year=dt.year + 1)
+                except ValueError:
+                    # Feb 29 -> Feb 28
+                    next_dt = dt.replace(year=dt.year + 1, day=28)
+                item['date'] = next_dt.strftime('%Y-%m-%d')
+                changed = True
+
+    # 2. Best-effort live RSS poll from academic job boards
+    existing_urls = {
+        x.get('url') for sec in ('career_jobs', 'postdocs')
+        for x in db.get(sec, []) if x.get('url')
+    }
+    for source_name, feed_url in JOB_FEED_URLS:
+        raw = http_get(feed_url, timeout=12)
+        if not raw:
+            continue
+        try:
+            root = ET.fromstring(raw)
+        except ET.ParseError:
+            continue
+        for item in root.iter('item'):
+            title = (item.findtext('title') or '').strip()
+            link = (item.findtext('link') or '').strip()
+            desc = strip_html(item.findtext('description') or '')
+            if not title or not link or not link.startswith('https://') or link in existing_urls:
+                continue
+            hay = (title + ' ' + desc).lower()
+            matched = [kw for kw in JOB_PROFILE_KEYWORDS if kw in hay]
+            if not matched:
+                continue
+            is_postdoc = any(w in hay for w in ('postdoc', 'post-doctoral', 'fellowship'))
+            # Extract deadline YYYY-MM-DD if present in description, else default 45d out
+            m_date = re.search(r'\b(202[6-9]-\d{2}-\d{2})\b', desc)
+            if m_date:
+                dl_date = m_date.group(1)
+            else:
+                from datetime import timedelta
+                dl_date = (today + timedelta(days=45)).strftime('%Y-%m-%d')
+            slug = hashlib.sha1(link.encode('utf-8')).hexdigest()[:8]
+            if is_postdoc:
+                db.setdefault('postdocs', []).append({
+                    'id': f'pd-auto-{slug}',
+                    'name': title[:130],
+                    'org': source_name,
+                    'subType': 'lab-opening',
+                    'region': 'Global Feed',
+                    'date': dl_date,
+                    'cycle': 'Auto-discovered via daily GitHub Actions job feed',
+                    'location': 'See official posting',
+                    'tags': [m.title() for m in matched[:4]],
+                    'url': link,
+                })
+            else:
+                db.setdefault('career_jobs', []).append({
+                    'id': f'job-auto-{slug}',
+                    'name': title[:130],
+                    'org': source_name,
+                    'track': 'faculty',
+                    'region': 'US & Global',
+                    'filterGroup': 'faculty-us-me',
+                    'date': dl_date,
+                    'cycle': 'Auto-discovered via daily GitHub Actions job feed',
+                    'location': 'See official posting',
+                    'tags': [m.title() for m in matched[:4]],
+                    'fit': f'Matched research profile keywords: {", ".join(matched[:4])}.',
+                    'url': link,
+                })
+            existing_urls.add(link)
+            changed = True
+
+    if changed:
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(db, f, indent=2, ensure_ascii=False)
+            f.write('\n')
+
+
+# --------------------------------------------------------------------------
 # Assemble the feed
 # --------------------------------------------------------------------------
 
 def main():
+    refresh_deadlines_db()
     # hand-curated stories: heal + keep (they are the evergreen / Mind column)
     with open(os.path.join(BASE, 'articles_db.json'), 'r', encoding='utf-8') as f:
         hand = json.load(f)

@@ -569,6 +569,23 @@
       </div>
     </section>
 
+    <!-- INTELLIGENT WORKSPACE LENS BAR & URGENT RADAR (Progressive Disclosure) -->
+    <nav id="workspace-lens-bar" aria-label="Workspace view lenses" class="mb-6 rounded-xl border border-stone-200/90 bg-white px-3.5 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] flex flex-wrap items-center justify-between gap-2.5 transition-colors">
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span id="lens-label" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-800 mr-1 hidden sm:inline">View Lens:</span>
+        <button type="button" data-lens="smart" aria-pressed="true" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-900 text-white transition-all">✦ Smart Focus</button>
+        <button type="button" data-lens="briefing" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">§ 01 · Dispatches &amp; Vault</button>
+        <button type="button" data-lens="papers" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">§ 02 · Preprints &amp; Deadlines</button>
+        <button type="button" data-lens="career" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">§ 03 · Faculty &amp; Industry</button>
+        <button type="button" data-lens="postdocs" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">§ 04 · Postdocs &amp; Labs</button>
+        <button type="button" data-lens="all" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">All Sections</button>
+      </div>
+      <span id="lens-context-hint" class="font-mono-tabular text-[10px] text-stone-500 hidden xl:inline">Curated signal · Zero visual overload</span>
+    </nav>
+
+    <!-- Urgent <21d Deadlines & Tracked Applications Radar Strip -->
+    <div id="smart-radar-strip" class="hidden mb-8 rounded-xl border border-stone-200/90 bg-[#faf7f2] px-4 py-2.5 flex flex-wrap items-center gap-2"></div>
+
     <!-- 12-Column Editorial & Personal Command Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
 
@@ -576,7 +593,7 @@
       <div class="lg:col-span-8 space-y-12">
 
         <!-- Newsboard -->
-        <section aria-labelledby="newsboard-heading">
+        <section id="newsboard-section" aria-labelledby="newsboard-heading">
           <div class="flex flex-wrap items-end justify-between gap-4 pb-3 mb-5 border-b border-stone-200/90">
             <div>
               <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 01 · Curated Dispatches</p>
@@ -629,7 +646,7 @@
 
 
         <!-- Papers Section -->
-        <section aria-labelledby="papers-heading">
+        <section id="papers-section" aria-labelledby="papers-heading">
           <div class="flex flex-wrap items-end justify-between gap-3 pb-3 mb-4 border-b border-stone-200/90">
             <div>
               <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 03 · Preprints &amp; Literature</p>
@@ -737,6 +754,15 @@
 
             <div id="postdoc-board-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           </div>
+        </section>
+
+        <!-- Smart Focus Executive Dossiers Summary (replaces 80+ cards in Smart Focus mode) -->
+        <section id="smart-dossiers-summary" aria-label="Archive and Career Dossiers Summary" class="hidden pt-6 border-t border-stone-200/90">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <p id="smart-dossiers-kicker" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800">On-Demand Dossiers · Progressive Disclosure</p>
+            <span id="smart-dossiers-sub" class="font-mono-tabular text-[10px] text-stone-400">Open any board when ready</span>
+          </div>
+          <div id="smart-dossiers-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </section>
 
       </div>
@@ -3624,6 +3650,7 @@ Key Insights:
       if (typeof renderPostdocBoard === 'function') renderPostdocBoard(isNight);
       pbEnsureVaultStories();
       renderVault(isNight);
+      if (typeof renderWorkspaceLens === 'function') renderWorkspaceLens(isNight);
     }
 
     // ---- Deep-Reading Vault: evergreen deep dives (EXTRA_STORIES) ----
@@ -4535,6 +4562,7 @@ Key Insights:
       // by savedAt stamp, newest first within each group. Items without a
       // stamp (imported/legacy saves) land in 'Earlier'. Only when >0 saved.
       let cardsHtml;
+      let moreNewsHtml = '';
       if (state.selectedCategory === 'saved') {
         const dayStart = new Date(); dayStart.setHours(0, 0, 0, 0);
         const weekAgo = Date.now() - 7 * 86400000;
@@ -4553,9 +4581,41 @@ Key Insights:
           items.forEach(s => { cardsHtml += storyCard(s, cardIdx); cardIdx += 1; });
         });
       } else {
-        cardsHtml = filtered.map((story, idx) => storyCard(story, idx)).join('');
+        const smartCap = (typeof pbActiveLens === 'function' && pbActiveLens() === 'smart' && state.selectedCategory === 'all' && !window.pbNewsShowAll) ? 3 : filtered.length;
+        const visibleSlice = filtered.slice(0, smartCap);
+        cardsHtml = visibleSlice.map((story, idx) => storyCard(story, idx)).join('');
+        if (filtered.length > smartCap) {
+          const hiddenCount = filtered.length - smartCap;
+          moreNewsHtml = `
+            <div class="md:col-span-2 flex items-center justify-between gap-3 rounded-xl border px-4 py-3 ${isNight ? 'border-slate-800 bg-slate-900/60' : 'border-stone-200/90 bg-[#faf7f2]'}">
+              <span class="font-mono-tabular text-xs ${isNight ? 'text-slate-400' : 'text-stone-600'}">Showing top ${smartCap} of ${filtered.length} curated dispatches in Smart Focus</span>
+              <button type="button" id="btn-expand-news-smart" class="font-mono-tabular text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${isNight ? 'border-indigo-500/40 bg-indigo-950/50 text-indigo-300 hover:bg-indigo-900/60' : 'border-amber-800/30 bg-white text-amber-900 hover:bg-amber-50'}">Show +${hiddenCount} more dispatches ↓</button>
+            </div>
+          `;
+        } else if (window.pbNewsShowAll && typeof pbActiveLens === 'function' && pbActiveLens() === 'smart' && filtered.length > 3) {
+          moreNewsHtml = `
+            <div class="md:col-span-2 flex justify-end">
+              <button type="button" id="btn-collapse-news-smart" class="font-mono-tabular text-[11px] font-semibold uppercase tracking-wider underline ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-stone-500 hover:text-stone-800'}">Collapse to top 3 dispatches ↑</button>
+            </div>
+          `;
+        }
       }
-      container.innerHTML = feedErrorCard + cardsHtml;
+      container.innerHTML = feedErrorCard + cardsHtml + moreNewsHtml;
+
+      const expandNewsBtn = document.getElementById('btn-expand-news-smart');
+      if (expandNewsBtn) {
+        expandNewsBtn.addEventListener('click', () => {
+          window.pbNewsShowAll = true;
+          renderNewsGrid(state.edition === 'night');
+        });
+      }
+      const collapseNewsBtn = document.getElementById('btn-collapse-news-smart');
+      if (collapseNewsBtn) {
+        collapseNewsBtn.addEventListener('click', () => {
+          window.pbNewsShowAll = false;
+          renderNewsGrid(state.edition === 'night');
+        });
+      }
 
       container.querySelectorAll('[data-open-story]').forEach(el => {
         el.addEventListener('click', () => {
@@ -4705,9 +4765,28 @@ Key Insights:
       if (pbPaperTagFilter && tags.indexOf(pbPaperTagFilter) === -1) pbPaperTagFilter = null; // stale tag
       const chipsRow = (!specialFilter && tags.length)
         ? pbPaperTagChipsHtml(tags, isNight) : '';
-      const papersView = (!specialFilter && pbPaperTagFilter)
+      const papersViewAll = (!specialFilter && pbPaperTagFilter)
         ? papersForEdition.filter(p => p.tag === pbPaperTagFilter)
         : papersForEdition;
+      const isSmartPaperView = (typeof pbActiveLens === 'function' && pbActiveLens() === 'smart' && !specialFilter && !pbPaperTagFilter && !window.pbPapersShowAll);
+      const papersView = isSmartPaperView ? papersViewAll.slice(0, 2) : papersViewAll;
+
+      let morePapersHtml = '';
+      if (isSmartPaperView && papersViewAll.length > 2) {
+        const hiddenP = papersViewAll.length - 2;
+        morePapersHtml = `
+          <div class="flex items-center justify-between gap-3 rounded-xl border px-4 py-3 ${isNight ? 'border-slate-800 bg-slate-900/60' : 'border-stone-200/90 bg-[#faf7f2]'}">
+            <span class="font-mono-tabular text-xs ${isNight ? 'text-slate-400' : 'text-stone-600'}">Showing top 2 of ${papersViewAll.length} arXiv preprints in Smart Focus</span>
+            <button type="button" id="btn-expand-papers-smart" class="font-mono-tabular text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${isNight ? 'border-indigo-500/40 bg-indigo-950/50 text-indigo-300 hover:bg-indigo-900/60' : 'border-amber-800/30 bg-white text-amber-900 hover:bg-amber-50'}">Show +${hiddenP} more preprints ↓</button>
+          </div>
+        `;
+      } else if (window.pbPapersShowAll && typeof pbActiveLens === 'function' && pbActiveLens() === 'smart' && papersViewAll.length > 2) {
+        morePapersHtml = `
+          <div class="flex justify-end">
+            <button type="button" id="btn-collapse-papers-smart" class="font-mono-tabular text-[11px] font-semibold uppercase tracking-wider underline ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-stone-500 hover:text-stone-800'}">Collapse to top 2 preprints ↑</button>
+          </div>
+        `;
+      }
 
       container.innerHTML = upNextHtml + chipsRow + papersView.map(paper => {
         const cardStyle = isNight
@@ -4718,13 +4797,13 @@ Key Insights:
           : 'bg-[#faf7f2] border-stone-200/90 text-stone-700';
         // 'More like this' (item 59): another visible paper sharing >=2
         // matched research-profile keywords
-        const similar = pbPaperSimilar(paper, papersView);
+        const similar = pbPaperSimilar(paper, papersViewAll);
         const similarTitle = similar
           ? similar.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
 
         return `
           <div data-paper-card="${paper.id}" class="rounded-xl border ${cardStyle} p-5 sm:p-6 shadow-sm transition-all">
-            ${paper.image ? `
+            ${(paper.image && !isSmartPaperView) ? `
             <div class="relative h-28 w-full rounded-lg overflow-hidden mb-4 bg-slate-900 shrink-0">
               <img src="${paper.image}" alt="Category visual · ${paper.tag}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent"></div>
@@ -4802,7 +4881,22 @@ Key Insights:
             </div>
           </div>
         `;
-      }).join('');
+      }).join('') + morePapersHtml;
+
+      const expandPBtn = document.getElementById('btn-expand-papers-smart');
+      if (expandPBtn) {
+        expandPBtn.addEventListener('click', () => {
+          window.pbPapersShowAll = true;
+          renderPapers(state.edition === 'night');
+        });
+      }
+      const collapsePBtn = document.getElementById('btn-collapse-papers-smart');
+      if (collapsePBtn) {
+        collapsePBtn.addEventListener('click', () => {
+          window.pbPapersShowAll = false;
+          renderPapers(state.edition === 'night');
+        });
+      }
 
       // Semantic Scholar citation counts (item 57): async fill, 24h cache,
       // hidden on failure — never a made-up number
@@ -4893,20 +4987,44 @@ Key Insights:
         : 'bg-stone-100 text-stone-700 border-stone-200');
       const container = document.getElementById('schedule-timeline');
 
-      container.innerHTML = `<div class="relative pl-3.5 border-l ${isNight ? 'border-slate-800' : 'border-stone-200'} space-y-2.5">` + items.map(item => `
-        <div class="relative flex items-start justify-between gap-3 px-3 py-2.5 rounded-lg border ${isNight ? 'border-slate-800 bg-slate-800/60' : 'border-stone-200/80 bg-[#fbf9f5]'}">
-          <span class="absolute -left-[18.5px] top-3.5 w-2 h-2 rounded-full border-2 ${isNight ? 'bg-slate-900 border-indigo-400' : 'bg-white border-amber-700'}" aria-hidden="true"></span>
+      // Time-aware active block detection
+      const nowMins = new Date().getHours() * 60 + new Date().getMinutes();
+      const parsedMins = items.map(it => {
+        const m = String(it.time || '').match(/(\d{1,2}):(\d{2})/);
+        return m ? (parseInt(m[1], 10) * 60 + parseInt(m[2], 10)) : null;
+      });
+      let activeIdx = -1;
+      for (let i = 0; i < parsedMins.length; i++) {
+        if (parsedMins[i] === null) continue;
+        const nextM = (i + 1 < parsedMins.length && parsedMins[i + 1] !== null) ? parsedMins[i + 1] : (parsedMins[i] + 90);
+        if (nowMins >= parsedMins[i] && nowMins < nextM) { activeIdx = i; break; }
+      }
+
+      container.innerHTML = `<div class="relative pl-3.5 border-l ${isNight ? 'border-slate-800' : 'border-stone-200'} space-y-2.5">` + items.map((item, idx) => {
+        const isPast = activeIdx > idx;
+        const isNow = activeIdx === idx;
+        const boxCls = isNow
+          ? (isNight ? 'border-indigo-500/70 bg-indigo-950/30' : 'border-amber-700/60 bg-amber-50/40')
+          : (isNight ? 'border-slate-800 bg-slate-800/60' : 'border-stone-200/80 bg-[#fbf9f5]') + (isPast ? ' opacity-65' : '');
+        const dotCls = isNow
+          ? (isNight ? 'bg-indigo-400 border-indigo-300' : 'bg-amber-700 border-amber-900')
+          : (isNight ? 'bg-slate-900 border-indigo-400' : 'bg-white border-amber-700');
+        return `
+        <div class="relative flex items-start justify-between gap-3 px-3 py-2.5 rounded-lg border transition-colors ${boxCls}">
+          <span class="absolute -left-[18.5px] top-3.5 w-2 h-2 rounded-full border-2 ${dotCls}" aria-hidden="true"></span>
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2 mb-0.5">
               <span class="font-mono-tabular text-[11px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-800'} shrink-0">${item.time}</span>
               <span class="font-mono-tabular text-[10px] uppercase tracking-wider px-1.5 py-0.2 rounded ${isNight ? 'bg-slate-700/80 text-slate-300' : 'bg-stone-200/70 text-stone-600'}">
                 ${item.tag}
               </span>
+              ${isNow ? `<span class="font-mono-tabular text-[9px] font-semibold uppercase tracking-widest px-1.5 py-0.5 rounded ${isNight ? 'bg-indigo-500 text-white' : 'bg-amber-700 text-white'}">Now</span>` : ''}
             </div>
             <p class="text-xs sm:text-[13px] font-medium leading-snug">${item.title}</p>
           </div>
         </div>
-      `).join('') + `</div>`;
+      `;
+      }).join('') + `</div>`;
     }
 
     function renderTasks(isNight) {
@@ -6712,15 +6830,34 @@ Key Insights:
       pbThisDayEnsureBtn(); // '↻ Another' (item 64)
     }
 
-    // ---- Conference, Faculty/Industry & Postdoc deadlines (deadlines.json, no-store) ----
+    // ---- Conference, Faculty/Industry & Postdoc deadlines + Smart Lenses (deadlines.json, no-store) ----
     let deadlinesDb = null;
     let careerJobsDb = [];
     let postdocsDb = [];
     let activeDeadlineTab = 'conferences';
+    let deadlinesExpanded = false;
     let activeCareerFilter = 'all';
     let activeCareerQuery = '';
+    let careerShowAll = false;
     let activePostdocFilter = 'all';
     let activePostdocQuery = '';
+    let postdocShowAll = false;
+
+    function pbActiveLens() {
+      const valid = ['smart', 'briefing', 'papers', 'career', 'postdocs', 'all'];
+      const saved = pbPrefs.workspaceLens;
+      return valid.indexOf(saved) !== -1 ? saved : 'smart';
+    }
+
+    function pbSetLens(lens) {
+      pbPrefs.workspaceLens = lens;
+      if (lens === 'career') pbPrefs.careerCollapsed = false;
+      if (lens === 'postdocs') pbPrefs.postdocCollapsed = false;
+      if (lens === 'briefing') pbPrefs.vaultCollapsed = false;
+      pbSavePrefs();
+      pbHaptic(6);
+      renderApp();
+    }
 
     function pbTrackedOpps() {
       if (!Array.isArray(pbPrefs.trackedOpportunities)) pbPrefs.trackedOpportunities = [];
@@ -6745,8 +6882,10 @@ Key Insights:
       pbSavePrefs();
       pbHaptic(8);
       const isNight = state.edition === 'night';
+      renderSmartRadar(isNight);
       renderCareerBoard(isNight);
       renderPostdocBoard(isNight);
+      renderSmartDossiersSummary(isNight);
     }
 
     async function loadDeadlines() {
@@ -6758,9 +6897,11 @@ Key Insights:
         if (db && Array.isArray(db.career_jobs)) careerJobsDb = db.career_jobs;
         if (db && Array.isArray(db.postdocs)) postdocsDb = db.postdocs;
         const isNight = state.edition === 'night';
+        renderSmartRadar(isNight);
         renderDeadlines(isNight);
         renderCareerBoard(isNight);
         renderPostdocBoard(isNight);
+        renderWorkspaceLens(isNight);
       } catch (e) { /* offline: widget stays hidden */ }
     }
 
@@ -6779,6 +6920,198 @@ Key Insights:
       if (days < 10) return { text: 'in ' + days + 'd', tone: 'bg-rose-500/15 text-rose-500' };
       if (days <= 35) return { text: 'in ' + days + 'd', tone: isNight ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-500/15 text-amber-800' };
       return { text: 'in ' + days + 'd', tone: isNight ? 'bg-slate-800 text-slate-400' : 'bg-stone-100 text-stone-600' };
+    }
+
+    function renderSmartRadar(isNight) {
+      const strip = document.getElementById('smart-radar-strip');
+      if (!strip) return;
+      const urgent = [];
+      (deadlinesDb || []).forEach(d => {
+        const days = pbDaysUntil(d.date);
+        if (days !== null && days >= 0 && days <= 21) {
+          urgent.push({ label: d.name.split(' - ')[0], org: 'Conference', days: days, url: d.url, lens: 'papers' });
+        }
+      });
+      (careerJobsDb || []).forEach(d => {
+        const days = pbDaysUntil(d.date);
+        const tracked = pbIsOppTracked(d.id);
+        if (tracked || (days !== null && days >= 0 && days <= 21)) {
+          urgent.push({ label: d.org, org: d.track === 'faculty' ? 'Faculty' : 'Corporate', days: days, url: d.url, tracked: tracked, lens: 'career' });
+        }
+      });
+      (postdocsDb || []).forEach(d => {
+        const days = pbDaysUntil(d.date);
+        const tracked = pbIsOppTracked(d.id);
+        if (tracked || (days !== null && days >= 0 && days <= 21)) {
+          urgent.push({ label: d.name.replace(/ Postdoctoral Fellowship| Fellowship/g, ''), org: 'Postdoc', days: days, url: d.url, tracked: tracked, lens: 'postdocs' });
+        }
+      });
+      urgent.sort((a, b) => ((b.tracked ? 1 : 0) - (a.tracked ? 1 : 0)) || ((a.days ?? 999) - (b.days ?? 999)));
+      if (!urgent.length) {
+        strip.classList.add('hidden');
+        return;
+      }
+      strip.className = 'mb-8 rounded-xl border px-4 py-2.5 flex flex-wrap items-center gap-2 transition-colors ' + (isNight
+        ? 'border-slate-800 bg-slate-900/80'
+        : 'border-stone-200/90 bg-[#faf7f2]');
+      strip.innerHTML = '';
+      const tag = document.createElement('span');
+      tag.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] mr-1 flex items-center gap-1.5 ' + (isNight ? 'text-rose-400' : 'text-amber-900');
+      tag.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block"></span>Priority Radar (≤21d &amp; Tracked):';
+      strip.appendChild(tag);
+
+      urgent.slice(0, 6).forEach(u => {
+        const a = document.createElement('a');
+        a.href = u.url || '#';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        const spec = pbDeadlineChipSpec(u.days, isNight);
+        a.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[11px] font-medium transition-colors ' + (isNight
+          ? 'border-slate-800 bg-slate-950/90 text-slate-200 hover:border-indigo-500'
+          : 'border-stone-200/90 bg-white text-stone-800 hover:border-amber-700');
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'truncate max-w-[190px] font-semibold';
+        nameSpan.textContent = (u.tracked ? '★ ' : '') + u.label;
+        const dSpan = document.createElement('span');
+        dSpan.className = 'font-mono-tabular text-[10px] font-semibold px-1.5 py-0.2 rounded ' + spec.tone;
+        dSpan.textContent = spec.text;
+        a.appendChild(nameSpan);
+        a.appendChild(dSpan);
+        strip.appendChild(a);
+      });
+    }
+
+    function renderSmartDossiersSummary(isNight) {
+      const wrap = document.getElementById('smart-dossiers-summary');
+      const grid = document.getElementById('smart-dossiers-grid');
+      if (!wrap || !grid) return;
+      const lens = pbActiveLens();
+      if (lens !== 'smart') {
+        wrap.classList.add('hidden');
+        return;
+      }
+      wrap.className = 'pt-6 border-t ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
+      const kicker = document.getElementById('smart-dossiers-kicker');
+      if (kicker) kicker.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      const sub = document.getElementById('smart-dossiers-sub');
+      if (sub) sub.className = 'font-mono-tabular text-[10px] ' + (isNight ? 'text-slate-500' : 'text-stone-400');
+
+      const vaultCount = state.stories.filter(s => s.vault).length;
+      const trackedCareer = careerJobsDb.filter(j => pbIsOppTracked(j.id)).length;
+      const trackedPostdocs = postdocsDb.filter(p => pbIsOppTracked(p.id)).length;
+      const urgentPostdocs = postdocsDb.filter(p => { const d = pbDaysUntil(p.date); return d !== null && d >= 0 && d <= 21; }).length;
+
+      const cards = [
+        {
+          kicker: '§ 02 · EVERGREEN ARCHIVE',
+          title: 'Deep-Reading Vault',
+          stat: vaultCount + ' technical monographs',
+          desc: 'Foundational long-form essays on GRAPE quantum optimal control and power-grid network cascades.',
+          btn: 'Open Vault →',
+          lens: 'briefing'
+        },
+        {
+          kicker: '§ 03 · ACADEMIC & CORPORATE',
+          title: 'Faculty & Quantum Industry',
+          stat: careerJobsDb.length + ' curated roles' + (trackedCareer ? ' · ★ ' + trackedCareer + ' tracked' : ''),
+          desc: 'IITs/IISc/TIFR, CNRS/EU, US/Middle East faculty & Qruise, Algorithmiq, NVision, Q-CTRL, IBM India.',
+          btn: 'Open 45 Roles →',
+          lens: 'career'
+        },
+        {
+          kicker: '§ 04 · FELLOWSHIPS & LABS',
+          title: 'Postdoc & Fellowship Board',
+          stat: postdocsDb.length + ' openings · ' + urgentPostdocs + ' closing ≤21d' + (trackedPostdocs ? ' · ★ ' + trackedPostdocs : ''),
+          desc: 'MSCA, Humboldt, ETH, HQI, Bloch, IQIM, ANRF N-PDF & Jelezko, Wrachtrup, Degen, Glaser labs.',
+          btn: 'Open 34 Postdocs →',
+          lens: 'postdocs'
+        }
+      ];
+
+      grid.innerHTML = '';
+      cards.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'rounded-xl border p-4 flex flex-col justify-between transition-all card-hover ' + (isNight
+          ? 'border-slate-800 bg-slate-900/90 hover:border-slate-700'
+          : 'border-stone-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.03)] hover:border-stone-300');
+        div.innerHTML = `
+          <div>
+            <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] ${isNight ? 'text-indigo-400' : 'text-amber-800'}">${c.kicker}</p>
+            <h3 class="font-serif-editorial text-base font-semibold mt-1 ${isNight ? 'text-slate-100' : 'text-stone-900'}">${c.title}</h3>
+            <p class="font-mono-tabular text-[11px] font-semibold mt-1 ${isNight ? 'text-slate-300' : 'text-stone-700'}">${c.stat}</p>
+            <p class="text-xs leading-relaxed mt-1.5 ${isNight ? 'text-slate-400' : 'text-stone-500'}">${c.desc}</p>
+          </div>
+          <button type="button" data-switch-lens="${c.lens}" class="mt-3 pt-2.5 border-t ${isNight ? 'border-slate-800 text-indigo-400 hover:text-indigo-300' : 'border-stone-100 text-amber-800 hover:text-amber-950'} text-left font-mono-tabular text-[11px] font-semibold uppercase tracking-wider">${c.btn}</button>
+        `;
+        div.querySelector('[data-switch-lens]').addEventListener('click', () => {
+          pbSetLens(c.lens);
+          window.scrollTo({ top: 260, behavior: pbReducedMotion() ? 'auto' : 'smooth' });
+        });
+        grid.appendChild(div);
+      });
+    }
+
+    function renderWorkspaceLens(isNight) {
+      const lens = pbActiveLens();
+      const bar = document.getElementById('workspace-lens-bar');
+      if (bar) {
+        bar.className = 'mb-6 rounded-xl border px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5 transition-colors ' + (isNight
+          ? 'border-slate-800 bg-slate-900/90'
+          : 'border-stone-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.03)]');
+      }
+      const lbl = document.getElementById('lens-label');
+      if (lbl) lbl.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] mr-1 hidden sm:inline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      const hint = document.getElementById('lens-context-hint');
+      const hints = {
+        smart: 'Smart Focus · Lead dispatches, top 2 preprints & urgent deadlines',
+        briefing: 'Dispatches & Deep-Reading Vault · Distraction-free reading',
+        papers: 'arXiv Preprints & Conference Submission Deadlines',
+        career: '45 Curated Faculty & Corporate Quantum Roles',
+        postdocs: '34 Postdoctoral Fellowships & Leading Research Labs',
+        all: 'Complete Edition · All sections expanded'
+      };
+      if (hint) {
+        hint.textContent = hints[lens] || hints.smart;
+        hint.className = 'font-mono-tabular text-[10px] hidden xl:inline ' + (isNight ? 'text-slate-400' : 'text-stone-500');
+      }
+
+      document.querySelectorAll('.lens-btn').forEach(btn => {
+        const l = btn.getAttribute('data-lens');
+        const active = l === lens;
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        if (l === 'career' && careerJobsDb.length) btn.textContent = '§ 03 · Faculty & Industry (' + careerJobsDb.length + ')';
+        if (l === 'postdocs' && postdocsDb.length) btn.textContent = '§ 04 · Postdocs & Labs (' + postdocsDb.length + ')';
+        btn.className = 'lens-btn px-3 py-1.5 rounded-lg text-xs transition-all ' + (active
+          ? (isNight ? 'font-semibold bg-indigo-600 text-white shadow-sm' : 'font-semibold bg-stone-900 text-white shadow-sm')
+          : (isNight ? 'font-medium bg-slate-950/70 border border-slate-800 text-slate-300 hover:bg-slate-800' : 'font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100'));
+      });
+
+      const secNews = document.getElementById('newsboard-section');
+      const secVault = document.getElementById('backup-articles-section');
+      const secPapers = document.getElementById('papers-section');
+      const secCareer = document.getElementById('career-board-section');
+      const secPostdoc = document.getElementById('postdoc-board-section');
+
+      if (secNews) secNews.classList.toggle('hidden', !(lens === 'smart' || lens === 'briefing' || lens === 'all'));
+      if (secVault) secVault.classList.toggle('hidden', !(lens === 'briefing' || lens === 'all'));
+      if (secPapers) secPapers.classList.toggle('hidden', !(lens === 'smart' || lens === 'papers' || lens === 'all'));
+      if (secCareer) {
+        const showCareer = (lens === 'career' || lens === 'all');
+        secCareer.classList.toggle('hidden', !showCareer);
+        secCareer.classList.toggle('mt-12', lens === 'all');
+        secCareer.classList.toggle('pt-8', lens === 'all');
+        secCareer.classList.toggle('border-t', lens === 'all');
+      }
+      if (secPostdoc) {
+        const showPostdoc = (lens === 'postdocs' || lens === 'all');
+        secPostdoc.classList.toggle('hidden', !showPostdoc);
+        secPostdoc.classList.toggle('mt-12', lens === 'all');
+        secPostdoc.classList.toggle('pt-8', lens === 'all');
+        secPostdoc.classList.toggle('border-t', lens === 'all');
+      }
+
+      renderSmartRadar(isNight);
+      renderSmartDossiersSummary(isNight);
     }
 
     function renderDeadlines(isNight) {
@@ -6862,11 +7195,12 @@ Key Insights:
           })));
       }
 
-      const list = sourcePool
+      const sortedAll = sourcePool
         .map(d => ({ d: d, days: pbDaysUntil(d.date) }))
         .filter(x => x.days !== null && x.days > -31)
-        .sort((a, b) => a.days - b.days)
-        .slice(0, activeDeadlineTab === 'conferences' ? 15 : 10);
+        .sort((a, b) => (a.days < 0 ? 9999 : a.days) - (b.days < 0 ? 9999 : b.days));
+      const defaultCap = pbActiveLens() === 'smart' ? 3 : 5;
+      const list = deadlinesExpanded ? sortedAll.slice(0, 18) : sortedAll.slice(0, defaultCap);
 
       list.forEach(x => {
         const d = x.d;
@@ -6905,21 +7239,38 @@ Key Insights:
 
       const footWrap = document.createElement('div');
       footWrap.className = 'flex flex-wrap items-center justify-between gap-2 mt-2.5 pt-2 border-t ' + (isNight ? 'border-slate-800/80' : 'border-stone-100');
-      const foot = document.createElement('p');
-      foot.className = 'font-mono-tabular text-[10px] ' + (isNight ? 'text-slate-500' : 'text-stone-400');
-      foot.textContent = 'Verified against official conference, university & corporate portals';
-      footWrap.appendChild(foot);
+
+      if (sortedAll.length > defaultCap) {
+        const expBtn = document.createElement('button');
+        expBtn.type = 'button';
+        expBtn.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+        expBtn.textContent = deadlinesExpanded
+          ? 'Show top ' + defaultCap + ' deadlines ▴'
+          : 'Show all ' + Math.min(18, sortedAll.length) + ' deadlines (+' + (Math.min(18, sortedAll.length) - defaultCap) + ' more) ▾';
+        expBtn.addEventListener('click', () => {
+          deadlinesExpanded = !deadlinesExpanded;
+          renderDeadlines(state.edition === 'night');
+        });
+        footWrap.appendChild(expBtn);
+      } else {
+        const foot = document.createElement('p');
+        foot.className = 'font-mono-tabular text-[10px] ' + (isNight ? 'text-slate-500' : 'text-stone-400');
+        foot.textContent = 'Verified against official portals';
+        footWrap.appendChild(foot);
+      }
 
       const jumpLinks = document.createElement('div');
       jumpLinks.className = 'flex items-center gap-3';
-      const j1 = document.createElement('a');
-      j1.href = '#career-board-section';
+      const j1 = document.createElement('button');
+      j1.type = 'button';
       j1.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
-      j1.textContent = '§ 04 Faculty & Industry Board ↓';
-      const j2 = document.createElement('a');
-      j2.href = '#postdoc-board-section';
+      j1.textContent = 'Open Faculty & Industry Board →';
+      j1.addEventListener('click', () => pbSetLens('career'));
+      const j2 = document.createElement('button');
+      j2.type = 'button';
       j2.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
-      j2.textContent = '§ 05 Postdoc Board ↓';
+      j2.textContent = 'Open Postdoc Board →';
+      j2.addEventListener('click', () => pbSetLens('postdocs'));
       jumpLinks.appendChild(j1);
       jumpLinks.appendChild(j2);
       footWrap.appendChild(jumpLinks);
@@ -6932,7 +7283,6 @@ Key Insights:
       if (!section || !grid) return;
       if (!careerJobsDb || !careerJobsDb.length) return;
 
-      section.className = 'mt-12 pt-8 border-t scroll-mt-20 ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
       const headerEl = document.getElementById('career-board-header');
       if (headerEl) headerEl.className = 'flex flex-wrap items-start sm:items-end justify-between gap-3 pb-3 mb-4 border-b ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
       const kicker = document.getElementById('career-board-kicker');
@@ -6989,6 +7339,11 @@ Key Insights:
         if (!q) return true;
         const hay = [item.name, item.org, item.region, item.location, item.cycle, item.fit].concat(item.tags || []).join(' ').toLowerCase();
         return hay.includes(q);
+      }).slice().sort((a, b) => {
+        const ta = pbIsOppTracked(a.id) ? 1 : 0;
+        const tb = pbIsOppTracked(b.id) ? 1 : 0;
+        if (ta !== tb) return tb - ta;
+        return (pbDaysUntil(a.date) ?? 999) - (pbDaysUntil(b.date) ?? 999);
       });
 
       const countEl = document.getElementById('career-board-count');
@@ -7010,7 +7365,11 @@ Key Insights:
         return;
       }
 
-      filtered.forEach(item => {
+      // Progressive disclosure cap: show top 6 when viewing All without a search query
+      const cap = (!q && activeCareerFilter === 'all' && !careerShowAll) ? 6 : filtered.length;
+      const visibleItems = filtered.slice(0, cap);
+
+      visibleItems.forEach(item => {
         const days = pbDaysUntil(item.date);
         const spec = pbDeadlineChipSpec(days, isNight);
         const tracked = pbIsOppTracked(item.id);
@@ -7065,7 +7424,8 @@ Key Insights:
 
         if (item.fit) {
           const fitP = document.createElement('p');
-          fitP.className = 'text-xs leading-relaxed mt-2 ' + (isNight ? 'text-slate-300' : 'text-stone-600');
+          fitP.className = 'text-xs leading-relaxed mt-1.5 line-clamp-2 ' + (isNight ? 'text-slate-300' : 'text-stone-600');
+          fitP.title = item.fit;
           fitP.textContent = item.fit;
           top.appendChild(fitP);
         }
@@ -7073,7 +7433,7 @@ Key Insights:
         if (Array.isArray(item.tags) && item.tags.length) {
           const tagWrap = document.createElement('div');
           tagWrap.className = 'flex flex-wrap gap-1 mt-2.5';
-          item.tags.forEach(t => {
+          item.tags.slice(0, 4).forEach(t => {
             const sp = document.createElement('span');
             sp.className = 'font-mono-tabular text-[10px] px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-300' : 'bg-stone-100 text-stone-700');
             sp.textContent = t;
@@ -7118,6 +7478,29 @@ Key Insights:
         card.appendChild(foot);
         grid.appendChild(card);
       });
+
+      if (filtered.length > 6 && !q && activeCareerFilter === 'all') {
+        const moreRow = document.createElement('div');
+        moreRow.className = 'col-span-full flex items-center justify-between gap-3 rounded-xl border px-4 py-3 ' + (isNight ? 'border-slate-800 bg-slate-900/60' : 'border-stone-200/90 bg-[#faf7f2]');
+        const msg = document.createElement('span');
+        msg.className = 'font-mono-tabular text-xs ' + (isNight ? 'text-slate-400' : 'text-stone-600');
+        msg.textContent = careerShowAll
+          ? 'Showing all ' + filtered.length + ' faculty & corporate roles'
+          : 'Showing top 6 urgent/tracked of ' + filtered.length + ' roles (use filter pills above or expand)';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'font-mono-tabular text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ' + (isNight
+          ? 'border-indigo-500/40 bg-indigo-950/50 text-indigo-300 hover:bg-indigo-900/60'
+          : 'border-amber-800/30 bg-white text-amber-900 hover:bg-amber-50');
+        btn.textContent = careerShowAll ? 'Collapse to top 6 ↑' : 'Show all ' + filtered.length + ' roles (+' + (filtered.length - 6) + ' more) ↓';
+        btn.addEventListener('click', () => {
+          careerShowAll = !careerShowAll;
+          renderCareerBoard(state.edition === 'night');
+        });
+        moreRow.appendChild(msg);
+        moreRow.appendChild(btn);
+        grid.appendChild(moreRow);
+      }
     }
 
     function renderPostdocBoard(isNight) {
@@ -7126,7 +7509,6 @@ Key Insights:
       if (!section || !grid) return;
       if (!postdocsDb || !postdocsDb.length) return;
 
-      section.className = 'mt-12 pt-8 border-t scroll-mt-20 ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
       const headerEl = document.getElementById('postdoc-board-header');
       if (headerEl) headerEl.className = 'flex flex-wrap items-start sm:items-end justify-between gap-3 pb-3 mb-4 border-b ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
       const kicker = document.getElementById('postdoc-board-kicker');
@@ -7170,6 +7552,11 @@ Key Insights:
         if (!q) return true;
         const hay = [item.name, item.org, item.region, item.location, item.cycle].concat(item.tags || []).join(' ').toLowerCase();
         return hay.includes(q);
+      }).slice().sort((a, b) => {
+        const ta = pbIsOppTracked(a.id) ? 1 : 0;
+        const tb = pbIsOppTracked(b.id) ? 1 : 0;
+        if (ta !== tb) return tb - ta;
+        return (pbDaysUntil(a.date) ?? 999) - (pbDaysUntil(b.date) ?? 999);
       });
 
       const countEl = document.getElementById('postdoc-board-count');
@@ -7191,7 +7578,10 @@ Key Insights:
         return;
       }
 
-      filtered.forEach(item => {
+      const cap = (!q && activePostdocFilter === 'all' && !postdocShowAll) ? 6 : filtered.length;
+      const visibleItems = filtered.slice(0, cap);
+
+      visibleItems.forEach(item => {
         const days = pbDaysUntil(item.date);
         const spec = pbDeadlineChipSpec(days, isNight);
         const tracked = pbIsOppTracked(item.id);
@@ -7247,7 +7637,7 @@ Key Insights:
         if (Array.isArray(item.tags) && item.tags.length) {
           const tagWrap = document.createElement('div');
           tagWrap.className = 'flex flex-wrap gap-1 mt-2.5';
-          item.tags.forEach(t => {
+          item.tags.slice(0, 4).forEach(t => {
             const sp = document.createElement('span');
             sp.className = 'font-mono-tabular text-[10px] px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-300' : 'bg-stone-100 text-stone-700');
             sp.textContent = t;
@@ -7292,10 +7682,38 @@ Key Insights:
         card.appendChild(foot);
         grid.appendChild(card);
       });
+
+      if (filtered.length > 6 && !q && activePostdocFilter === 'all') {
+        const moreRow = document.createElement('div');
+        moreRow.className = 'col-span-full flex items-center justify-between gap-3 rounded-xl border px-4 py-3 ' + (isNight ? 'border-slate-800 bg-slate-900/60' : 'border-stone-200/90 bg-[#faf7f2]');
+        const msg = document.createElement('span');
+        msg.className = 'font-mono-tabular text-xs ' + (isNight ? 'text-slate-400' : 'text-stone-600');
+        msg.textContent = postdocShowAll
+          ? 'Showing all ' + filtered.length + ' postdoctoral fellowships & labs'
+          : 'Showing top 6 urgent/tracked of ' + filtered.length + ' openings (use filter pills above or expand)';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'font-mono-tabular text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ' + (isNight
+          ? 'border-indigo-500/40 bg-indigo-950/50 text-indigo-300 hover:bg-indigo-900/60'
+          : 'border-amber-800/30 bg-white text-amber-900 hover:bg-amber-50');
+        btn.textContent = postdocShowAll ? 'Collapse to top 6 ↑' : 'Show all ' + filtered.length + ' openings (+' + (filtered.length - 6) + ' more) ↓';
+        btn.addEventListener('click', () => {
+          postdocShowAll = !postdocShowAll;
+          renderPostdocBoard(state.edition === 'night');
+        });
+        moreRow.appendChild(msg);
+        moreRow.appendChild(btn);
+        grid.appendChild(moreRow);
+      }
     }
 
-    // Wire Career & Postdoc Board filter buttons, search inputs, and collapse toggles
+    // Wire Lens buttons + Career & Postdoc Board filter buttons, search inputs, and collapse toggles
     (function pbInitOpportunityBoards() {
+      document.querySelectorAll('.lens-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          pbSetLens(btn.getAttribute('data-lens') || 'smart');
+        });
+      });
       document.querySelectorAll('.career-filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           activeCareerFilter = btn.getAttribute('data-career-filter') || 'all';
