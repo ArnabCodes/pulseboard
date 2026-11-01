@@ -68,7 +68,7 @@
   #app-header { padding-top: env(safe-area-inset-top); }
   #app-body { padding-bottom: env(safe-area-inset-bottom); }
 
-  /* --- Teaching modal: breathing orb --- */
+  /* --- Teaching page: breathing orb --- */
   .breath-orb {
     width: 132px; height: 132px; border-radius: 9999px;
     background: radial-gradient(circle at 50% 38%, rgba(251,191,36,0.32), rgba(251,191,36,0.07) 58%, transparent 72%);
@@ -85,6 +85,19 @@
   }
   .med-preset:hover { background: rgba(148,163,184,0.15); }
   .med-preset.active { background: rgb(251,191,36); color: rgb(2,6,23); border-color: rgb(251,191,36); }
+
+  /* --- Full-screen page layer (replaces the old overlay modals) ---
+     Enter: slide-up + fade; exit: fade + slight slide-down. The global
+     prefers-reduced-motion rule above collapses all transitions to 0.01ms,
+     and pbReducedMotion() in JS skips the timed hide entirely. */
+  #page-surface {
+    transition: opacity 250ms ease, transform 250ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  #page-surface.pb-enter-from { opacity: 0; transform: translateY(26px); }
+  #page-surface.pb-exit-to { opacity: 0; transform: translateY(16px); pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) {
+    #page-surface { transition: none; }
+  }
 
   /* --- Card entrance: staggered, reduced-motion safe (global rule above) --- */
   @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -463,97 +476,132 @@
     </div>
   </main>
 
-  <!-- Story Reader Modal -->
-  <div id="story-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
-    <div id="modal-panel" class="relative w-full max-w-2xl rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
-      <div class="relative h-52 sm:h-64 w-full bg-slate-900 shrink-0 overflow-hidden">
-        <img id="modal-image" src="" alt="Story visual" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
-        <button type="button" id="btn-close-modal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-900/75 text-white flex items-center justify-center hover:bg-slate-900 transition-colors" aria-label="Close reader">
-          ✕
-        </button>
-        <span id="modal-category" class="absolute bottom-3 left-4 px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow">
-          Category
-        </span>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-4">
-        <div class="flex items-center justify-between text-xs text-slate-500">
-          <a id="modal-source" href="#" target="_blank" rel="noopener" class="hover:underline font-semibold text-amber-600 dark:text-indigo-400">Publication • Read time ↗</a>
-          <button type="button" id="modal-save-btn" class="font-semibold text-amber-600 hover:text-amber-700">★ Save Story</button>
-        </div>
-        <h3 id="modal-title" class="text-xl sm:text-2xl font-bold font-serif-editorial leading-snug">Story Headline</h3>
-        <p id="modal-summary" class="text-sm text-slate-700 leading-relaxed"></p>
-        <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Why It Matters Today</p>
-          <p id="modal-why" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
-        </div>
-      </div>
+  <!-- ================= FULL-SCREEN PAGE LAYER =================
+       One host for all in-app pages (story reader / teaching / day-close).
+       Replaces the old overlay modals: pages are full-screen with real
+       back-button semantics — each open pushes a {pbPage} history entry, so
+       the Android back gesture, browser back and the in-page Back buttons all
+       close the page through the same code path. z-40 keeps every page BELOW
+       the z-50 PIN gate. Body scroll is locked while a page is open. -->
+  <div id="page-layer" class="fixed inset-0 z-40 hidden" aria-hidden="true">
+    <!-- Slim reading-progress bar (story reader only), pinned to the very top -->
+    <div id="page-progress-wrap" class="hidden absolute top-0 left-0 right-0 z-20 h-[3px] pointer-events-none">
+      <div id="page-progress" class="h-full w-0 bg-amber-500"></div>
     </div>
-  </div>
 
-  <!-- Teaching modal: quote + breathing orb + meditation timer + story -->
-  <div id="teaching-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
-    <div id="teaching-panel" class="relative w-full max-w-md rounded-3xl bg-slate-950/95 border border-slate-800 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col text-slate-200">
-      <button type="button" id="btn-close-teaching" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-slate-800/80 text-white flex items-center justify-center hover:bg-slate-700 transition-colors border border-slate-700" aria-label="Close teaching">✕</button>
-      <div class="overflow-y-auto px-6 pt-9 pb-8 flex flex-col items-center text-center">
-        <span id="teaching-tradition" class="text-[11px] font-bold uppercase tracking-widest text-amber-300/90"></span>
-        <h3 id="teaching-theme" class="text-sm font-medium text-slate-400 mt-1.5"></h3>
-        <blockquote id="teaching-quote" class="font-serif-editorial italic text-lg sm:text-xl leading-relaxed mt-5 text-slate-100"></blockquote>
-        <p id="teaching-reflection" class="text-xs text-slate-400 mt-3 leading-relaxed"></p>
+    <!-- The only scroll container while a page is open (body scroll is locked) -->
+    <div id="page-surface" class="absolute inset-0 overflow-y-auto overscroll-contain">
 
-        <div class="relative mt-9 mb-1 flex items-center justify-center shrink-0" style="width:230px;height:230px">
-          <div id="breath-orb" class="breath-orb"></div>
-          <span id="breath-label" class="absolute text-[11px] tracking-[0.3em] uppercase text-slate-300">breathe</span>
+      <!-- ========== STORY READER PAGE ========== -->
+      <section id="page-story" class="hidden min-h-full" aria-label="Story reader">
+        <header id="story-header" class="sticky top-0 z-10 border-b backdrop-blur-md transition-colors">
+          <div class="max-w-2xl mx-auto px-4 sm:px-6 py-2 flex items-center gap-2">
+            <button type="button" id="story-back" aria-label="Back to dashboard" class="w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <a id="story-source" href="#" target="_blank" rel="noopener" class="min-w-0 flex-1 truncate text-xs font-semibold hover:underline">Publication ↗</a>
+            <span id="story-readmin" class="shrink-0 text-[11px] font-medium"></span>
+            <span id="story-spectrum" class="hidden shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded"></span>
+            <button type="button" id="story-save-btn" class="shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors">☆ Save</button>
+          </div>
+        </header>
+
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 pt-5 pb-20">
+          <span id="story-category" class="inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm mb-4">Category</span>
+          <img id="story-hero" alt="" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full aspect-[3/2] object-cover rounded-2xl shadow-sm max-w-full" />
+          <h1 id="story-title" class="mt-6 font-serif-editorial font-bold text-2xl sm:text-3xl leading-tight tracking-tight"></h1>
+          <div id="story-body" class="mt-6 space-y-5"></div>
+          <div id="story-why-box" class="mt-8 rounded-2xl border p-5">
+            <p class="text-xs font-bold uppercase tracking-wider mb-1.5">Why It Matters Today</p>
+            <p id="story-why" class="text-xs sm:text-sm leading-relaxed"></p>
+          </div>
+          <a id="story-readat" href="#" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors">
+            Read at <span id="story-readat-source"></span> ↗
+          </a>
         </div>
+      </section>
 
-        <div id="meditation-controls" class="mt-7 flex flex-wrap items-center justify-center gap-2">
-          <button type="button" class="med-preset" data-min="1">1 min</button>
-          <button type="button" class="med-preset" data-min="3">3 min</button>
-          <button type="button" class="med-preset" data-min="5">5 min</button>
-          <button type="button" class="med-preset" data-min="10">10 min</button>
+      <!-- ========== TEACHING PAGE (quote + breathing orb + meditation timer) ========== -->
+      <section id="page-teaching" class="hidden min-h-full bg-gradient-to-b from-[#04060b] via-[#0b1026] to-[#04060b] text-slate-200" aria-label="Guided teaching">
+        <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
+          <div class="flex items-center justify-between">
+            <button type="button" id="btn-close-teaching" class="inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors" aria-label="Back to dashboard">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+              Back
+            </button>
+            <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 select-none">Sit With It</span>
+          </div>
+          <div class="pt-8 flex flex-col items-center text-center">
+            <span id="teaching-tradition" class="text-[11px] font-bold uppercase tracking-widest text-amber-300/90"></span>
+            <h3 id="teaching-theme" class="text-sm font-medium text-slate-400 mt-1.5"></h3>
+            <blockquote id="teaching-quote" class="font-serif-editorial italic text-lg sm:text-xl leading-relaxed mt-5 text-slate-100"></blockquote>
+            <p id="teaching-reflection" class="text-xs text-slate-400 mt-3 leading-relaxed"></p>
+
+            <div class="relative mt-10 mb-1 flex items-center justify-center shrink-0" style="width:230px;height:230px">
+              <div id="breath-orb" class="breath-orb"></div>
+              <span id="breath-label" class="absolute text-[11px] tracking-[0.3em] uppercase text-slate-300">breathe</span>
+            </div>
+
+            <div id="meditation-controls" class="mt-8 flex flex-wrap items-center justify-center gap-2">
+              <button type="button" class="med-preset" data-min="1">1 min</button>
+              <button type="button" class="med-preset" data-min="3">3 min</button>
+              <button type="button" class="med-preset" data-min="5">5 min</button>
+              <button type="button" class="med-preset" data-min="10">10 min</button>
+            </div>
+            <div id="meditation-display" class="hidden mt-4 flex-col items-center gap-2">
+              <span id="meditation-remaining" class="text-3xl font-light tabular-nums text-slate-100 tracking-wider">–:––</span>
+              <button type="button" id="btn-pause-meditation" class="text-xs font-semibold text-slate-400 hover:text-slate-200 underline underline-offset-4">pause</button>
+            </div>
+
+            <div id="teaching-story-section" class="hidden w-full text-left mt-10 pt-6 border-t border-slate-800">
+              <button type="button" id="btn-toggle-story" class="text-xs font-bold uppercase tracking-widest text-amber-300/90 hover:text-amber-200 transition-colors">▸ The story behind it</button>
+              <div id="teaching-story" class="hidden text-sm text-slate-300 leading-relaxed whitespace-pre-line mt-3"></div>
+              <p id="teaching-source" class="hidden text-xs text-slate-500 mt-4 italic leading-relaxed"></p>
+              <a id="teaching-video" class="hidden mt-4 inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 hover:text-indigo-200" target="_blank" rel="noopener">▶ <span id="teaching-video-label"></span></a>
+            </div>
+          </div>
         </div>
-        <div id="meditation-display" class="hidden mt-4 flex-col items-center gap-2">
-          <span id="meditation-remaining" class="text-3xl font-light tabular-nums text-slate-100 tracking-wider">–:––</span>
-          <button type="button" id="btn-pause-meditation" class="text-xs font-semibold text-slate-400 hover:text-slate-200 underline underline-offset-4">pause</button>
+      </section>
+
+      <!-- ========== DAY-CLOSE PAGE (evening ritual) ========== -->
+      <section id="page-dayclose" class="hidden min-h-full bg-gradient-to-b from-[#04060b] via-[#0d1130] to-[#04060b] text-slate-200" aria-label="Evening ritual">
+        <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
+          <div class="flex items-center justify-between">
+            <button type="button" id="btn-close-dayclose" class="inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors" aria-label="Back to dashboard">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+              Back
+            </button>
+            <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 select-none">Wind Down</span>
+          </div>
+          <div class="pt-8 flex flex-col items-center text-center">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-300/90">Evening Ritual</span>
+            <h3 class="text-2xl font-serif-editorial mt-1.5">Close the day</h3>
+            <p id="dayclose-date" class="text-xs text-slate-500 mt-1"></p>
+
+            <div id="dayclose-wins" class="mt-5 w-full rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm space-y-1.5"></div>
+
+            <div class="mt-5 w-full text-left">
+              <label for="dayclose-gratitude" class="text-xs font-semibold text-slate-400">One good thing today <span class="font-normal text-slate-600">(optional)</span></label>
+              <textarea id="dayclose-gratitude" rows="2" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none" placeholder="Three words or three sentences — whatever was good today"></textarea>
+            </div>
+
+            <div class="mt-4 w-full text-left">
+              <label for="dayclose-tomorrow" class="text-xs font-semibold text-slate-400">Tomorrow's first win <span class="font-normal text-slate-600">(optional)</span></label>
+              <input id="dayclose-tomorrow" type="text" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none" placeholder="When you wake up, this becomes task #1" />
+            </div>
+
+            <blockquote id="dayclose-quote" class="font-serif-editorial italic text-sm leading-relaxed text-slate-300 mt-6 px-2"></blockquote>
+
+            <button type="button" id="btn-finish-day" class="mt-6 px-6 py-3 rounded-2xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
+              Close the day 🌙
+            </button>
+            <p id="dayclose-after" class="hidden mt-4 text-sm text-slate-400"></p>
+          </div>
         </div>
+      </section>
 
-        <div id="teaching-story-section" class="hidden w-full text-left mt-8 pt-6 border-t border-slate-800">
-          <button type="button" id="btn-toggle-story" class="text-xs font-bold uppercase tracking-widest text-amber-300/90 hover:text-amber-200 transition-colors">▸ The story behind it</button>
-          <div id="teaching-story" class="hidden text-sm text-slate-300 leading-relaxed whitespace-pre-line mt-3"></div>
-          <p id="teaching-source" class="hidden text-xs text-slate-500 mt-4 italic leading-relaxed"></p>
-          <a id="teaching-video" class="hidden mt-4 inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 hover:text-indigo-200" target="_blank" rel="noopener">▶ <span id="teaching-video-label"></span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Evening ritual: close the day -->
-  <div id="dayclose-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
-    <div class="relative w-full max-w-md rounded-3xl bg-slate-950/95 border border-indigo-900/60 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col text-slate-200">
-      <button type="button" id="btn-close-dayclose" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-slate-800/80 text-white flex items-center justify-center hover:bg-slate-700 transition-colors border border-slate-700" aria-label="Close">✕</button>
-      <div class="overflow-y-auto px-6 pt-9 pb-8 flex flex-col items-center text-center">
-        <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-300/90">Evening Ritual</span>
-        <h3 class="text-2xl font-serif-editorial mt-1.5">Close the day</h3>
-        <p id="dayclose-date" class="text-xs text-slate-500 mt-1"></p>
-
-        <div id="dayclose-wins" class="mt-5 w-full rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm space-y-1.5"></div>
-
-        <div class="mt-5 w-full text-left">
-          <label for="dayclose-gratitude" class="text-xs font-semibold text-slate-400">One good thing today <span class="font-normal text-slate-600">(optional)</span></label>
-          <textarea id="dayclose-gratitude" rows="2" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none" placeholder="Three words or three sentences — whatever was good today"></textarea>
-        </div>
-
-        <div class="mt-4 w-full text-left">
-          <label for="dayclose-tomorrow" class="text-xs font-semibold text-slate-400">Tomorrow's first win <span class="font-normal text-slate-600">(optional)</span></label>
-          <input id="dayclose-tomorrow" type="text" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none" placeholder="When you wake up, this becomes task #1" />
-        </div>
-
-        <blockquote id="dayclose-quote" class="font-serif-editorial italic text-sm leading-relaxed text-slate-300 mt-6 px-2"></blockquote>
-
-        <button type="button" id="btn-finish-day" class="mt-6 px-6 py-3 rounded-2xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
-          Close the day 🌙
-        </button>
-        <p id="dayclose-after" class="hidden mt-4 text-sm text-slate-400"></p>
-      </div>
     </div>
   </div>
 
@@ -1408,7 +1456,7 @@ Key Insights:
       document.querySelectorAll('.med-preset').forEach(b => b.classList.remove('active'));
     }
 
-    function openTeachingModal() {
+    function openTeachingModal(opts) {
       const t = currentTeaching();
       const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
       const fallback = list[state.wisdomIndex % list.length];
@@ -1437,18 +1485,12 @@ Key Insights:
       }
       resetMeditationUI();
       document.getElementById('breath-label').textContent = 'breathe';
-      const modal = document.getElementById('teaching-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      pbNavigate('teaching', null, opts);
       startBreathing();
     }
 
     function closeTeachingModal() {
-      stopBreathing();
-      stopMeditation();
-      const modal = document.getElementById('teaching-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      if (pbActivePage === 'teaching') pbRequestClose();
     }
 
     function renderWisdom(isNight) {
@@ -1710,7 +1752,7 @@ Key Insights:
       } catch (e) { /* never block rendering on this */ }
     }
 
-    function openDayClose() {
+    function openDayClose(opts) {
       const entry = (state.dayLog || {})[closingDayKey()];
       const s = dayStats();
       document.getElementById('dayclose-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
@@ -1736,13 +1778,11 @@ Key Insights:
         finishBtn.classList.remove('hidden');
         after.classList.add('hidden');
       }
-      const m = document.getElementById('dayclose-modal');
-      m.classList.remove('hidden'); m.classList.add('flex');
+      pbNavigate('dayclose', null, opts);
     }
 
     function closeDayCloseModal() {
-      const m = document.getElementById('dayclose-modal');
-      m.classList.add('hidden'); m.classList.remove('flex');
+      if (pbActivePage === 'dayclose') pbRequestClose();
     }
 
     async function finishDay() {
@@ -2240,53 +2280,275 @@ Key Insights:
       });
     }
 
-    function openStoryModal(storyId) {
+    // ------------------------------------------------------------------
+    // Full-screen page layer: shared navigation engine
+    // ------------------------------------------------------------------
+    // Design: REPLACE, never STACK. Every page opens from the dashboard and
+    // none links to another, so there is at most ONE pbPage history entry on
+    // top of the dashboard entry. Opening a second page while one is already
+    // open (defensive; the UI currently cannot) runs the first page's cleanup,
+    // swaps the content and replaceState()s — so one Back press always lands
+    // on the dashboard, with no orphaned history states to unwind.
+    let pbActivePage = null;          // 'story' | 'teaching' | 'dayclose' | null
+    let pbOwnsHistoryEntry = false;   // our pushState succeeded for the open page
+    let pbSavedBodyScrollY = 0;
+    let pbTransitionTimer = null;
+    const pbReducedMotion = () => !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    // Per-page cleanup: transient state and timers must die with the page.
+    const PB_PAGE_CLEANUPS = {
+      story: () => { state.activeModalStoryId = null; },
+      teaching: () => { stopBreathing(); stopMeditation(); },
+      dayclose: () => {}
+    };
+
+    function pbLockBodyScroll() {
+      pbSavedBodyScrollY = window.scrollY || 0;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function pbUnlockBodyScroll() {
+      document.body.style.overflow = '';
+      window.scrollTo(0, pbSavedBodyScrollY);
+    }
+
+    function pbShowLayer(kind) {
+      const layer = document.getElementById('page-layer');
+      const surface = document.getElementById('page-surface');
+      if (pbTransitionTimer) { clearTimeout(pbTransitionTimer); pbTransitionTimer = null; }
+      document.querySelectorAll('#page-surface > section').forEach(s => s.classList.add('hidden'));
+      document.getElementById('page-' + kind).classList.remove('hidden');
+      document.getElementById('page-progress-wrap').classList.toggle('hidden', kind !== 'story');
+      surface.scrollTop = 0;
+      layer.classList.remove('hidden');
+      layer.setAttribute('aria-hidden', 'false');
+      if (pbReducedMotion()) { surface.classList.remove('pb-enter-from', 'pb-exit-to'); return; }
+      surface.classList.remove('pb-exit-to');
+      surface.classList.add('pb-enter-from');
+      void surface.offsetHeight; // force reflow so the enter transition plays
+      surface.classList.remove('pb-enter-from');
+    }
+
+    function pbHideLayer() {
+      const layer = document.getElementById('page-layer');
+      const surface = document.getElementById('page-surface');
+      const finish = () => {
+        pbTransitionTimer = null;
+        layer.classList.add('hidden');
+        layer.setAttribute('aria-hidden', 'true');
+        surface.classList.remove('pb-exit-to');
+        document.querySelectorAll('#page-surface > section').forEach(s => s.classList.add('hidden'));
+        document.getElementById('page-progress-wrap').classList.add('hidden');
+        document.getElementById('page-progress').style.width = '0%';
+      };
+      if (pbReducedMotion()) { finish(); return; }
+      surface.classList.add('pb-exit-to');
+      pbTransitionTimer = setTimeout(finish, 260);
+    }
+
+    function pbNavigate(kind, detail, opts) {
+      const restore = !!(opts && opts.restore); // arriving via history.forward()
+      const wasOpen = pbActivePage !== null;
+      if (wasOpen && pbActivePage !== kind) (PB_PAGE_CLEANUPS[pbActivePage] || function () {})();
+      pbActivePage = kind;
+      if (!wasOpen) pbLockBodyScroll();
+      const pageState = { pbPage: true, pbKind: kind, pbDetail: detail || null };
+      if (restore) {
+        pbOwnsHistoryEntry = true; // the entry already exists; we came forward onto it
+      } else if (wasOpen) {
+        try { history.replaceState(pageState, '', location.href); } catch (e) { /* keep old entry */ }
+      } else {
+        pbOwnsHistoryEntry = false;
+        try {
+          history.pushState(pageState, '', location.href);
+          pbOwnsHistoryEntry = true;
+        } catch (e) { /* sandboxed context: page still opens, closes without history */ }
+      }
+      pbShowLayer(kind);
+    }
+
+    function pbRequestClose() {
+      if (!pbActivePage) return;
+      // Pop our own history entry when we own the top of the stack, so the
+      // Android back gesture, browser back and the in-page Back buttons all
+      // take the exact same code path (no orphaned pbPage states).
+      if (pbOwnsHistoryEntry && history.state && history.state.pbPage) {
+        history.back(); // the popstate listener below performs close + cleanup
+        return;
+      }
+      pbPerformClose();
+    }
+
+    function pbPerformClose() {
+      if (!pbActivePage) return;
+      const kind = pbActivePage;
+      pbActivePage = null;
+      (PB_PAGE_CLEANUPS[kind] || function () {})();
+      pbHideLayer();
+      pbUnlockBodyScroll();
+    }
+
+    // Back/forward integration: leaving our history entry closes the page;
+    // returning to it (forward) restores the page it represents.
+    window.addEventListener('popstate', (e) => {
+      const st = e.state;
+      if (pbActivePage && !(st && st.pbPage)) {
+        pbPerformClose();
+      } else if (!pbActivePage && st && st.pbPage && st.pbKind) {
+        if (st.pbKind === 'story' && st.pbDetail && st.pbDetail.id) openStoryModal(st.pbDetail.id, { restore: true });
+        else if (st.pbKind === 'teaching') openTeachingModal({ restore: true });
+        else if (st.pbKind === 'dayclose') openDayClose({ restore: true });
+      }
+    });
+
+    // Reload with a page open: the browser restores history.state, but the app
+    // boots into the dashboard — strip the stale pbPage flag so a Back from a
+    // freshly opened page still closes it in a single press.
+    if (history.state && history.state.pbPage) {
+      try { history.replaceState(null, '', location.href); } catch (e) {}
+    }
+
+    // ------------------------------------------------------------------
+    // Story reader page
+    // ------------------------------------------------------------------
+    function storyReadMinutes(story) {
+      const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
+      return story.readMin || Math.max(1, Math.round(words / 220));
+    }
+
+    function storyOutletName(story) {
+      // Feed sources embed the read time ("Outlet • 6 min read"); the page
+      // shows the read time separately, so trim it from the outlet label.
+      return String(story.source || '').replace(/\s*[•·]\s*\d+\s+min(?:ute)?s?\s*(?:deep\s+)?read\s*$/i, '').trim() || String(story.source || '');
+    }
+
+    function renderStorySaveBtn(story) {
+      const btn = document.getElementById('story-save-btn');
+      const isNight = state.edition === 'night';
+      btn.textContent = story.saved ? '★ Saved' : '☆ Save';
+      btn.className = 'shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors ' + (story.saved
+        ? 'bg-amber-500 border-amber-500 text-white'
+        : (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-amber-100'));
+    }
+
+    function renderStoryPage(story) {
+      const isNight = state.edition === 'night';
+
+      // Page chrome: warm paper by day, slate by night
+      const page = document.getElementById('page-story');
+      page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      document.getElementById('story-header').className = isNight
+        ? 'sticky top-0 z-10 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md transition-colors'
+        : 'sticky top-0 z-10 border-b border-amber-200/70 bg-[#fffdf7]/90 backdrop-blur-md transition-colors';
+      document.getElementById('story-back').className = 'w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-amber-100');
+
+      // Header row: source link, read time, spectrum chip, save star
+      const outlet = storyOutletName(story);
+      const srcEl = document.getElementById('story-source');
+      srcEl.textContent = outlet + ' ↗';
+      srcEl.href = story.sourceUrl || '#';
+      srcEl.className = 'min-w-0 flex-1 truncate text-xs font-semibold hover:underline ' + (isNight ? 'text-indigo-300' : 'text-amber-700');
+
+      const readMinEl = document.getElementById('story-readmin');
+      readMinEl.textContent = storyReadMinutes(story) + ' min';
+      readMinEl.className = 'shrink-0 text-[11px] font-medium ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+
+      const chip = document.getElementById('story-spectrum');
+      if (story.spectrum) {
+        chip.textContent = story.spectrum;
+        chip.title = "Outlet's lean in the curated pool";
+        chip.className = 'shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200');
+      } else {
+        chip.className = 'hidden';
+      }
+
+      renderStorySaveBtn(story);
+
+      const cat = document.getElementById('story-category');
+      cat.textContent = story.category;
+      cat.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm mb-4 ' + (isNight ? 'bg-indigo-500 text-white' : 'bg-amber-500 text-white');
+
+      const hero = document.getElementById('story-hero');
+      hero.src = story.image || window.PB_IMG_FALLBACK;
+      hero.alt = story.title || 'Story visual';
+
+      document.getElementById('story-title').textContent = story.title || '';
+
+      // Long-form body: split on blank lines into real <p> elements. Story
+      // text is ONLY ever assigned via textContent — never innerHTML.
+      const body = document.getElementById('story-body');
+      body.innerHTML = '';
+      const pEls = String(story.content || story.dek || '')
+        .split(/\n\n+/).map(t => t.trim()).filter(Boolean)
+        .map(text => {
+          const p = document.createElement('p');
+          p.textContent = text;
+          p.className = 'text-[15px] sm:text-base leading-[1.85] ' + (isNight ? 'text-slate-300' : 'text-slate-700');
+          return p;
+        });
+
+      // Gallery (newer feeds; older feeds have no gallery → paragraphs only).
+      // Supports "https://…" strings or {url|src, alt} objects; images are
+      // interleaved evenly between the paragraphs.
+      const gallerySrcs = (Array.isArray(story.gallery) ? story.gallery : [])
+        .map(g => (typeof g === 'string' ? g : (g && (g.url || g.src)) || ''))
+        .filter(Boolean);
+      const galleryImg = (idx) => {
+        const img = document.createElement('img');
+        img.src = gallerySrcs[idx];
+        const meta = story.gallery[idx];
+        img.alt = (meta && typeof meta === 'object' && meta.alt) || ((story.title || 'Story') + ' — photo ' + (idx + 1));
+        img.loading = 'lazy';
+        img.setAttribute('onerror', 'this.onerror=null;this.src=window.PB_IMG_FALLBACK');
+        img.className = 'w-full rounded-2xl shadow-sm';
+        return img;
+      };
+      const nodes = [];
+      let imgIdx = 0;
+      pEls.forEach((p, i) => {
+        nodes.push(p);
+        while (imgIdx < gallerySrcs.length && (i + 1) >= Math.round(((imgIdx + 1) * pEls.length) / (gallerySrcs.length + 1))) {
+          nodes.push(galleryImg(imgIdx));
+          imgIdx += 1;
+        }
+      });
+      while (imgIdx < gallerySrcs.length) { // more images than paragraph gaps
+        nodes.push(galleryImg(imgIdx));
+        imgIdx += 1;
+      }
+      nodes.forEach(n => body.appendChild(n));
+
+      const whyBox = document.getElementById('story-why-box');
+      if (story.whyItMatters) {
+        whyBox.className = 'mt-8 rounded-2xl border p-5 ' + (isNight ? 'border-slate-800 bg-slate-900/70' : 'border-amber-200/80 bg-amber-50/70');
+        document.getElementById('story-why').textContent = story.whyItMatters;
+      } else {
+        whyBox.className = 'hidden';
+      }
+
+      const readAt = document.getElementById('story-readat');
+      readAt.href = story.sourceUrl || '#';
+      document.getElementById('story-readat-source').textContent = outlet;
+      readAt.className = 'mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors ' + (isNight
+        ? 'bg-indigo-600 text-white hover:bg-indigo-500'
+        : 'bg-slate-900 text-white hover:bg-slate-800');
+
+      // Reading-progress bar tint follows the edition; width resets to 0
+      const bar = document.getElementById('page-progress');
+      bar.className = 'h-full ' + (isNight ? 'bg-indigo-500' : 'bg-amber-500');
+      bar.style.width = '0%';
+    }
+
+    function openStoryModal(storyId, opts) {
       const story = state.stories.find(s => s.id === storyId);
       if (!story) return;
       state.activeModalStoryId = storyId;
-
-      document.getElementById('modal-image').src = story.image;
-      document.getElementById('modal-category').textContent = story.category;
-      const srcEl = document.getElementById('modal-source');
-      srcEl.textContent = story.source + ' ↗';
-      srcEl.href = story.sourceUrl || '#';
-
-      document.getElementById('modal-title').textContent = story.title;
-      document.getElementById('modal-summary').textContent = story.content || story.dek;
-      
-      // Dynamic Dark/Light Theme for Story Reader Modal
-      const isNight = state.edition === 'night';
-      const modalPanel = document.getElementById('modal-panel');
-      const whyBox = modalPanel.querySelector('.rounded-xl.bg-slate-50') || modalPanel.querySelector('.rounded-xl.bg-slate-800');
-      const closeBtn = document.getElementById('btn-close-modal');
-
-      if (isNight) {
-        modalPanel.className = 'relative w-full max-w-2xl rounded-2xl bg-slate-900 text-slate-100 shadow-2xl border border-slate-700 overflow-hidden max-h-[90vh] flex flex-col';
-        if (whyBox) whyBox.className = 'rounded-xl bg-slate-800/80 border border-slate-700 p-4 text-slate-200';
-        if (closeBtn) closeBtn.className = 'absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-800/80 text-white flex items-center justify-center hover:bg-slate-700 transition-colors border border-slate-600';
-        document.getElementById('modal-summary').className = 'text-sm text-slate-300 leading-relaxed space-y-3 whitespace-pre-line';
-        document.getElementById('modal-title').className = 'text-xl sm:text-2xl font-bold font-serif-editorial leading-snug text-white';
-      } else {
-        modalPanel.className = 'relative w-full max-w-2xl rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col';
-        if (whyBox) whyBox.className = 'rounded-xl bg-amber-50/80 border border-amber-200/80 p-4 text-slate-700';
-        if (closeBtn) closeBtn.className = 'absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-900/75 text-white flex items-center justify-center hover:bg-slate-900 transition-colors';
-        document.getElementById('modal-summary').className = 'text-sm text-slate-700 leading-relaxed space-y-3 whitespace-pre-line';
-        document.getElementById('modal-title').className = 'text-xl sm:text-2xl font-bold font-serif-editorial leading-snug text-slate-900';
-      }
-
-      document.getElementById('modal-why').textContent = story.whyItMatters;
-      document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
-
-      const modal = document.getElementById('story-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      renderStoryPage(story);
+      pbNavigate('story', { id: storyId }, opts);
     }
 
     function closeStoryModal() {
-      const modal = document.getElementById('story-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      state.activeModalStoryId = null;
+      if (pbActivePage === 'story') pbRequestClose();
     }
 
     // Top-level Event Listeners
@@ -2328,11 +2590,8 @@ Key Insights:
       renderWisdom(state.edition === 'night');
     });
 
-    document.getElementById('btn-open-teaching').addEventListener('click', openTeachingModal);
+    document.getElementById('btn-open-teaching').addEventListener('click', () => openTeachingModal());
     document.getElementById('btn-close-teaching').addEventListener('click', closeTeachingModal);
-    document.getElementById('teaching-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'teaching-modal') closeTeachingModal();
-    });
     document.querySelectorAll('.med-preset').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.med-preset').forEach(b => b.classList.remove('active'));
@@ -2365,26 +2624,30 @@ Key Insights:
       renderTasks(state.edition === 'night');
     });
 
-    document.getElementById('btn-close-day').addEventListener('click', openDayClose);
+    document.getElementById('btn-close-day').addEventListener('click', () => openDayClose());
     document.getElementById('btn-close-dayclose').addEventListener('click', closeDayCloseModal);
-    document.getElementById('dayclose-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'dayclose-modal') closeDayCloseModal();
-    });
     document.getElementById('btn-finish-day').addEventListener('click', finishDay);
 
-    document.getElementById('btn-close-modal').addEventListener('click', closeStoryModal);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeStoryModal(); closeTeachingModal(); closeDayCloseModal(); } });
-    document.getElementById('story-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'story-modal') closeStoryModal();
-    });
+    // ---- Page layer wiring: back buttons, Escape, reading progress ----
+    document.getElementById('story-back').addEventListener('click', closeStoryModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pbRequestClose(); });
+    // Reading-progress bar: updates from the page layer's own scroll
+    // container (the body is locked while the page is open).
+    document.getElementById('page-surface').addEventListener('scroll', () => {
+      if (pbActivePage !== 'story') return;
+      const el = document.getElementById('page-surface');
+      const max = el.scrollHeight - el.clientHeight;
+      const pct = max > 0 ? Math.min(100, (el.scrollTop / max) * 100) : 0;
+      document.getElementById('page-progress').style.width = pct.toFixed(1) + '%';
+    }, { passive: true });
 
-    document.getElementById('modal-save-btn').addEventListener('click', async () => {
+    document.getElementById('story-save-btn').addEventListener('click', async () => {
       if (!state.activeModalStoryId) return;
       const story = state.stories.find(s => s.id === state.activeModalStoryId);
       if (story) {
         story.saved = !story.saved;
         await persistEncryptedState();
-        document.getElementById('modal-save-btn').textContent = story.saved ? '★ Saved in Bookmarks' : '☆ Save Story';
+        renderStorySaveBtn(story);
         renderApp();
       }
     });
