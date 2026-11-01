@@ -78,6 +78,13 @@
       transition: background 0.2s ease, color 0.2s ease;
     }
     a.home:hover, a.home:active { background: #f59e0b; color: #04060b; }
+    .back {
+      display: inline-block; margin-top: 14px; background: none; border: none; cursor: pointer;
+      color: #94a3b8; font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+      padding: 10px 18px; text-decoration: underline; text-underline-offset: 4px;
+      font-family: inherit;
+    }
+    .back:hover, .back:active { color: #e2e8f0; }
   </style>
 </head>
 <body>
@@ -87,6 +94,7 @@
     <h1>This page drifted off-orbit.</h1>
     <p>Whatever you were looking for isn&rsquo;t on the station. The briefing itself is safe and on schedule.</p>
     <a class="home" href="/">Return to the briefing</a>
+    <div><button class="back" onclick="history.back()">Go back</button></div>
   </main>
 </body>
 </html>

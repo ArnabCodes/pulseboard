@@ -104,10 +104,23 @@ Three channels, merged:
 
 ## Deploy notes
 
-- `vercel.json` sets `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: geolocation=(), camera=(), microphone=()`; `index.html` and `sw.js` are always revalidated, images are immutable-cached, data JSONs get `max-age=300`.
-- **No CSP is shipped on purpose**: the Tailwind Play CDN injects runtime `<style>` elements and inline config, which a strict CSP would break. If Tailwind is ever replaced with a build step, add a CSP then.
-- A root `404.html` is served by Vercel (status 404) for any route that matches no static file.
-- Service worker versioning: `sw.js` is on `pulseboard-v14`. To ship a new one, bump `CACHE_NAME` — the worker deletes old caches on activate and (on update, not first install) reloads open tabs once, with no app-side code.
+- `vercel.json` sets `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: geolocation=(), camera=(), microphone=()`; `index.html` and `sw.js` are always revalidated, images are immutable-cached, data JSONs get `max-age=300` (`pulse_feed.json`: 60s).
+- **CSP**: a permissive `<meta http-equiv="Content-Security-Policy">` ships in `index.html` — it allows the Tailwind Play CDN (which requires `'unsafe-inline'`/`'unsafe-eval'` for its runtime `<style>` injection and config), inline script/style, Google Fonts, outlet-CDN cover images, and API fetches. Tighten only if Tailwind moves to a build step.
+- A root `404.html` is served by Vercel (status 404) for any route that matches no static file; it links home and has a Back button.
+- Service worker versioning: `sw.js` is on `pulseboard-v17`. To ship a new one, bump `CACHE_NAME` — the worker deletes old caches on activate. Updates no longer force-reload open tabs; the page sets `window.__pbUpdateReady` and the settings UI offers a Reload button (see *Service worker & caching* below).
+
+## Service worker & caching
+
+`sw.js` (currently `pulseboard-v17`) uses four fetch strategies:
+
+- **navigations** — network-first, falling back to the cached shell, then a themed inline offline page for the nothing-cached-yet first run.
+- **`pulse_feed.json`** — stale-while-revalidate: the cached feed is served instantly and refreshed in the background, so the dashboard paints immediately and picks up fresh editorial content on the next render.
+- **article images** (`images.unsplash.com`, `cdn.arstechnica.net`, `platform.theverge.com`, `i.guim.co.uk`, `i.cbc.ca`, `nypost.com` CDNs) — runtime cache-first in a dedicated versioned cache with a soft cap of ~60 entries (LRU-ish trim). Opaque `no-cors` responses are cached too, so cover images survive offline.
+- **everything else** (icons, misc assets) — stale-while-revalidate; `teachings_db.json` stays network-first.
+
+Update flow (v17): the worker `skipWaiting()`s at install but no longer force-reloads tabs on activate. The page calls `reg.update()` when the installed PWA returns to the foreground (throttled to once per 30 min via `sessionStorage`) and sets `window.__pbUpdateReady = true` on `controllerchange` after a real `updatefound`; the settings UI shows a Reload button from that flag. Otherwise updates land on the next cold start.
+
+Page-side hooks live in the platform boot block at the end of the inline script: `window.PB_VERSION` / `PB_BUILD_TIME` (build identity), `window.pbFetchJSON(url, timeoutMs)` (timeout + one retry with 500ms backoff), `window.pbSafeSet(k, v)` (quota-safe localStorage write), and `window.pbPurgeCaches()` (wipes every cache via the `PURGE_CACHES` postMessage plus direct `caches.delete`). Platform regressions are covered by `tests/test_platform.py`.
 
 ## License
 

@@ -45,7 +45,13 @@
       ]
     },
     {
-      "source": "/(pulse_feed.json|teachings_db.json|articles_db.json|manifest.json)",
+      "source": "/pulse_feed.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=60" }
+      ]
+    },
+    {
+      "source": "/(teachings_db.json|articles_db.json|manifest.json)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=300" }
       ]

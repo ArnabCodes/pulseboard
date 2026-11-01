@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Content-Security-Policy: allows exactly what this app uses — the
+       Tailwind Play CDN (script + runtime-injected styles + its eval-based
+       config), inline script/style elements (single-file app), Google Fonts,
+       arbitrary outlet-CDN cover images, and open-meteo/JSON fetches.
+       Deliberately permissive (unsafe-inline/unsafe-eval) because the Play
+       CDN requires both; tighten only if Tailwind moves to a build step. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; img-src * data: blob: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src * data: blob:; frame-src 'self' https:; object-src 'none'; base-uri 'self'" />
   <title>PulseBoard — Morning &amp; Night Custom News Dashboard</title>
   
   <!-- PWA & Mobile Web App Meta Tags -->
@@ -35,15 +42,25 @@
   <meta name="theme-color" content="#04060b" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#fffdf7" media="(prefers-color-scheme: light)" />
 
-  <!-- Fixed-origin connection hints (feed cover images come from arbitrary
-       outlet CDNs and are deliberately NOT preconnected) -->
+  <!-- Connection hints: preconnect for likely-critical origins, dns-prefetch
+       as the cheap fallback for browsers that ignore preconnect. Feed cover
+       images come from arbitrary outlet CDNs (see ARTICLE_IMAGE_HOSTS in
+       sw.js); images.unsplash.com gets a hint because it is the dominant
+       fallback-image host. -->
   <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
   <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="dns-prefetch" href="https://api.open-meteo.com" />
   <link rel="preconnect" href="https://pulseboard-arnabcodes.vercel.app" />
+  <link rel="dns-prefetch" href="https://pulseboard-arnabcodes.vercel.app" />
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
   <style>
     body {
@@ -4822,14 +4839,170 @@ Key Insights:
     });
     pbSetTaskRepeat('off');
 
-    // PWA Service Worker Registration
+    // ================= Platform boot block (SW lifecycle, hooks, helpers) =================
+    // Owner: platform agent. Integrator hooks are marked INLINE HOOK — the
+    // app-side wiring for them lives elsewhere in this file.
+
+    // Build identity: git short hash of the platform-wave commit + build time.
+    // (Hash is stamped post-commit by the release step: it names the content
+    // commit whose tree this build is — a commit cannot contain its own hash.)
+    window.PB_VERSION = '3cb4cb5';
+    window.PB_BUILD_TIME = '2026-11-01T02:57:49Z';
+
+    // --- Error boundary: log everything; ?debug=1 adds a text-only overlay ---
+    (function pbErrorBoundary() {
+      const dbg = /[?&]debug=1\b/.test(location.search);
+      let host = null;
+      const overlay = (line) => {
+        try {
+          if (!host) {
+            host = document.createElement('div');
+            host.style.cssText = 'position:fixed;z-index:2147483647;left:8px;right:8px;bottom:8px;max-height:38vh;overflow:auto;background:#450a0a;color:#fecaca;font:11px/1.5 ui-monospace,Menlo,monospace;padding:8px 10px;border-radius:8px;border:1px solid #b91c1c;white-space:pre-wrap;word-break:break-word';
+            host.setAttribute('aria-live', 'polite');
+            (document.body || document.documentElement).appendChild(host);
+          }
+          host.appendChild(document.createTextNode(line + '\n')); // textContent only, never innerHTML
+        } catch (e) { /* overlay is best-effort */ }
+      };
+      window.onerror = function (msg, src, line, col, err) {
+        console.error('[PB error]', msg, src ? src + ':' + line + ':' + col : '', err || '');
+        if (dbg) overlay(msg + (src ? '  (' + src + ':' + line + ':' + col + ')' : ''));
+        return false; // keep the browser's default logging as well
+      };
+      window.addEventListener('unhandledrejection', (ev) => {
+        const r = ev && ev.reason;
+        console.error('[PB] unhandled rejection:', r);
+        if (dbg) overlay('unhandled rejection: ' + (r && r.message ? r.message : String(r)));
+      });
+    })();
+
+    // --- Service worker: register, self-update on foreground, update-ready hook ---
+    let __pbReg = null;
+    let __pbSawUpdate = false;
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          __pbReg = reg;
+          // Attribute controllerchange to a real update: it also fires on the
+          // very first install/claim, which is not an update.
+          reg.addEventListener('updatefound', () => {
+            const nw = reg.installing;
+            if (!nw) return;
+            nw.addEventListener('statechange', () => {
+              if (nw.state === 'installed' && navigator.serviceWorker.controller) __pbSawUpdate = true;
+            });
+          });
+        }).catch(err => {
           console.log('ServiceWorker registration skipped:', err);
         });
       });
+
+      // INLINE HOOK (integrator): when this becomes true a new worker has
+      // taken control — the settings UI should show a Reload button.
+      // (No alert/toast here on purpose; the SW no longer force-reloads.)
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (__pbSawUpdate) window.__pbUpdateReady = true;
+      });
+
+      // Self-update when the installed PWA returns to the foreground, so
+      // updates land without a cold start. Throttled to once per 30 min via
+      // sessionStorage (with an in-memory fallback if storage is blocked).
+      let __pbLastUpdateCheck = 0;
+      const PB_UPDATE_INTERVAL = 30 * 60 * 1000;
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible' || !__pbReg) return;
+        const now = Date.now();
+        if (now - __pbLastUpdateCheck < PB_UPDATE_INTERVAL) return;
+        let stored = now - PB_UPDATE_INTERVAL; // permissive default
+        try { stored = Number(sessionStorage.getItem('pb_sw_update_at') || 0); } catch (e) { /* blocked */ }
+        if (now - stored < PB_UPDATE_INTERVAL) return;
+        __pbLastUpdateCheck = now;
+        try { sessionStorage.setItem('pb_sw_update_at', String(now)); } catch (e) { /* blocked */ }
+        __pbReg.update().catch(() => {});
+      });
     }
+
+    // --- Lock-screen battery: pause the clock while the PWA is hidden ---
+    // INLINE HOOK (integrator): wire the lock/dashboard clock like either
+    //   A) window.__pbClockTimer = setInterval(tick, ms); plus
+    //      window.__pbClockStart = () => { window.__pbClockTimer = setInterval(tick, ms); }
+    //   B) window.__pbClockTimer = { pause: fn, resume: fn }
+    // Optional: window.__pbClockTick = tick (called once on resume so a
+    // 15s-interval clock is not stale after returning to foreground).
+    let __pbClockPausedByUs = false;
+    document.addEventListener('visibilitychange', () => {
+      try {
+        if (document.visibilityState === 'hidden') {
+          const ct = window.__pbClockTimer;
+          __pbClockPausedByUs = false;
+          if (ct && typeof ct.pause === 'function') { ct.pause(); __pbClockPausedByUs = true; }
+          else if (typeof ct === 'number') { clearInterval(ct); window.__pbClockTimer = null; __pbClockPausedByUs = true; }
+        } else if (document.visibilityState === 'visible') {
+          if (__pbClockPausedByUs) {
+            __pbClockPausedByUs = false;
+            const ct = window.__pbClockTimer;
+            if (ct && typeof ct.resume === 'function') ct.resume();
+            else if (ct == null && typeof window.__pbClockStart === 'function') window.__pbClockStart();
+          }
+          if (typeof window.__pbClockTick === 'function') { try { window.__pbClockTick(); } catch (e) { /* tick is best-effort */ } }
+        }
+      } catch (e) { console.warn('[PB] clock pause/resume failed', e); }
+    });
+
+    // --- Robustness helpers (INLINE HOOK: adopt app-wide) ---
+
+    // JSON fetch with timeout + exactly one retry after 500ms backoff.
+    // integrator: use in refreshContentFromFeed
+    window.pbFetchJSON = async function (url, timeoutMs = 10000) {
+      const attempt = async () => {
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+        try {
+          const res = await fetch(url, { cache: 'no-cache', signal: ctrl.signal });
+          if (!res || !res.ok) throw new Error('HTTP ' + (res ? res.status : 'no response') + ' for ' + url);
+          return await res.json();
+        } finally {
+          clearTimeout(tid);
+        }
+      };
+      try {
+        return await attempt();
+      } catch (firstErr) {
+        console.warn('[PB] pbFetchJSON: first attempt failed, retrying once —', firstErr && firstErr.message);
+        await new Promise((r) => setTimeout(r, 500));
+        return attempt(); // one retry with 500ms backoff
+      }
+    };
+
+    // Quota/private-mode-safe localStorage write.
+    // integrator: adopt in place of raw localStorage.setItem
+    window.pbSafeSet = function (k, v) {
+      try { localStorage.setItem(k, v); return true; }
+      catch (e) { console.warn('[PB] pbSafeSet failed for', k, e); return false; }
+    };
+
+    // Delete every Cache Storage entry (app shell + runtime image cache).
+    // For the settings "reset cached data" action: posts PURGE_CACHES to the
+    // worker AND deletes the caches directly from the page.
+    window.pbPurgeCaches = async function () {
+      let ok = false;
+      try {
+        if ('serviceWorker' in navigator) {
+          const reg = await navigator.serviceWorker.getRegistration();
+          const sw = reg && (reg.active || reg.waiting || reg.installing);
+          if (sw && typeof sw.postMessage === 'function') { sw.postMessage({ type: 'PURGE_CACHES' }); ok = true; }
+        }
+      } catch (e) { console.warn('[PB] pbPurgeCaches: postMessage failed', e); }
+      try {
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((k) => caches.delete(k)));
+          ok = true;
+        }
+      } catch (e) { console.warn('[PB] pbPurgeCaches: caches.delete failed', e); }
+      return ok;
+    };
+    // =============== end platform boot block ===============
 
     initSecurityGate();
     // --- Strip Vercel toolbar / preview widgets if the platform injects them ---

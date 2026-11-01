@@ -1,23 +1,39 @@
-// Service Worker for PulseBoard PWA — v14 "reliability pack"
+// Service Worker for PulseBoard PWA — v17 "platform wave"
 //
 // Strategies
 //   navigation : network-first -> cache -> inline offline page (a cold
 //                first-run offline load shows a themed page, never a browser
 //                network error)
-//   data JSON  : network-first (fresh editorial feed), cache as offline fallback
+//   feed JSON  : stale-while-revalidate — the cached pulse_feed.json is
+//                served instantly and refreshed in the background, so the
+//                dashboard paints with yesterday's data immediately and shows
+//                fresh editorial content on the next render (v14-v16 waited
+//                on the network on every load)
+//   data JSON  : network-first (teachings_db.json), cache as offline fallback
+//   article
+//   images     : runtime cache-first in a dedicated cache (soft cap ~60
+//                entries, LRU-ish trim) for known outlet CDNs; opaque
+//                cross-origin responses are cached too, so cover images
+//                survive offline
 //   images     : stale-while-revalidate; opaque cross-origin responses are
-//                cached too, so cover images survive offline (v13 silently
-//                dropped them — opaque responses report status 0)
+//                cached too (opaque responses report status 0 — still
+//                renderable; only genuine failures are skipped)
 //   other      : stale-while-revalidate
 //
-// Auto-update: when this version activates OVER an older pulseboard-v* cache
-// (an update, not a first install), every open window client is navigated
-// (reloaded) exactly once so the new worker takes effect immediately — with no
-// app-side code. A reload loop is structurally impossible (activate fires once
-// per worker instance) and an in-worker Set guards double-navigation. The
-// classic sessionStorage guard is a page-side API a worker cannot read, so the
-// one-shot guard lives in worker memory.
-const CACHE_NAME = 'pulseboard-v16';
+// Update flow (v17): the worker still skipWaiting()s at install, but the old
+// auto-reload of window clients on activate was REMOVED — a forced reload
+// mid-read is hostile. Instead the page sets window.__pbUpdateReady = true on
+// controllerchange (see the boot block in index.html) and the settings UI
+// offers a Reload button. Updates otherwise apply on the next cold start.
+//
+// Messages (postMessage from the page):
+//   { type: 'SKIP_WAITING' }  -> self.skipWaiting() (install already does
+//                                this; the message is the on-demand path)
+//   { type: 'PURGE_CACHES' }  -> deletes EVERY cache (settings "reset cached
+//                                data"); the worker re-populates lazily
+const CACHE_NAME = 'pulseboard-v17';
+const IMAGE_CACHE_NAME = CACHE_NAME + '-img'; // runtime article-image cache
+const IMAGE_CACHE_MAX = 60;                   // soft cap, LRU-ish trim
 const ASSETS = [
   './',
   './manifest.json',
@@ -29,6 +45,17 @@ const ASSETS = [
   './apple-touch-icon.png',
   './pulse_feed.json',
   './teachings_db.json'
+];
+
+// Cross-origin article-image CDNs allowed into the runtime image cache.
+// Suffix match, so cdn.arstechnica.net / *.nypost.com variants all match.
+const ARTICLE_IMAGE_HOSTS = [
+  'images.unsplash.com',
+  'cdn.arstechnica.net',
+  'platform.theverge.com',
+  'i.guim.co.uk',
+  'i.cbc.ca',
+  'nypost.com'
 ];
 
 // Minimal themed offline shell for the "nothing cached yet" first-run case.
@@ -78,35 +105,119 @@ self.addEventListener('install', (e) => {
   );
 });
 
-// One-shot reload guard for auto-update (per worker instance; see header note).
-const reloadedClients = new Set();
-
 self.addEventListener('activate', (e) => {
+  // Delete every cache that is not the current one — old app shells AND the
+  // previous version's runtime image cache (IMAGE_CACHE_NAME carries the
+  // version suffix, so it is rebuilt empty after every bump).
   e.waitUntil((async () => {
     const keys = await caches.keys();
-    // An update = activating over an older pulseboard cache. A first install
-    // has none, so its initial page load is never interrupted.
-    const isUpdate = keys.some((k) => k.startsWith('pulseboard-') && k !== CACHE_NAME);
     await Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)));
     await self.clients.claim();
-    if (isUpdate) {
-      const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: false });
-      for (const w of wins) {
-        if (reloadedClients.has(w.id) || typeof w.navigate !== 'function') continue;
-        if (!w.url || !w.url.startsWith('http')) continue;
-        reloadedClients.add(w.id);
-        try { await w.navigate(w.url); }
-        catch (err) { /* navigate() unsupported or blocked: update applies next launch */ }
-      }
-    }
   })());
 });
+
+self.addEventListener('message', (e) => {
+  const msg = e.data;
+  if (!msg || typeof msg !== 'object') return;
+  if (msg.type === 'SKIP_WAITING') self.skipWaiting();
+  if (msg.type === 'PURGE_CACHES') {
+    e.waitUntil((async () => {
+      try {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      } catch (err) { /* already gone */ }
+    })());
+  }
+});
+
+// Is this request an <img>-class fetch from an allowed article CDN?
+function isArticleImageRequest(req) {
+  try {
+    const u = new URL(req.url);
+    const isImage = req.destination === 'image' ||
+      /\.(png|jpe?g|webp|gif|svg|avif)$/i.test(u.pathname);
+    if (!isImage) return false;
+    return ARTICLE_IMAGE_HOSTS.some(
+      (d) => u.hostname === d || u.hostname.endsWith('.' + d)
+    );
+  } catch (err) {
+    return false; // not a parseable URL -> fall through to generic handling
+  }
+}
+
+// Runtime cache-first with a soft cap. Opaque (no-cors) responses are fine:
+// they report status 0 but still render. Everything is best-effort — a cache
+// failure must never break an image load.
+async function runtimeImageCacheFirst(req) {
+  let cache = null;
+  try { cache = await caches.open(IMAGE_CACHE_NAME); } catch (err) { cache = null; }
+
+  if (cache) {
+    let cached = null;
+    try { cached = await cache.match(req, { ignoreVary: true }); } catch (err) { cached = null; }
+    if (cached) {
+      // LRU-ish recency touch: re-insert so recently used entries sort last.
+      try {
+        const copy = cached.clone();
+        await cache.delete(req, { ignoreVary: true });
+        await cache.put(req, copy);
+      } catch (err) { /* non-fatal */ }
+      return cached;
+    }
+  }
+
+  const netRes = await fetch(req); // may reject when offline
+
+  if (cache && netRes && (netRes.ok || netRes.type === 'opaque')) {
+    try {
+      await cache.put(req, netRes.clone());
+      // Soft cap: Cache.keys() is insertion-ordered in practice, so dropping
+      // from the front evicts the least-recently-(re)inserted entries.
+      const keys = await cache.keys();
+      const excess = keys.length - IMAGE_CACHE_MAX;
+      if (excess > 0) {
+        await Promise.all(keys.slice(0, excess).map((k) => cache.delete(k)));
+      }
+    } catch (err) { /* non-fatal */ }
+  }
+  return netRes;
+}
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;
 
-  // Fresh editorial feed: network-first, cache only as offline fallback
-  if (req.url.includes('pulse_feed.json') || req.url.includes('teachings_db.json')) {
+  // Editorial feed: stale-while-revalidate. Serve the cached copy instantly,
+  // refresh it in the background so the NEXT load is fresh. First run (no
+  // cache yet) waits on the network like before.
+  if (req.url.includes('pulse_feed.json')) {
+    e.respondWith((async () => {
+      let cache = null;
+      try { cache = await caches.open(CACHE_NAME); } catch (err) { cache = null; }
+      let cached = null;
+      if (cache) {
+        try { cached = await cache.match(req); } catch (err) { cached = null; }
+      }
+      const refresh = fetch(req)
+        .then((networkRes) => {
+          if (networkRes && networkRes.status === 200 && cache) {
+            const clone = networkRes.clone();
+            cache.put(req, clone).catch(() => {});
+          }
+          return networkRes;
+        })
+        .catch(() => null);
+      if (cached) {
+        refresh.catch(() => {}); // refresh runs in the background, errors ignored
+        return cached;
+      }
+      const net = await refresh;
+      return net || cached || Response.error();
+    })());
+    return;
+  }
+
+  // Teachings: network-first, cache only as offline fallback (unchanged)
+  if (req.url.includes('teachings_db.json')) {
     e.respondWith(
       fetch(req)
         .then((networkRes) => {
@@ -142,6 +253,14 @@ self.addEventListener('fetch', (e) => {
           caches.match(req).then((res) => res || caches.match('./') || offlinePage())
         )
     );
+    return;
+  }
+
+  // Article cover images from known outlet CDNs: runtime cache-first with a
+  // soft cap (see runtimeImageCacheFirst). Must run BEFORE the generic image
+  // branch below.
+  if (isArticleImageRequest(req)) {
+    e.respondWith(runtimeImageCacheFirst(req));
     return;
   }
 

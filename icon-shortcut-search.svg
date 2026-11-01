@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- App-shortcut icon: Search (magnifier) -->
+  <circle cx="228" cy="228" r="128" fill="none" stroke="#f59e0b" stroke-width="42" />
+  <path d="M318 318 L422 422" stroke="#f59e0b" stroke-width="48" stroke-linecap="round" />
+</svg>
