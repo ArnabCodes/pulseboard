@@ -92,8 +92,8 @@
 
     /* ---- Security gate ---- */
     #pin-gate-screen { --gate-sensor-top: 71%; }
-    .gate-sensor { position: absolute; left: 50%; transform: translateX(-50%); top: var(--gate-sensor-top); display: flex; flex-direction: column; align-items: center; }
-    @media (min-width: 768px) { .gate-sensor { top: auto; bottom: 48px; } }
+    .gate-sensor { position: absolute; left: 50%; transform: translateX(-50%); top: var(--gate-sensor-top); padding-bottom: env(safe-area-inset-bottom); display: flex; flex-direction: column; align-items: center; }
+    @media (min-width: 768px) { .gate-sensor { top: auto; bottom: max(48px, calc(24px + env(safe-area-inset-bottom))); } }
     .gate-sensor-btn { display: flex; flex-direction: column; align-items: center; padding: 15px 24px 13px; border-radius: 9999px; color: #94a3b8; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); transition: transform 0.15s ease, color 0.2s ease, background 0.2s ease; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
     .gate-sensor-btn:active { transform: scale(0.92); color: #e2e8f0; background: rgba(255,255,255,0.07); }
     .gate-sensor-btn.gate-sensing { animation: gate-breathe 1.8s ease-in-out infinite; color: #cbd5e1; }
@@ -108,8 +108,14 @@
     button, a, input { touch-action: manipulation; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   /* Fullscreen display: keep content clear of cutout + gesture bar */
-  #app-header { padding-top: env(safe-area-inset-top); }
+  #app-header, #story-header, #search-header { padding-top: env(safe-area-inset-top); }
   #app-body { padding-bottom: env(safe-area-inset-bottom); }
+  #page-surface > section > div { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  #pb-lightbox { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+  #pb-lightbox-close { top: max(12px, calc(env(safe-area-inset-top) + 8px)); }
+  #offline-badge { bottom: max(20px, calc(16px + env(safe-area-inset-bottom))); }
+  #ptr-indicator { top: max(12px, calc(env(safe-area-inset-top) + 8px)); }
+  .pb-skip-link { top: max(10px, calc(env(safe-area-inset-top) + 6px)); }
 
   /* --- Teaching page: breathing orb --- */
   .breath-orb {
@@ -192,6 +198,7 @@
   }
 
   /* Night dim mode: warm late-night layer on top of the night edition (AA kept) */
+  body.bg-slate-950:not(.pb-dim) { background-color: #04060b; }
   body.pb-dim { background-color: #141008; }
   body.pb-dim #app-header { background-color: rgba(23, 18, 8, 0.92); border-bottom-color: #2c2312; }
   #page-story.pb-dim, #page-settings.pb-dim { background-color: #0f0b05; }
@@ -387,37 +394,37 @@
       </div>
 
       <!-- Edition Toggle + Saved Counter + Lock Button -->
-      <div class="flex items-center gap-3">
-        <button type="button" id="btn-open-search" class="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 transition-colors" title="Search stories, papers &amp; teachings" aria-label="Search">
+      <div class="flex items-center gap-1 sm:gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
+        <button type="button" id="btn-open-search" class="inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 transition-colors" title="Search stories, papers &amp; teachings" aria-label="Search">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle>
             <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
           </svg>
         </button>
-        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
-          <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
+        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 rounded-xl p-1 bg-slate-100 border border-slate-200/80">
+          <button type="button" id="btn-morning" class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
             <span>☀️</span>
             <span>Morning</span>
           </button>
-          <button type="button" id="btn-night" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">
+          <button type="button" id="btn-night" class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">
             <span>🌙</span>
             <span>Night</span>
           </button>
         </div>
 
-        <button type="button" id="btn-view-saved" class="relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
-          <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+        <button type="button" id="btn-view-saved" class="relative inline-flex shrink-0 items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
+          <svg class="w-4 h-4 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
           </svg>
           <span>Saved</span>
           <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">0</span>
         </button>
 
-        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Lock Dashboard">
+        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Lock Dashboard">
           <span>🔒</span>
         </button>
 
-        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors">
+        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="3.2"></circle>
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path>
@@ -453,7 +460,7 @@
         </div>
 
         <!-- Weather Card (wrapped so the On-this-day card can sit beneath it) -->
-        <div class="flex flex-col gap-3 shrink-0">
+        <div class="flex flex-col gap-3 shrink-0 w-full lg:w-[360px] xl:w-[400px]">
         <div id="weather-card" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0">
           <div class="text-3xl" id="weather-emoji">🌤️</div>
           <div>
@@ -504,20 +511,22 @@
             </p>
           </div>
         </div>
-        <button
-          type="button"
-          id="btn-open-teaching"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-600/60 bg-slate-900/85 hover:bg-slate-800 text-slate-100 transition-colors shrink-0 self-start md:self-center"
-        >
-          <span>🧘 Sit with it</span>
-        </button>
-        <button
-          type="button"
-          id="btn-next-wisdom"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0 self-start md:self-center"
-        >
-          <span>↻ Next Teaching</span>
-        </button>
+        <div class="flex items-center gap-2 shrink-0 self-start md:self-center">
+          <button
+            type="button"
+            id="btn-open-teaching"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-600/60 bg-slate-900/85 hover:bg-slate-800 text-slate-100 transition-colors shrink-0"
+          >
+            <span>🧘 Sit with it</span>
+          </button>
+          <button
+            type="button"
+            id="btn-next-wisdom"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0"
+          >
+            <span>↻ Next Teaching</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -560,16 +569,16 @@
         <!-- Deep Reading Archive / Backup Articles for Deep Mood
              (rendered dynamically by renderVault() from EXTRA_STORIES —
              evergreen deep dives, always available even offline) -->
-        <section id="backup-articles-section" class="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800">
-          <div class="flex items-center justify-between mb-4">
-            <div>
+        <section id="backup-articles-section" class="mt-12 pt-8 border-t border-slate-200/80">
+          <div class="flex items-start sm:items-center justify-between gap-3 mb-4">
+            <div class="min-w-0">
               <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
                 <span>📚 Deep-Reading Vault (Extra Curated Briefings)</span>
               </h2>
-              <p class="text-xs text-slate-500">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
+              <p id="vault-subtitle" class="text-xs text-slate-500 mt-0.5">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-              <span id="vault-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
+              <span id="vault-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">2 long reads</span>
               <!-- (46) Collapse toggle, persisted in pb_prefs -->
               <button type="button" id="btn-vault-collapse" aria-expanded="true" aria-controls="vault-grid" aria-label="Collapse deep-reading vault" class="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:bg-slate-100 transition-colors flex items-center justify-center" title="Collapse / expand vault"><span id="vault-chevron" aria-hidden="true">▾</span></button>
             </div>
@@ -722,17 +731,17 @@
       <!-- ========== STORY READER PAGE ========== -->
       <section id="page-story" class="hidden min-h-full" aria-label="Story reader">
         <header id="story-header" class="sticky top-0 z-10 border-b backdrop-blur-md transition-colors">
-          <div class="max-w-2xl mx-auto px-4 sm:px-6 py-2 flex items-center gap-2">
-            <button type="button" id="story-back" aria-label="Back to dashboard" class="w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors">
+          <div class="max-w-2xl mx-auto px-3 sm:px-6 py-2 flex items-center gap-1.5 sm:gap-2">
+            <button type="button" id="story-back" aria-label="Back to dashboard" class="w-9 h-9 -ml-1 shrink-0 rounded-full flex items-center justify-center transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
               </svg>
             </button>
             <a id="story-source" href="#" target="_blank" rel="noopener" class="min-w-0 flex-1 truncate text-xs font-semibold hover:underline">Publication ↗</a>
-            <span id="story-readmin" class="shrink-0 text-[11px] font-medium"></span>
-            <span id="story-pos" class="hidden shrink-0 text-[11px] font-medium"></span>
-            <span id="story-spectrum" class="hidden shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded"></span>
-            <button type="button" id="story-save-btn" class="shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors">☆ Save</button>
+            <span id="story-readmin" class="shrink-0 text-[11px] font-medium whitespace-nowrap"></span>
+            <span id="story-pos" class="hidden shrink-0 text-[11px] font-medium whitespace-nowrap"></span>
+            <span id="story-spectrum" class="hidden sm:inline-block shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded"></span>
+            <button type="button" id="story-save-btn" class="shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors whitespace-nowrap">☆ Save</button>
             <button type="button" id="story-font-btn" class="shrink-0 text-[11px] font-bold px-2 py-1.5 rounded-full border transition-colors" aria-label="Cycle text size" title="Cycle text size">Aa</button>
             <button type="button" id="story-share-btn" class="shrink-0 w-8 h-8 rounded-full border transition-colors flex items-center justify-center" aria-label="Share story" title="Share">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
@@ -743,7 +752,10 @@
         </header>
 
         <div class="max-w-2xl mx-auto px-4 sm:px-6 pt-5 pb-20">
-          <span id="story-category" class="inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm mb-4">Category</span>
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <span id="story-category" class="inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm">Category</span>
+            <span id="story-pos-badge" class="hidden sm:hidden text-[11px] font-medium"></span>
+          </div>
           <img id="story-hero" alt="" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full aspect-[3/2] object-cover rounded-2xl shadow-sm max-w-full" />
           <h1 id="story-title" class="mt-6 font-serif-editorial font-bold text-2xl sm:text-3xl leading-tight tracking-tight"></h1>
           <div id="story-body" class="mt-6 space-y-5"></div>
@@ -751,15 +763,17 @@
             <p class="text-xs font-bold uppercase tracking-wider mb-1.5">Why It Matters Today</p>
             <p id="story-why" class="text-xs sm:text-sm leading-relaxed"></p>
           </div>
-          <a id="story-readat" href="#" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors">
-            Read at <span id="story-readat-source"></span> ↗
-          </a>
+          <div id="story-actions-row" class="mt-8 flex flex-wrap items-center gap-3">
+            <a id="story-readat" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors">
+              Read at <span id="story-readat-source"></span> ↗
+            </a>
+          </div>
         </div>
       </section>
 
       <!-- ========== SETTINGS PAGE (pb_prefs — non-sensitive preferences) ========== -->
       <section id="page-settings" class="hidden min-h-full" aria-label="Settings">
-        <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
+        <div class="max-w-md mx-auto px-4 sm:px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
           <div class="flex items-center justify-between">
             <button type="button" id="btn-close-settings" class="inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors" aria-label="Back to dashboard">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
@@ -775,7 +789,7 @@
               <div class="flex items-center justify-between gap-3">
                 <div>
                   <p class="text-sm font-semibold">Haptic feedback</p>
-                  <p class="text-xs text-slate-500 mt-0.5">Tiny vibrations on saves, checks and refreshes. Switching it on gives a short test buzz.</p>
+                  <p class="set-desc text-xs text-slate-500 mt-0.5">Tiny vibrations on saves, checks and refreshes. Switching it on gives a short test buzz.</p>
                 </div>
                 <button type="button" id="set-haptics" role="switch" aria-checked="true" aria-label="Toggle haptic feedback" class="shrink-0 relative w-12 h-7 rounded-full border bg-slate-200 transition-colors">
                   <span id="set-haptics-knob" class="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-white shadow transition-transform"></span>
@@ -785,8 +799,8 @@
 
             <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <p class="text-sm font-semibold">Edition</p>
-              <p class="text-xs text-slate-500 mt-0.5 mb-3">Auto follows the clock — morning 5:00–18:00, night otherwise.</p>
-              <div class="grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Edition override">
+              <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Auto follows the clock — morning 5:00–18:00, night otherwise.</p>
+              <div class="set-seg-wrap grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Edition override">
                 <button type="button" data-set-edition="auto" class="set-seg">Auto</button>
                 <button type="button" data-set-edition="morning" class="set-seg">Morning</button>
                 <button type="button" data-set-edition="night" class="set-seg">Night</button>
@@ -795,8 +809,8 @@
 
             <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <p class="text-sm font-semibold">Night dim mode</p>
-              <p class="text-xs text-slate-500 mt-0.5 mb-3">Warmer, darker tones for late-night reading. Auto: 22:00–05:00.</p>
-              <div class="grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Night dim mode">
+              <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Warmer, darker tones for late-night reading. Auto: 22:00–05:00.</p>
+              <div class="set-seg-wrap grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Night dim mode">
                 <button type="button" data-set-dim="auto" class="set-seg">Auto</button>
                 <button type="button" data-set-dim="on" class="set-seg">On</button>
                 <button type="button" data-set-dim="off" class="set-seg">Off</button>
@@ -805,8 +819,8 @@
 
             <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <p class="text-sm font-semibold">Reader text size</p>
-              <p class="text-xs text-slate-500 mt-0.5 mb-3">Default size when a story opens (the Aa button still cycles it while reading).</p>
-              <div class="grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Reader text size">
+              <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Default size when a story opens (the Aa button still cycles it while reading).</p>
+              <div class="set-seg-wrap grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Reader text size">
                 <button type="button" data-set-font="0" class="set-seg">Standard</button>
                 <button type="button" data-set-font="1" class="set-seg">Large</button>
                 <button type="button" data-set-font="2" class="set-seg">Largest</button>
@@ -815,7 +829,7 @@
 
             <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <p class="text-sm font-semibold">Cached images</p>
-              <p class="text-xs text-slate-500 mt-0.5 mb-3">Clear the offline image cache and reload the latest feed.</p>
+              <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Clear the offline image cache and reload the latest feed.</p>
               <button type="button" id="set-clear-cache" class="w-full px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Clear cached images &amp; refresh feed</button>
             </div>
 
@@ -824,7 +838,7 @@
                  card degrades gracefully if that half is missing at merge. -->
             <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <p class="text-sm font-semibold">About</p>
-              <p class="text-xs text-slate-500 mt-1">Version <span id="about-version">—</span> · <span id="about-storage">storage…</span></p>
+              <p class="set-desc text-xs text-slate-500 mt-1">Version <span id="about-version">—</span> · <span id="about-storage">storage…</span></p>
               <div class="mt-3 flex flex-wrap gap-2">
                 <button type="button" id="btn-check-update" class="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Check for updates</button>
                 <button type="button" id="btn-purge-caches" class="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Clear cached files</button>
@@ -836,7 +850,7 @@
             <!-- FEATURE (80): 'Your data' honesty card — what is stored where, in plain words -->
             <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <p class="text-sm font-semibold">Your data</p>
-              <ul class="mt-2 space-y-1.5 text-xs text-slate-600 list-disc list-inside leading-relaxed">
+              <ul id="settings-data-list" class="mt-2 space-y-1.5 text-xs text-slate-600 list-disc list-inside leading-relaxed">
                 <li><strong>Encrypted vault</strong> (AES-GCM, PIN-derived key, in <code>localStorage</code>): tasks, routines, saved stories &amp; papers, day-close log with mood.</li>
                 <li><strong>Plain <code>localStorage</code></strong>: preferences, read/unread story ids (capped at 500), reading-streak days, meditation &amp; focus logs, feed timestamp.</li>
                 <li><strong><code>sessionStorage</code></strong>: the day-close draft — wiped as soon as you close the day.</li>
@@ -845,7 +859,7 @@
               </ul>
             </div>
 
-            <p class="mt-6 text-[10px] text-center text-slate-400">PulseBoard · preferences live in local storage under <code>pb_prefs</code></p>
+            <p id="settings-footer-note" class="mt-6 text-[10px] text-center text-slate-400">PulseBoard · preferences live in local storage under <code>pb_prefs</code></p>
           </div>
         </div>
       </section>
@@ -889,21 +903,16 @@
             </div>
 
             <!-- FEATURE (84): session length — persisted default (pbPrefs.teachMin) -->
-            <div class="mt-8 w-full">
+            <div id="meditation-controls" class="mt-8 w-full">
               <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Session length</p>
               <div id="teach-duration-seg" class="flex flex-wrap items-center justify-center gap-1.5" role="group" aria-label="Meditation session length">
-                <button type="button" data-teach-min="2">2 min</button>
-                <button type="button" data-teach-min="5">5 min</button>
-                <button type="button" data-teach-min="10">10 min</button>
-                <button type="button" data-teach-min="15">15 min</button>
+                <button type="button" class="med-preset" data-min="1" data-teach-min="1">1 min</button>
+                <button type="button" class="med-preset" data-min="2" data-teach-min="2">2 min</button>
+                <button type="button" class="med-preset" data-min="3" data-teach-min="3">3 min</button>
+                <button type="button" class="med-preset" data-min="5" data-teach-min="5">5 min</button>
+                <button type="button" class="med-preset" data-min="10" data-teach-min="10">10 min</button>
+                <button type="button" class="med-preset" data-min="15" data-teach-min="15">15 min</button>
               </div>
-            </div>
-
-            <div id="meditation-controls" class="mt-4 flex flex-wrap items-center justify-center gap-2">
-              <button type="button" class="med-preset" data-min="1">1 min</button>
-              <button type="button" class="med-preset" data-min="3">3 min</button>
-              <button type="button" class="med-preset" data-min="5">5 min</button>
-              <button type="button" class="med-preset" data-min="10">10 min</button>
             </div>
             <div id="meditation-display" class="hidden mt-4 flex-col items-center gap-2">
               <span id="meditation-remaining" class="text-3xl font-light tabular-nums text-slate-100 tracking-wider">–:––</span>
@@ -2068,13 +2077,13 @@ Key Insights:
         document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-indigo-300';
         document.getElementById('wisdom-quote').className = 'text-base sm:text-lg font-serif-editorial italic text-slate-100 leading-snug';
         document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed';
-        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-indigo-800 bg-slate-800 text-indigo-200 hover:bg-slate-700 transition-colors shrink-0 self-start md:self-center';
+        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-indigo-800 bg-slate-800 text-indigo-200 hover:bg-slate-700 transition-colors shrink-0';
       } else {
         card.className = 'rounded-2xl p-5 sm:p-6 mb-8 border border-amber-200/90 bg-gradient-to-r from-amber-100/60 via-amber-50/50 to-orange-50/60 shadow-sm transition-all';
         document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-amber-800';
         document.getElementById('wisdom-quote').className = 'text-base sm:text-lg font-serif-editorial italic text-slate-900 leading-snug';
         document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed';
-        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0 self-start md:self-center';
+        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0';
       }
 
       document.getElementById('wisdom-tradition').textContent = current.tradition;
@@ -2858,7 +2867,7 @@ Key Insights:
       });
       document.querySelectorAll('[data-teach-min]').forEach(btn => {
         const on = String(pbPrefs.teachMin || '') === btn.getAttribute('data-teach-min');
-        btn.className = pbSegClass(on);
+        btn.className = 'med-preset ' + pbSegClass(on) + (on ? ' active' : '');
         btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
     }
@@ -3217,19 +3226,20 @@ Key Insights:
 
       if (isNight) {
         body.className = 'min-h-screen bg-slate-950 text-slate-100 antialiased';
-        header.className = 'sticky top-0 z-30 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md transition-colors duration-300';
+        header.className = 'sticky top-0 z-30 border-b border-slate-800 bg-[#04060b]/90 backdrop-blur-md transition-colors duration-300';
         brandBadge.className = 'w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center shadow-sm transition-colors';
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
         editionPill.className = 'text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800';
         editionPill.textContent = 'Night Edition';
 
-        btnMorning.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-white transition-all';
-        btnNight.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-indigo-600 text-white shadow-sm transition-all';
-        document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-800 border border-slate-700';
-        document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
-        document.getElementById('btn-lock-now').className = 'inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
-        document.getElementById('btn-open-settings').className = 'inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors';
+        btnMorning.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-white transition-all';
+        btnNight.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-indigo-600 text-white shadow-sm transition-all';
+        document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-xl p-1 bg-slate-800 border border-slate-700';
+        document.getElementById('btn-view-saved').className = 'relative inline-flex shrink-0 items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-lock-now').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-open-settings').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors';
         btnMorning.setAttribute('aria-pressed', 'false');
         btnNight.setAttribute('aria-pressed', 'true');
 
@@ -3266,12 +3276,13 @@ Key Insights:
         editionPill.className = 'text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
         editionPill.textContent = 'Morning Edition';
 
-        btnMorning.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all';
-        btnNight.className = 'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all';
-        document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80';
-        document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors';
-        document.getElementById('btn-lock-now').className = 'inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors';
-        document.getElementById('btn-open-settings').className = 'inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors';
+        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 transition-colors';
+        btnMorning.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all';
+        btnNight.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all';
+        document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-xl p-1 bg-slate-100 border border-slate-200/80';
+        document.getElementById('btn-view-saved').className = 'relative inline-flex shrink-0 items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors';
+        document.getElementById('btn-lock-now').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors';
+        document.getElementById('btn-open-settings').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors';
         btnMorning.setAttribute('aria-pressed', 'true');
         btnNight.setAttribute('aria-pressed', 'false');
 
@@ -3326,10 +3337,12 @@ Key Insights:
           ? (isNight ? 'bg-indigo-500 text-white' : 'bg-slate-900 text-white')
           : (isNight ? 'bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'));
       }
-      // Keep the active chip visible in the scrollable chip bar
-      const activeChip = document.querySelector('#category-filters .cat-btn[aria-pressed="true"]');
-      if (activeChip && activeChip.scrollIntoView) {
-        try { activeChip.scrollIntoView({ block: 'nearest', inline: 'center', behavior: pbReducedMotion() ? 'auto' : 'smooth' }); } catch (e) { /* older engines */ }
+      // Keep the active chip visible in the scrollable chip bar (horizontal only — never scroll the window vertically)
+      const chipBar = document.getElementById('category-filters');
+      const activeChip = chipBar && chipBar.querySelector('.cat-btn[aria-pressed="true"]');
+      if (chipBar && activeChip) {
+        const targetLeft = Math.max(0, activeChip.offsetLeft - (chipBar.clientWidth - activeChip.offsetWidth) / 2);
+        try { chipBar.scrollTo({ left: targetLeft, behavior: pbReducedMotion() ? 'auto' : 'smooth' }); } catch (e) { chipBar.scrollLeft = targetLeft; }
       }
 
       renderWisdom(isNight);
@@ -3365,8 +3378,17 @@ Key Insights:
       const section = document.getElementById('backup-articles-section');
       const vault = state.stories.filter(s => s.vault);
       if (!vault.length) { if (section) section.classList.add('hidden'); return; }
-      if (section) section.classList.remove('hidden');
-      document.getElementById('vault-count').textContent = vault.length + (vault.length === 1 ? ' long read' : ' long reads');
+      if (section) {
+        section.classList.remove('hidden');
+        section.className = 'mt-12 pt-8 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-200/80');
+      }
+      const vaultCountEl = document.getElementById('vault-count');
+      if (vaultCountEl) {
+        vaultCountEl.textContent = vault.length + (vault.length === 1 ? ' long read' : ' long reads');
+        vaultCountEl.className = 'text-xs font-semibold px-2.5 py-1 rounded-full ' + (isNight ? 'bg-slate-800 text-slate-300 border border-slate-700' : 'bg-slate-100 text-slate-700');
+      }
+      const vaultSub = document.getElementById('vault-subtitle');
+      if (vaultSub) vaultSub.className = 'text-xs mt-0.5 ' + (isNight ? 'text-slate-400' : 'text-slate-500');
       const cardBg = isNight
         ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50'
         : 'bg-white border-slate-200/90 hover:border-amber-400';
@@ -3489,16 +3511,16 @@ Key Insights:
       next.className = 'absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-slate-900/70 text-slate-200 text-3xl leading-none flex items-center justify-center hover:bg-slate-800 transition-colors';
       next.addEventListener('click', () => pbLightboxStep(1));
       const stage = document.createElement('div');
-      stage.className = 'flex-1 min-h-0 flex items-center justify-center px-4 sm:px-20 py-6';
+      stage.className = 'flex-1 min-h-0 flex items-center justify-center px-3 sm:px-16 pt-14 pb-4';
       const img = document.createElement('img');
       img.id = 'pb-lightbox-img';
-      img.className = 'max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl';
+      img.className = 'max-h-[75vh] w-auto max-w-full object-contain rounded-lg shadow-2xl';
       img.alt = '';
       img.setAttribute('onerror', 'this.onerror=null;this.src=window.PB_IMG_FALLBACK');
       stage.appendChild(img);
       const cap = document.createElement('p');
       cap.id = 'pb-lightbox-cap';
-      cap.className = 'px-8 pb-1.5 text-center text-sm italic text-slate-300 leading-relaxed min-h-[20px]';
+      cap.className = 'max-w-2xl mx-auto px-6 pb-1.5 text-center text-xs sm:text-sm italic text-slate-300 leading-relaxed min-h-[20px]';
       const count = document.createElement('p');
       count.id = 'pb-lightbox-count';
       count.className = 'pb-4 text-center text-[11px] font-semibold tracking-widest text-slate-500';
@@ -3709,7 +3731,7 @@ Key Insights:
       if (wrap) return wrap;
       wrap = document.createElement('div');
       wrap.id = 'story-tts-wrap';
-      wrap.className = 'mt-5 flex flex-wrap items-center gap-3';
+      wrap.className = 'inline-flex items-center gap-2';
       const listen = document.createElement('button');
       listen.type = 'button';
       listen.id = 'story-tts-btn';
@@ -3723,8 +3745,10 @@ Key Insights:
       stop.addEventListener('click', pbTtsStop);
       wrap.appendChild(listen);
       wrap.appendChild(stop);
+      const actionsRow = document.getElementById('story-actions-row');
       const readAt = document.getElementById('story-readat');
-      if (readAt) readAt.insertAdjacentElement('afterend', wrap); // reader footer
+      if (actionsRow) actionsRow.appendChild(wrap);
+      else if (readAt) readAt.insertAdjacentElement('afterend', wrap); // reader footer
       return wrap;
     }
 
@@ -3997,7 +4021,7 @@ Key Insights:
         btn.type = 'button';
         btn.id = 'thisday-another';
         btn.textContent = '🔀 Another';
-        btn.className = 'text-[11px] font-semibold text-slate-400 hover:text-amber-700 transition-colors mt-1.5 block';
+        btn.className = 'text-[11px] font-semibold text-slate-400 hover:text-amber-700 transition-colors mt-1 ml-3 inline-block';
         btn.addEventListener('click', pbThisDayAnother);
         const src = document.getElementById('thisday-source');
         if (src) src.insertAdjacentElement('afterend', btn);
@@ -4845,14 +4869,14 @@ Key Insights:
     function renderStoryPage(story) {
       const isNight = state.edition === 'night';
 
-      // Page chrome: warm paper by day, slate by night
+      // Page chrome: warm paper by day, deep obsidian by night
       const page = document.getElementById('page-story');
-      page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      page.className = isNight ? 'min-h-full bg-[#04060b] text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
       if (pbDimActive(isNight)) page.classList.add('pb-dim'); // warm late-night layer
       document.getElementById('story-header').className = isNight
-        ? 'sticky top-0 z-10 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md transition-colors'
+        ? 'sticky top-0 z-10 border-b border-slate-800 bg-[#04060b]/90 backdrop-blur-md transition-colors'
         : 'sticky top-0 z-10 border-b border-amber-200/70 bg-[#fffdf7]/90 backdrop-blur-md transition-colors';
-      document.getElementById('story-back').className = 'w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-amber-100');
+      document.getElementById('story-back').className = 'w-9 h-9 -ml-1 shrink-0 rounded-full flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-amber-100');
 
       // Header row: source link, read time, spectrum chip, save star
       const outlet = storyOutletName(story);
@@ -4872,19 +4896,25 @@ Key Insights:
 
       const readMinEl = document.getElementById('story-readmin');
       readMinEl.textContent = storyReadMinutes(story) + ' min';
-      readMinEl.className = 'shrink-0 text-[11px] font-medium ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+      readMinEl.className = 'shrink-0 text-[11px] font-medium whitespace-nowrap ' + (isNight ? 'text-slate-400' : 'text-slate-500');
 
       // Swipe-navigation position indicator ("Story 2 of 9") over the same
       // visible set the grid shows
       const posList = pbVisibleStories();
       const posIdx = posList.findIndex(s => s.id === story.id);
       const posEl = document.getElementById('story-pos');
+      const posBadge = document.getElementById('story-pos-badge');
       if (posEl) {
         if (posIdx >= 0) {
-          posEl.className = 'shrink-0 text-[11px] font-medium ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+          posEl.className = 'hidden sm:inline shrink-0 text-[11px] font-medium whitespace-nowrap ' + (isNight ? 'text-slate-500' : 'text-slate-400');
           posEl.textContent = `Story ${posIdx + 1} of ${posList.length}`;
+          if (posBadge) {
+            posBadge.className = 'sm:hidden text-[11px] font-medium ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+            posBadge.textContent = `Story ${posIdx + 1} of ${posList.length}` + (story.spectrum ? ` · ${story.spectrum}` : '');
+          }
         } else {
           posEl.className = 'hidden';
+          if (posBadge) posBadge.className = 'hidden';
         }
       }
       // Word count drives the live "% read · N min left" label (220 wpm)
@@ -4894,7 +4924,7 @@ Key Insights:
       if (story.spectrum) {
         chip.textContent = story.spectrum;
         chip.title = "Outlet's lean in the curated pool";
-        chip.className = 'shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200');
+        chip.className = 'hidden sm:inline-block shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200');
       } else {
         chip.className = 'hidden';
       }
@@ -4920,7 +4950,7 @@ Key Insights:
 
       const cat = document.getElementById('story-category');
       cat.textContent = story.category;
-      cat.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm mb-4 ' + (isNight ? 'bg-indigo-500 text-white' : 'bg-amber-500 text-white');
+      cat.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold shadow-sm ' + (isNight ? 'bg-indigo-500 text-white' : 'bg-amber-500 text-white');
 
       const hero = document.getElementById('story-hero');
       hero.src = story.image || window.PB_IMG_FALLBACK;
@@ -4996,7 +5026,7 @@ Key Insights:
 
       const readAt = document.getElementById('story-readat');
       document.getElementById('story-readat-source').textContent = outlet;
-      readAt.className = 'mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors ' + (isNight
+      readAt.className = 'inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors ' + (isNight
         ? 'bg-indigo-600 text-white hover:bg-indigo-500'
         : 'bg-slate-900 text-white hover:bg-slate-800');
       if (story.sourceUrl) {
@@ -5095,7 +5125,7 @@ Key Insights:
       btn.addEventListener('click', () => {
         document.querySelectorAll('.med-preset').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        startMeditation(parseInt(btn.dataset.min, 10) || 5);
+        if (!btn.hasAttribute('data-teach-min')) startMeditation(parseInt(btn.dataset.min, 10) || 5);
       });
     });
     document.getElementById('btn-pause-meditation').addEventListener('click', () => {
@@ -5224,16 +5254,22 @@ Key Insights:
     function pbRenderSettings() {
       const isNight = state.edition === 'night';
       const page = document.getElementById('page-settings');
-      page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      page.className = isNight ? 'min-h-full bg-[#04060b] text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
       if (pbDimActive(isNight)) page.classList.add('pb-dim'); // warm late-night layer
       document.getElementById('btn-close-settings').className = 'inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ' + (isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-800');
-      document.getElementById('settings-sub').className = 'text-xs mt-1 ' + (isNight ? 'text-slate-500' : 'text-slate-500');
+      document.getElementById('settings-sub').className = 'text-xs mt-1 ' + (isNight ? 'text-slate-400' : 'text-slate-500');
       document.querySelectorAll('#page-settings .set-card').forEach(el => {
         el.className = 'set-card mt-4 rounded-2xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white');
       });
+      document.querySelectorAll('#page-settings .set-desc').forEach(el => {
+        el.className = el.className.replace(/\btext-slate-\d+\b/g, '') + (isNight ? ' text-slate-400' : ' text-slate-500');
+      });
+      document.querySelectorAll('#page-settings .set-seg-wrap').forEach(el => {
+        el.className = 'set-seg-wrap grid grid-cols-3 gap-1 rounded-xl p-1 ' + (isNight ? 'bg-slate-800 border border-slate-700/70' : 'bg-slate-100');
+      });
       const seg = (on, isNight) => 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ' + (on
         ? (isNight ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-white')
-        : (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100'));
+        : (isNight ? 'text-slate-300 hover:bg-slate-700/60' : 'text-slate-600 hover:bg-slate-100'));
       const hap = document.getElementById('set-haptics');
       hap.setAttribute('aria-checked', pbPrefs.haptics !== false ? 'true' : 'false');
       hap.className = 'shrink-0 relative w-12 h-7 rounded-full border transition-colors ' + (pbPrefs.haptics !== false
@@ -5255,9 +5291,20 @@ Key Insights:
         btn.className = seg(on, isNight);
         btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
+      const secBtnCls = 'px-4 py-2 rounded-xl text-xs font-semibold border transition-colors ' + (isNight
+        ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50');
       document.getElementById('set-clear-cache').className = 'w-full px-4 py-2.5 rounded-xl text-xs font-semibold border transition-colors ' + (isNight
         ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
         : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50');
+      const chkBtn = document.getElementById('btn-check-update');
+      if (chkBtn) chkBtn.className = secBtnCls;
+      const prgBtn = document.getElementById('btn-purge-caches');
+      if (prgBtn) prgBtn.className = secBtnCls;
+      const dataList = document.getElementById('settings-data-list');
+      if (dataList) dataList.className = 'mt-2 space-y-1.5 text-xs list-disc list-inside leading-relaxed ' + (isNight ? 'text-slate-300' : 'text-slate-600');
+      const footNote = document.getElementById('settings-footer-note');
+      if (footNote) footNote.className = 'mt-6 text-[10px] text-center ' + (isNight ? 'text-slate-500' : 'text-slate-400');
       pbRenderAboutCard(); // FEATURE (78): version, storage, update & purge wiring
     }
 
@@ -6433,9 +6480,9 @@ Key Insights:
     function pbOpenSearch(opts) {
       const isNight = state.edition === 'night';
       const page = document.getElementById('page-search');
-      page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      page.className = isNight ? 'min-h-full bg-[#04060b] text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
       document.getElementById('search-header').className = 'sticky top-0 z-10 border-b backdrop-blur-md transition-colors ' + (isNight
-        ? 'border-slate-800 bg-slate-950/90' : 'border-amber-200/70 bg-[#fffdf7]/90');
+        ? 'border-slate-800 bg-[#04060b]/90' : 'border-amber-200/70 bg-[#fffdf7]/90');
       document.getElementById('search-back').className = 'w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-amber-100');
       const input = document.getElementById('search-input');
       input.className = 'flex-1 min-w-0 bg-transparent outline-none text-base font-medium ' + (isNight ? 'text-slate-100 placeholder-slate-600' : 'text-slate-900 placeholder-slate-400');
