@@ -71,7 +71,8 @@ def test_teachings_youtube_ids_are_sane_11_char():
 # ---------------------------------------------------------------- deadlines
 
 def test_deadlines_dates_iso_and_names_non_empty():
-    deadlines = _load('deadlines.json')['deadlines']
+    db = _load('deadlines.json')
+    deadlines = db['deadlines']
     assert deadlines, 'deadlines.json has no entries'
     for d in deadlines:
         assert isinstance(d.get('name'), str) and d['name'].strip(), \
@@ -81,6 +82,16 @@ def test_deadlines_dates_iso_and_names_non_empty():
         # strict YYYY-MM-DD (fromisoformat rejects anything looser)
         date.fromisoformat(d['date'])
     # past-dated entries are allowed and expected — no assertion on recency.
+    for key in ('career_jobs', 'postdocs'):
+        items = db.get(key, [])
+        assert items, f'deadlines.json[{key!r}] must be non-empty'
+        ids = [x.get('id') for x in items]
+        assert len(ids) == len(set(ids)), f'duplicate ids in {key}'
+        for x in items:
+            assert isinstance(x.get('name'), str) and x['name'].strip()
+            assert isinstance(x.get('org'), str) and x['org'].strip()
+            assert isinstance(x.get('url'), str) and x['url'].startswith('https://')
+            date.fromisoformat(x['date'])
 
 
 # ---------------------------------------------------------------- this day

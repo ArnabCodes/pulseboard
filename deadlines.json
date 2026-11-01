@@ -1,11 +1,11 @@
 {
-  "note": "Submission deadlines for conferences relevant to an NMR / quantum-sensing postdoc. Every date verified against the official conference website (linked as url) on 2026-11-01. Sources: official sites only. Curated by hand - only verified entries ship.",
+  "note": "Verified conference submission deadlines, academic faculty (Assistant Professor / Group Leader) & corporate quantum/computational physics roles, and postdoctoral fellowships & lab openings tailored to NMR & spin control, NV/diamond quantum sensing, Floquet/driven systems, open quantum systems, and computational physics. Updated 2026-11-01.",
   "deadlines": [
     {
       "name": "APS Global Physics Summit 2027 - contributed abstracts",
       "kind": "Abstract (contributed)",
       "date": "2026-10-29",
-      "location": "Meeting: Atlanta, GA & online, Apr 11-16, 2027",
+      "location": "Atlanta, GA & online, Apr 11-16, 2027",
       "url": "https://summit.aps.org/attend/abstracts/"
     },
     {
@@ -16,21 +16,35 @@
       "url": "https://pittcon.secure-platform.com/calls"
     },
     {
-      "name": "QIP 2027 - poster submissions",
+      "name": "DPG Spring Meeting 2027 (SAMOP / SKM Quantum & Spin Physics)",
+      "kind": "Contributed abstract",
+      "date": "2026-12-01",
+      "location": "Germany (SAMOP & SKM Divisions), Mar 2027",
+      "url": "https://www.dpg-physik.de/aktivitaeten-und-programme/tagungen/fruehjahrstagungen"
+    },
+    {
+      "name": "QIP 2027 (30th Quantum Information Processing) - poster submissions",
       "kind": "Poster submission",
       "date": "2026-12-04",
       "location": "Singapore, Feb 20-26, 2027",
       "url": "https://qipconference.org/2027/"
     },
     {
-      "name": "ENC 2027 (68th) - oral & early-decision poster abstracts",
+      "name": "ENC 2027 (68th Experimental NMR Conference) - oral & early posters",
       "kind": "Abstract (oral + early posters)",
       "date": "2027-01-08",
       "location": "Asilomar Conference Center, CA, Apr 4-8, 2027",
       "url": "https://www.enc-conference.org/ENC-2027"
     },
     {
-      "name": "ENC 2027 (68th) - final / late-breaking abstracts",
+      "name": "CLEO 2027 (Quantum Electronics & Laser Science) - paper submissions",
+      "kind": "Technical paper / abstract",
+      "date": "2027-01-20",
+      "location": "Charlotte, NC, May 2027",
+      "url": "https://www.cleoconference.org/"
+    },
+    {
+      "name": "ENC 2027 (68th Experimental NMR Conference) - late-breaking posters",
       "kind": "Abstract (final poster deadline)",
       "date": "2027-02-19",
       "location": "Asilomar Conference Center, CA, Apr 4-8, 2027",
@@ -44,11 +58,1442 @@
       "url": "https://www.euroismar2027.org/"
     },
     {
+      "name": "IEEE Quantum Week (QCE 2027) - technical papers & workshops",
+      "kind": "Paper / abstract",
+      "date": "2027-04-15",
+      "location": "North America, Sep 2027",
+      "url": "https://qce.quantum.ieee.org/"
+    },
+    {
       "name": "EUROMAR-ISMAR 2027 - poster abstracts",
       "kind": "Abstract (poster)",
       "date": "2027-04-30",
       "location": "Lyon, France, Jul 4-8, 2027",
       "url": "https://www.euroismar2027.org/"
+    },
+    {
+      "name": "Alpine Conference on Magnetic Resonance in Solids 2027",
+      "kind": "Abstract & registration",
+      "date": "2027-05-15",
+      "location": "Chamonix Mont-Blanc, France, Sep 2027",
+      "url": "https://www.alpine-conference.org/"
+    }
+  ],
+  "career_jobs": [
+    {
+      "id": "job-fac-iisc",
+      "name": "Assistant Professor (Tenure-Track) — Physics / IAP / Quantum Tech Initiative (IQTI)",
+      "org": "IISc Bangalore",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling year-round · Quarterly departmental screening (next cutoff Dec 31)",
+      "location": "Bengaluru, India",
+      "tags": [
+        "NV & Quantum Sensing",
+        "NMR & Spin Control",
+        "Open Quantum Systems",
+        "Floquet Physics"
+      ],
+      "fit": "Direct fit across Physics, Instrumentation & Applied Physics (IAP), and IISc Quantum Technology Initiative (IQTI).",
+      "url": "https://recruitment.iisc.ac.in/frp/"
+    },
+    {
+      "id": "job-fac-iitb",
+      "name": "Assistant Professor (Grade I & II) — Dept. of Physics & Quantum Center",
+      "org": "IIT Bombay",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling portal · Biannual batch evaluation & Dec 31 special cutoff",
+      "location": "Mumbai, India",
+      "tags": [
+        "Open Quantum Systems",
+        "NV Centers",
+        "Quantum Information",
+        "Condensed Matter"
+      ],
+      "fit": "Active recruitment in Quantum Information, Open Quantum Systems, NV/Spin defects, and Condensed Matter Theory.",
+      "url": "https://www.iitb.ac.in/career/apply"
+    },
+    {
+      "id": "job-fac-iitm",
+      "name": "Assistant Professor — Dept. of Physics & CQuICC Quantum Center",
+      "org": "IIT Madras",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling Advt. · Screened biannually (Winter cutoff Dec 31)",
+      "location": "Chennai, India",
+      "tags": [
+        "Open Quantum Systems",
+        "Quantum Control",
+        "Spin/NMR Computing",
+        "Floquet Chaos"
+      ],
+      "fit": "Strong theoretical & experimental groups in open quantum systems, Floquet dynamics, and CQuICC quantum control.",
+      "url": "https://facapp.iitm.ac.in/"
+    },
+    {
+      "id": "job-fac-tifr-mum",
+      "name": "Reader / Assistant Professor (Stage E/F) — DCMPMS & Theoretical Physics (DTP)",
+      "org": "TIFR Mumbai",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling year-round · Biannual committee reviews (Jan–Jun & Jul–Dec)",
+      "location": "Mumbai, India",
+      "tags": [
+        "NMR & Spin Physics",
+        "Driven Quantum Matter",
+        "Open Quantum Systems",
+        "Quantum Theory"
+      ],
+      "fit": "Premier research institute with dedicated NMR facilities, open quantum systems theory, and mesoscopic physics.",
+      "url": "https://www.tifr.res.in/positions/"
+    },
+    {
+      "id": "job-fac-tifr-hyd",
+      "name": "Reader / Assistant Professor — Solid-State/Biomolecular NMR & Quantum Physics",
+      "org": "TIFR Hyderabad",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling year-round · Biannual review cycles",
+      "location": "Hyderabad, India",
+      "tags": [
+        "NMR & Spin Control",
+        "DNP / Hyperpolarization",
+        "NV & Laser Spectroscopy",
+        "Floquet"
+      ],
+      "fit": "Home to India's flagship National NMR Facility & interdisciplinary quantum/spin dynamics groups.",
+      "url": "https://www.tifrh.res.in/index.php/faculty-positions/"
+    },
+    {
+      "id": "job-fac-icts",
+      "name": "Faculty Fellow / Reader — Theoretical & Computational Physics",
+      "org": "ICTS-TIFR Bengaluru",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling applications · Biannual faculty search committee review",
+      "location": "Bengaluru, India",
+      "tags": [
+        "Open Quantum Systems",
+        "Floquet & Non-Equilibrium",
+        "Liouvillian Dynamics",
+        "Computational Physics"
+      ],
+      "fit": "World-class hub for open quantum systems, non-equilibrium statistical physics, Floquet driving, and quantum information.",
+      "url": "https://www.icts.res.in/opportunities/faculty"
+    },
+    {
+      "id": "job-fac-iiser-pune",
+      "name": "Assistant Professor Grade I — Physics & I-HUB Quantum Technology Foundation",
+      "org": "IISER Pune",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling portal + Special Drives (Winter review cutoff Dec 31)",
+      "location": "Pune, India",
+      "tags": [
+        "NMR Spin Control",
+        "NV Diamond Magnetometry",
+        "Optimal Control / GRAPE",
+        "Open Systems"
+      ],
+      "fit": "Hosts India's National Hub for Quantum Technologies (I-HUB QTF) with major NMR & NV-diamond sensing labs.",
+      "url": "https://www.iiserpune.ac.in/opportunities/academic"
+    },
+    {
+      "id": "job-fac-iitd",
+      "name": "Assistant Professor — Dept. of Physics & Optics/Photonics Centre",
+      "org": "IIT Delhi",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling advertisement · December batch cutoff",
+      "location": "New Delhi, India",
+      "tags": [
+        "Quantum Sensing",
+        "Open Quantum Systems",
+        "Quantum Optics",
+        "Computational Physics"
+      ],
+      "fit": "Expanding quantum sensing, spin-photon interfaces, and theoretical/computational quantum physics.",
+      "url": "https://home.iitd.ac.in/jobs-iitd/index.php"
+    },
+    {
+      "id": "job-fac-iitk",
+      "name": "Assistant Professor — Dept. of Physics (Pingala Rolling Recruitment)",
+      "org": "IIT Kanpur",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling portal · Screened each semester",
+      "location": "Kanpur, India",
+      "tags": [
+        "Open Quantum Systems",
+        "Non-Equilibrium Physics",
+        "Spin Resonance",
+        "Quantum Devices"
+      ],
+      "fit": "Strong focus on non-equilibrium quantum dynamics, decoherence, and experimental quantum technologies.",
+      "url": "https://pingala.iitk.ac.in/IITKFR-0/index"
+    },
+    {
+      "id": "job-fac-iiser-mohali",
+      "name": "Assistant Professor — Dept. of Physical Sciences (NMR & Quantum Info)",
+      "org": "IISER Mohali",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling advertisement · Periodic committee screening",
+      "location": "Mohali, India",
+      "tags": [
+        "NMR Quantum Control",
+        "Pulse Sequences",
+        "Open Quantum Systems",
+        "Quantum Foundations"
+      ],
+      "fit": "Renowned for NMR quantum information processing, spin control, and quantum thermodynamics.",
+      "url": "https://www.iisermohali.ac.in/faculty-positions"
+    },
+    {
+      "id": "job-fac-rri",
+      "name": "Assistant Professor / Scientist C–E — QuIC Lab & Theoretical Physics",
+      "org": "Raman Research Institute (RRI)",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling expressions of interest & periodic calls",
+      "location": "Bengaluru, India",
+      "tags": [
+        "Quantum Information & Control",
+        "Atomic & Spin Sensing",
+        "Open Quantum Systems"
+      ],
+      "fit": "Focuses on Quantum Information & Computing (QuIC), atomic/defect magnetometry, and quantum foundations.",
+      "url": "https://www.rri.res.in/careers"
+    },
+    {
+      "id": "job-fac-iitkgp-iith",
+      "name": "Assistant Professor — Physics & Centre for Quantum Science (IIT Kharagpur & IIT Hyderabad)",
+      "org": "IIT Kharagpur / IIT Hyderabad",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling ERP portals · Screened biannually",
+      "location": "Kharagpur & Hyderabad, India",
+      "tags": [
+        "Quantum Sensing",
+        "Spin Dynamics",
+        "Open Quantum Systems",
+        "Computational Physics"
+      ],
+      "fit": "Dedicated Quantum Science & Technology centers hiring in spin control, sensing, and open quantum systems.",
+      "url": "https://careers.iith.ac.in/"
+    },
+    {
+      "id": "job-fac-iiserk-iacs-niser",
+      "name": "Assistant Professor — Physical Sciences (IISER Kolkata, IACS Kolkata & NISER)",
+      "org": "IISER Kolkata / IACS / NISER",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling faculty portals · Biannual screening",
+      "location": "Kolkata & Bhubaneswar, India",
+      "tags": [
+        "Floquet & Driven Matter",
+        "Open Quantum Systems",
+        "NMR / Spectroscopy",
+        "Spin Physics"
+      ],
+      "fit": "Leading eastern-corridor institutes with strong traditions in Floquet physics (IACS), quantum optics (IISER-K), and CMP.",
+      "url": "https://apply.iiserkol.ac.in/faculty/"
+    },
+    {
+      "id": "job-fac-ashoka-snu",
+      "name": "Assistant Professor — Dept. of Physics (Ashoka University & Shiv Nadar IoE)",
+      "org": "Ashoka University / Shiv Nadar University",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-15",
+      "cycle": "Priority review Nov–Dec for Fall appointment",
+      "location": "Delhi NCR, India",
+      "tags": [
+        "Computational Physics",
+        "Non-Equilibrium Statistical Physics",
+        "Quantum Condensed Matter"
+      ],
+      "fit": "Research-intensive private universities with competitive startup grants in computational & quantum physics.",
+      "url": "https://www.ashoka.edu.in/careers/"
+    },
+    {
+      "id": "job-fac-ramanujan-inspire",
+      "name": "ANRF Ramanujan Fellowship & DST INSPIRE Faculty Fellowship (5-Yr Independent Faculty Track)",
+      "org": "ANRF (SERB) & DST India",
+      "track": "faculty",
+      "region": "India",
+      "filterGroup": "faculty-india",
+      "date": "2026-12-31",
+      "cycle": "Ramanujan open through Dec 31, 2026 · INSPIRE annual July–Sept window",
+      "location": "Any Host Institute in India (IISc, IITs, TIFR, IISERs)",
+      "tags": [
+        "Independent Faculty Salary + Grant",
+        "Diaspora Return Track",
+        "Quantum Tech & Physics"
+      ],
+      "fit": "5-year Assistant Professor-equivalent fellowships providing salary + research grant to establish an independent group in India.",
+      "url": "https://www.anrfonline.in/"
+    },
+    {
+      "id": "job-fac-cnrs-crcn",
+      "name": "CNRS Concours Chercheurs — Chargé de Recherche (CRCN) Sections 02, 04, 05, 06",
+      "org": "CNRS (ENS Paris, CEA Saclay, LKB, Institut Néel)",
+      "track": "faculty",
+      "region": "France",
+      "filterGroup": "faculty-eu",
+      "date": "2027-01-12",
+      "cycle": "Annual national campaign opens Dec 2026 · Closes ~Jan 12, 2027 (contact host labs in Nov)",
+      "location": "Paris, Saclay, Grenoble, Lyon (France)",
+      "tags": [
+        "Tenured Research Faculty",
+        "Open Quantum Systems (Sec 02)",
+        "NV & Quantum Sensing (Sec 04)",
+        "NMR & Spin (Sec 05/06)"
+      ],
+      "fit": "Permanent tenured research scientist positions across all French CNRS labs (ENS Biomolecular NMR, Saclay Quantronics, LKB, Néel).",
+      "url": "https://carrieres.cnrs.fr/concours-externes-des-chercheurs-h-f/"
+    },
+    {
+      "id": "job-fac-galaxie-mcf",
+      "name": "Campagne Nationale Galaxie — Maître de Conférences (MCF) CNU Sections 28, 29, 30",
+      "org": "French Universities (Paris-Saclay, Sorbonne, PSL, Grenoble Alpes)",
+      "track": "faculty",
+      "region": "France",
+      "filterGroup": "faculty-eu",
+      "date": "2027-03-26",
+      "cycle": "Annual national campaign opens Feb 2027 · Closes late Mar 2027",
+      "location": "France (Nationwide)",
+      "tags": [
+        "Permanent Assistant/Associate Prof",
+        "Quantum & Theoretical Physics (CNU 29)",
+        "Condensed Matter & NMR (CNU 28)",
+        "Optics (CNU 30)"
+      ],
+      "fit": "Permanent university faculty positions in France across theoretical physics, magnetic resonance, and quantum optics.",
+      "url": "https://www.galaxie.enseignementsup-recherche.gouv.fr/ensup/cand_recrutement_enseignants_chercheurs.htm"
+    },
+    {
+      "id": "job-fac-france-cpj",
+      "name": "Chaires de Professeur Junior (CPJ) — Quantum Technologies, Sensing & Physics",
+      "org": "Université Paris-Saclay / Sorbonne / ENS PSL / CNRS",
+      "track": "faculty",
+      "region": "France",
+      "filterGroup": "faculty-eu",
+      "date": "2027-05-15",
+      "cycle": "Published Spring–Summer on Emploi CNRS & Galaxie (includes €200k+ ANR grant)",
+      "location": "Paris & Saclay, France",
+      "tags": [
+        "Tenure-Track to Full Professor",
+        "Quantum Sensing",
+        "Spin Control",
+        "Open Quantum Systems"
+      ],
+      "fit": "French tenure-track chairs leading directly to Professeur des Universités / Directeur de Recherche with funded PhD/postdoc package.",
+      "url": "https://emploi.cnrs.fr/"
+    },
+    {
+      "id": "job-fac-epfl",
+      "name": "Tenure-Track Assistant Professor — Physics / Quantum Science & Computational Physics",
+      "org": "EPFL (École Polytechnique Fédérale de Lausanne)",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2026-12-01",
+      "cycle": "Winter faculty search cutoff Dec 1, 2026",
+      "location": "Lausanne, Switzerland",
+      "tags": [
+        "Open Quantum Systems",
+        "Computational Physics",
+        "Magnetic Resonance",
+        "Quantum Devices"
+      ],
+      "fit": "School of Basic Sciences & EPFL Center for Quantum Science and Engineering (QSE) tenure-track openings.",
+      "url": "https://www.epfl.ch/about/working/faculty-positions/"
+    },
+    {
+      "id": "job-fac-ethz",
+      "name": "Tenure-Track Assistant Professor — Dept. of Physics & ETH Quantum Center",
+      "org": "ETH Zurich",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2026-12-15",
+      "cycle": "Winter evaluation cutoff & targeted departmental calls",
+      "location": "Zurich, Switzerland",
+      "tags": [
+        "NV & Spin Sensing",
+        "Magnetic Resonance",
+        "Quantum Control",
+        "Open Quantum Systems"
+      ],
+      "fit": "World-leading center in solid-state spin sensing, NMR spectroscopy, and quantum information theory.",
+      "url": "https://www.facultyaffairs.ethz.ch/our-services/open-positions.html"
+    },
+    {
+      "id": "job-fac-ista",
+      "name": "Tenure-Track Assistant Professor — Physics (Theoretical & Experimental Quantum/CMP)",
+      "org": "ISTA (Institute of Science and Technology Austria)",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2026-11-30",
+      "cycle": "Annual autumn faculty call cutoff + rolling expressions of interest",
+      "location": "Klosterneuburg (Vienna), Austria",
+      "tags": [
+        "Open Quantum Systems",
+        "Floquet & Driven Matter",
+        "Quantum Sensing",
+        "Spin Physics"
+      ],
+      "fit": "Generous independent group startup package in theoretical & experimental quantum physics.",
+      "url": "https://ista.ac.at/en/jobs/faculty/"
+    },
+    {
+      "id": "job-fac-emmy-noether",
+      "name": "DFG Emmy Noether Programme — Independent Junior Research Group Leader",
+      "org": "DFG (Host at Ulm, Stuttgart, TUM, FZ Jülich, Mainz, etc.)",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2026-12-31",
+      "cycle": "Rolling year-round · Thematic AI/Computational calls Dec 2026",
+      "location": "Germany (Any University / MPI / Helmholtz Host)",
+      "tags": [
+        "6-Yr Group Leader (€1.5M+)",
+        "NV Diamond Sensing",
+        "Optimal Control / GRAPE",
+        "Open Quantum Systems"
+      ],
+      "fit": "Ideal for researchers 2–4 years post-PhD to lead an independent group in Germany (e.g., Ulm, Stuttgart, TUM, Jülich).",
+      "url": "https://www.dfg.de/en/research-funding/funding-opportunities/programmes/individual/emmy-noether"
+    },
+    {
+      "id": "job-fac-qutech-delft",
+      "name": "Tenure-Track Assistant Professor / PI — Quantum Nanoscience & QuTech",
+      "org": "TU Delft (QuTech & Kavli Institute)",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2027-01-31",
+      "cycle": "Winter faculty & PI recruitment cycle",
+      "location": "Delft, Netherlands",
+      "tags": [
+        "Diamond NV & Spin Qubits",
+        "Quantum Control",
+        "Open Quantum Systems",
+        "Quantum Sensing"
+      ],
+      "fit": "Flagship European hub for diamond color centers, nuclear spin registers, and quantum control.",
+      "url": "https://qutech.nl/open-positions/"
+    },
+    {
+      "id": "job-fac-helmholtz-yig",
+      "name": "Helmholtz Young Investigator Groups (VH-NG — Tenure-Track W2 Group Leader)",
+      "org": "Helmholtz Association (FZ Jülich PGI-8, KIT Karlsruhe, DESY)",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2027-03-15",
+      "cycle": "Host center pre-selection Feb–Mar 2027 · Central cutoff May 2027",
+      "location": "Jülich & Karlsruhe, Germany",
+      "tags": [
+        "€1.5M+ 5-Yr Group Leader",
+        "Quantum Optimal Control",
+        "Open Quantum Systems",
+        "Spin & Superconducting Qubits"
+      ],
+      "fit": "Strong match with Forschungszentrum Jülich (PGI-8 Quantum Control) and KIT Quantum Sensing.",
+      "url": "https://www.helmholtz.de/en/current-topics/campaigns/helmholtz-investor-groups/"
+    },
+    {
+      "id": "job-fac-mpg-erc",
+      "name": "Max Planck Research Group Leader (W2) & ERC Starting Grant (StG)",
+      "org": "Max Planck Society & European Research Council",
+      "track": "faculty",
+      "region": "EU & UK & CH",
+      "filterGroup": "faculty-eu",
+      "date": "2027-10-14",
+      "cycle": "Annual October cutoff (opens Summer 2027) + ad-hoc institute calls",
+      "location": "Europe, UK & Switzerland",
+      "tags": [
+        "€1.5M–€2.7M Group Package",
+        "Floquet & Open Quantum Systems",
+        "NV Sensing",
+        "NMR & Spin Control"
+      ],
+      "fit": "Flagship European independent group leader tracks (2–7 years post-PhD).",
+      "url": "https://erc.europa.eu/apply-grant/starting-grant"
+    },
+    {
+      "id": "job-fac-us-ajo",
+      "name": "Tenure-Track Assistant Professor — Quantum Science, AMO & Condensed Matter Physics",
+      "org": "US Research Universities (MIT, Rice, UW, Caltech, etc. via AJO)",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2026-12-01",
+      "cycle": "Peak US faculty deadline window: Nov 15 – Dec 15, 2026",
+      "location": "United States",
+      "tags": [
+        "AMO & Quantum Sensing",
+        "Open Quantum Systems",
+        "Floquet & Driven Matter",
+        "Computational Physics"
+      ],
+      "fit": "Central AcademicJobsOnline board for US tenure-track Assistant Professor searches in Quantum Science & Physics.",
+      "url": "https://academicjobsonline.org/ajo/Physics"
+    },
+    {
+      "id": "job-fac-us-aps",
+      "name": "Tenure-Track Assistant Professor — Quantum Engineering, Spin & Chemical Physics",
+      "org": "APS Physics Job Center (US Universities)",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2026-12-15",
+      "cycle": "Primary US Fall/Winter faculty cycle (Nov 2026 – Jan 2027)",
+      "location": "United States",
+      "tags": [
+        "Quantum Information & Control",
+        "Magnetic Resonance / NMR",
+        "NV Sensing",
+        "Open Quantum Systems"
+      ],
+      "fit": "Official American Physical Society faculty portal covering Physics, Applied Physics, and Quantum Engineering departments.",
+      "url": "https://careers.aps.org/"
+    },
+    {
+      "id": "job-fac-technion",
+      "name": "Tenure-Track Assistant Professor — Physics & Helen Diller Quantum Center",
+      "org": "Technion – Israel Institute of Technology",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2026-11-30",
+      "cycle": "Primary annual review Nov 30 · Portal open year-round",
+      "location": "Haifa, Israel",
+      "tags": [
+        "Quantum Sensing",
+        "Spin Resonance & NMR",
+        "Floquet & Non-Equilibrium",
+        "Quantum Information"
+      ],
+      "fit": "Direct alignment with the Helen Diller Quantum Center and Department of Physics.",
+      "url": "https://phys.technion.ac.il/en/research/academic-positions/"
+    },
+    {
+      "id": "job-fac-tau",
+      "name": "Tenure-Track Assistant Professor — School of Physics & Center for Quantum Science",
+      "org": "Tel Aviv University",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2026-12-01",
+      "cycle": "2026–2027 faculty search cutoff Dec 1, 2026",
+      "location": "Tel Aviv, Israel",
+      "tags": [
+        "Open Quantum Systems",
+        "Driven/Floquet Matter",
+        "Quantum Sensing",
+        "Condensed Matter"
+      ],
+      "fit": "Active tenure-track recruitment across Condensed Matter, AMO, and Quantum Science & Technology.",
+      "url": "https://en-exact-sciences.tau.ac.il/physics/jobs"
+    },
+    {
+      "id": "job-fac-weizmann",
+      "name": "Senior Scientist (Tenure-Track Assistant Professor) — Physics / Chemical & Biological Physics",
+      "org": "Weizmann Institute of Science",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2026-12-15",
+      "cycle": "Main departmental evaluation window Nov–Jan (open year-round)",
+      "location": "Rehovot, Israel",
+      "tags": [
+        "NMR & Hyperpolarization",
+        "NV Quantum Sensing",
+        "Open Quantum Systems",
+        "Quantum Control"
+      ],
+      "fit": "World-renowned faculties in Chemical & Biological Physics (NMR/spin resonance) and Quantum Physics.",
+      "url": "https://www.weizmann.ac.il/physics/positions-available"
+    },
+    {
+      "id": "job-fac-nyuad-kaust-tii",
+      "name": "Tenure-Track Assistant Professor & Lead PI — Physics & Quantum Centers (NYUAD, KAUST & TII)",
+      "org": "NYU Abu Dhabi (CQTS) / KAUST / TII Abu Dhabi",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2026-12-15",
+      "cycle": "Priority winter review Dec 15, 2026 · TII & KAUST rolling",
+      "location": "Abu Dhabi, UAE & Thuwal, Saudi Arabia",
+      "tags": [
+        "Spin/NMR Physics (NYUAD)",
+        "Quantum Control & Sensing (TII)",
+        "Computational Physics (KAUST)"
+      ],
+      "fit": "High-resourced Gulf research centers with major NMR, NV-sensing, and quantum control programs.",
+      "url": "https://nyuad.nyu.edu/en/about/careers/faculty.html"
+    },
+    {
+      "id": "job-fac-huji",
+      "name": "Tenure-Track Assistant Professor — Racah Institute of Physics & Quantum Information Center",
+      "org": "Hebrew University of Jerusalem (HUJI)",
+      "track": "faculty",
+      "region": "US & Middle East",
+      "filterGroup": "faculty-us-me",
+      "date": "2027-09-15",
+      "cycle": "Annual Racah cutoff Sept 15 · Applied Physics rolling",
+      "location": "Jerusalem, Israel",
+      "tags": [
+        "NV Magnetometry",
+        "Open Quantum Systems & Decoherence",
+        "Quantum Control"
+      ],
+      "fit": "Strong tradition in NV sensing, spin baths, decoherence theory, and quantum metrology.",
+      "url": "https://phys.huji.ac.il/academic_positions"
+    },
+    {
+      "id": "job-ind-qruise",
+      "name": "Quantum Control Physicist / ML & Optimal Control Scientist",
+      "org": "Qruise GmbH",
+      "track": "industry",
+      "region": "EU & UK & CH",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-15",
+      "cycle": "Rolling recruitment · Open now (Jülich / EU Hybrid)",
+      "location": "Jülich, Germany & EU Hybrid",
+      "tags": [
+        "Optimal Control / GRAPE",
+        "Lindblad Open Systems",
+        "Quantum Digital Twins",
+        "NV & Spin Qubits"
+      ],
+      "fit": "Top 1% match: Builds physics-informed digital twins, Lindblad master-equation solvers, and GRAPE optimal pulse control.",
+      "url": "https://www.qruise.com/careers"
+    },
+    {
+      "id": "job-ind-algorithmiq",
+      "name": "Research Scientist — Open Quantum Systems, Noise Mitigation & Tensor Networks",
+      "org": "Algorithmiq",
+      "track": "industry",
+      "region": "Remote",
+      "filterGroup": "corp-remote",
+      "date": "2026-12-15",
+      "cycle": "Rolling recruitment · Open now (Helsinki / EU Remote)",
+      "location": "Helsinki, Finland & EU Remote",
+      "tags": [
+        "Open Quantum Systems",
+        "Lindblad & Liouvillians",
+        "Tensor Networks",
+        "Computational Physics"
+      ],
+      "fit": "Top 1% match: Co-founded by Open Quantum Systems pioneer Sabrina Maniscalco; core focus is noise modeling & open systems.",
+      "url": "https://algorithmiq.fi/careers/"
+    },
+    {
+      "id": "job-ind-nvision",
+      "name": "Quantum Spin Physicist / NV Hyperpolarization & NMR/MRI R&D Scientist",
+      "org": "NVision Imaging Technologies",
+      "track": "industry",
+      "region": "EU & UK & CH",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-15",
+      "cycle": "Rolling recruitment · Open now",
+      "location": "Ulm, Germany",
+      "tags": [
+        "NV Diamond Spins",
+        "Hyperpolarization / DNP",
+        "NMR & MRI",
+        "Optimal Pulse Control"
+      ],
+      "fit": "Top 1% match: Spin-out from Jelezko/Plenio labs combining NV-diamond spin physics, pulse shaping, and NMR hyperpolarization.",
+      "url": "https://www.nvision-imaging.com/careers"
+    },
+    {
+      "id": "job-ind-qnami-bosch",
+      "name": "Quantum Sensing Physicist — NV Diamond Magnetometry (Qnami & Bosch Quantum Sensing)",
+      "org": "Qnami (Basel) & Bosch Quantum Sensing (Stuttgart)",
+      "track": "industry",
+      "region": "EU & UK & CH",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-20",
+      "cycle": "Rolling recruitment · Open now",
+      "location": "Basel, Switzerland & Stuttgart, Germany",
+      "tags": [
+        "NV Diamond Magnetometry",
+        "ODMR & Spin Control",
+        "Quantum Sensing Hardware",
+        "Signal Processing"
+      ],
+      "fit": "Direct match: Commercializing scanning and integrated NV-diamond quantum magnetometers.",
+      "url": "https://qnami.ch/careers/"
+    },
+    {
+      "id": "job-ind-qctrl",
+      "name": "Quantum Control Research Scientist & Quantum Sensing Firmware Physicist",
+      "org": "Q-CTRL",
+      "track": "industry",
+      "region": "Remote",
+      "filterGroup": "corp-remote",
+      "date": "2026-12-20",
+      "cycle": "Rolling recruitment · Open now (Berlin / UK / Remote)",
+      "location": "Berlin, Oxford & Remote",
+      "tags": [
+        "Optimal Control / GRAPE",
+        "Dynamical Decoupling",
+        "Open Quantum Systems",
+        "Quantum Sensing"
+      ],
+      "fit": "Top 1% match: Develops Boulder Opal optimal control, filter-function noise suppression, and quantum sensing software.",
+      "url": "https://q-ctrl.com/careers"
+    },
+    {
+      "id": "job-ind-zhinst-qm",
+      "name": "Application Scientist & Quantum Control Physicist (Zurich Instruments & Quantum Machines)",
+      "org": "Zurich Instruments & Quantum Machines",
+      "track": "industry",
+      "region": "EU & UK & CH",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-31",
+      "cycle": "Rolling recruitment · Multiple EU openings",
+      "location": "Zurich, Munich, Paris & Tel Aviv",
+      "tags": [
+        "Pulse-Level Control",
+        "AWG & RF/MW Sequences",
+        "NV & Spin Qubits",
+        "NMR Instrumentation"
+      ],
+      "fit": "Direct match: Designing real-time pulse sequences, dynamical decoupling, and spin/qubit characterization.",
+      "url": "https://www.zhinst.com/en/company/careers"
+    },
+    {
+      "id": "job-ind-bruker",
+      "name": "NMR Pulse Sequence, Floquet & Spin Dynamics R&D Scientist",
+      "org": "Bruker BioSpin",
+      "track": "industry",
+      "region": "EU & UK & CH",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-31",
+      "cycle": "Rolling R&D & Application Scientist openings",
+      "location": "Ettlingen (Germany), Fällanden (Switzerland) & Bengaluru (India)",
+      "tags": [
+        "NMR Spectroscopy",
+        "Spin Dynamics & Floquet",
+        "Optimal RF Pulses",
+        "DNP"
+      ],
+      "fit": "Global leader in NMR/EPR instrumentation; hires physicists in spin dynamics, optimal control pulses, and DNP.",
+      "url": "https://www.bruker.com/en/careers.html"
+    },
+    {
+      "id": "job-ind-pasqal-alicebob",
+      "name": "Open Quantum Systems, Cat-Qubit Dissipation & Pulse Control Physicist (Alice & Bob / Pasqal)",
+      "org": "Alice & Bob / Pasqal",
+      "track": "industry",
+      "region": "France",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-31",
+      "cycle": "Rolling recruitment · Open now (Paris / EU Remote)",
+      "location": "Paris & Massy, France (Hybrid / Remote)",
+      "tags": [
+        "Engineered Dissipation (Lindblad)",
+        "Floquet & Driven Hamiltonians",
+        "Pulse Shaping",
+        "QuTiP / Pulser"
+      ],
+      "fit": "Alice & Bob relies on Lindblad open-system dissipation for cat qubits; Pasqal hires in time-dependent pulse control.",
+      "url": "https://alice-and-bob.com/careers/"
+    },
+    {
+      "id": "job-ind-iqm-riverlane-parity",
+      "name": "Quantum Control, Calibration & Noise Modeling Scientist (IQM, Riverlane & ParityQC)",
+      "org": "IQM (Munich/Espoo), Riverlane (Cambridge) & ParityQC (Innsbruck)",
+      "track": "industry",
+      "region": "EU & UK & CH",
+      "filterGroup": "corp-eu",
+      "date": "2026-12-31",
+      "cycle": "Rolling recruitment · Open now across EU/UK",
+      "location": "Munich, Espoo, Cambridge & Innsbruck",
+      "tags": [
+        "Decoherence & Noise Modeling",
+        "Pulse Calibration",
+        "Driven Multi-Body Systems",
+        "Computational Physics"
+      ],
+      "fit": "Leading European quantum hardware & control-stack companies hiring theoretical and experimental control physicists.",
+      "url": "https://www.meetiqm.com/careers"
+    },
+    {
+      "id": "job-ind-ibm-india",
+      "name": "Research Scientist — Quantum Error Mitigation, Open Systems & Qiskit Dynamics",
+      "org": "IBM Research India",
+      "track": "industry",
+      "region": "India",
+      "filterGroup": "corp-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling Research Staff Member (RSM) recruitment",
+      "location": "Bengaluru, India",
+      "tags": [
+        "Open Quantum Systems",
+        "Error Mitigation (PEC/ZNE)",
+        "Pulse-Level Simulation",
+        "Hamiltonian Dynamics"
+      ],
+      "fit": "IBM Research India's Quantum team works on noise learning, Lindblad error channels, and Hamiltonian simulation.",
+      "url": "https://research.ibm.com/labs/india"
+    },
+    {
+      "id": "job-ind-qpiai-india",
+      "name": "Principal / Senior Scientist — Quantum Control, Hardware & Computational Simulation",
+      "org": "QpiAI India",
+      "track": "industry",
+      "region": "India",
+      "filterGroup": "corp-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling recruitment · National Quantum Mission partner",
+      "location": "Bengaluru, India",
+      "tags": [
+        "Quantum Optimal Control",
+        "Qubit Characterization",
+        "Computational Physics",
+        "AI + Quantum"
+      ],
+      "fit": "Full-stack Indian quantum computing & AI company hiring senior scientists in quantum control and simulation.",
+      "url": "https://qpiai.tech/careers/"
+    },
+    {
+      "id": "job-ind-qnu-bqp-india",
+      "name": "Computational Physicist & Quantum R&D Scientist (BosonQ Psi & QNu Labs)",
+      "org": "BosonQ Psi (BQP) & QNu Labs",
+      "track": "industry",
+      "region": "India",
+      "filterGroup": "corp-india",
+      "date": "2026-12-31",
+      "cycle": "Rolling recruitment · Open now",
+      "location": "Bengaluru, India & Hybrid",
+      "tags": [
+        "Computational Physics",
+        "Quantum Simulation",
+        "Numerical Solvers",
+        "Quantum Sensing & Photonics"
+      ],
+      "fit": "BQP builds quantum-inspired multi-physics simulations; QNu Labs builds quantum hardware & sensing systems in Bengaluru.",
+      "url": "https://www.bqpsim.com/careers"
+    },
+    {
+      "id": "job-ind-linkedin-quantum",
+      "name": "Live LinkedIn Feed — Open Quantum Systems, Quantum Control & NV Sensing (EU / India / Remote)",
+      "org": "LinkedIn Jobs (Pre-Filtered Search)",
+      "track": "industry",
+      "region": "Remote",
+      "filterGroup": "corp-remote",
+      "date": "2026-12-31",
+      "cycle": "Live real-time job feed · Updated hourly",
+      "location": "European Union, India & Remote",
+      "tags": [
+        "Open Quantum Systems",
+        "Quantum Control",
+        "Quantum Sensing",
+        "Computational Physicist"
+      ],
+      "fit": "Direct pre-filtered LinkedIn search for Corporate Quantum Physicist, Quantum Control, and Open Quantum Systems roles.",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=%22quantum%20control%22%20OR%20%22open%20quantum%22%20OR%20%22quantum%20sensing%22%20OR%20%22computational%20physicist%22"
+    }
+  ],
+  "postdocs": [
+    {
+      "id": "pd-hqi-harvard",
+      "name": "Harvard Quantum Initiative (HQI) Prize Postdoctoral Fellowship",
+      "org": "Harvard University",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2026-11-05",
+      "cycle": "Annual early-November deadline",
+      "location": "Cambridge, MA, USA",
+      "tags": [
+        "NV & Diamond Sensing (Lukin/Park)",
+        "Floquet & Driven Matter",
+        "Open Quantum Systems",
+        "Quantum Control"
+      ],
+      "url": "https://quantum.harvard.edu/hqi-fellowships"
+    },
+    {
+      "id": "pd-perimeter",
+      "name": "Perimeter Institute Postdoctoral Fellowship",
+      "org": "Perimeter Institute for Theoretical Physics",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2026-11-06",
+      "cycle": "Annual November deadline",
+      "location": "Waterloo, Canada",
+      "tags": [
+        "Open Quantum Systems",
+        "Floquet & Non-Equilibrium",
+        "Quantum Information",
+        "Tensor Networks"
+      ],
+      "url": "https://perimeterinstitute.ca/postdoctoral-fellowships"
+    },
+    {
+      "id": "pd-azrieli",
+      "name": "Azrieli International Postdoctoral Fellowship",
+      "org": "Azrieli Foundation (Weizmann, Technion, HUJI, TAU)",
+      "subType": "fellowship-in-il",
+      "region": "India & Israel",
+      "date": "2026-11-11",
+      "cycle": "Annual November 11 deadline",
+      "location": "Israel (All Research Universities)",
+      "tags": [
+        "NV Sensing",
+        "NMR & Hyperpolarization",
+        "Open Quantum Systems",
+        "Floquet Physics"
+      ],
+      "url": "https://azrielifoundation.org/fellows/internationalpostdoctoral/"
+    },
+    {
+      "id": "pd-humboldt",
+      "name": "Alexander von Humboldt Research Fellowship for Postdoctoral Researchers",
+      "org": "Alexander von Humboldt Foundation",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2026-11-15",
+      "cycle": "3 selection meetings/year: Nov 15, Mar 15 & Jul 15",
+      "location": "Germany (Ulm, Stuttgart, TUM, Jülich, Mainz, MPG)",
+      "tags": [
+        "NV & Diamond Sensing",
+        "NMR & Optimal Control",
+        "Open Quantum Systems",
+        "Floquet"
+      ],
+      "url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship"
+    },
+    {
+      "id": "pd-mcqst",
+      "name": "MCQST Distinguished Postdoctoral Fellowship",
+      "org": "Munich Center for Quantum Science & Technology (TUM / LMU / MPQ)",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2026-11-15",
+      "cycle": "Annual mid-November deadline",
+      "location": "Munich, Germany",
+      "tags": [
+        "Quantum Sensing (Bucher)",
+        "Optimal Control & NMR (Glaser)",
+        "Open Quantum Systems (Cirac)"
+      ],
+      "url": "https://www.mcqst.de/support/postdoc-fellowship/"
+    },
+    {
+      "id": "pd-caltech-iqim",
+      "name": "Caltech IQIM Postdoctoral Fellowship in Quantum Information & Matter",
+      "org": "California Institute of Technology (IQIM)",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2026-11-15",
+      "cycle": "Annual November 15 deadline",
+      "location": "Pasadena, CA, USA",
+      "tags": [
+        "Quantum Metrology & Sensing",
+        "Floquet & Driven Systems",
+        "Open Quantum Systems"
+      ],
+      "url": "https://iqim.caltech.edu/postdoctoral-fellowships/"
+    },
+    {
+      "id": "pd-stanford-bloch",
+      "name": "Stanford Bloch Postdoctoral Fellowship in Quantum Science & Engineering",
+      "org": "Stanford University (Q-FARM)",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2026-11-16",
+      "cycle": "Annual mid-November deadline",
+      "location": "Stanford, CA, USA",
+      "tags": [
+        "Named after Felix Bloch (NMR pioneer)",
+        "Quantum Sensing",
+        "Open Quantum Systems",
+        "Spin Control"
+      ],
+      "url": "https://qfarm.stanford.edu/fellowships/bloch-fellowship"
+    },
+    {
+      "id": "pd-icts-tifr",
+      "name": "ICTS-TIFR Postdoctoral Fellowship (Fall & Spring Cycles)",
+      "org": "International Centre for Theoretical Sciences (TIFR Bengaluru)",
+      "subType": "fellowship-in-il",
+      "region": "India & Israel",
+      "date": "2026-11-30",
+      "cycle": "Biannual: Nov 30 (Fall) & May 31 (Spring)",
+      "location": "Bengaluru, India",
+      "tags": [
+        "Open Quantum Systems",
+        "Floquet & Driven Dynamics",
+        "Quantum Chaos",
+        "Computational Physics"
+      ],
+      "url": "https://www.icts.res.in/academic/postdoctoral-fellowships"
+    },
+    {
+      "id": "pd-sandia-gilbreth",
+      "name": "Sandia Gilbreth & National Lab Quantum Postdoctoral Fellowships",
+      "org": "Sandia National Laboratories",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2026-11-30",
+      "cycle": "Annual November deadline",
+      "location": "Albuquerque, NM / Livermore, CA, USA",
+      "tags": [
+        "Quantum Sensing",
+        "Spin & Defect Control",
+        "Open Quantum Systems"
+      ],
+      "url": "https://www.sandia.gov/careers/career-possibilities/students-and-postdocs/fellowships/"
+    },
+    {
+      "id": "pd-jqi-umd",
+      "name": "JQI & QuICS Postdoctoral Fellowship",
+      "org": "Joint Quantum Institute (Univ. of Maryland & NIST)",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2026-12-01",
+      "cycle": "Annual December 1 priority deadline",
+      "location": "College Park, MD, USA",
+      "tags": [
+        "Quantum Metrology",
+        "Spin & Atomic Sensing",
+        "Open Quantum Systems",
+        "Floquet Matter"
+      ],
+      "url": "https://jqi.umd.edu/about/jobs"
+    },
+    {
+      "id": "pd-nwo-rubicon",
+      "name": "NWO Rubicon & Veni Postdoctoral Fellowships",
+      "org": "Dutch Research Council (NWO — QuTech Delft / Leiden / Amsterdam)",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2026-12-01",
+      "cycle": "Multiple annual rounds (Dec, Apr, Sep)",
+      "location": "Netherlands",
+      "tags": [
+        "NV Centers",
+        "Spin Qubits",
+        "Quantum Sensing",
+        "Open Quantum Systems"
+      ],
+      "url": "https://www.nwo.nl/en/researchprogrammes/rubicon"
+    },
+    {
+      "id": "pd-iisc-rri",
+      "name": "IISc Institute Postdoctoral Fellowship (IPDF) & RRI Postdoctoral Fellowship",
+      "org": "IISc Bangalore & Raman Research Institute",
+      "subType": "fellowship-in-il",
+      "region": "India & Israel",
+      "date": "2026-12-31",
+      "cycle": "Quarterly cutoffs (Dec 31, Mar 31, Jun 30, Sep 30)",
+      "location": "Bengaluru, India",
+      "tags": [
+        "NMR Spectroscopy",
+        "NV & Atomic Sensing",
+        "Open Quantum Systems",
+        "Quantum Control"
+      ],
+      "url": "https://iisc.ac.in/careers/post-doctoral-fellowships/"
+    },
+    {
+      "id": "pd-icfo-nest",
+      "name": "ICFO Postdoctoral Fellowships (Severo Ochoa & ICFOnest+)",
+      "org": "ICFO – Institute of Photonic Sciences",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2026-12-31",
+      "cycle": "Quarterly evaluation cutoffs",
+      "location": "Barcelona, Spain",
+      "tags": [
+        "Quantum & Atomic Magnetometry",
+        "Open Quantum Systems",
+        "Quantum Information"
+      ],
+      "url": "https://jobs.icfo.eu/"
+    },
+    {
+      "id": "pd-vatat-zuckerman",
+      "name": "VATAT-PBC Quantum Science Fellowship & Zuckerman STEM Postdoctoral Program",
+      "org": "Israel Council for Higher Education & Zuckerman Institute",
+      "subType": "fellowship-in-il",
+      "region": "India & Israel",
+      "date": "2027-01-15",
+      "cycle": "Annual Jan–Feb institutional deadlines",
+      "location": "Weizmann, Technion, HUJI, TAU (Israel)",
+      "tags": [
+        "Quantum Sensing",
+        "NMR & Spin Dynamics",
+        "Open Quantum Systems"
+      ],
+      "url": "https://zuckermanstem.org/our-programs/postdoc-scholars/"
+    },
+    {
+      "id": "pd-1851-uk",
+      "name": "Royal Commission for the Exhibition of 1851 Research Fellowship",
+      "org": "Royal Commission 1851 (Host at Oxford, Cambridge, Imperial, UCL)",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2027-01-20",
+      "cycle": "Annual January 20 deadline",
+      "location": "United Kingdom",
+      "tags": [
+        "Spin Resonance",
+        "NV Quantum Sensing",
+        "Open Quantum Systems",
+        "Quantum Technologies"
+      ],
+      "url": "https://royalcommission1851.org/fellowships/research-fellowships"
+    },
+    {
+      "id": "pd-tifr-mumbai",
+      "name": "TIFR Postdoctoral Visiting Fellowship (Theoretical & Experimental Physics)",
+      "org": "Tata Institute of Fundamental Research (Mumbai & Hyderabad)",
+      "subType": "fellowship-in-il",
+      "region": "India & Israel",
+      "date": "2027-01-20",
+      "cycle": "Biannual cutoffs: Jan 20 & Apr 25",
+      "location": "Mumbai & Hyderabad, India",
+      "tags": [
+        "NMR & Spin Control",
+        "Open Quantum Systems",
+        "Floquet & Driven Matter"
+      ],
+      "url": "https://www.tifr.res.in/~dtp/"
+    },
+    {
+      "id": "pd-anrf-npdf",
+      "name": "ANRF (SERB) National Postdoctoral Fellowship (N-PDF)",
+      "org": "Anusandhan National Research Foundation (India)",
+      "subType": "fellowship-in-il",
+      "region": "India & Israel",
+      "date": "2027-02-17",
+      "cycle": "Annual Jan–Feb call window",
+      "location": "India (Any IIT / IISc / TIFR / IISER Host)",
+      "tags": [
+        "Independent 2-Yr Postdoc Grant",
+        "NMR & Spin Control",
+        "NV Sensing",
+        "Open Quantum Systems"
+      ],
+      "url": "https://serbonline.in/SERB/npdf"
+    },
+    {
+      "id": "pd-eth-epfl-fellows",
+      "name": "ETH Zurich Postdoctoral Fellowships & EPFL QSE Fellows",
+      "org": "ETH Zurich & EPFL Lausanne",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2027-03-01",
+      "cycle": "Biannual deadlines: March 1 & September 1 (17:00 CET)",
+      "location": "Zurich & Lausanne, Switzerland",
+      "tags": [
+        "Nanoscale NMR & NV Sensing (Degen)",
+        "Spin Control",
+        "Open Quantum Systems"
+      ],
+      "url": "https://ethz.ch/en/research/research-promotion/eth-fellowships.html"
+    },
+    {
+      "id": "pd-cqe-chicago",
+      "name": "Chicago Quantum Exchange (CQE) & Kadanoff-Rice Postdoctoral Fellowship",
+      "org": "University of Chicago & Argonne National Lab",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2027-03-01",
+      "cycle": "Biannual deadlines: March 1 & October 15",
+      "location": "Chicago, IL, USA",
+      "tags": [
+        "Diamond Spin Defects (Awschalom/Maurer)",
+        "Quantum Sensing",
+        "Open Quantum Systems"
+      ],
+      "url": "https://mrsec.uchicago.edu/kadanoff-rice-fellowship"
+    },
+    {
+      "id": "pd-newton-royal-soc",
+      "name": "Royal Society Newton International Postdoctoral Fellowship",
+      "org": "The Royal Society (UK)",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2027-03-16",
+      "cycle": "Annual mid-March deadline (opens January)",
+      "location": "United Kingdom (Oxford, Cambridge, Imperial, UCL, Warwick)",
+      "tags": [
+        "2-Yr Fully Funded UK Fellowship",
+        "Spin Resonance",
+        "NV Sensing",
+        "Open Quantum Systems"
+      ],
+      "url": "https://royalsociety.org/grants/newton-international/"
+    },
+    {
+      "id": "pd-msca-eu",
+      "name": "Marie Skłodowska-Curie Actions (MSCA) Postdoctoral Fellowships",
+      "org": "European Commission (Any EU / UK / Horizon Host)",
+      "subType": "fellowship-eu",
+      "region": "Europe & UK",
+      "date": "2027-09-08",
+      "cycle": "Annual call opens April 7 · Closes September 8",
+      "location": "European Union & Associated Countries",
+      "tags": [
+        "Flagship EU Fellowship",
+        "NV Sensing",
+        "NMR & Optimal Control",
+        "Open Quantum Systems"
+      ],
+      "url": "https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships"
+    },
+    {
+      "id": "pd-mit-berkeley-us",
+      "name": "MIT Pappalardo Fellowships & UC Berkeley Miller Research Fellowship",
+      "org": "MIT & UC Berkeley",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2027-09-10",
+      "cycle": "Annual early-September faculty nomination window",
+      "location": "Cambridge, MA & Berkeley, CA, USA",
+      "tags": [
+        "NV & Hyperpolarization (Berkeley/MIT)",
+        "Floquet Dynamics",
+        "Open Quantum Systems"
+      ],
+      "url": "https://physics.mit.edu/research/pappalardo-fellowships-in-physics/"
+    },
+    {
+      "id": "pd-us-natlabs",
+      "name": "Argonne Maria Goeppert Mayer, LLNL Lawrence & LANL Feynman Fellowships",
+      "org": "Argonne (Q-NEXT), LLNL & Los Alamos National Laboratory",
+      "subType": "fellowship-us",
+      "region": "US & Canada",
+      "date": "2027-10-01",
+      "cycle": "Annual early-October distinguished fellowship deadlines",
+      "location": "USA (National Laboratories)",
+      "tags": [
+        "Quantum Control",
+        "Diamond Spin Defects",
+        "NMR & Magnetic Resonance",
+        "Open Systems"
+      ],
+      "url": "https://www.anl.gov/hr/maria-goeppert-mayer-fellowship"
+    },
+    {
+      "id": "pd-lab-ulm",
+      "name": "Institute for Quantum Optics & Quantum BioSciences (Fedor Jelezko & Martin Plenio Labs)",
+      "org": "Ulm University",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-15",
+      "cycle": "Rolling lab openings · Direct PI & IQO portal applications",
+      "location": "Ulm, Germany",
+      "tags": [
+        "NV Diamond Sensing",
+        "Hyperpolarization / DNP",
+        "Open Quantum Systems",
+        "Optimal Control"
+      ],
+      "url": "https://www.uni-ulm.de/en/nawi/institute-for-quantum-optics/"
+    },
+    {
+      "id": "pd-lab-stuttgart",
+      "name": "3rd Institute of Physics & IQST (Jörg Wrachtrup Group)",
+      "org": "University of Stuttgart",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-15",
+      "cycle": "Rolling postdoc openings on PI3 & IQST portals",
+      "location": "Stuttgart, Germany",
+      "tags": [
+        "NV & Defect Spin Control",
+        "Nanoscale NMR",
+        "Quantum Metrology",
+        "Solid-State Spins"
+      ],
+      "url": "https://www.pi3.uni-stuttgart.de/opportunities/"
+    },
+    {
+      "id": "pd-lab-tum",
+      "name": "Quantum Sensing (Dominik Bucher Lab) & Optimal Control / NMR (Steffen Glaser Lab)",
+      "org": "Technical University of Munich (TUM)",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-15",
+      "cycle": "Rolling postdoc recruitment via TUM & MCQST",
+      "location": "Munich, Germany",
+      "tags": [
+        "GRAPE / Optimal Control (Glaser)",
+        "NV Diamond NMR (Bucher)",
+        "Spin Dynamics"
+      ],
+      "url": "https://www.ch.nat.tum.de/en/qsens/home/"
+    },
+    {
+      "id": "pd-lab-ethz-basel",
+      "name": "ETH Spin Physics (Christian Degen Lab) & Basel Quantum Sensing (Patrick Maletinsky Lab)",
+      "org": "ETH Zurich & University of Basel",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-20",
+      "cycle": "Rolling openings on ETH Quantum Center & Basel Sensing portals",
+      "location": "Zurich & Basel, Switzerland",
+      "tags": [
+        "Nanoscale NMR",
+        "Scanning NV Magnetometry",
+        "Dynamical Decoupling",
+        "Spin Control"
+      ],
+      "url": "https://qc.ethz.ch/news-and-events/open-positions.html"
+    },
+    {
+      "id": "pd-lab-juelich",
+      "name": "Peter Grünberg Institute PGI-8 Quantum Control (Tommaso Calarco & Felix Motzoi Labs)",
+      "org": "Forschungszentrum Jülich",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-20",
+      "cycle": "Rolling postdoc openings on FZ Jülich Careers",
+      "location": "Jülich, Germany",
+      "tags": [
+        "Quantum Optimal Control",
+        "Open Quantum Systems",
+        "Floquet & Driven Pulses"
+      ],
+      "url": "https://www.fz-juelich.de/en/pgi/pgi-8"
+    },
+    {
+      "id": "pd-lab-delft-qutech",
+      "name": "QuTech Diamond Spin Qubits & Nuclear Spin Registers (Tim Taminiau & Ronald Hanson Labs)",
+      "org": "TU Delft / QuTech",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-31",
+      "cycle": "Continuous postdoc openings on QuTech Vacancies",
+      "location": "Delft, Netherlands",
+      "tags": [
+        "NV & Group-IV Spin Qubits",
+        "Nuclear Spin Baths",
+        "Floquet / Dynamical Decoupling"
+      ],
+      "url": "https://qutech.nl/vacancies/"
+    },
+    {
+      "id": "pd-lab-saclay-ens",
+      "name": "CEA Saclay Quantronics (Patrice Bertet) & ENS Paris Biomolecular NMR (Fabien Ferrage)",
+      "org": "CEA Paris-Saclay & École Normale Supérieure (ENS PSL)",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-31",
+      "cycle": "Rolling ANR/ERC postdoc openings via CNRS & CEA",
+      "location": "Paris & Saclay, France",
+      "tags": [
+        "Superconducting Spin Resonance",
+        "High-Resolution NMR & Relaxation",
+        "Spin Dynamics"
+      ],
+      "url": "https://iramis.cea.fr/spec/pho/quantronics/"
+    },
+    {
+      "id": "pd-lab-oxford-mainz",
+      "name": "Oxford Spin Resonance (John Morton / Simon Benjamin) & Mainz Magnetometry (Dmitry Budker)",
+      "org": "University of Oxford & Helmholtz Institute Mainz",
+      "subType": "lab-opening",
+      "region": "Europe & UK",
+      "date": "2026-12-31",
+      "cycle": "Rolling postdoc calls on Oxford Physics & JGU Mainz portals",
+      "location": "Oxford, UK & Mainz, Germany",
+      "tags": [
+        "ESR / NMR Spin Control",
+        "Zero-Field NMR (ZULF)",
+        "NV Magnetometry",
+        "Open Systems"
+      ],
+      "url": "https://www.physics.ox.ac.uk/about-us/jobs"
+    },
+    {
+      "id": "pd-board-quantiki",
+      "name": "Quantiki — Live Quantum Information, Open Systems & Spin Postdoc Board",
+      "org": "Quantiki Community Portal",
+      "subType": "job-board",
+      "region": "Global Feed",
+      "date": "2026-12-31",
+      "cycle": "Updated daily · Global academic postdoc feed",
+      "location": "Europe, UK, US, Asia & Israel",
+      "tags": [
+        "Open Quantum Systems",
+        "Quantum Control",
+        "NV Sensing",
+        "Quantum Information"
+      ],
+      "url": "https://www.quantiki.org/positions"
+    },
+    {
+      "id": "pd-board-euraxess",
+      "name": "EURAXESS — European Quantum Physics, Magnetic Resonance & MSCA Hosting Portal",
+      "org": "European Commission EURAXESS",
+      "subType": "job-board",
+      "region": "Global Feed",
+      "date": "2026-12-31",
+      "cycle": "Updated daily · Filterable by country & grant",
+      "location": "All EU Member States, UK & Switzerland",
+      "tags": [
+        "ERC / Horizon Postdocs",
+        "MSCA Host Offers",
+        "NMR & Quantum Sensing"
+      ],
+      "url": "https://euraxess.ec.europa.eu/jobs/search"
+    },
+    {
+      "id": "pd-board-ajo-aps",
+      "name": "AcademicJobsOnline & APS Physics Postdoctoral Openings Board",
+      "org": "AcademicJobsOnline (AJO) & American Physical Society",
+      "subType": "job-board",
+      "region": "Global Feed",
+      "date": "2026-12-31",
+      "cycle": "Peak postdoc hiring season (Nov–Feb) + rolling",
+      "location": "US, Europe & Global",
+      "tags": [
+        "AMO & Quantum Sensing",
+        "Condensed Matter Theory",
+        "Open Quantum Systems"
+      ],
+      "url": "https://academicjobsonline.org/ajo/Physics"
     }
   ]
 }

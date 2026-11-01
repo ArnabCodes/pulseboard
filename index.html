@@ -656,6 +656,89 @@
           </div>
         </section>
 
+        <!-- § 04 · Faculty & Corporate Quantum Careers Board -->
+        <section id="career-board-section" aria-labelledby="career-board-heading" class="mt-12 pt-8 border-t border-stone-200/90 scroll-mt-20">
+          <div id="career-board-header" class="flex flex-wrap items-start sm:items-end justify-between gap-3 pb-3 mb-4 border-b border-stone-200/90">
+            <div class="min-w-0">
+              <p id="career-board-kicker" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 04 · Academic &amp; Corporate Opportunities</p>
+              <h2 id="career-board-heading" class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight">
+                Faculty &amp; Quantum Industry Board
+              </h2>
+              <p id="career-board-subtitle" class="text-xs text-stone-500 mt-0.5">Assistant Professorships (India, France, EU, US, Middle East) &amp; Corporate R&amp;D (Open Quantum Systems, Quantum Tech, NV/NMR, Computational Physics — EU, India, Remote)</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span id="career-board-count" class="font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border border-stone-200 bg-stone-100 text-stone-700">45 roles</span>
+              <button type="button" id="btn-career-collapse" aria-expanded="true" aria-controls="career-board-body" aria-label="Collapse faculty and industry board" class="w-8 h-8 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-100 transition-colors flex items-center justify-center" title="Collapse / expand board"><span id="career-chevron" aria-hidden="true">▾</span></button>
+            </div>
+          </div>
+
+          <div id="career-board-body" class="space-y-4">
+            <!-- Direct Live Job-Board Search Strip -->
+            <div id="career-quicklinks" class="flex flex-wrap items-center gap-1.5 p-3 rounded-xl border border-stone-200/90 bg-stone-50/80">
+              <span id="career-quicklinks-label" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-800 mr-1">Live Portals:</span>
+              <a href="https://www.linkedin.com/jobs/search/?keywords=%22open%20quantum%22%20OR%20%22quantum%20control%22%20OR%20%22quantum%20sensing%22%20OR%20%22NV%20center%22" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">LinkedIn · Open Quantum &amp; Sensing ↗</a>
+              <a href="https://www.linkedin.com/jobs/search/?keywords=%22computational%20physicist%22%20OR%20%22quantum%20physicist%22&amp;location=European%20Union" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">LinkedIn · EU Quantum/Comp. Phys. ↗</a>
+              <a href="https://www.linkedin.com/jobs/search/?keywords=%22quantum%22%20OR%20%22computational%20physicist%22&amp;location=India" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">LinkedIn · India Quantum ↗</a>
+              <a href="https://academicjobsonline.org/ajo/Physics" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">AcademicJobsOnline ↗</a>
+              <a href="https://euraxess.ec.europa.eu/jobs/search" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">EURAXESS ↗</a>
+              <a href="https://emploi.cnrs.fr/" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">CNRS Emploi ↗</a>
+              <a href="https://careers.aps.org/" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border border-stone-200 bg-white text-stone-700 hover:border-amber-700 transition-colors">APS Physics Jobs ↗</a>
+            </div>
+
+            <!-- Filter Pills + Instant Search -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div id="career-filters" class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-career-filter="all" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-stone-900 text-white transition-colors">All Roles</button>
+                <button type="button" data-career-filter="faculty-india" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Faculty · India</button>
+                <button type="button" data-career-filter="faculty-eu" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Faculty · France &amp; EU</button>
+                <button type="button" data-career-filter="faculty-us-me" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Faculty · US &amp; Middle East</button>
+                <button type="button" data-career-filter="corp-eu" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Corporate · EU &amp; UK</button>
+                <button type="button" data-career-filter="corp-india" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Corporate · India</button>
+                <button type="button" data-career-filter="corp-remote" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Remote &amp; Global</button>
+                <button type="button" data-career-filter="tracked" class="career-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">★ Tracked</button>
+              </div>
+              <input id="career-search-input" type="search" placeholder="Filter IIT, CNRS, Qruise, NV, GRAPE…" aria-label="Filter faculty and corporate jobs" class="w-full sm:w-56 rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-xs text-stone-900 placeholder-stone-400 focus:border-amber-700 focus:outline-none" />
+            </div>
+
+            <div id="career-board-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+        </section>
+
+        <!-- § 05 · Postdoctoral Fellowships & Lab Openings Board -->
+        <section id="postdoc-board-section" aria-labelledby="postdoc-board-heading" class="mt-12 pt-8 border-t border-stone-200/90 scroll-mt-20">
+          <div id="postdoc-board-header" class="flex flex-wrap items-start sm:items-end justify-between gap-3 pb-3 mb-4 border-b border-stone-200/90">
+            <div class="min-w-0">
+              <p id="postdoc-board-kicker" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 05 · Postdoctoral Applications &amp; Fellowships</p>
+              <h2 id="postdoc-board-heading" class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight">
+                Postdoc &amp; Fellowship Board
+              </h2>
+              <p id="postdoc-board-subtitle" class="text-xs text-stone-500 mt-0.5">Prestigious Global Fellowships &amp; Leading Research Groups in NMR, NV/Diamond Quantum Sensing, Optimal Control, Floquet &amp; Open Quantum Systems</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span id="postdoc-board-count" class="font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border border-stone-200 bg-stone-100 text-stone-700">34 openings</span>
+              <button type="button" id="btn-postdoc-collapse" aria-expanded="true" aria-controls="postdoc-board-body" aria-label="Collapse postdoc board" class="w-8 h-8 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-100 transition-colors flex items-center justify-center" title="Collapse / expand postdoc board"><span id="postdoc-chevron" aria-hidden="true">▾</span></button>
+            </div>
+          </div>
+
+          <div id="postdoc-board-body" class="space-y-4">
+            <!-- Filter Pills + Instant Search -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div id="postdoc-filters" class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-postdoc-filter="all" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-stone-900 text-white transition-colors">All Postdocs</button>
+                <button type="button" data-postdoc-filter="fellowship-eu" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Fellowships · Europe &amp; UK</button>
+                <button type="button" data-postdoc-filter="fellowship-us" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Fellowships · US &amp; Canada</button>
+                <button type="button" data-postdoc-filter="fellowship-in-il" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Fellowships · India &amp; Israel</button>
+                <button type="button" data-postdoc-filter="lab-opening" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">NV, NMR &amp; Control Labs</button>
+                <button type="button" data-postdoc-filter="job-board" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Live Aggregators</button>
+                <button type="button" data-postdoc-filter="tracked" class="postdoc-filter-btn px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">★ Tracked</button>
+              </div>
+              <input id="postdoc-search-input" type="search" placeholder="Filter Humboldt, Jelezko, Degen, NMR…" aria-label="Filter postdoc fellowships and labs" class="w-full sm:w-56 rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-xs text-stone-900 placeholder-stone-400 focus:border-amber-700 focus:outline-none" />
+            </div>
+
+            <div id="postdoc-board-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+        </section>
+
       </div>
 
       <!-- Right Column: Routines, Schedule & Priorities Command Column (4 cols) -->
@@ -3537,6 +3620,8 @@ Key Insights:
       renderStreakChip(isNight);
       renderThisDay(isNight);
       renderDeadlines(isNight);
+      if (typeof renderCareerBoard === 'function') renderCareerBoard(isNight);
+      if (typeof renderPostdocBoard === 'function') renderPostdocBoard(isNight);
       pbEnsureVaultStories();
       renderVault(isNight);
     }
@@ -6627,8 +6712,42 @@ Key Insights:
       pbThisDayEnsureBtn(); // '↻ Another' (item 64)
     }
 
-    // ---- Conference deadlines (deadlines.json, no-store) ----
+    // ---- Conference, Faculty/Industry & Postdoc deadlines (deadlines.json, no-store) ----
     let deadlinesDb = null;
+    let careerJobsDb = [];
+    let postdocsDb = [];
+    let activeDeadlineTab = 'conferences';
+    let activeCareerFilter = 'all';
+    let activeCareerQuery = '';
+    let activePostdocFilter = 'all';
+    let activePostdocQuery = '';
+
+    function pbTrackedOpps() {
+      if (!Array.isArray(pbPrefs.trackedOpportunities)) pbPrefs.trackedOpportunities = [];
+      return pbPrefs.trackedOpportunities;
+    }
+
+    function pbIsOppTracked(id) {
+      return pbTrackedOpps().includes(id);
+    }
+
+    function pbToggleTrackOpp(id, label) {
+      if (!id) return;
+      const list = pbTrackedOpps();
+      const idx = list.indexOf(id);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+        pbToast('Removed from tracked applications');
+      } else {
+        list.push(id);
+        pbToast('Tracked: ' + (label || 'Opportunity'));
+      }
+      pbSavePrefs();
+      pbHaptic(8);
+      const isNight = state.edition === 'night';
+      renderCareerBoard(isNight);
+      renderPostdocBoard(isNight);
+    }
 
     async function loadDeadlines() {
       try {
@@ -6636,7 +6755,12 @@ Key Insights:
         if (!res.ok) return;
         const db = await res.json();
         if (db && Array.isArray(db.deadlines)) deadlinesDb = db.deadlines;
-        renderDeadlines(state.edition === 'night');
+        if (db && Array.isArray(db.career_jobs)) careerJobsDb = db.career_jobs;
+        if (db && Array.isArray(db.postdocs)) postdocsDb = db.postdocs;
+        const isNight = state.edition === 'night';
+        renderDeadlines(isNight);
+        renderCareerBoard(isNight);
+        renderPostdocBoard(isNight);
       } catch (e) { /* offline: widget stays hidden */ }
     }
 
@@ -6648,23 +6772,105 @@ Key Insights:
       return Math.round((t - today) / 86400000); // midnight-to-midnight: exact day count
     }
 
+    function pbDeadlineChipSpec(days, isNight) {
+      if (days === null) return { text: 'rolling', tone: isNight ? 'bg-slate-800 text-slate-400' : 'bg-stone-100 text-stone-600' };
+      if (days < 0) return { text: 'closed', tone: isNight ? 'bg-slate-800 text-slate-500' : 'bg-stone-100 text-stone-400' };
+      if (days === 0) return { text: 'today', tone: 'bg-rose-500/15 text-rose-500' };
+      if (days < 10) return { text: 'in ' + days + 'd', tone: 'bg-rose-500/15 text-rose-500' };
+      if (days <= 35) return { text: 'in ' + days + 'd', tone: isNight ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-500/15 text-amber-800' };
+      return { text: 'in ' + days + 'd', tone: isNight ? 'bg-slate-800 text-slate-400' : 'bg-stone-100 text-stone-600' };
+    }
+
     function renderDeadlines(isNight) {
       const wrap = document.getElementById('deadlines-widget');
       if (!wrap) return;
-      if (!deadlinesDb || !deadlinesDb.length) { wrap.classList.add('hidden'); return; }
-      const list = deadlinesDb
-        .map(d => ({ d: d, days: pbDaysUntil(d.date) }))
-        .filter(x => x.days !== null && x.days > -31) // auto-hide >30 days past (item 65)
-        .sort((a, b) => a.days - b.days);
+      if ((!deadlinesDb || !deadlinesDb.length) && !careerJobsDb.length && !postdocsDb.length) {
+        wrap.classList.add('hidden');
+        return;
+      }
       wrap.innerHTML = '';
       wrap.className = 'mb-5 rounded-xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-stone-200/90 bg-white');
+
+      // Header + Tab switcher (Conferences | Faculty & Corporate | Postdocs | All)
+      const topBar = document.createElement('div');
+      topBar.className = 'flex flex-wrap items-center justify-between gap-2 mb-3';
       const head = document.createElement('p');
-      head.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] mb-2 ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
-      head.textContent = 'Upcoming Submission Deadlines';
-      wrap.appendChild(head);
+      head.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      head.textContent = 'Upcoming Submission & Application Deadlines';
+      topBar.appendChild(head);
+
+      const tabsWrap = document.createElement('div');
+      tabsWrap.className = 'flex flex-wrap items-center gap-1';
+      const tabDefs = [
+        { id: 'conferences', label: 'Conferences (' + (deadlinesDb ? deadlinesDb.length : 0) + ')' },
+        { id: 'career', label: 'Faculty & Industry (' + careerJobsDb.length + ')' },
+        { id: 'postdocs', label: 'Postdocs (' + postdocsDb.length + ')' },
+        { id: 'all', label: 'All Upcoming' }
+      ];
+      tabDefs.forEach(t => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        const active = activeDeadlineTab === t.id;
+        b.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded transition-colors ' + (active
+          ? (isNight ? 'bg-indigo-600 text-white' : 'bg-stone-900 text-white')
+          : (isNight ? 'bg-slate-800 text-slate-400 hover:bg-slate-700' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'));
+        b.textContent = t.label;
+        b.addEventListener('click', () => {
+          activeDeadlineTab = t.id;
+          renderDeadlines(state.edition === 'night');
+        });
+        tabsWrap.appendChild(b);
+      });
+      topBar.appendChild(tabsWrap);
+      wrap.appendChild(topBar);
+
+      let sourcePool = [];
+      if (activeDeadlineTab === 'conferences') {
+        sourcePool = (deadlinesDb || []).map(d => Object.assign({ _cat: 'CONF' }, d));
+      } else if (activeDeadlineTab === 'career') {
+        sourcePool = careerJobsDb.map(d => ({
+          name: d.name + ' — ' + d.org,
+          kind: (d.track === 'faculty' ? 'Faculty' : 'Corporate') + ' (' + d.region + ')',
+          location: d.location,
+          date: d.date,
+          url: d.url
+        }));
+      } else if (activeDeadlineTab === 'postdocs') {
+        sourcePool = postdocsDb.map(d => ({
+          name: d.name + ' — ' + d.org,
+          kind: d.subType === 'lab-opening' ? 'Lab Opening' : (d.subType === 'job-board' ? 'Live Portal' : 'Fellowship'),
+          location: d.location,
+          date: d.date,
+          url: d.url
+        }));
+      } else {
+        sourcePool = []
+          .concat((deadlinesDb || []).map(d => Object.assign({ _cat: 'CONF' }, d)))
+          .concat(careerJobsDb.map(d => ({
+            name: d.name + ' (' + d.org + ')',
+            kind: d.track === 'faculty' ? 'Faculty' : 'Corporate',
+            location: d.location,
+            date: d.date,
+            url: d.url
+          })))
+          .concat(postdocsDb.map(d => ({
+            name: d.name + ' (' + d.org + ')',
+            kind: 'Postdoc',
+            location: d.location,
+            date: d.date,
+            url: d.url
+          })));
+      }
+
+      const list = sourcePool
+        .map(d => ({ d: d, days: pbDaysUntil(d.date) }))
+        .filter(x => x.days !== null && x.days > -31)
+        .sort((a, b) => a.days - b.days)
+        .slice(0, activeDeadlineTab === 'conferences' ? 15 : 10);
+
       list.forEach(x => {
         const d = x.d;
-        const row = document.createElement('div'); // card row: link (left) + chip & Add (right)
+        const row = document.createElement('div');
         row.className = 'flex items-center justify-between gap-3 py-2 border-t ' + (isNight ? 'border-slate-800' : 'border-stone-100');
         const left = document.createElement('a');
         left.href = d.url || '#';
@@ -6675,23 +6881,16 @@ Key Insights:
         name.className = 'text-xs font-semibold truncate group-hover:underline ' + (isNight ? 'text-slate-200' : 'text-stone-800');
         name.textContent = d.name;
         const meta = document.createElement('p');
-        meta.className = 'font-mono-tabular text-[10px] ' + (isNight ? 'text-slate-500' : 'text-stone-400');
+        meta.className = 'font-mono-tabular text-[10px] truncate ' + (isNight ? 'text-slate-500' : 'text-stone-400');
         meta.textContent = [d.kind, d.location, d.date].filter(Boolean).join(' · ');
         left.appendChild(name); left.appendChild(meta);
         const right = document.createElement('div');
         right.className = 'flex items-center gap-2 shrink-0';
-        // days-left countdown chip (item 65): "in 12d" / "today" / "closed"
-        let text, tone;
-        if (x.days < 0) { text = 'closed'; tone = isNight ? 'bg-slate-800 text-slate-500' : 'bg-stone-100 text-stone-400'; }
-        else if (x.days === 0) { text = 'today'; tone = 'bg-rose-500/15 text-rose-500'; }
-        else if (x.days < 7) { text = 'in ' + x.days + 'd'; tone = 'bg-rose-500/15 text-rose-500'; }
-        else if (x.days <= 30) { text = 'in ' + x.days + 'd'; tone = 'bg-amber-500/15 text-amber-700'; }
-        else { text = 'in ' + x.days + 'd'; tone = isNight ? 'bg-slate-800 text-slate-400' : 'bg-stone-100 text-stone-600'; }
+        const spec = pbDeadlineChipSpec(x.days, isNight);
         const chip = document.createElement('span');
-        chip.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded whitespace-nowrap ' + tone;
-        chip.textContent = text;
+        chip.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded whitespace-nowrap ' + spec.tone;
+        chip.textContent = spec.text;
         right.appendChild(chip);
-        // + .ics download (item 66)
         const add = document.createElement('button');
         add.type = 'button';
         add.title = 'Add to calendar (.ics)';
@@ -6703,11 +6902,444 @@ Key Insights:
         row.appendChild(left); row.appendChild(right);
         wrap.appendChild(row);
       });
+
+      const footWrap = document.createElement('div');
+      footWrap.className = 'flex flex-wrap items-center justify-between gap-2 mt-2.5 pt-2 border-t ' + (isNight ? 'border-slate-800/80' : 'border-stone-100');
       const foot = document.createElement('p');
-      foot.className = 'font-mono-tabular text-[10px] mt-2 ' + (isNight ? 'text-slate-600' : 'text-stone-400');
-      foot.textContent = 'Submission deadlines — verified against official conference portals';
-      wrap.appendChild(foot);
+      foot.className = 'font-mono-tabular text-[10px] ' + (isNight ? 'text-slate-500' : 'text-stone-400');
+      foot.textContent = 'Verified against official conference, university & corporate portals';
+      footWrap.appendChild(foot);
+
+      const jumpLinks = document.createElement('div');
+      jumpLinks.className = 'flex items-center gap-3';
+      const j1 = document.createElement('a');
+      j1.href = '#career-board-section';
+      j1.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      j1.textContent = '§ 04 Faculty & Industry Board ↓';
+      const j2 = document.createElement('a');
+      j2.href = '#postdoc-board-section';
+      j2.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      j2.textContent = '§ 05 Postdoc Board ↓';
+      jumpLinks.appendChild(j1);
+      jumpLinks.appendChild(j2);
+      footWrap.appendChild(jumpLinks);
+      wrap.appendChild(footWrap);
     }
+
+    function renderCareerBoard(isNight) {
+      const section = document.getElementById('career-board-section');
+      const grid = document.getElementById('career-board-grid');
+      if (!section || !grid) return;
+      if (!careerJobsDb || !careerJobsDb.length) return;
+
+      section.className = 'mt-12 pt-8 border-t scroll-mt-20 ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
+      const headerEl = document.getElementById('career-board-header');
+      if (headerEl) headerEl.className = 'flex flex-wrap items-start sm:items-end justify-between gap-3 pb-3 mb-4 border-b ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
+      const kicker = document.getElementById('career-board-kicker');
+      if (kicker) kicker.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] mb-1 ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      const sub = document.getElementById('career-board-subtitle');
+      if (sub) sub.className = 'text-xs mt-0.5 ' + (isNight ? 'text-slate-400' : 'text-stone-500');
+
+      const quicklinks = document.getElementById('career-quicklinks');
+      if (quicklinks) {
+        quicklinks.className = 'flex flex-wrap items-center gap-1.5 p-3 rounded-xl border ' + (isNight ? 'border-slate-800 bg-slate-900/70' : 'border-stone-200/90 bg-stone-50/80');
+        const qlLabel = document.getElementById('career-quicklinks-label');
+        if (qlLabel) qlLabel.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] mr-1 ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+        quicklinks.querySelectorAll('a').forEach(a => {
+          a.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-1 rounded border transition-colors ' + (isNight
+            ? 'border-slate-700 bg-slate-900 text-slate-300 hover:border-indigo-500'
+            : 'border-stone-200 bg-white text-stone-700 hover:border-amber-700');
+        });
+      }
+
+      const searchInput = document.getElementById('career-search-input');
+      if (searchInput) {
+        searchInput.className = 'w-full sm:w-60 rounded-lg border px-3 py-1.5 text-xs focus:outline-none ' + (isNight
+          ? 'border-slate-700 bg-slate-900 text-slate-100 placeholder-slate-500 focus:border-indigo-500'
+          : 'border-stone-200 bg-white text-stone-900 placeholder-stone-400 focus:border-amber-700');
+      }
+
+      const collapseBtn = document.getElementById('btn-career-collapse');
+      const body = document.getElementById('career-board-body');
+      const chevron = document.getElementById('career-chevron');
+      const collapsed = !!pbPrefs.careerCollapsed;
+      if (body) body.classList.toggle('hidden', collapsed);
+      if (collapseBtn) {
+        collapseBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        collapseBtn.className = 'w-8 h-8 rounded-lg border flex items-center justify-center transition-colors ' + (isNight
+          ? 'border-slate-800 text-slate-400 hover:bg-slate-800'
+          : 'border-stone-200 text-stone-500 hover:bg-stone-100');
+      }
+      if (chevron) chevron.textContent = collapsed ? '▸' : '▾';
+
+      // Update filter buttons
+      document.querySelectorAll('.career-filter-btn').forEach(btn => {
+        const f = btn.getAttribute('data-career-filter');
+        const active = f === activeCareerFilter;
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        btn.className = 'career-filter-btn px-2.5 py-1 rounded-md text-xs transition-colors ' + (active
+          ? (isNight ? 'font-semibold bg-indigo-600 text-white' : 'font-semibold bg-stone-900 text-white')
+          : (isNight ? 'font-medium bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800' : 'font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100'));
+      });
+
+      const q = activeCareerQuery.trim().toLowerCase();
+      const filtered = careerJobsDb.filter(item => {
+        if (activeCareerFilter === 'tracked' && !pbIsOppTracked(item.id)) return false;
+        if (activeCareerFilter !== 'all' && activeCareerFilter !== 'tracked' && item.filterGroup !== activeCareerFilter) return false;
+        if (!q) return true;
+        const hay = [item.name, item.org, item.region, item.location, item.cycle, item.fit].concat(item.tags || []).join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+
+      const countEl = document.getElementById('career-board-count');
+      if (countEl) {
+        countEl.textContent = filtered.length + (filtered.length === 1 ? ' role' : ' roles');
+        countEl.className = 'font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border ' + (isNight
+          ? 'border-slate-700 bg-slate-800 text-slate-300'
+          : 'border-stone-200 bg-stone-100 text-stone-700');
+      }
+
+      grid.innerHTML = '';
+      if (!filtered.length) {
+        const empty = document.createElement('div');
+        empty.className = 'col-span-full rounded-xl border p-6 text-center text-xs ' + (isNight ? 'border-slate-800 bg-slate-900/50 text-slate-400' : 'border-stone-200 bg-stone-50 text-stone-500');
+        empty.textContent = activeCareerFilter === 'tracked'
+          ? 'No tracked faculty or corporate roles yet — click "☆ Track" on any card to pin it here.'
+          : 'No matching faculty or corporate roles for this filter.';
+        grid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(item => {
+        const days = pbDaysUntil(item.date);
+        const spec = pbDeadlineChipSpec(days, isNight);
+        const tracked = pbIsOppTracked(item.id);
+        const isFaculty = item.track === 'faculty';
+
+        const card = document.createElement('article');
+        card.className = 'rounded-xl p-4 sm:p-5 border transition-all card-hover flex flex-col justify-between ' + (isNight
+          ? 'bg-slate-900 border-slate-800 hover:border-slate-700'
+          : 'bg-white border-stone-200/90 shadow-[0_1px_2px_rgba(15,23,42,0.03)] hover:border-stone-300');
+
+        const top = document.createElement('div');
+        const badgeRow = document.createElement('div');
+        badgeRow.className = 'flex items-center justify-between gap-2 mb-2';
+
+        const trackBadge = document.createElement('span');
+        trackBadge.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.12em] px-2 py-0.5 rounded border ' + (isFaculty
+          ? (isNight ? 'bg-indigo-950/60 border-indigo-800/60 text-indigo-300' : 'bg-amber-50/90 border-amber-200/90 text-amber-900')
+          : (isNight ? 'bg-emerald-950/50 border-emerald-800/60 text-emerald-300' : 'bg-emerald-50/90 border-emerald-200/90 text-emerald-900'));
+        trackBadge.textContent = (isFaculty ? 'FACULTY · ' : 'CORPORATE · ') + item.region.toUpperCase();
+
+        const rightBadges = document.createElement('div');
+        rightBadges.className = 'flex items-center gap-1.5 shrink-0';
+        const dChip = document.createElement('span');
+        dChip.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded whitespace-nowrap ' + spec.tone;
+        dChip.textContent = spec.text + ' · ' + item.date;
+        rightBadges.appendChild(dChip);
+
+        badgeRow.appendChild(trackBadge);
+        badgeRow.appendChild(rightBadges);
+        top.appendChild(badgeRow);
+
+        const titleLink = document.createElement('a');
+        titleLink.href = item.url;
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener';
+        titleLink.className = 'block group';
+        const h3 = document.createElement('h3');
+        h3.className = 'font-serif-editorial text-base sm:text-[17px] font-semibold leading-snug group-hover:underline ' + (isNight ? 'text-slate-100' : 'text-stone-900');
+        h3.textContent = item.name;
+        titleLink.appendChild(h3);
+        top.appendChild(titleLink);
+
+        const orgMeta = document.createElement('p');
+        orgMeta.className = 'font-mono-tabular text-[11px] font-semibold mt-1 ' + (isNight ? 'text-indigo-300' : 'text-amber-900');
+        orgMeta.textContent = item.org + ' · ' + item.location;
+        top.appendChild(orgMeta);
+
+        const cycleP = document.createElement('p');
+        cycleP.className = 'font-mono-tabular text-[10px] mt-1 ' + (isNight ? 'text-slate-400' : 'text-stone-500');
+        cycleP.textContent = item.cycle;
+        top.appendChild(cycleP);
+
+        if (item.fit) {
+          const fitP = document.createElement('p');
+          fitP.className = 'text-xs leading-relaxed mt-2 ' + (isNight ? 'text-slate-300' : 'text-stone-600');
+          fitP.textContent = item.fit;
+          top.appendChild(fitP);
+        }
+
+        if (Array.isArray(item.tags) && item.tags.length) {
+          const tagWrap = document.createElement('div');
+          tagWrap.className = 'flex flex-wrap gap-1 mt-2.5';
+          item.tags.forEach(t => {
+            const sp = document.createElement('span');
+            sp.className = 'font-mono-tabular text-[10px] px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-300' : 'bg-stone-100 text-stone-700');
+            sp.textContent = t;
+            tagWrap.appendChild(sp);
+          });
+          top.appendChild(tagWrap);
+        }
+
+        const foot = document.createElement('div');
+        foot.className = 'flex flex-wrap items-center justify-between gap-2 mt-3.5 pt-2.5 border-t ' + (isNight ? 'border-slate-800' : 'border-stone-200/70');
+
+        const applyLink = document.createElement('a');
+        applyLink.href = item.url;
+        applyLink.target = '_blank';
+        applyLink.rel = 'noopener';
+        applyLink.className = 'font-mono-tabular text-[11px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+        applyLink.textContent = 'Official Portal / Apply ↗';
+        foot.appendChild(applyLink);
+
+        const btns = document.createElement('div');
+        btns.className = 'flex items-center gap-1.5';
+
+        const icsBtn = document.createElement('button');
+        icsBtn.type = 'button';
+        icsBtn.className = 'font-mono-tabular px-2 py-0.5 rounded border text-[10px] font-semibold transition-colors ' + (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-stone-200 text-stone-600 hover:bg-stone-100');
+        icsBtn.textContent = '+ .ics';
+        icsBtn.title = 'Add deadline to calendar (.ics)';
+        icsBtn.addEventListener('click', () => pbDeadlineIcs({ name: item.name + ' (' + item.org + ')', date: item.date }));
+        btns.appendChild(icsBtn);
+
+        const trackBtn = document.createElement('button');
+        trackBtn.type = 'button';
+        trackBtn.className = 'font-mono-tabular px-2 py-0.5 rounded border text-[10px] font-semibold transition-colors ' + (tracked
+          ? 'bg-amber-600 border-amber-600 text-white'
+          : (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-stone-200 text-stone-600 hover:bg-stone-100'));
+        trackBtn.textContent = tracked ? '★ Tracked' : '☆ Track';
+        trackBtn.addEventListener('click', () => pbToggleTrackOpp(item.id, item.org));
+        btns.appendChild(trackBtn);
+
+        foot.appendChild(btns);
+        card.appendChild(top);
+        card.appendChild(foot);
+        grid.appendChild(card);
+      });
+    }
+
+    function renderPostdocBoard(isNight) {
+      const section = document.getElementById('postdoc-board-section');
+      const grid = document.getElementById('postdoc-board-grid');
+      if (!section || !grid) return;
+      if (!postdocsDb || !postdocsDb.length) return;
+
+      section.className = 'mt-12 pt-8 border-t scroll-mt-20 ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
+      const headerEl = document.getElementById('postdoc-board-header');
+      if (headerEl) headerEl.className = 'flex flex-wrap items-start sm:items-end justify-between gap-3 pb-3 mb-4 border-b ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
+      const kicker = document.getElementById('postdoc-board-kicker');
+      if (kicker) kicker.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] mb-1 ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      const sub = document.getElementById('postdoc-board-subtitle');
+      if (sub) sub.className = 'text-xs mt-0.5 ' + (isNight ? 'text-slate-400' : 'text-stone-500');
+
+      const searchInput = document.getElementById('postdoc-search-input');
+      if (searchInput) {
+        searchInput.className = 'w-full sm:w-60 rounded-lg border px-3 py-1.5 text-xs focus:outline-none ' + (isNight
+          ? 'border-slate-700 bg-slate-900 text-slate-100 placeholder-slate-500 focus:border-indigo-500'
+          : 'border-stone-200 bg-white text-stone-900 placeholder-stone-400 focus:border-amber-700');
+      }
+
+      const collapseBtn = document.getElementById('btn-postdoc-collapse');
+      const body = document.getElementById('postdoc-board-body');
+      const chevron = document.getElementById('postdoc-chevron');
+      const collapsed = !!pbPrefs.postdocCollapsed;
+      if (body) body.classList.toggle('hidden', collapsed);
+      if (collapseBtn) {
+        collapseBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        collapseBtn.className = 'w-8 h-8 rounded-lg border flex items-center justify-center transition-colors ' + (isNight
+          ? 'border-slate-800 text-slate-400 hover:bg-slate-800'
+          : 'border-stone-200 text-stone-500 hover:bg-stone-100');
+      }
+      if (chevron) chevron.textContent = collapsed ? '▸' : '▾';
+
+      document.querySelectorAll('.postdoc-filter-btn').forEach(btn => {
+        const f = btn.getAttribute('data-postdoc-filter');
+        const active = f === activePostdocFilter;
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        btn.className = 'postdoc-filter-btn px-2.5 py-1 rounded-md text-xs transition-colors ' + (active
+          ? (isNight ? 'font-semibold bg-indigo-600 text-white' : 'font-semibold bg-stone-900 text-white')
+          : (isNight ? 'font-medium bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800' : 'font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100'));
+      });
+
+      const q = activePostdocQuery.trim().toLowerCase();
+      const filtered = postdocsDb.filter(item => {
+        if (activePostdocFilter === 'tracked' && !pbIsOppTracked(item.id)) return false;
+        if (activePostdocFilter !== 'all' && activePostdocFilter !== 'tracked' && item.subType !== activePostdocFilter) return false;
+        if (!q) return true;
+        const hay = [item.name, item.org, item.region, item.location, item.cycle].concat(item.tags || []).join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+
+      const countEl = document.getElementById('postdoc-board-count');
+      if (countEl) {
+        countEl.textContent = filtered.length + (filtered.length === 1 ? ' opening' : ' openings');
+        countEl.className = 'font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border ' + (isNight
+          ? 'border-slate-700 bg-slate-800 text-slate-300'
+          : 'border-stone-200 bg-stone-100 text-stone-700');
+      }
+
+      grid.innerHTML = '';
+      if (!filtered.length) {
+        const empty = document.createElement('div');
+        empty.className = 'col-span-full rounded-xl border p-6 text-center text-xs ' + (isNight ? 'border-slate-800 bg-slate-900/50 text-slate-400' : 'border-stone-200 bg-stone-50 text-stone-500');
+        empty.textContent = activePostdocFilter === 'tracked'
+          ? 'No tracked postdoc applications yet — click "☆ Track" on any fellowship or lab card to pin it here.'
+          : 'No matching postdoctoral fellowships or labs for this filter.';
+        grid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(item => {
+        const days = pbDaysUntil(item.date);
+        const spec = pbDeadlineChipSpec(days, isNight);
+        const tracked = pbIsOppTracked(item.id);
+        const isLab = item.subType === 'lab-opening';
+        const isBoard = item.subType === 'job-board';
+
+        const card = document.createElement('article');
+        card.className = 'rounded-xl p-4 sm:p-5 border transition-all card-hover flex flex-col justify-between ' + (isNight
+          ? 'bg-slate-900 border-slate-800 hover:border-slate-700'
+          : 'bg-white border-stone-200/90 shadow-[0_1px_2px_rgba(15,23,42,0.03)] hover:border-stone-300');
+
+        const top = document.createElement('div');
+        const badgeRow = document.createElement('div');
+        badgeRow.className = 'flex items-center justify-between gap-2 mb-2';
+
+        const typeBadge = document.createElement('span');
+        typeBadge.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.12em] px-2 py-0.5 rounded border ' + (isLab
+          ? (isNight ? 'bg-teal-950/60 border-teal-800/60 text-teal-300' : 'bg-teal-50/90 border-teal-200/90 text-teal-900')
+          : isBoard
+          ? (isNight ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-stone-100 border-stone-200 text-stone-700')
+          : (isNight ? 'bg-indigo-950/60 border-indigo-800/60 text-indigo-300' : 'bg-amber-50/90 border-amber-200/90 text-amber-900'));
+        typeBadge.textContent = (isLab ? 'RESEARCH LAB · ' : isBoard ? 'LIVE AGGREGATOR · ' : 'FELLOWSHIP · ') + item.region.toUpperCase();
+
+        const dChip = document.createElement('span');
+        dChip.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded whitespace-nowrap ' + spec.tone;
+        dChip.textContent = spec.text + ' · ' + item.date;
+
+        badgeRow.appendChild(typeBadge);
+        badgeRow.appendChild(dChip);
+        top.appendChild(badgeRow);
+
+        const titleLink = document.createElement('a');
+        titleLink.href = item.url;
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener';
+        titleLink.className = 'block group';
+        const h3 = document.createElement('h3');
+        h3.className = 'font-serif-editorial text-base sm:text-[17px] font-semibold leading-snug group-hover:underline ' + (isNight ? 'text-slate-100' : 'text-stone-900');
+        h3.textContent = item.name;
+        titleLink.appendChild(h3);
+        top.appendChild(titleLink);
+
+        const orgMeta = document.createElement('p');
+        orgMeta.className = 'font-mono-tabular text-[11px] font-semibold mt-1 ' + (isNight ? 'text-indigo-300' : 'text-amber-900');
+        orgMeta.textContent = item.org + ' · ' + item.location;
+        top.appendChild(orgMeta);
+
+        const cycleP = document.createElement('p');
+        cycleP.className = 'font-mono-tabular text-[10px] mt-1 ' + (isNight ? 'text-slate-400' : 'text-stone-500');
+        cycleP.textContent = item.cycle;
+        top.appendChild(cycleP);
+
+        if (Array.isArray(item.tags) && item.tags.length) {
+          const tagWrap = document.createElement('div');
+          tagWrap.className = 'flex flex-wrap gap-1 mt-2.5';
+          item.tags.forEach(t => {
+            const sp = document.createElement('span');
+            sp.className = 'font-mono-tabular text-[10px] px-1.5 py-0.5 rounded ' + (isNight ? 'bg-slate-800 text-slate-300' : 'bg-stone-100 text-stone-700');
+            sp.textContent = t;
+            tagWrap.appendChild(sp);
+          });
+          top.appendChild(tagWrap);
+        }
+
+        const foot = document.createElement('div');
+        foot.className = 'flex flex-wrap items-center justify-between gap-2 mt-3.5 pt-2.5 border-t ' + (isNight ? 'border-slate-800' : 'border-stone-200/70');
+
+        const applyLink = document.createElement('a');
+        applyLink.href = item.url;
+        applyLink.target = '_blank';
+        applyLink.rel = 'noopener';
+        applyLink.className = 'font-mono-tabular text-[11px] font-semibold uppercase tracking-wider hover:underline ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+        applyLink.textContent = (isLab ? 'Group Portal / Openings ↗' : 'Fellowship Portal ↗');
+        foot.appendChild(applyLink);
+
+        const btns = document.createElement('div');
+        btns.className = 'flex items-center gap-1.5';
+
+        const icsBtn = document.createElement('button');
+        icsBtn.type = 'button';
+        icsBtn.className = 'font-mono-tabular px-2 py-0.5 rounded border text-[10px] font-semibold transition-colors ' + (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-stone-200 text-stone-600 hover:bg-stone-100');
+        icsBtn.textContent = '+ .ics';
+        icsBtn.title = 'Add deadline to calendar (.ics)';
+        icsBtn.addEventListener('click', () => pbDeadlineIcs({ name: item.name + ' (' + item.org + ')', date: item.date }));
+        btns.appendChild(icsBtn);
+
+        const trackBtn = document.createElement('button');
+        trackBtn.type = 'button';
+        trackBtn.className = 'font-mono-tabular px-2 py-0.5 rounded border text-[10px] font-semibold transition-colors ' + (tracked
+          ? 'bg-amber-600 border-amber-600 text-white'
+          : (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-stone-200 text-stone-600 hover:bg-stone-100'));
+        trackBtn.textContent = tracked ? '★ Tracked' : '☆ Track';
+        trackBtn.addEventListener('click', () => pbToggleTrackOpp(item.id, item.name));
+        btns.appendChild(trackBtn);
+
+        foot.appendChild(btns);
+        card.appendChild(top);
+        card.appendChild(foot);
+        grid.appendChild(card);
+      });
+    }
+
+    // Wire Career & Postdoc Board filter buttons, search inputs, and collapse toggles
+    (function pbInitOpportunityBoards() {
+      document.querySelectorAll('.career-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeCareerFilter = btn.getAttribute('data-career-filter') || 'all';
+          renderCareerBoard(state.edition === 'night');
+        });
+      });
+      const cSearch = document.getElementById('career-search-input');
+      if (cSearch) {
+        cSearch.addEventListener('input', () => {
+          activeCareerQuery = cSearch.value || '';
+          renderCareerBoard(state.edition === 'night');
+        });
+      }
+      const cCollapse = document.getElementById('btn-career-collapse');
+      if (cCollapse) {
+        cCollapse.addEventListener('click', () => {
+          pbPrefs.careerCollapsed = !pbPrefs.careerCollapsed;
+          pbSavePrefs();
+          renderCareerBoard(state.edition === 'night');
+        });
+      }
+
+      document.querySelectorAll('.postdoc-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activePostdocFilter = btn.getAttribute('data-postdoc-filter') || 'all';
+          renderPostdocBoard(state.edition === 'night');
+        });
+      });
+      const pSearch = document.getElementById('postdoc-search-input');
+      if (pSearch) {
+        pSearch.addEventListener('input', () => {
+          activePostdocQuery = pSearch.value || '';
+          renderPostdocBoard(state.edition === 'night');
+        });
+      }
+      const pCollapse = document.getElementById('btn-postdoc-collapse');
+      if (pCollapse) {
+        pCollapse.addEventListener('click', () => {
+          pbPrefs.postdocCollapsed = !pbPrefs.postdocCollapsed;
+          pbSavePrefs();
+          renderPostdocBoard(state.edition === 'night');
+        });
+      }
+    })();
 
     function pbLoadDailies() { loadThisDay(); loadDeadlines(); }
 
@@ -6740,6 +7372,8 @@ Key Insights:
     function pbSearchFields(kind, item) {
       if (kind === 'Stories') return [item.title, item.dek, item.content, item.source, item.author];
       if (kind === 'Papers') return [item.title, item.authors, item.tldr, item.journal];
+      if (kind === 'Faculty & Industry') return [item.name, item.org, item.region, item.location, item.cycle, item.fit].concat(item.tags || []);
+      if (kind === 'Postdocs & Fellowships') return [item.name, item.org, item.region, item.location, item.cycle].concat(item.tags || []);
       if (kind === 'Tasks') return [item.text];
       if (kind === 'Routines') return [item.text];
       return [item.tradition, item.theme, item.quote, item.reflection];
@@ -6783,7 +7417,8 @@ Key Insights:
     }
 
     function pbSearchResultRow(kind, item, q, isNight) {
-      const row = document.createElement(kind === 'Papers' && item.url ? 'a' : 'button');
+      const isExternal = (kind === 'Papers' || kind === 'Faculty & Industry' || kind === 'Postdocs & Fellowships') && item.url;
+      const row = document.createElement(isExternal ? 'a' : 'button');
       if (row.tagName === 'BUTTON') row.type = 'button';
       else { row.href = item.url; row.target = '_blank'; row.rel = 'noopener'; }
       row.className = 'w-full text-left rounded-2xl border p-3.5 mb-2 block transition-colors ' + (isNight
@@ -6794,11 +7429,12 @@ Key Insights:
       if ((kind === 'Tasks' || kind === 'Routines') && item.done) {
         title.classList.add('line-through', 'opacity-60');
       }
-      pbHighlight(title, item.title || item.quote || item.text || '', q, isNight);
+      pbHighlight(title, item.title || item.name || item.quote || item.text || '', q, isNight);
       const meta = document.createElement('p');
       meta.className = 'text-[11px] mt-1 ' + (isNight ? 'text-slate-500' : 'text-slate-400');
       if (kind === 'Stories') meta.textContent = item.source || '';
       if (kind === 'Papers') meta.textContent = [item.authors, item.journal].filter(Boolean).join(' · ');
+      if (kind === 'Faculty & Industry' || kind === 'Postdocs & Fellowships') meta.textContent = [item.org, item.location, item.date].filter(Boolean).join(' · ');
       if (kind === 'Teachings') meta.textContent = [item.tradition, item.theme].filter(Boolean).join(' · ');
       if (kind === 'Tasks') meta.textContent = (item.done ? '✓ done' : '○ open') + (item.recurring ? ' · ' + item.recurring : '') + ' · tap to toggle';
       if (kind === 'Routines') meta.textContent = (item.done ? '✓ done' : '○ open') + ' · ' + state.edition + ' routine · tap to toggle';
@@ -6806,6 +7442,7 @@ Key Insights:
       snip.className = 'text-xs leading-relaxed mt-1 ' + (isNight ? 'text-slate-400' : 'text-slate-600');
       const snipSrc = kind === 'Stories' ? (item.dek || item.content || '')
         : kind === 'Papers' ? (item.tldr || '')
+        : (kind === 'Faculty & Industry' || kind === 'Postdocs & Fellowships') ? ([item.cycle, item.fit].concat(item.tags || []).filter(Boolean).join(' · '))
         : kind === 'Tasks' || kind === 'Routines' ? ''
         : (item.reflection || item.theme || '');
       if (snipSrc) pbHighlight(snip, pbSnippet(snipSrc, q, 60), q, isNight);
@@ -6848,13 +7485,15 @@ Key Insights:
       if (q.length < 2) {
         // empty query: recent searches as chips above the hint (item 62)
         pbRenderRecentChips(results, isNight);
-        pbSearchEmptyState(results, q ? 'Keep typing — search needs at least 2 characters.' : 'Search your stories, papers, teachings, tasks and routines.');
+        pbSearchEmptyState(results, q ? 'Keep typing — search needs at least 2 characters.' : 'Search your stories, papers, faculty/corporate jobs, postdocs, teachings, tasks and routines.');
         return;
       }
       const lower = q.toLowerCase();
       const groups = [
         { kind: 'Stories', items: state.stories.filter(s => pbSearchFields('Stories', s).some(f => f && String(f).toLowerCase().includes(lower))) },
         { kind: 'Papers', items: state.papers.filter(p => pbSearchFields('Papers', p).some(f => f && String(f).toLowerCase().includes(lower))) },
+        { kind: 'Faculty & Industry', items: (careerJobsDb || []).filter(j => pbSearchFields('Faculty & Industry', j).some(f => f && String(f).toLowerCase().includes(lower))) },
+        { kind: 'Postdocs & Fellowships', items: (postdocsDb || []).filter(p => pbSearchFields('Postdocs & Fellowships', p).some(f => f && String(f).toLowerCase().includes(lower))) },
         { kind: 'Teachings', items: teachingsDb.filter(t => pbSearchFields('Teachings', t).some(f => f && String(f).toLowerCase().includes(lower))) },
         { kind: 'Tasks', items: state.tasks.filter(t => pbSearchFields('Tasks', t).some(f => f && String(f).toLowerCase().includes(lower))) },
         { kind: 'Routines', items: (state.routines[state.edition] || []).filter(r => pbSearchFields('Routines', r).some(f => f && String(f).toLowerCase().includes(lower))) }
