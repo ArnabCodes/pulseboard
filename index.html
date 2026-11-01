@@ -326,7 +326,7 @@
 
     <!-- PIN entry — hidden until the fingerprint misses 3 times (or via "Use PIN") -->
     <div id="pin-section" class="hidden w-full flex-col items-center mt-3">
-      <div id="pin-dots" class="flex justify-center gap-4 mb-6">
+      <div id="pin-dots" class="flex justify-center gap-4 mb-6" role="group" aria-label="PIN entry" aria-live="polite">
         <div class="pin-dot w-2.5 h-2.5 rounded-full border border-slate-600 bg-transparent transition-colors duration-200"></div>
         <div class="pin-dot w-2.5 h-2.5 rounded-full border border-slate-600 bg-transparent transition-colors duration-200"></div>
         <div class="pin-dot w-2.5 h-2.5 rounded-full border border-slate-600 bg-transparent transition-colors duration-200"></div>
@@ -1790,9 +1790,14 @@ Key Insights:
     // data (tasks, routines) in the vault untouched.
     async function refreshContentFromFeed(force) {
       try {
-        const res = await fetch('pulse_feed.json', { cache: 'no-cache' });
-        if (!res.ok) throw new Error('feed http ' + res.status);
-        const feed = await res.json();
+        // pbFetchJSON (boot block): AbortController timeout + one retry —
+        // a hung CDN can no longer stall the post-unlock refresh forever.
+        const feed = (typeof window.pbFetchJSON === 'function')
+          ? await window.pbFetchJSON('pulse_feed.json', 10000)
+          : await fetch('pulse_feed.json', { cache: 'no-cache' }).then(r => {
+              if (!r.ok) throw new Error('feed http ' + r.status);
+              return r.json();
+            });
         if (!feed || !feed.generated_at) return;
         if (!force && localStorage.getItem('pulseboard_feed_stamp') === feed.generated_at) return;
         if (!Array.isArray(feed.stories) || !feed.stories.length) return;
@@ -1825,7 +1830,13 @@ Key Insights:
 
     function initSecurityGate() {
       updateGateClock();
-      setInterval(updateGateClock, 15000);
+      // Exposed for the visibilitychange battery hook (see boot block):
+      // hidden → clearInterval, visible → __pbClockStart + immediate tick.
+      window.__pbClockTimer = setInterval(updateGateClock, 15000);
+      window.__pbClockStart = () => {
+        if (window.__pbClockTimer == null) window.__pbClockTimer = setInterval(updateGateClock, 15000);
+      };
+      window.__pbClockTick = updateGateClock;
       setGateThemeColor(true);
       refreshGateMode();
       trySilentUnlock();
