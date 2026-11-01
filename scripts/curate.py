@@ -492,6 +492,39 @@ def pick_papers():
     return papers
 
 
+# arXiv serves no per-paper imagery (only the generic site logo), so research
+# digests get distinct CATEGORY visuals — verified Unsplash pool, larger than
+# any single edition's paper count, deterministic pick by paper id.
+PAPER_IMAGE_POOL = (
+    FALLBACK_CATEGORY_IMAGES['Quantum & Physics']
+    + FALLBACK_CATEGORY_IMAGES['Tech & AI']
+)
+
+
+def ensure_distinct_paper_images(papers):
+    """Assign each paper a distinct category visual (deterministic, no repeats
+    while the pool lasts — mirrors ensure_distinct_covers for stories)."""
+    pool = PAPER_IMAGE_POOL
+    used = set()
+    for paper in papers:
+        if paper.get('image'):
+            used.add(paper['image'])
+            continue
+        seed = int(hashlib.sha1(paper['id'].encode()).hexdigest()[:8], 16) % len(pool)
+        for off in range(len(pool)):
+            url = pool[(seed + off) % len(pool)]
+            if url not in used:
+                used.add(url)
+                paper['image'] = url
+                paper['imageKind'] = 'category'
+                break
+        else:
+            # Pool exhausted (more papers than images): deterministic reuse
+            paper['image'] = pool[seed]
+            paper['imageKind'] = 'category'
+    return papers
+
+
 # --------------------------------------------------------------------------
 # News: multi-source RSS, structural balance, outlet-written text
 # --------------------------------------------------------------------------
@@ -810,11 +843,12 @@ def main():
 
     # hard requirement: no two stories in a feed share a cover image
     ensure_distinct_covers(stories)
+    papers = ensure_distinct_paper_images(pick_papers())
 
     feed = {
         'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'stories': stories,
-        'papers': pick_papers(),
+        'papers': papers,
     }
     out = os.path.join(BASE, 'pulse_feed.json')
     with open(out, 'w', encoding='utf-8') as f:

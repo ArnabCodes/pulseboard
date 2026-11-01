@@ -17,7 +17,7 @@
 // per worker instance) and an in-worker Set guards double-navigation. The
 // classic sessionStorage guard is a page-side API a worker cannot read, so the
 // one-shot guard lives in worker memory.
-const CACHE_NAME = 'pulseboard-v14';
+const CACHE_NAME = 'pulseboard-v15';
 const ASSETS = [
   './',
   './manifest.json',

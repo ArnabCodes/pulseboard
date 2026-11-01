@@ -74,12 +74,21 @@ def check_feed(feed, check_images=False):
     if not isinstance(papers, list) or not papers:
         errors.append('feed has no papers (need >= 1)')
         papers = papers if isinstance(papers, list) else []
+    paper_ids, paper_imgs = [], []
     for i, p in enumerate(papers):
         where = f'paper[{i}]' + (f' ({p.get("id")})' if isinstance(p, dict) and p.get('id') else '')
         for field in ('id', 'title', 'url'):
             v = p.get(field) if isinstance(p, dict) else None
             if not v or not str(v).strip():
                 errors.append(f'{where}: missing/empty {field}')
+        if isinstance(p, dict) and p.get('id'):
+            paper_ids.append(p['id'])
+        if isinstance(p, dict) and p.get('image'):
+            paper_imgs.append(p['image'])
+    for d in sorted({x for x in paper_ids if paper_ids.count(x) > 1}):
+        errors.append(f'duplicate paper id: {d}')
+    for d in sorted({x for x in paper_imgs if paper_imgs.count(x) > 1}):
+        errors.append(f'duplicate paper image (distinct-paper-images invariant): {d}')
 
     if check_images:
         urls = []
@@ -87,6 +96,7 @@ def check_feed(feed, check_images=False):
             if isinstance(st, dict):
                 urls.append(st.get('image'))
                 urls.extend(st.get('gallery') or [])
+        urls.extend(u for u in paper_imgs if u)
         for u in [u for u in urls if u]:
             status = http_status(u)
             if status is None:

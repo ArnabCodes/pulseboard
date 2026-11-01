@@ -470,7 +470,9 @@
         </section>
 
 
-        <!-- Deep Reading Archive / Backup Articles for Deep Mood -->
+        <!-- Deep Reading Archive / Backup Articles for Deep Mood
+             (rendered dynamically by renderVault() from EXTRA_STORIES —
+             evergreen deep dives, always available even offline) -->
         <section id="backup-articles-section" class="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800">
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -479,37 +481,9 @@
               </h2>
               <p class="text-xs text-slate-500">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
             </div>
-            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
+            <span id="vault-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm cursor-pointer hover:border-amber-400 dark:hover:border-indigo-400 transition-all" data-open-story="backup-1">
-              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
-                <span>Quantum Control &amp; Optimization</span>
-                <span>10 min deep read</span>
-              </div>
-              <h4 class="text-base font-bold font-serif-editorial mb-1.5 hover:underline">
-                Machine-Learning-Assisted Initialization for GRAPE Quantum Optimal Control in Dense Spin Networks
-              </h4>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
-                Combining reinforcement learning with Lie-algebraic gradient ascent to avoid local traps in high-dimensional Hilbert spaces.
-              </p>
-              <button type="button" class="text-xs font-semibold text-amber-700 dark:text-indigo-400 hover:underline">Read Deep Briefing →</button>
-            </div>
-
-            <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm cursor-pointer hover:border-amber-400 dark:hover:border-indigo-400 transition-all" data-open-story="backup-2">
-              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
-                <span>Complex Systems &amp; Power Grids</span>
-                <span>9 min deep read</span>
-              </div>
-              <h4 class="text-base font-bold font-serif-editorial mb-1.5 hover:underline">
-                Structural Vulnerability, Cascading Failures, and Modularity in High-Voltage Electrical Transmission Networks
-              </h4>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
-                Network-theoretic assessment of vulnerable lines and percolation thresholds under dynamic load redistribution.
-              </p>
-              <button type="button" class="text-xs font-semibold text-amber-700 dark:text-indigo-400 hover:underline">Read Deep Briefing →</button>
-            </div>
-          </div>
+          <div id="vault-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
         </section>
 
 
@@ -1067,13 +1041,17 @@
     };
 
     // Default starter data
+    // Evergreen deep reads for the Deep-Reading Vault. vault:true keeps them
+    // out of the daily grid — they render in their own section and open the
+    // same reader as any story. Sources labeled honestly as in-app syntheses.
     const EXTRA_STORIES = [
       {
         id: 'backup-1',
         edition: 'morning',
+        vault: true,
         featured: false,
         category: 'Quantum Control & Optimization',
-        source: 'Physical Review Applied • 10 min deep read',
+        source: 'PulseBoard Deep-Dive • 10 min read',
         title: 'Machine-Learning-Assisted Initialization for GRAPE Quantum Optimal Control in Dense Spin Networks',
         dek: 'Combining reinforcement learning with Lie-algebraic gradient ascent to avoid local traps in high-dimensional Hilbert spaces.',
         content: `Designing high-fidelity radiofrequency and microwave control pulses for multi-qubit systems is fundamentally constrained by the non-convex optimization landscape of the unitary fidelity functional. Traditional gradient ascent pulse engineering (GRAPE) routines frequently converge into suboptimal local extrema, particularly when dealing with strongly coupled spins subject to experimental bandwidth constraints.
@@ -1091,9 +1069,10 @@ Key Technical Highlights:
       {
         id: 'backup-2',
         edition: 'morning',
+        vault: true,
         featured: false,
         category: 'Complex Systems & Power Grids',
-        source: 'Physica A & IEEE Trans. Network Science • 9 min deep read',
+        source: 'PulseBoard Deep-Dive • 9 min read',
         title: 'Structural Vulnerability, Cascading Failures, and Modularity in High-Voltage Electrical Transmission Networks',
         dek: 'Network-theoretic assessment of vulnerable lines and percolation thresholds under dynamic load redistribution.',
         content: `Modern electrical power grids are complex, self-organizing dynamical networks that operate near critical stability boundaries. When a key transmission line trips, the instantaneous load redistribution governed by Kirchhoff’s current laws can trigger non-local overload cascades, culminating in catastrophic regional blackouts.
@@ -1985,18 +1964,22 @@ Key Insights:
           : 'h-full bg-amber-500 transition-all duration-300';
       }
 
-      container.innerHTML = currentList.map(item => `
-        <label class="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
-          <input
-            type="checkbox"
-            data-routine-id="${item.id}"
-            ${item.done ? 'checked' : ''}
-            class="w-5 h-5 rounded accent-amber-600 cursor-pointer"
-          />
-          <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${item.done ? 'line-through opacity-50' : ''}">
-            ${item.text}
-          </span>
-        </label>
+      container.innerHTML = currentList.map((item, i) => `
+        <div class="flex items-center gap-1 p-3 rounded-xl transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
+          <label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
+            <input
+              type="checkbox"
+              data-routine-id="${item.id}"
+              ${item.done ? 'checked' : ''}
+              class="w-5 h-5 rounded accent-amber-600 cursor-pointer shrink-0"
+            />
+            <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${item.done ? 'line-through opacity-50' : ''}">
+              ${item.text}
+            </span>
+          </label>
+          <button type="button" data-routine-up="${item.id}" aria-label="Move '${item.text.replace(/'/g, '')}' up" ${i === 0 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↑</button>
+          <button type="button" data-routine-down="${item.id}" aria-label="Move '${item.text.replace(/'/g, '')}' down" ${i === currentList.length - 1 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↓</button>
+        </div>
       `).join('');
 
       container.querySelectorAll('[data-routine-id]').forEach(checkbox => {
@@ -2015,6 +1998,23 @@ Key Insights:
             renderRoutine(isNight);
           }
         });
+      });
+
+      // Reordering: ↑/↓ move an item within this routine (persisted)
+      const pbMoveRoutine = async (id, delta) => {
+        const i = currentList.findIndex(r => r.id === id);
+        const j = i + delta;
+        if (i < 0 || j < 0 || j >= currentList.length) return;
+        [currentList[i], currentList[j]] = [currentList[j], currentList[i]];
+        pbHaptic(8);
+        await persistEncryptedState();
+        renderRoutine(isNight);
+      };
+      container.querySelectorAll('[data-routine-up]').forEach(btn => {
+        btn.addEventListener('click', () => pbMoveRoutine(btn.getAttribute('data-routine-up'), -1));
+      });
+      container.querySelectorAll('[data-routine-down]').forEach(btn => {
+        btn.addEventListener('click', () => pbMoveRoutine(btn.getAttribute('data-routine-down'), 1));
       });
     }
 
@@ -2444,9 +2444,88 @@ Key Insights:
       renderTasks(isNight);
       pbApplyDim(isNight);
       if (window.pbSyncScrollTop) window.pbSyncScrollTop();
-            renderStreakChip(isNight);
+      renderStreakChip(isNight);
       renderThisDay(isNight);
       renderDeadlines(isNight);
+      pbEnsureVaultStories();
+      renderVault(isNight);
+    }
+
+    // ---- Deep-Reading Vault: evergreen deep dives (EXTRA_STORIES) ----
+    // Spliced into state.stories so they work offline, keep their ids (old
+    // saved flags survive), and open the same reader as any story.
+    function pbEnsureVaultStories() {
+      EXTRA_STORIES.forEach(x => {
+        if (!state.stories.some(s => s.id === x.id)) {
+          state.stories.push(Object.assign({ saved: false }, x));
+        }
+      });
+    }
+
+    function renderVault(isNight) {
+      const grid = document.getElementById('vault-grid');
+      if (!grid) return;
+      const section = document.getElementById('backup-articles-section');
+      const vault = state.stories.filter(s => s.vault);
+      if (!vault.length) { if (section) section.classList.add('hidden'); return; }
+      if (section) section.classList.remove('hidden');
+      document.getElementById('vault-count').textContent = vault.length + (vault.length === 1 ? ' long read' : ' long reads');
+      const cardBg = isNight
+        ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50'
+        : 'bg-white border-slate-200/90 hover:border-amber-400';
+      const textMuted = isNight ? 'text-slate-400' : 'text-slate-600';
+      grid.innerHTML = vault.map(story => {
+        const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
+        const readMin = story.readMin || Math.max(1, Math.round(words / 220));
+        return `
+          <article class="card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open deep read: ${story.title}">
+            <div class="relative h-36 w-full bg-slate-900 overflow-hidden">
+              <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">${story.category}</span>
+              <button
+                type="button"
+                data-save-story="${story.id}"
+                aria-pressed="${story.saved ? 'true' : 'false'}"
+                class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${story.saved ? 'bg-amber-500 text-white' : 'bg-slate-900/75 text-slate-200 hover:bg-slate-900'} backdrop-blur-sm transition-colors"
+                title="Bookmark deep read"
+              >${story.saved ? '★ Saved' : '☆ Save'}</button>
+            </div>
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 text-xs ${textMuted} mb-1.5">
+                  <span class="truncate">${storyOutletName(story)}</span>
+                  <span class="font-medium shrink-0">${readMin} min</span>
+                </div>
+                <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug mb-2">${story.title}</h4>
+                <p class="text-xs sm:text-sm ${textMuted} leading-relaxed">${story.dek}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'}">
+                <span class="text-xs font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}">Read Deep Briefing →</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+      grid.querySelectorAll('[data-open-story]').forEach(el => {
+        el.addEventListener('click', () => openStoryModal(el.getAttribute('data-open-story')));
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStoryModal(el.getAttribute('data-open-story')); }
+        });
+      });
+      grid.querySelectorAll('[data-save-story]').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-save-story');
+          const story = state.stories.find(s => s.id === id);
+          if (story) {
+            story.saved = !story.saved;
+            story.savedAt = story.saved ? Date.now() : null;
+            await persistEncryptedState();
+            renderApp();
+          }
+        });
+      });
     }
 
     // The exact set the grid shows — shared with reader swipe navigation,
@@ -2454,6 +2533,7 @@ Key Insights:
     function pbVisibleStories() {
       const list = state.stories.filter(s => {
         if (state.selectedCategory === 'saved') return s.saved;
+        if (s.vault) return false; // vault deep reads live in their own section
         if (state.selectedCategory !== 'all') return s.category === state.selectedCategory;
         // The day's (morning) briefing stays visible in the evening/night edition too
         return s.edition === state.edition || s.edition === 'morning';
@@ -2537,8 +2617,8 @@ Key Insights:
           : '';
 
         return `
-          <article class="${spanFull} ${animate ? 'card-enter' : ''} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''}>
-            <div class="relative ${isHero ? 'h-56 sm:h-72' : 'h-44'} w-full bg-slate-900 overflow-hidden cursor-pointer" data-open-story="${story.id}">
+          <article class="${spanFull} ${animate ? 'card-enter' : ''} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''} data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open story: ${story.title}">
+            <div class="relative ${isHero ? 'h-56 sm:h-72' : 'h-44'} w-full bg-slate-900 overflow-hidden">
               <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
               <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
@@ -2566,7 +2646,7 @@ Key Insights:
                     <span>${story.edition === 'morning' ? '☀️' : '🌙'}</span>
                   </span>
                 </div>
-                <h4 class="${isHero ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} font-bold font-serif-editorial leading-snug mb-2 cursor-pointer hover:underline" data-open-story="${story.id}">
+                <h4 class="${isHero ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} font-bold font-serif-editorial leading-snug mb-2">
                   ${story.title}
                 </h4>
                 <p class="${isHero ? 'text-sm' : 'text-xs sm:text-sm'} ${textMuted} leading-relaxed">
@@ -2575,9 +2655,9 @@ Key Insights:
               </div>
 
               <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'} flex items-center justify-between">
-                <button type="button" data-open-story="${story.id}" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">
+                <span class="text-xs font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}">
                   Read Full Briefing →
-                </button>
+                </span>
               </div>
             </div>
           </article>
@@ -2587,6 +2667,9 @@ Key Insights:
       container.querySelectorAll('[data-open-story]').forEach(el => {
         el.addEventListener('click', () => {
           openStoryModal(el.getAttribute('data-open-story'));
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStoryModal(el.getAttribute('data-open-story')); }
         });
       });
 
@@ -2718,6 +2801,12 @@ Key Insights:
 
         return `
           <div class="rounded-2xl border ${cardStyle} p-5 shadow-sm transition-all">
+            ${paper.image ? `
+            <div class="relative h-32 w-full rounded-xl overflow-hidden mb-4 bg-slate-900 shrink-0">
+              <img src="${paper.image}" alt="Category visual · ${paper.tag}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent"></div>
+              <span class="absolute bottom-2.5 left-3 text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-950/70 text-slate-300 backdrop-blur-sm">illustrative</span>
+            </div>` : ''}
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${isNight ? 'bg-indigo-950 text-indigo-300' : 'bg-slate-100 text-slate-700'}">
                 ${paper.tag}
@@ -2871,18 +2960,22 @@ Key Insights:
         : `${doneCount}/${total} done`;
       document.getElementById('tasks-progress-bar').style.width = `${pct}%`;
 
-      container.innerHTML = state.tasks.map(task => `
-        <label class="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
-          <input
-            type="checkbox"
-            data-task-id="${task.id}"
-            ${task.done ? 'checked' : ''}
-            class="w-5 h-5 rounded accent-emerald-600 cursor-pointer"
-          />
-          <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${task.done ? 'line-through opacity-50' : ''}">
-            ${task.text}${task.recurring ? ` <span class="text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'}">↻ ${task.recurring}</span>` : ''}
-          </span>
-        </label>
+      container.innerHTML = state.tasks.map((task, i) => `
+        <div class="flex items-center gap-1 p-3 rounded-xl transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
+          <label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
+            <input
+              type="checkbox"
+              data-task-id="${task.id}"
+              ${task.done ? 'checked' : ''}
+              class="w-5 h-5 rounded accent-emerald-600 cursor-pointer shrink-0"
+            />
+            <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${task.done ? 'line-through opacity-50' : ''}">
+              ${task.text}${task.recurring ? ` <span class="text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'}">↻ ${task.recurring}</span>` : ''}
+            </span>
+          </label>
+          <button type="button" data-task-up="${task.id}" aria-label="Move '${task.text.replace(/'/g, '')}' up" ${i === 0 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↑</button>
+          <button type="button" data-task-down="${task.id}" aria-label="Move '${task.text.replace(/'/g, '')}' down" ${i === state.tasks.length - 1 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↓</button>
+        </div>
       `).join('');
 
       container.querySelectorAll('[data-task-id]').forEach(checkbox => {
@@ -2899,6 +2992,23 @@ Key Insights:
             renderTasks(state.edition === 'night');
           }
         });
+      });
+
+      // Reordering: ↑/↓ move a task within today's list (persisted in the vault)
+      const pbMoveTask = async (id, delta) => {
+        const i = state.tasks.findIndex(t => t.id === id);
+        const j = i + delta;
+        if (i < 0 || j < 0 || j >= state.tasks.length) return;
+        [state.tasks[i], state.tasks[j]] = [state.tasks[j], state.tasks[i]];
+        pbHaptic(8);
+        await persistEncryptedState();
+        renderTasks(state.edition === 'night');
+      };
+      container.querySelectorAll('[data-task-up]').forEach(btn => {
+        btn.addEventListener('click', () => pbMoveTask(btn.getAttribute('data-task-up'), -1));
+      });
+      container.querySelectorAll('[data-task-down]').forEach(btn => {
+        btn.addEventListener('click', () => pbMoveTask(btn.getAttribute('data-task-down'), 1));
       });
     }
 
@@ -3092,9 +3202,17 @@ Key Insights:
       // Header row: source link, read time, spectrum chip, save star
       const outlet = storyOutletName(story);
       const srcEl = document.getElementById('story-source');
-      srcEl.textContent = outlet + ' ↗';
-      srcEl.href = story.sourceUrl || '#';
-      srcEl.className = 'min-w-0 flex-1 truncate text-xs font-semibold hover:underline ' + (isNight ? 'text-indigo-300' : 'text-amber-700');
+      if (story.sourceUrl) {
+        srcEl.textContent = outlet + ' ↗';
+        srcEl.href = story.sourceUrl;
+        srcEl.className = 'min-w-0 flex-1 truncate text-xs font-semibold hover:underline ' + (isNight ? 'text-indigo-300' : 'text-amber-700');
+      } else {
+        // In-app synthesis (e.g. Deep-Reading Vault): no dead "#" links —
+        // show the label as plain text.
+        srcEl.textContent = outlet;
+        srcEl.removeAttribute('href');
+        srcEl.className = 'min-w-0 flex-1 truncate text-xs font-semibold ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+      }
 
       const readMinEl = document.getElementById('story-readmin');
       readMinEl.textContent = storyReadMinutes(story) + ' min';
@@ -3197,11 +3315,17 @@ Key Insights:
       }
 
       const readAt = document.getElementById('story-readat');
-      readAt.href = story.sourceUrl || '#';
       document.getElementById('story-readat-source').textContent = outlet;
       readAt.className = 'mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors ' + (isNight
         ? 'bg-indigo-600 text-white hover:bg-indigo-500'
         : 'bg-slate-900 text-white hover:bg-slate-800');
+      if (story.sourceUrl) {
+        readAt.href = story.sourceUrl;
+        readAt.classList.remove('hidden');
+      } else {
+        readAt.removeAttribute('href');
+        readAt.classList.add('hidden');
+      }
 
       // Reading-progress bar tint follows the edition; width resets to 0
       const bar = document.getElementById('page-progress');

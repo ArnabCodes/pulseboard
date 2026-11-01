@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T00:08:10Z",
+  "generated_at": "2026-11-01T01:52:27Z",
   "stories": [
     {
       "id": "news-geopolitics-20261101-fcb28481",
@@ -176,7 +176,9 @@
         "dnp",
         "diamond"
       ],
-      "saved": false
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
     },
     {
       "id": "arxiv-2610.39693",
@@ -201,7 +203,9 @@
         "diamond",
         "dynamical decoupling"
       ],
-      "saved": false
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1576319155264-99536e0be1ee?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
     },
     {
       "id": "arxiv-2610.39022",
@@ -226,7 +230,9 @@
         "diamond",
         "sensor"
       ],
-      "saved": false
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1527409335569-f0e5c91fa707?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
     },
     {
       "id": "arxiv-2610.37293",
@@ -250,7 +256,9 @@
         "coherence",
         "quantum"
       ],
-      "saved": false
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
     },
     {
       "id": "arxiv-2610.38878",
@@ -273,7 +281,9 @@
         "floquet",
         "coherence"
       ],
-      "saved": false
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
     }
   ]
 }
