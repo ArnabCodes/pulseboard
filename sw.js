@@ -1,4 +1,4 @@
-// Service Worker for PulseBoard PWA — v17 "platform wave"
+// Service Worker for PulseBoard PWA — v18 "integration wave"
 //
 // Strategies
 //   navigation : network-first -> cache -> inline offline page (a cold
