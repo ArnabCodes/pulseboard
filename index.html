@@ -2528,6 +2528,638 @@ Key Insights:
       });
     }
 
+    // ==================================================================
+    // READER/CONTENT WAVE (items 51–66) — new helpers live in this block.
+    // ==================================================================
+
+    // ---- Gallery LIGHTBOX (item 51) ----
+    // Fullscreen overlay over the reader; its own history entry so the
+    // Android back gesture / browser Back closes the overlay first and the
+    // reader second. Closing the reader over an open lightbox closes both
+    // (see closeStoryModal + the popstate listener below).
+    let pbLightboxState = null;      // {items:[{url,alt}], idx, ownsHistory}
+    let pbStoryCloseAfterLightbox = false;
+
+    function pbLightboxItems(story) {
+      return (Array.isArray(story && story.gallery) ? story.gallery : [])
+        .map(g => (typeof g === 'string') ? { url: g, alt: '' }
+          : { url: (g && (g.url || g.src)) || '', alt: (g && g.alt) || '' })
+        .filter(g => g.url);
+    }
+
+    function pbLightboxOpen(story, idx) {
+      const items = pbLightboxItems(story);
+      if (!items.length) return;
+      if (pbLightboxState) { // already open (defensive): just switch pictures
+        pbLightboxState.items = items;
+        pbLightboxShow(idx || 0);
+        return;
+      }
+      let owns = false;
+      try { history.pushState({ pbLightbox: true }, '', location.href); owns = true; } catch (e) { /* sandboxed: still open, close without history */ }
+      pbLightboxState = { items: items, idx: Math.max(0, Math.min(idx || 0, items.length - 1)), ownsHistory: owns };
+      pbLightboxBuild();
+      pbLightboxShow(pbLightboxState.idx);
+    }
+
+    function pbLightboxBuild() {
+      const ov = document.createElement('div');
+      ov.id = 'pb-lightbox';
+      ov.className = 'fixed inset-0 z-[60] bg-slate-950/95 flex flex-col';
+      ov.setAttribute('role', 'dialog');
+      ov.setAttribute('aria-modal', 'true');
+      ov.setAttribute('aria-label', 'Image viewer');
+      const closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.id = 'pb-lightbox-close';
+      closeBtn.setAttribute('aria-label', 'Close image viewer');
+      closeBtn.textContent = '✕';
+      closeBtn.className = 'absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-slate-900/70 text-slate-200 text-lg leading-none flex items-center justify-center hover:bg-slate-800 transition-colors';
+      closeBtn.addEventListener('click', pbLightboxClose);
+      const prev = document.createElement('button');
+      prev.type = 'button';
+      prev.id = 'pb-lightbox-prev';
+      prev.setAttribute('aria-label', 'Previous image');
+      prev.textContent = '‹';
+      prev.className = 'absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-slate-900/70 text-slate-200 text-3xl leading-none flex items-center justify-center hover:bg-slate-800 transition-colors';
+      prev.addEventListener('click', () => pbLightboxStep(-1));
+      const next = document.createElement('button');
+      next.type = 'button';
+      next.id = 'pb-lightbox-next';
+      next.setAttribute('aria-label', 'Next image');
+      next.textContent = '›';
+      next.className = 'absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-slate-900/70 text-slate-200 text-3xl leading-none flex items-center justify-center hover:bg-slate-800 transition-colors';
+      next.addEventListener('click', () => pbLightboxStep(1));
+      const stage = document.createElement('div');
+      stage.className = 'flex-1 min-h-0 flex items-center justify-center px-4 sm:px-20 py-6';
+      const img = document.createElement('img');
+      img.id = 'pb-lightbox-img';
+      img.className = 'max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl';
+      img.alt = '';
+      img.setAttribute('onerror', 'this.onerror=null;this.src=window.PB_IMG_FALLBACK');
+      stage.appendChild(img);
+      const cap = document.createElement('p');
+      cap.id = 'pb-lightbox-cap';
+      cap.className = 'px-8 pb-1.5 text-center text-sm italic text-slate-300 leading-relaxed min-h-[20px]';
+      const count = document.createElement('p');
+      count.id = 'pb-lightbox-count';
+      count.className = 'pb-4 text-center text-[11px] font-semibold tracking-widest text-slate-500';
+      ov.appendChild(closeBtn);
+      ov.appendChild(prev);
+      ov.appendChild(next);
+      ov.appendChild(stage);
+      ov.appendChild(cap);
+      ov.appendChild(count);
+      document.body.appendChild(ov);
+    }
+
+    function pbLightboxShow(idx) {
+      if (!pbLightboxState) return;
+      const st = pbLightboxState;
+      st.idx = ((idx % st.items.length) + st.items.length) % st.items.length;
+      const it = st.items[st.idx];
+      const img = document.getElementById('pb-lightbox-img');
+      if (!img) return;
+      img.src = it.url;
+      img.alt = it.alt || 'Story image';
+      const cap = document.getElementById('pb-lightbox-cap');
+      if (cap) cap.textContent = it.alt || '';
+      const count = document.getElementById('pb-lightbox-count');
+      if (count) count.textContent = st.items.length > 1 ? (st.idx + 1) + ' / ' + st.items.length : '';
+      const multi = st.items.length > 1;
+      const prev = document.getElementById('pb-lightbox-prev');
+      const next = document.getElementById('pb-lightbox-next');
+      if (prev) prev.classList.toggle('hidden', !multi);
+      if (next) next.classList.toggle('hidden', !multi);
+      // preload neighbours so ‹ › feel instant
+      [st.idx - 1, st.idx + 1].forEach(i => {
+        const n = st.items[((i % st.items.length) + st.items.length) % st.items.length];
+        if (n) { const pre = new Image(); pre.src = n.url; }
+      });
+    }
+
+    function pbLightboxStep(delta) {
+      if (!pbLightboxState) return;
+      pbLightboxShow(pbLightboxState.idx + delta);
+    }
+
+    function pbLightboxClose() {
+      // user-initiated close (✕ / Esc): pop our own history entry too
+      if (!pbLightboxState) return;
+      const owns = pbLightboxState.ownsHistory;
+      pbLightboxTeardown();
+      if (owns) { try { history.back(); } catch (e) {} }
+    }
+
+    function pbLightboxTeardown() {
+      // DOM-only synchronous close — no history ops (the caller decides)
+      if (!pbLightboxState) return;
+      pbLightboxState = null;
+      const el = document.getElementById('pb-lightbox');
+      if (el) el.remove();
+    }
+
+    // Back-gesture integration for the lightbox: leaving its history entry
+    // closes just the overlay; and when the reader requested the close
+    // (closeStoryModal over an open lightbox), this popstate is the one that
+    // popped the LIGHTBOX entry — so continue closing the reader.
+    window.addEventListener('popstate', (e) => {
+      if (pbLightboxState && !(e.state && e.state.pbLightbox)) {
+        pbLightboxTeardown(); // back closed the overlay; the reader stays
+        return;
+      }
+      if (pbStoryCloseAfterLightbox) {
+        pbStoryCloseAfterLightbox = false;
+        if (pbActivePage === 'story') closeStoryModal(); // finishes the job
+      }
+    });
+
+    // ---- Reading position memory (item 52) ----
+    // Scroll ratio of the reader's scroll container, per story id, capped at
+    // 200 entries; cleared once a story is >=98% read.
+    const PB_READ_POS_KEY = 'pb_read_pos';
+    let pbReadPosTimer = null;
+
+    function pbReadPosMap() {
+      try {
+        const m = JSON.parse(localStorage.getItem(PB_READ_POS_KEY) || '{}');
+        return (m && typeof m === 'object' && !Array.isArray(m)) ? m : {};
+      } catch (e) { return {}; }
+    }
+
+    function pbReadPosSave(id, ratio) {
+      if (!id) return;
+      const m = pbReadPosMap();
+      delete m[id]; // re-insert at the end so recency order drives the cap
+      m[id] = Math.min(1, Math.max(0, Math.round(ratio * 10000) / 10000));
+      const keys = Object.keys(m);
+      if (keys.length > 200) {
+        for (let i = 0; i < keys.length - 200; i++) delete m[keys[i]];
+      }
+      try { localStorage.setItem(PB_READ_POS_KEY, JSON.stringify(m)); } catch (e) { /* storage full: session-only */ }
+    }
+
+    function pbReadPosClear(id) {
+      if (!id) return;
+      const m = pbReadPosMap();
+      if (!(id in m)) return;
+      delete m[id];
+      try { localStorage.setItem(PB_READ_POS_KEY, JSON.stringify(m)); } catch (e) {}
+    }
+
+    function pbReadPosCancelTimer() {
+      if (pbReadPosTimer) { clearTimeout(pbReadPosTimer); pbReadPosTimer = null; }
+    }
+
+    function pbReadPosSaveThrottled(id, pct) {
+      if (!id) return;
+      if (pct >= 98) { pbReadPosCancelTimer(); pbReadPosClear(id); return; } // finished
+      if (pbReadPosTimer) return;
+      pbReadPosTimer = setTimeout(() => {
+        pbReadPosTimer = null;
+        if (pbActivePage !== 'story' || state.activeModalStoryId !== id) return;
+        const el = document.getElementById('page-surface');
+        if (!el) return;
+        const max = el.scrollHeight - el.clientHeight;
+        const ratio = max > 0 ? el.scrollTop / max : 0;
+        if (ratio > 0.01 && ratio < 0.98) pbReadPosSave(id, ratio);
+      }, 500);
+    }
+
+    function pbReadPosFlush(id) {
+      // Synchronous save of the CURRENT scroll position (page close, swipe).
+      // NOTE: no pbActivePage gate — the story cleanup runs after
+      // pbPerformClose() has already nulled it, while the scroll container
+      // still holds the reader's position.
+      pbReadPosCancelTimer();
+      if (!id || !state.activeModalStoryId) return;
+      const el = document.getElementById('page-surface');
+      if (!el) return;
+      const max = el.scrollHeight - el.clientHeight;
+      if (max <= 0) return;
+      const ratio = el.scrollTop / max;
+      if (ratio >= 0.98) { pbReadPosClear(id); return; } // done reading
+      if (ratio <= 0.01) return;                          // never really read
+      pbReadPosSave(id, ratio);
+    }
+
+    function pbReadPosRestore(id) {
+      if (!id) return;
+      const ratio = pbReadPosMap()[id];
+      if (typeof ratio !== 'number' || ratio <= 0.02) return;
+      const el = document.getElementById('page-surface');
+      if (!el) return;
+      const max = el.scrollHeight - el.clientHeight;
+      if (max <= 0) return;
+      el.scrollTop = Math.round(ratio * max);
+      pbToast('Resumed at ' + Math.round(ratio * 100) + '%');
+    }
+
+    // ---- Mark-as-unread (item 53) ----
+    function pbUpdateStoryUnreadBtn() {
+      const btn = document.getElementById('story-unread-btn');
+      if (!btn) return;
+      const show = !!(state.activeModalStoryId && pbReadIds.has(state.activeModalStoryId));
+      if (!show) { btn.className = 'hidden'; return; }
+      const isNight = state.edition === 'night';
+      btn.className = 'shrink-0 w-8 h-8 rounded-full border transition-colors flex items-center justify-center text-[13px] leading-none ' +
+        (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-amber-100');
+    }
+
+    function pbEnsureStoryUnreadBtn() {
+      let btn = document.getElementById('story-unread-btn');
+      if (btn) return btn;
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'story-unread-btn';
+      btn.title = 'Mark as unread';
+      btn.setAttribute('aria-label', 'Mark as unread');
+      btn.textContent = '○';
+      btn.addEventListener('click', () => {
+        const id = state.activeModalStoryId;
+        if (!id || !pbReadIds.has(id)) return;
+        pbReadIds.delete(id);
+        pbPersistReadIds();
+        pbHaptic(8);
+        renderApp(); // unread-first ordering updates on return to the grid
+        pbUpdateStoryUnreadBtn();
+        pbToast('Marked as unread');
+      });
+      const saveBtn = document.getElementById('story-save-btn');
+      if (saveBtn) saveBtn.insertAdjacentElement('beforebegin', btn);
+      return btn;
+    }
+
+    // ---- Reader LISTEN: Web Speech API TTS (item 54) ----
+    let pbTtsActive = false;
+    let pbTtsPaused = false;
+
+    function pbTtsSupported() {
+      return ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+    }
+
+    function pbTtsVoice() {
+      try {
+        const vs = speechSynthesis.getVoices() || [];
+        return vs.find(v => v.lang && v.lang.toLowerCase().startsWith('en')) || null;
+      } catch (e) { return null; }
+    }
+
+    function pbTtsEnsure() {
+      if (!pbTtsSupported()) return null; // unsupported: no button at all
+      let wrap = document.getElementById('story-tts-wrap');
+      if (wrap) return wrap;
+      wrap = document.createElement('div');
+      wrap.id = 'story-tts-wrap';
+      wrap.className = 'mt-5 flex flex-wrap items-center gap-3';
+      const listen = document.createElement('button');
+      listen.type = 'button';
+      listen.id = 'story-tts-btn';
+      listen.addEventListener('click', pbTtsToggle); // tap: speak / pause / resume
+      const stop = document.createElement('button');
+      stop.type = 'button';
+      stop.id = 'story-tts-stop-btn';
+      stop.setAttribute('aria-label', 'Stop listening');
+      stop.title = 'Stop';
+      stop.textContent = '✕';
+      stop.addEventListener('click', pbTtsStop);
+      wrap.appendChild(listen);
+      wrap.appendChild(stop);
+      const readAt = document.getElementById('story-readat');
+      if (readAt) readAt.insertAdjacentElement('afterend', wrap); // reader footer
+      return wrap;
+    }
+
+    function pbTtsToggle() {
+      if (!pbTtsSupported()) return;
+      if (pbTtsActive) {
+        try {
+          if (speechSynthesis.paused) { speechSynthesis.resume(); pbTtsPaused = false; }
+          else { speechSynthesis.pause(); pbTtsPaused = true; }
+        } catch (e) {}
+        pbTtsRefresh();
+        return;
+      }
+      const story = state.stories.find(s => s.id === state.activeModalStoryId);
+      if (!story) return;
+      const text = String(story.content || story.dek || '')
+        .split(/\n\n+/).map(t => t.replace(/\s+/g, ' ').trim()).filter(Boolean).join(' ');
+      if (!text) return;
+      const u = new SpeechSynthesisUtterance(text);
+      const v = pbTtsVoice();
+      if (v) u.voice = v;
+      u.lang = (v && v.lang) || 'en-US';
+      u.rate = 1.0;
+      u.onend = () => { pbTtsActive = false; pbTtsPaused = false; pbTtsRefresh(); };
+      u.onerror = () => { pbTtsActive = false; pbTtsPaused = false; pbTtsRefresh(); };
+      pbTtsActive = true;
+      pbTtsPaused = false;
+      try { speechSynthesis.cancel(); } catch (e) {} // clear anything stale
+      speechSynthesis.speak(u);
+      pbTtsRefresh();
+    }
+
+    function pbTtsStop() {
+      if (pbTtsSupported()) {
+        try { speechSynthesis.cancel(); } catch (e) {}
+      }
+      pbTtsActive = false;
+      pbTtsPaused = false;
+      pbTtsRefresh();
+    }
+
+    function pbTtsRefresh() {
+      const btn = document.getElementById('story-tts-btn');
+      const stop = document.getElementById('story-tts-stop-btn');
+      const isNight = state.edition === 'night';
+      if (btn) {
+        btn.textContent = !pbTtsActive ? '🔊 Listen' : (pbTtsPaused ? '▶ Resume' : '⏸ Pause');
+        btn.setAttribute('aria-pressed', pbTtsActive ? 'true' : 'false');
+        btn.className = 'inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold transition-colors border ' + (pbTtsActive
+          ? (isNight ? 'border-indigo-500 bg-indigo-600 text-white hover:bg-indigo-500' : 'border-amber-500 bg-amber-500 text-white hover:bg-amber-600')
+          : (isNight ? 'border-slate-700 text-slate-200 hover:bg-slate-800' : 'border-slate-300 text-slate-700 hover:bg-amber-100'));
+      }
+      if (stop) {
+        stop.className = pbTtsActive
+          ? 'w-9 h-9 rounded-full border transition-colors flex items-center justify-center text-xs ' + (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-amber-100')
+          : 'hidden';
+      }
+    }
+
+    // Backgrounded mid-listen: browsers keep speaking — stop honestly instead
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && pbTtsSupported()) {
+        try { speechSynthesis.cancel(); } catch (e) {}
+        pbTtsActive = false;
+        pbTtsPaused = false;
+        pbTtsRefresh();
+      }
+    });
+
+    // ---- Related coverage row (item 55) ----
+    function pbRenderAlsoCoveredBy(story, isNight) {
+      const body = document.getElementById('story-body');
+      if (!body) return;
+      const list = Array.isArray(story && story.alsoCoveredBy)
+        ? story.alsoCoveredBy.filter(c => c && c.outlet && c.url) : [];
+      let row = document.getElementById('story-also');
+      if (!list.length) { if (row) row.remove(); return; } // older feeds: no-op
+      if (!row) {
+        row = document.createElement('p');
+        row.id = 'story-also';
+        body.insertAdjacentElement('beforebegin', row); // under the title/dek
+      }
+      row.className = 'mt-3 text-xs ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+      row.textContent = '';
+      row.appendChild(document.createTextNode('Also covered by: '));
+      list.forEach((c, i) => {
+        if (i) row.appendChild(document.createTextNode(' · '));
+        const a = document.createElement('a');
+        a.href = c.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = c.outlet + ' ↗';
+        a.className = 'font-semibold hover:underline ' + (isNight ? 'text-indigo-300' : 'text-amber-700');
+        row.appendChild(a);
+      });
+    }
+
+    // ---- Papers: tag filter chips (item 58) ----
+    let pbPaperTagFilter = null; // null = All
+
+    function pbPaperChipCls(active, isNight) {
+      return 'px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border ' + (active
+        ? (isNight ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-900 border-slate-900 text-white')
+        : (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-200 bg-white text-slate-600 hover:border-amber-400'));
+    }
+
+    function pbPaperTagChipsHtml(tags, isNight) {
+      const chip = (label, tag) =>
+        `<button type="button" data-paper-tag="${tag || ''}" class="${pbPaperChipCls(!tag ? !pbPaperTagFilter : pbPaperTagFilter === tag, isNight)}">${label}</button>`;
+      return `<div id="paper-tag-chips" class="flex flex-wrap items-center gap-1.5 mb-4">` +
+        chip('All', null) + tags.map(t => chip(t, t)).join('') + `</div>`;
+    }
+
+    // ---- Papers: 'More like this' (item 59) ----
+    function pbPaperSimilar(paper, view) {
+      const mine = Array.isArray(paper.matched) ? paper.matched : [];
+      if (mine.length < 2) return null;
+      for (let i = 0; i < view.length; i++) {
+        const other = view[i];
+        if (other.id === paper.id) continue;
+        const theirs = Array.isArray(other.matched) ? other.matched : [];
+        if (theirs.filter(k => mine.indexOf(k) !== -1).length >= 2) return other;
+      }
+      return null;
+    }
+
+    function pbPaperFlashCard(id) {
+      const card = document.querySelector(`[data-paper-card="${id}"]`);
+      if (!card) return;
+      try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { card.scrollIntoView(); }
+      card.classList.add('ring-2', 'ring-indigo-400');
+      setTimeout(() => card.classList.remove('ring-2', 'ring-indigo-400'), 1400);
+    }
+
+    // ---- Papers: Semantic Scholar citation counts (item 57) ----
+    const PB_S2_KEY = 'pb_s2_cache';
+    const PB_S2_TTL = 24 * 60 * 60 * 1000; // 24h
+    const pbS2Inflight = new Set();
+
+    function pbS2Cache() {
+      try {
+        const m = JSON.parse(localStorage.getItem(PB_S2_KEY) || '{}');
+        return (m && typeof m === 'object' && !Array.isArray(m)) ? m : {};
+      } catch (e) { return {}; }
+    }
+
+    function pbS2CachePut(arxivId, count) {
+      const m = pbS2Cache();
+      m[arxivId] = { c: count, t: Date.now() };
+      const keys = Object.keys(m);
+      if (keys.length > 100) { for (let i = 0; i < keys.length - 100; i++) delete m[keys[i]]; }
+      try { localStorage.setItem(PB_S2_KEY, JSON.stringify(m)); } catch (e) {}
+    }
+
+    function pbS2Apply(paper, count) {
+      const el = document.querySelector(`[data-s2-count="${paper.id}"]`);
+      if (el) el.textContent = '· ' + count + (count === 1 ? ' citation' : ' citations');
+    }
+
+    async function pbS2FetchOne(paper) {
+      try {
+        const res = await fetch('https://api.semanticscholar.org/graph/v1/paper/arXiv:' +
+          encodeURIComponent(paper.arxivId) + '?fields=citationCount');
+        if (!res.ok) return; // graceful fail: keep the bare link
+        const data = await res.json();
+        if (!data || typeof data.citationCount !== 'number') return;
+        pbS2CachePut(paper.arxivId, data.citationCount); // only real responses cached
+        pbS2Apply(paper, data.citationCount);
+      } catch (e) { /* offline / rate-limited: hide the count */ }
+    }
+
+    function pbS2FillCounts(papers) {
+      const cache = pbS2Cache();
+      const queue = [];
+      papers.forEach(p => {
+        if (!p.arxivId || pbS2Inflight.has(p.arxivId)) return;
+        const hit = cache[p.arxivId];
+        if (hit && typeof hit.c === 'number' && (Date.now() - (hit.t || 0)) < PB_S2_TTL) {
+          pbS2Apply(p, hit.c); // cached — a real response, even if 0
+          return;
+        }
+        queue.push(p);
+      });
+      // polite: at most 5 concurrent requests
+      const work = async () => {
+        while (queue.length) {
+          const p = queue.shift();
+          pbS2Inflight.add(p.arxivId);
+          await pbS2FetchOne(p);
+          pbS2Inflight.delete(p.arxivId);
+        }
+      };
+      for (let i = 0; i < Math.min(5, queue.length); i++) work();
+    }
+
+    // ---- Search: recent searches (item 62) ----
+    const PB_RECENT_KEY = 'pb_recent_searches';
+
+    function pbRecentSearches() {
+      try {
+        const a = JSON.parse(localStorage.getItem(PB_RECENT_KEY) || '[]');
+        return Array.isArray(a) ? a.filter(x => typeof x === 'string').slice(0, 5) : [];
+      } catch (e) { return []; }
+    }
+
+    function pbRememberSearch(q) {
+      if (!q || q.length < 2) return;
+      let list = pbRecentSearches().filter(x => x.toLowerCase() !== q.toLowerCase());
+      list.unshift(q);
+      list = list.slice(0, 5);
+      try { localStorage.setItem(PB_RECENT_KEY, JSON.stringify(list)); } catch (e) {}
+    }
+
+    function pbClearRecentSearches() {
+      try { localStorage.removeItem(PB_RECENT_KEY); } catch (e) {}
+      pbSearchRun();
+    }
+
+    function pbRenderRecentChips(el, isNight) {
+      const list = pbRecentSearches();
+      if (!list.length) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'mb-6';
+      const lbl = document.createElement('p');
+      lbl.className = 'text-xs font-bold uppercase tracking-widest text-slate-400 mb-2';
+      lbl.textContent = 'Recent searches';
+      const chips = document.createElement('div');
+      chips.className = 'flex flex-wrap items-center gap-2';
+      list.forEach(q => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = q;
+        b.className = 'px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ' +
+          (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-200 bg-white text-slate-600 hover:border-amber-400');
+        b.addEventListener('click', () => {
+          const input = document.getElementById('search-input');
+          input.value = q;
+          pbCancelSearchDebounce();
+          pbSearchRun();
+        });
+        chips.appendChild(b);
+      });
+      const clear = document.createElement('button');
+      clear.type = 'button';
+      clear.textContent = 'Clear';
+      clear.className = 'px-3 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-rose-500 transition-colors';
+      clear.addEventListener('click', pbClearRecentSearches);
+      chips.appendChild(clear);
+      wrap.appendChild(lbl);
+      wrap.appendChild(chips);
+      el.appendChild(wrap);
+    }
+
+    // ---- this-day: '🔀 Another' shuffle (item 64) ----
+    // Session-level order: every entry once before any repeats.
+    let pbThisDayShownIdx = -1; // -1 = today's real entry
+    let pbThisDayQueue = [];
+
+    function pbThisDayDateLabel(md) {
+      const parts = String(md || '').split('-');
+      if (parts.length !== 2) return '';
+      const d = new Date(2024, parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
+      return isNaN(d.getTime()) ? String(md) : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
+
+    function pbThisDayEnsureBtn() {
+      let btn = document.getElementById('thisday-another');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = 'thisday-another';
+        btn.textContent = '🔀 Another';
+        btn.className = 'text-[11px] font-semibold text-slate-400 hover:text-amber-700 transition-colors mt-1.5 block';
+        btn.addEventListener('click', pbThisDayAnother);
+        const src = document.getElementById('thisday-source');
+        if (src) src.insertAdjacentElement('afterend', btn);
+      }
+      btn.classList.toggle('hidden', !(thisDayDb && thisDayDb.length > 1));
+    }
+
+    function pbThisDayAnother() {
+      if (!thisDayDb || thisDayDb.length < 2) return;
+      if (!pbThisDayQueue.length) {
+        // fresh shuffle of everything except what's on screen right now
+        const exclude = pbThisDayShownIdx >= 0 ? pbThisDayShownIdx : thisDayDb.indexOf(thisDayEntry());
+        const idxs = thisDayDb.map((_, i) => i).filter(i => i !== exclude);
+        for (let i = idxs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const tmp = idxs[i]; idxs[i] = idxs[j]; idxs[j] = tmp;
+        }
+        pbThisDayQueue = idxs;
+      }
+      pbThisDayShownIdx = pbThisDayQueue.shift();
+      renderThisDay(state.edition === 'night');
+    }
+
+    // ---- Deadlines: '📅 Add' → .ics download (item 66) ----
+    function pbIcsEscape(s) {
+      return String(s || '')
+        .replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,')
+        .replace(/\r?\n/g, '\\n');
+    }
+
+    function pbDeadlineIcs(d) {
+      if (!d || !/^\d{4}-\d{2}-\d{2}$/.test(String(d.date || ''))) return;
+      const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); // 20261101T043322Z
+      const slug = (String(d.name || 'deadline').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'deadline');
+      const lines = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//PulseBoard//Conference Deadlines//EN',
+        'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT',
+        'UID:pb-' + slug + '-' + d.date.replace(/-/g, '') + '@pulseboard',
+        'DTSTAMP:' + stamp,
+        'DTSTART;VALUE=DATE:' + d.date.replace(/-/g, ''),
+        'SUMMARY:' + pbIcsEscape((d.name || 'Deadline') + ' — submission deadline'),
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ];
+      const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = slug + '-' + d.date + '.ics';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 4000);
+      pbToast('Calendar file downloaded (.ics)');
+    }
+
     // The exact set the grid shows — shared with reader swipe navigation,
     // so "Story 3 of 9" and left/right swipes always match what's on screen.
     function pbVisibleStories() {
@@ -2791,16 +3423,33 @@ Key Insights:
         return;
       }
 
-      container.innerHTML = papersForEdition.map(paper => {
+      // Tag filter chips (item 58): All + each distinct tag in view. Hides
+      // (and does not apply) while a special filter (saved / read-later)
+      // narrows the list — those views stay exactly as they were.
+      const specialFilter = state.readLaterFilter || state.selectedCategory === 'saved';
+      const tags = Array.from(new Set(papersForEdition.map(p => p.tag).filter(Boolean)));
+      if (pbPaperTagFilter && tags.indexOf(pbPaperTagFilter) === -1) pbPaperTagFilter = null; // stale tag
+      const chipsRow = (!specialFilter && tags.length)
+        ? pbPaperTagChipsHtml(tags, isNight) : '';
+      const papersView = (!specialFilter && pbPaperTagFilter)
+        ? papersForEdition.filter(p => p.tag === pbPaperTagFilter)
+        : papersForEdition;
+
+      container.innerHTML = chipsRow + papersView.map(paper => {
         const cardStyle = isNight
           ? 'bg-slate-900 border-slate-800'
           : 'bg-white border-slate-200/90';
         const summaryBg = isNight
           ? 'bg-slate-950/80 border-slate-800 text-slate-300'
           : 'bg-amber-50/60 border-amber-200/70 text-slate-700';
+        // 'More like this' (item 59): another visible paper sharing >=2
+        // matched research-profile keywords
+        const similar = pbPaperSimilar(paper, papersView);
+        const similarTitle = similar
+          ? similar.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
 
         return `
-          <div class="rounded-2xl border ${cardStyle} p-5 shadow-sm transition-all">
+          <div data-paper-card="${paper.id}" class="rounded-2xl border ${cardStyle} p-5 shadow-sm transition-all">
             ${paper.image ? `
             <div class="relative h-32 w-full rounded-xl overflow-hidden mb-4 bg-slate-900 shrink-0">
               <img src="${paper.image}" alt="Category visual · ${paper.tag}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
@@ -2840,6 +3489,8 @@ Key Insights:
             <div class="flex flex-wrap gap-1.5 mt-2">
               ${paper.matched.map(k => `<span class="text-[10px] font-medium px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200'}" title="Matched your research profile">${k}</span>`).join('')}
             </div>` : ''}
+            ${similar ? `
+            <button type="button" data-similar-paper="${similar.id}" title="Jump to this similar digest" class="mt-2 block max-w-full truncate text-left text-[11px] transition-colors ${isNight ? 'text-slate-500 hover:text-indigo-300' : 'text-slate-400 hover:text-amber-700'}">↔ Similar: ${similarTitle}</button>` : ''}
 
             <p class="text-xs sm:text-sm ${isNight ? 'text-slate-300' : 'text-slate-600'} leading-relaxed mb-3">
               <strong class="font-semibold">TL;DR:</strong> ${paper.tldr}
@@ -2864,7 +3515,8 @@ Key Insights:
 
             <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'} flex flex-wrap items-center gap-x-4 gap-y-2">
               ${paper.url ? `<a href="${paper.url}" target="_blank" rel="noopener" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">Read on arXiv ↗</a>` : ''}
-              ${paper.arxivId ? `<a href="https://www.semanticscholar.org/arxiv/${paper.arxivId}" target="_blank" rel="noopener" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">Citations ↗</a>` : ''}
+              ${paper.arxivId ? `<a href="${paper.pdfUrl || ('https://arxiv.org/pdf/' + paper.arxivId)}" target="_blank" rel="noopener" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">PDF ↗</a>` : ''}
+              ${paper.arxivId ? `<a href="https://www.semanticscholar.org/arxiv/${paper.arxivId}" target="_blank" rel="noopener" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">Citations ↗</a><span data-s2-count="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-500' : 'text-slate-400'}"></span>` : ''}
               <button type="button" data-cite-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ Cite</button>
               <button type="button" data-bibtex-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ BibTeX</button>
               <button type="button" data-share-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">↗ Share</button>
@@ -2872,6 +3524,24 @@ Key Insights:
           </div>
         `;
       }).join('');
+
+      // Semantic Scholar citation counts (item 57): async fill, 24h cache,
+      // hidden on failure — never a made-up number
+      pbS2FillCounts(papersView);
+
+      // Tag filter chips (item 58)
+      container.querySelectorAll('[data-paper-tag]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tag = btn.getAttribute('data-paper-tag') || null;
+          pbPaperTagFilter = (pbPaperTagFilter === tag) ? null : tag; // re-tap toggles off
+          renderApp();
+        });
+      });
+
+      // 'More like this' (item 59): jump + flash the similar card
+      container.querySelectorAll('[data-similar-paper]').forEach(btn => {
+        btn.addEventListener('click', () => pbPaperFlashCard(btn.getAttribute('data-similar-paper')));
+      });
 
       container.querySelectorAll('[data-toggle-paper]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -3029,7 +3699,15 @@ Key Insights:
 
     // Per-page cleanup: transient state and timers must die with the page.
     const PB_PAGE_CLEANUPS = {
-      story: () => { state.activeModalStoryId = null; pbCancelReadTracking(); pbCancelReadTimer(); },
+      story: () => {
+        pbReadPosFlush(state.activeModalStoryId); // save reading position before the id goes away
+        pbReadPosCancelTimer();
+        pbLightboxTeardown();                     // reader closing closes the lightbox too
+        pbTtsStop();                              // and stops any listening
+        state.activeModalStoryId = null;
+        pbCancelReadTracking();
+        pbCancelReadTimer();
+      },
       teaching: () => { stopBreathing(); stopMeditation(); },
       dayclose: () => {},
       settings: () => {},
@@ -3201,15 +3879,16 @@ Key Insights:
 
       // Header row: source link, read time, spectrum chip, save star
       const outlet = storyOutletName(story);
+      const byline = story.author ? 'By ' + story.author + ' · ' : ''; // curator byline (item 69)
       const srcEl = document.getElementById('story-source');
       if (story.sourceUrl) {
-        srcEl.textContent = outlet + ' ↗';
+        srcEl.textContent = byline + outlet + ' ↗';
         srcEl.href = story.sourceUrl;
         srcEl.className = 'min-w-0 flex-1 truncate text-xs font-semibold hover:underline ' + (isNight ? 'text-indigo-300' : 'text-amber-700');
       } else {
         // In-app synthesis (e.g. Deep-Reading Vault): no dead "#" links —
         // show the label as plain text.
-        srcEl.textContent = outlet;
+        srcEl.textContent = byline + outlet;
         srcEl.removeAttribute('href');
         srcEl.className = 'min-w-0 flex-1 truncate text-xs font-semibold ' + (isNight ? 'text-slate-400' : 'text-slate-500');
       }
@@ -3244,6 +3923,16 @@ Key Insights:
       }
 
       renderStorySaveBtn(story);
+
+      // Mark-as-unread (only shown for already-read stories) + reader
+      // LISTEN controls (hidden entirely where speechSynthesis is absent)
+      pbEnsureStoryUnreadBtn();
+      pbUpdateStoryUnreadBtn();
+      if (pbTtsEnsure()) pbTtsRefresh();
+
+      // Related coverage: "Also covered by: Outlet ↗ · Outlet ↗" under the
+      // dek/title — no-op for older feeds without alsoCoveredBy
+      pbRenderAlsoCoveredBy(story, isNight);
 
       // Font-size cycler + native share, themed like the rest of the header
       const fontBtn = document.getElementById('story-font-btn');
@@ -3292,7 +3981,9 @@ Key Insights:
         img.alt = (meta && typeof meta === 'object' && meta.alt) || ((story.title || 'Story') + ' — photo ' + (idx + 1));
         img.loading = 'lazy';
         img.setAttribute('onerror', 'this.onerror=null;this.src=window.PB_IMG_FALLBACK');
-        img.className = 'w-full rounded-2xl shadow-sm';
+        img.className = 'w-full rounded-2xl shadow-sm cursor-zoom-in';
+        // tap → fullscreen lightbox with ‹ › through this story's gallery
+        img.addEventListener('click', () => pbLightboxOpen(story, idx));
         wrap.appendChild(img);
         const cap = (meta && typeof meta === 'object' && typeof meta.alt === 'string') ? meta.alt.trim() : '';
         if (cap && cap.length >= 4 && !/^(image|photo|picture|img|illustration|untitled|placeholder|graphic)\.?\??$/i.test(cap)) {
@@ -3348,15 +4039,34 @@ Key Insights:
     function openStoryModal(storyId, opts) {
       const story = state.stories.find(s => s.id === storyId);
       if (!story) return;
+      pbTtsStop();                               // stop listening to the previous story
+      pbReadPosFlush(state.activeModalStoryId);  // remember where it was left (item 52)
+      pbLightboxTeardown();                      // no stale overlay over the new story
       state.activeModalStoryId = storyId;
       pbStartReadTimer();
       renderStoryPage(story);
       pbArmReadTracking(storyId); // counts as read after 10s in the reader
       pbNavigate('story', { id: storyId }, opts);
+      pbReadPosRestore(storyId); // resume where this story was left (after pbShowLayer resets scroll)
     }
 
     function closeStoryModal() {
-      if (pbActivePage === 'story') pbRequestClose();
+      if (pbActivePage !== 'story') return;
+      if (pbLightboxState && pbLightboxState.ownsHistory) {
+        // Reader closing over an open lightbox (item 51 composition): the
+        // lightbox's history entry sits ABOVE the reader's. Tear the overlay
+        // down synchronously, pop that entry, and finish closing the reader
+        // when its popstate lands (see the lightbox popstate listener).
+        pbLightboxTeardown();
+        pbStoryCloseAfterLightbox = true;
+        try { history.back(); } catch (e) {
+          pbStoryCloseAfterLightbox = false;
+          pbRequestClose();
+        }
+        return;
+      }
+      pbLightboxTeardown(); // no own entry: just drop the overlay
+      pbRequestClose();
     }
 
     // Top-level Event Listeners
@@ -3448,7 +4158,17 @@ Key Insights:
 
     // ---- Page layer wiring: back buttons, Escape, reading progress ----
     document.getElementById('story-back').addEventListener('click', closeStoryModal);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pbRequestClose(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        // lightbox first (item 51): Esc closes the overlay, not the reader
+        if (pbLightboxState) pbLightboxClose();
+        else pbRequestClose();
+        return;
+      }
+      // lightbox arrow-key navigation
+      if (pbLightboxState && e.key === 'ArrowLeft') pbLightboxStep(-1);
+      if (pbLightboxState && e.key === 'ArrowRight') pbLightboxStep(1);
+    });
     // Reading-progress bar: updates from the page layer's own scroll
     // container (the body is locked while the page is open).
     document.getElementById('page-surface').addEventListener('scroll', () => {
@@ -3458,6 +4178,7 @@ Key Insights:
       const pct = max > 0 ? Math.min(100, (el.scrollTop / max) * 100) : 0;
       document.getElementById('page-progress').style.width = pct.toFixed(1) + '%';
       pbUpdateReadLabel(pct); // live "% read · N min left" in the reader header
+      pbReadPosSaveThrottled(state.activeModalStoryId, pct); // reading position memory (item 52)
     }, { passive: true });
 
     document.getElementById('story-save-btn').addEventListener('click', async () => {
@@ -4573,11 +5294,17 @@ Key Insights:
     function renderThisDay(isNight) {
       const card = document.getElementById('thisday-card');
       if (!card) return;
-      const entry = thisDayEntry();
+      const today = thisDayEntry();
+      // today's real entry, or a shuffled 'Another' pick (item 64)
+      const entry = (pbThisDayShownIdx >= 0 && thisDayDb && thisDayDb[pbThisDayShownIdx])
+        ? thisDayDb[pbThisDayShownIdx] : today;
       if (isNight || !entry || !entry.event || !entry.source_url) { card.classList.add('hidden'); return; }
-      document.getElementById('thisday-event').textContent = entry.year + ' — ' + entry.event;
+      const shuffled = entry !== today;
+      document.getElementById('thisday-event').textContent =
+        (shuffled ? pbThisDayDateLabel(entry.date) + ' · ' : '') + entry.year + ' — ' + entry.event;
       document.getElementById('thisday-source').href = entry.source_url;
       card.className = 'w-full lg:w-auto px-4 py-3 rounded-xl border border-amber-200/80 bg-white/90 shadow-sm';
+      pbThisDayEnsureBtn(); // '🔀 Another' (item 64)
     }
 
     // ---- Conference deadlines (deadlines.json, no-store) ----
@@ -4607,7 +5334,7 @@ Key Insights:
       if (!deadlinesDb || !deadlinesDb.length) { wrap.classList.add('hidden'); return; }
       const list = deadlinesDb
         .map(d => ({ d: d, days: pbDaysUntil(d.date) }))
-        .filter(x => x.days !== null)
+        .filter(x => x.days !== null && x.days > -31) // auto-hide >30 days past (item 65)
         .sort((a, b) => a.days - b.days);
       wrap.innerHTML = '';
       wrap.className = 'mb-5 rounded-2xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-slate-200/90 bg-white');
@@ -4617,29 +5344,42 @@ Key Insights:
       wrap.appendChild(head);
       list.forEach(x => {
         const d = x.d;
-        const row = document.createElement('a');
-        row.href = d.url || '#';
-        row.target = '_blank';
-        row.rel = 'noopener';
+        const row = document.createElement('div'); // card row: link (left) + chip & Add (right)
         row.className = 'flex items-center justify-between gap-3 py-2 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-100');
-        const left = document.createElement('div');
-        left.className = 'min-w-0';
+        const left = document.createElement('a');
+        left.href = d.url || '#';
+        left.target = '_blank';
+        left.rel = 'noopener';
+        left.className = 'min-w-0 flex-1';
         const name = document.createElement('p');
         name.className = 'text-xs font-semibold truncate ' + (isNight ? 'text-slate-200' : 'text-slate-800');
         name.textContent = d.name;
         const meta = document.createElement('p');
         meta.className = 'text-[10px] ' + (isNight ? 'text-slate-500' : 'text-slate-400');
-        meta.textContent = [d.kind, d.location].filter(Boolean).join(' · ');
+        meta.textContent = [d.kind, d.location, d.date].filter(Boolean).join(' · ');
         left.appendChild(name); left.appendChild(meta);
-        const right = document.createElement('span');
-        let text, cls;
-        if (x.days < 0) { text = 'closed'; cls = isNight ? 'text-slate-600' : 'text-slate-300'; }
-        else if (x.days === 0) { text = 'today'; cls = 'text-rose-500'; }
-        else if (x.days < 7) { text = x.days + ' days'; cls = 'text-rose-500'; }
-        else if (x.days <= 30) { text = x.days + ' days'; cls = 'text-amber-500'; }
-        else { text = x.days + ' days'; cls = isNight ? 'text-slate-500' : 'text-slate-400'; }
-        right.className = 'text-[11px] font-bold shrink-0 ' + cls;
-        right.textContent = text;
+        const right = document.createElement('div');
+        right.className = 'flex items-center gap-2 shrink-0';
+        // days-left countdown chip (item 65): "in 12d" / "today" / "closed"
+        let text, tone;
+        if (x.days < 0) { text = 'closed'; tone = isNight ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-400'; }
+        else if (x.days === 0) { text = 'today'; tone = 'bg-rose-500/15 text-rose-500'; }
+        else if (x.days < 7) { text = 'in ' + x.days + 'd'; tone = 'bg-rose-500/15 text-rose-500'; }
+        else if (x.days <= 30) { text = 'in ' + x.days + 'd'; tone = 'bg-amber-500/15 text-amber-600'; }
+        else { text = 'in ' + x.days + 'd'; tone = isNight ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'; }
+        const chip = document.createElement('span');
+        chip.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap ' + tone;
+        chip.textContent = text;
+        right.appendChild(chip);
+        // 📅 Add → .ics download (item 66)
+        const add = document.createElement('button');
+        add.type = 'button';
+        add.title = 'Add to calendar (.ics)';
+        add.setAttribute('aria-label', 'Add ' + (d.name || 'deadline') + ' to calendar');
+        add.textContent = '📅';
+        add.className = 'w-7 h-7 rounded-full text-sm flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-400 hover:bg-amber-100');
+        add.addEventListener('click', () => pbDeadlineIcs(d));
+        right.appendChild(add);
         row.appendChild(left); row.appendChild(right);
         wrap.appendChild(row);
       });
@@ -4671,14 +5411,17 @@ Key Insights:
       input.value = '';
       document.getElementById('search-clear').classList.add('hidden');
       pbNavigate('search', null, opts);
+      pbSearchRun(); // empty query → recent-search chips + hint (item 62)
       setTimeout(() => { try { input.focus(); } catch (e) {} }, 120);
     }
 
     function pbSearchClose() { if (pbActivePage === 'search') pbRequestClose(); }
 
     function pbSearchFields(kind, item) {
-      if (kind === 'Stories') return [item.title, item.dek, item.content, item.source];
+      if (kind === 'Stories') return [item.title, item.dek, item.content, item.source, item.author];
       if (kind === 'Papers') return [item.title, item.authors, item.tldr, item.journal];
+      if (kind === 'Tasks') return [item.text];
+      if (kind === 'Routines') return [item.text];
       return [item.tradition, item.theme, item.quote, item.reflection];
     }
 
@@ -4691,7 +5434,9 @@ Key Insights:
 
     // SAFE highlight: split the string on the needle and append plain text
     // nodes + <mark> elements. Remote text never touches innerHTML.
-    function pbHighlight(el, text, q) {
+    // (Matching is includes()/indexOf-based — no RegExp is ever built from
+    // the raw query, so regex metacharacters in user input cannot crash it.)
+    function pbHighlight(el, text, q, isNight) {
       const str = String(text == null ? '' : text);
       const lower = str.toLowerCase();
       const needle = q.toLowerCase();
@@ -4701,7 +5446,7 @@ Key Insights:
         if (idx === -1) { el.appendChild(document.createTextNode(str.slice(i))); break; }
         el.appendChild(document.createTextNode(str.slice(i, idx)));
         const m = document.createElement('mark');
-        m.className = 'pb-mark';
+        m.className = isNight ? 'bg-indigo-500/30 rounded-sm' : 'bg-amber-200/60 rounded-sm';
         m.textContent = str.slice(idx, idx + needle.length);
         el.appendChild(m);
         i = idx + needle.length;
@@ -4726,21 +5471,31 @@ Key Insights:
         : 'border-slate-200 bg-white hover:border-amber-400');
       const title = document.createElement('p');
       title.className = 'text-sm font-semibold leading-snug ' + (isNight ? 'text-slate-100' : 'text-slate-900');
-      pbHighlight(title, item.title || item.quote || '', q);
+      if ((kind === 'Tasks' || kind === 'Routines') && item.done) {
+        title.classList.add('line-through', 'opacity-60');
+      }
+      pbHighlight(title, item.title || item.quote || item.text || '', q, isNight);
       const meta = document.createElement('p');
       meta.className = 'text-[11px] mt-1 ' + (isNight ? 'text-slate-500' : 'text-slate-400');
       if (kind === 'Stories') meta.textContent = item.source || '';
       if (kind === 'Papers') meta.textContent = [item.authors, item.journal].filter(Boolean).join(' · ');
       if (kind === 'Teachings') meta.textContent = [item.tradition, item.theme].filter(Boolean).join(' · ');
+      if (kind === 'Tasks') meta.textContent = (item.done ? '✓ done' : '○ open') + (item.recurring ? ' · ' + item.recurring : '') + ' · tap to toggle';
+      if (kind === 'Routines') meta.textContent = (item.done ? '✓ done' : '○ open') + ' · ' + state.edition + ' routine · tap to toggle';
       const snip = document.createElement('p');
       snip.className = 'text-xs leading-relaxed mt-1 ' + (isNight ? 'text-slate-400' : 'text-slate-600');
       const snipSrc = kind === 'Stories' ? (item.dek || item.content || '')
         : kind === 'Papers' ? (item.tldr || '')
+        : kind === 'Tasks' || kind === 'Routines' ? ''
         : (item.reflection || item.theme || '');
-      pbHighlight(snip, pbSnippet(snipSrc, q, 60), q);
-      row.appendChild(title); row.appendChild(meta); row.appendChild(snip);
+      if (snipSrc) pbHighlight(snip, pbSnippet(snipSrc, q, 60), q, isNight);
+      row.appendChild(title); row.appendChild(meta); if (snip.firstChild) row.appendChild(snip);
       if (kind === 'Stories') {
-        row.addEventListener('click', () => { pbCancelSearchDebounce(); openStoryModal(item.id); });
+        row.addEventListener('click', () => {
+          pbRememberSearch(q); // tapped a result: strong search intent (item 62)
+          pbCancelSearchDebounce();
+          openStoryModal(item.id);
+        });
       } else if (kind === 'Teachings') {
         row.addEventListener('click', () => {
           pbCancelSearchDebounce();
@@ -4748,6 +5503,15 @@ Key Insights:
           const idx = pool.indexOf(item);
           if (idx !== -1) state.wisdomIndex = idx; // jump the rotation to this teaching
           openTeachingModal();
+        });
+      } else if (kind === 'Tasks' || kind === 'Routines') {
+        // today's todos & habits are genuinely searchable (item 63) — a tap
+        // toggles completion right here
+        row.addEventListener('click', async () => {
+          item.done = !item.done;
+          await persistEncryptedState();
+          renderApp();
+          pbSearchRun();
         });
       }
       return row;
@@ -4758,18 +5522,22 @@ Key Insights:
       const results = document.getElementById('search-results');
       const clearBtn = document.getElementById('search-clear');
       const q = input.value.trim();
+      const isNight = state.edition === 'night';
       clearBtn.classList.toggle('hidden', !q);
       results.innerHTML = '';
       if (q.length < 2) {
-        pbSearchEmptyState(results, q ? 'Keep typing — search needs at least 2 characters.' : 'Search your stories, papers and teachings.');
+        // empty query: recent searches as chips above the hint (item 62)
+        pbRenderRecentChips(results, isNight);
+        pbSearchEmptyState(results, q ? 'Keep typing — search needs at least 2 characters.' : 'Search your stories, papers, teachings, tasks and routines.');
         return;
       }
-      const isNight = state.edition === 'night';
       const lower = q.toLowerCase();
       const groups = [
         { kind: 'Stories', items: state.stories.filter(s => pbSearchFields('Stories', s).some(f => f && String(f).toLowerCase().includes(lower))) },
         { kind: 'Papers', items: state.papers.filter(p => pbSearchFields('Papers', p).some(f => f && String(f).toLowerCase().includes(lower))) },
-        { kind: 'Teachings', items: teachingsDb.filter(t => pbSearchFields('Teachings', t).some(f => f && String(f).toLowerCase().includes(lower))) }
+        { kind: 'Teachings', items: teachingsDb.filter(t => pbSearchFields('Teachings', t).some(f => f && String(f).toLowerCase().includes(lower))) },
+        { kind: 'Tasks', items: state.tasks.filter(t => pbSearchFields('Tasks', t).some(f => f && String(f).toLowerCase().includes(lower))) },
+        { kind: 'Routines', items: (state.routines[state.edition] || []).filter(r => pbSearchFields('Routines', r).some(f => f && String(f).toLowerCase().includes(lower))) }
       ];
       const total = groups.reduce((n, g) => n + g.items.length, 0);
       if (!total) { pbSearchEmptyState(results, 'No matches for “' + q + '”.'); return; }
@@ -4797,7 +5565,18 @@ Key Insights:
     });
     document.getElementById('search-input').addEventListener('input', () => {
       pbCancelSearchDebounce();
-      searchDebounceTimer = setTimeout(() => { searchDebounceTimer = null; pbSearchRun(); }, 220);
+      searchDebounceTimer = setTimeout(() => { searchDebounceTimer = null; pbSearchRun(); }, 150);
+    });
+    // Enter commits the query to recent searches (item 62)
+    document.getElementById('search-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const q = e.target.value.trim();
+        if (q.length >= 2) {
+          pbRememberSearch(q);
+          pbCancelSearchDebounce();
+          pbSearchRun();
+        }
+      }
     });
     document.getElementById('btn-open-focus').addEventListener('click', () => pbOpenFocus());
     document.getElementById('focus-back').addEventListener('click', pbFocusClose);

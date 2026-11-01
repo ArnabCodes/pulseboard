@@ -390,17 +390,145 @@ PROMO_PREFIX_RE = re.compile(
     r'|Thank you for reading[^.]{0,60}\.?)\s*',
 )
 
+# Callout phrases that disqualify a "paragraph" entirely (subscribe walls,
+# share prompts, syndication notes). Kept as a tuple so tests can import it.
+PARAGRAPH_JUNK_TOKENS = (
+    'sign up', 'subscribe', 'newsletter', 'all rights reserved',
+    'cookie', 'follow us', 'read more:', 'related:', 'originally published',
+    'preferred source', 'daily email digest', 'posts from this topic',
+    'homepage feed', 'share gift',
+)
+
+
+def clean_paragraph(t):
+    """Verbatim paragraph text, or '' when the line is junk: promo prefixes
+    bolted onto real prose, subscribe/callout text, captions/bylines/nav
+    crumbs (too short), and CSS/JS that survived as text. This is the
+    fetch_full_text() paragraph filter factored out so tests can hit the
+    exact production path (the NY Post <style>/<script>-inside-<p>
+    regression lives here)."""
+    t = strip_html(t)  # strips <script>/<style> BLOCKS before tags (see below)
+    t = PROMO_PREFIX_RE.sub('', t)
+    if len(t) < 60:
+        return ''  # captions, bylines, nav crumbs
+    low = t.lower()
+    if any(k in low for k in PARAGRAPH_JUNK_TOKENS):
+        return ''
+    if CODE_JUNK_RE.search(t):
+        return ''  # CSS/JS that survived as text
+    return t
+
+
+# Conservative byline pattern: "By First Last" (1–4 capitalized words,
+# hyphens/apostrophes/periods allowed). Deliberately strict — it must only
+# fire on text the page itself presents as a byline.
+BYLINE_RE = re.compile(r"By\s+((?:[A-Z][\w.'-]+)(?:\s+(?:[A-Z][\w.'-]+)){0,3})")
+
+# Author strings that name a role/service, not a person.
+NON_PERSON_AUTHORS = (
+    'staff', 'editorial', 'newsroom', 'wire', 'reporter', 'contributor',
+    'correspondent', 'associated press', 'reuters', 'bloomberg', 'afp',
+    'the editorial board', 'news services', 'freelance',
+)
+
+
+def _author_ok(a):
+    """Validate a candidate byline; '' when it is not a plausible person."""
+    a = strip_html(a or '').strip()
+    if not (3 <= len(a) <= 80):
+        return ''
+    low = a.lower()
+    if any(k in low for k in NON_PERSON_AUTHORS):
+        return ''
+    if CODE_JUNK_RE.search(a) or '@' in a or 'http' in low:
+        return ''
+    return a
+
+
+def _jsonld_authors(raw):
+    """Author names from <script type="application/ld+json"> blocks, walked
+    deeply (covers @graph nesting). The author may be a string, a list, or
+    an object with a name (Person)."""
+    names = []
+
+    def harvest(node):
+        if isinstance(node, list):
+            for n in node:
+                harvest(n)
+        elif isinstance(node, dict):
+            if 'author' in node:
+                for v in (node['author'] if isinstance(node['author'], list)
+                          else [node['author']]):
+                    if isinstance(v, str):
+                        names.append(v)
+                    elif isinstance(v, dict) and isinstance(v.get('name'), str):
+                        names.append(v['name'])
+            for n in node.values():
+                harvest(n)
+
+    for block in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+                            raw, re.S | re.I):
+        try:
+            harvest(json.loads(block))
+        except Exception:
+            continue
+    return names
+
+
+def _byline_from_paragraphs(scope):
+    """Byline from the article's own <p> fragments, searched per paragraph so
+    the greedy name pattern can never swallow a capitalized word from the
+    NEXT sentence/paragraph. Pass A: a standalone byline paragraph (the whole
+    <p> is just "By Name"). Pass B: a byline at the very start of the first
+    paragraph. '' when neither is present."""
+    paras = [strip_html(p).strip()
+             for p in re.findall(r'<p[^>]*>(.*?)</p>', scope or '', re.S | re.I)]
+    paras = [t for t in paras if t][:6]
+    for t in paras:  # Pass A: the paragraph IS the byline
+        m = BYLINE_RE.match(t)
+        if m and m.end() >= len(t):
+            a = _author_ok(m.group(1))
+            if a:
+                return a
+    if paras:  # Pass B: byline opens the first paragraph
+        m = BYLINE_RE.match(paras[0])
+        if m:
+            a = _author_ok(m.group(1))
+            if a:
+                return a
+    return ''
+
+
+def extract_author(raw, scope=''):
+    """Best-effort byline, '' when absent. Structured sources first (JSON-LD
+    author, og:article:author / author meta), then the conservative byline
+    pattern over the article's own paragraphs. Never invents: only text the
+    page itself provides."""
+    for name in _jsonld_authors(raw):
+        a = _author_ok(name)
+        if a:
+            return a
+    m = (re.search(r'<meta[^>]+(?:property|name)=["\'](?:article:)?author["\'][^>]+'
+                   r'content=["\']([^"\']+)["\']', raw, re.I)
+         or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+'
+                      r'(?:property|name)=["\'](?:article:)?author["\']', raw, re.I))
+    if m:
+        a = _author_ok(m.group(1))
+        if a:
+            return a
+    return _byline_from_paragraphs(scope)
+
 
 def fetch_full_text(url, max_words=380):
     """Fetch the article page and extract, verbatim: its own paragraphs, its
     lead image (og:image > twitter:image > og:image:secure_url > JSON-LD
-    image), and up to GALLERY_MAX inline article images. Returns
-    (paragraphs, lead_image, gallery); ([], '', []) if the page is
-    unreachable."""
+    image), up to GALLERY_MAX inline article images, and the article's
+    byline when the page states one. Returns (paragraphs, lead_image,
+    gallery, author); ([], '', [], '') if the page is unreachable."""
     try:
         raw = http_get(url, timeout=15, ua=BROWSER_UA).decode('utf-8', 'ignore')
     except Exception:
-        return [], '', []
+        return [], '', [], ''
     leads = _lead_image_candidates(raw, url)
     lead = leads[0] if leads else ''
     scope = raw
@@ -414,23 +542,15 @@ def fetch_full_text(url, max_words=380):
                    ' ', scope, flags=re.S | re.I)
     paras, total = [], 0
     for p in re.findall(r'<p[^>]*>(.*?)</p>', scope, re.S | re.I):
-        t = strip_html(p)
-        t = PROMO_PREFIX_RE.sub('', t)
-        if len(t) < 60:
-            continue  # captions, bylines, nav crumbs
-        low = t.lower()
-        if any(k in low for k in ('sign up', 'subscribe', 'newsletter', 'all rights reserved',
-                                  'cookie', 'follow us', 'read more:', 'related:', 'originally published',
-                                  'preferred source', 'daily email digest', 'posts from this topic',
-                                  'homepage feed', 'share gift')):
+        t = clean_paragraph(p)
+        if not t:
             continue
-        if CODE_JUNK_RE.search(t):
-            continue  # CSS/JS that survived as text
         paras.append(t)
         total += len(t.split())
         if total >= max_words:
             break
-    return paras, lead, _gallery_images(scope, url, lead)
+    author = extract_author(raw, scope)
+    return paras, lead, _gallery_images(scope, url, lead), author
 
 
 def strip_html(s):
@@ -535,6 +655,11 @@ def fetch_arxiv_candidates():
     return entries
 
 
+def arxiv_pdf_url(arxiv_id):
+    """Direct PDF link for an arXiv paper (every digest paper is arXiv)."""
+    return f'https://arxiv.org/pdf/{arxiv_id}'
+
+
 def pick_papers():
     cand = fetch_arxiv_candidates()
     if not cand:
@@ -577,6 +702,8 @@ def pick_papers():
             'arxivId': p['id'],
             'journal': f'arXiv:{p["id"]} [{primary_cat}]',
             'url': f'https://arxiv.org/abs/{p["id"]}',
+            # Direct PDF link for the reader's "PDF ↗" affordance
+            'pdfUrl': arxiv_pdf_url(p['id']),
             'readTime': f'{read_time_minutes(tldr, " ".join(takeaways))} min read',
             'tldr': tldr,
             'takeaways': takeaways,
@@ -741,6 +868,38 @@ def ensure_distinct_covers(stories):
         claim(st)
 
 
+def also_covered_by(cl, rep):
+    """Other outlets covering the same cluster as the chosen representative —
+    honest verbatim links (they already exist in the cluster items), max 4,
+    one per outlet, representative excluded."""
+    out, seen = [], set()
+    for it in cl.get('items', []):
+        if it is rep or it.get('outlet') in seen:
+            continue
+        link = (it.get('link') or '').strip()
+        if not link:
+            continue
+        seen.add(it.get('outlet'))
+        out.append({'outlet': it['outlet'], 'url': link})
+        if len(out) >= 4:
+            break
+    return out
+
+
+def merge_stories(auto, hand):
+    """Assemble the story list: hand-curated wins on title overlap with
+    automated picks; hand entries pass through with ALL their fields intact
+    (alsoCoveredBy / author / whyItMatters …) — there is no field whitelist."""
+    hand_titles = [title_tokens(st.get('title', '')) for st in hand]
+    auto_final = []
+    for st in auto:
+        tt = title_tokens(st['title'])
+        dup = any(tt and ht and len(tt & ht) / len(tt | ht) >= 0.5 for ht in hand_titles if ht)
+        if not dup:
+            auto_final.append(st)
+    return auto_final + hand
+
+
 def pick_news_stories():
     kw = NEWS_KEYWORDS
     now = datetime.now(timezone.utc)
@@ -812,12 +971,12 @@ def pick_news_stories():
         def attempt(cl, allow_used):
             """Rotate the cluster's outlets (same corroborated story) until
             one copy yields a full briefing; return (rep, desc, paragraphs,
-            image, gallery)."""
+            image, gallery, author)."""
             cands = [c for c in cl['items'] if allow_used or c['outlet'] not in used_sources]
             if not cands:
                 return None
             cands.sort(key=lambda x: -len(x['description']))
-            best = None  # (words, rep, desc, paragraphs, image, gallery)
+            best = None  # (words, rep, desc, paragraphs, image, gallery, author)
             for c in cands:
                 d = c['description'] or ''
                 if len(d) > 1000:
@@ -825,7 +984,7 @@ def pick_news_stories():
                 # Detailed briefing: the article's own paragraphs, verbatim;
                 # keep whichever text is longer so a failed fetch never
                 # degrades the summary. The lead image beats the feed image.
-                paras, og, gallery = full_text(c['link'])
+                paras, og, gallery, author = full_text(c['link'])
                 if len(' '.join(paras).split()) <= len(d.split()):
                     # the feed summary wins: its own sentences, regrouped
                     # into paragraphs (verbatim — presentation only)
@@ -833,12 +992,12 @@ def pick_news_stories():
                 story_img = og or c.get('image') or ''
                 words = len(' '.join(paras).split())
                 if words >= BRIEF_MIN_WORDS:
-                    return c, d, paras, story_img, gallery
+                    return c, d, paras, story_img, gallery, author
                 if best is None or words > best[0]:
-                    best = (words, c, d, paras, story_img, gallery)
-            return (best[1], best[2], best[3], best[4], best[5]) if best is not None else None
+                    best = (words, c, d, paras, story_img, gallery, author)
+            return (best[1], best[2], best[3], best[4], best[5], best[6]) if best is not None else None
 
-        def build_story(rep, desc, paragraphs, image, gallery):
+        def build_story(rep, desc, paragraphs, image, gallery, also=None, author=''):
             dek = sentences(desc)[0] if sentences(desc) else desc[:180]
             date_slug = now.strftime('%Y%m%d')
             # Unique per story (topic+date alone would collide when a topic
@@ -849,7 +1008,7 @@ def pick_news_stories():
             # \n\n breaks.
             content = '\n\n'.join(paragraphs)
             img = image or (FALLBACK_CATEGORY_IMAGES.get(topic) or [''])[0]
-            return {
+            story = {
                 'id': f"news-{topic.split(' ')[0].lower()}-{date_slug}-{title_hash}",
                 'edition': EDITION,
                 'featured': False,
@@ -872,6 +1031,17 @@ def pick_news_stories():
                 'gallery': [g for g in (gallery or []) if g and g != img][:GALLERY_MAX],
                 'saved': False,
             }
+            # Byline, only when the article page itself states one — and not
+            # when it merely repeats the outlet's own name ("By CBC")
+            if author:
+                a_low, o_low = author.lower(), rep['outlet'].lower()
+                if a_low not in o_low and o_low not in a_low:
+                    story['author'] = author
+            # Cross-outlet coverage of the same cluster (verbatim links)
+            if also:
+                story['alsoCoveredBy'] = [a for a in also
+                                          if a.get('outlet') and a.get('url')][:4]
+            return story
 
         for idx, (s, it, cl) in enumerate(scored[:35]):
             if len(picks) >= quota:
@@ -880,9 +1050,10 @@ def pick_news_stories():
             got = attempt(cl, allow_used=False)
             if got is None:
                 continue
-            rep, desc, paragraphs, image, gallery = got
+            rep, desc, paragraphs, image, gallery, author = got
             used_sources.add(rep['outlet'])
-            story = build_story(rep, desc, paragraphs, image, gallery)
+            story = build_story(rep, desc, paragraphs, image, gallery,
+                                also_covered_by(cl, rep), author)
             if len(story['content'].split()) >= BRIEF_MIN_WORDS:
                 picks.append(story)
             else:
@@ -896,11 +1067,12 @@ def pick_news_stories():
                 got = attempt(cl, allow_used=True)
                 if got is None:
                     continue
-                rep, desc, paragraphs, image, gallery = got
+                rep, desc, paragraphs, image, gallery, author = got
                 if len(' '.join(paragraphs).split()) < BRIEF_MIN_WORDS:
                     continue
                 used_sources.add(rep['outlet'])
-                picks.append(build_story(rep, desc, paragraphs, image, gallery))
+                picks.append(build_story(rep, desc, paragraphs, image, gallery,
+                                         also_covered_by(cl, rep), author))
         for story in fallbacks:
             if len(picks) >= quota:
                 break
@@ -924,17 +1096,9 @@ def main():
 
     auto = pick_news_stories()
 
-    # hand-curated wins on title overlap with automated picks
-    hand_titles = [title_tokens(st.get('title', '')) for st in hand]
-    auto_final = []
-    for st in auto:
-        tt = title_tokens(st['title'])
-        dup = any(tt and ht and len(tt & ht) / len(tt | ht) >= 0.5 for ht in hand_titles if ht)
-        if not dup:
-            auto_final.append(st)
-
-    # freshest news first; the reflective hand-written column closes the briefing
-    stories = auto_final + hand
+    # hand-curated wins on title overlap with automated picks; hand fields
+    # (alsoCoveredBy / author / …) pass through untouched — see merge_stories
+    stories = merge_stories(auto, hand)
 
     # hard requirement: no two stories in a feed share a cover image
     ensure_distinct_covers(stories)
@@ -948,7 +1112,7 @@ def main():
     out = os.path.join(BASE, 'pulse_feed.json')
     with open(out, 'w', encoding='utf-8') as f:
         json.dump(feed, f, indent=2, ensure_ascii=False)
-    print(f'pulse_feed.json: {len(stories)} stories ({len(auto_final)} auto + {len(hand)} hand), '
+    print(f'pulse_feed.json: {len(stories)} stories ({len(stories) - len(hand)} auto + {len(hand)} hand), '
           f'{len(feed["papers"])} papers, stamp {feed["generated_at"]}')
 
 

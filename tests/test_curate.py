@@ -270,3 +270,169 @@ def test_validator_catches_a_synthetic_bad_feed():
     assert any('duplicate cover image' in e for e in errors)
     assert any('missing/empty image' in e for e in errors)
     assert any('no papers' in e for e in errors)
+
+
+# --------------------------------------------------------------------------
+# clean_paragraph — the fetch_full_text paragraph filter (NY Post regression:
+# a <p> whose content mixes a <style> block, a <script> block, a promo
+# prefix, and the real sentence)
+# --------------------------------------------------------------------------
+
+def test_strip_html_removes_style_and_script_blocks_first():
+    raw = ('<style>a{display:none}</style>'
+           "<script>var x = 1; window.alert('hi');</script>"
+           'Real text here')
+    assert curate.strip_html(raw) == 'Real text here'
+
+
+def test_clean_paragraph_strips_promo_prefix_keeps_sentence():
+    raw = ('Make New York Post a Preferred Source '
+           'The quake struck the border region at dawn and damaged dozens of buildings across the valley.')
+    out = curate.clean_paragraph(raw)
+    assert out.startswith('The quake struck')
+    assert 'Preferred Source' not in out
+
+
+def test_clean_paragraph_survives_style_script_inside_the_p():
+    # the NY Post bug: one <p> carrying a <style> block, a <script> block
+    # AND the real sentence — the blocks must vanish, the sentence must stay
+    raw = ('<style>.hideme{display:none}</style>'
+           "<script>function x(){document.getElementById('a')}</script>"
+           'The minister signed the accord after three days of talks in the capital city.')
+    out = curate.clean_paragraph(raw)
+    assert out.startswith('The minister signed')
+    assert 'display' not in out
+    assert 'function' not in out
+    assert 'getElementById' not in out
+
+
+def test_clean_paragraph_drops_pure_junk_paragraph():
+    raw = ('<style>a{display:none}</style>'
+           '<script>var x=1; window.alert(1)</script>')
+    assert curate.clean_paragraph(raw) == ''
+
+
+def test_clean_paragraph_drops_callouts_and_short_captions():
+    callout = ('Please subscribe to our daily email digest for the best '
+               'coverage every single morning, straight to your inbox.')
+    assert curate.clean_paragraph(callout) == ''
+    assert curate.clean_paragraph('Photo credit: Getty Images') == ''  # < 60 chars
+    assert curate.clean_paragraph('') == ''
+
+
+# --------------------------------------------------------------------------
+# _gallery_images / _caption_ok — captioned figures + junk (regression test)
+# --------------------------------------------------------------------------
+
+def test_gallery_keeps_captioned_figures_drops_avatar_thumb_and_lead_dupe():
+    lead = 'https://cdn.example.com/lead.jpg'
+    scope = (
+        # the good stuff: real <figure> blocks with real figcaptions
+        '<figure><img src="https://cdn.example.com/real.jpg">'
+        '<figcaption>Real caption naming the people in the photo</figcaption></figure>'
+        # author avatar (junk basename)
+        '<img src="https://cdn.example.com/avatar-author-100.png" alt="author photo">'
+        # explicit thumbnail size (?width=100 < 400)
+        '<img src="https://cdn.example.com/thumb.jpg?width=100" alt="thumb">'
+        # the lead image under a dimension-suffixed URL (dedupe must catch it)
+        '<img src="https://cdn.example.com/lead-2560x1440.jpg" alt="lead dupe">'
+        # second good figure, sized attributes large enough to pass
+        '<figure><img src="https://cdn.example.com/second.jpg" width="1200" height="800">'
+        '<figcaption>Another real caption describing the scene</figcaption></figure>'
+    )
+    out = curate._gallery_images(scope, BASE, lead)
+    assert out == [
+        {'url': 'https://cdn.example.com/real.jpg',
+         'alt': 'Real caption naming the people in the photo'},
+        {'url': 'https://cdn.example.com/second.jpg',
+         'alt': 'Another real caption describing the scene'},
+    ]
+
+
+def test_caption_ok_rejects_generic_and_keeps_real():
+    assert curate._caption_ok('photo') == ''
+    assert curate._caption_ok('Getty Images') == ''
+    assert curate._caption_ok('x') == ''
+    real = 'Ministers meet at the palace to sign the accord'
+    assert curate._caption_ok(real) == real
+
+
+# --------------------------------------------------------------------------
+# also_covered_by — cross-outlet coverage of the chosen cluster story
+# --------------------------------------------------------------------------
+
+def test_also_covered_by_collects_other_outlets_max_four():
+    rep = {'outlet': 'BBC World', 'link': 'https://bbc.example/y', 'title': 't'}
+    cl = {'items': [
+        rep,
+        {'outlet': 'The Guardian', 'link': 'https://guardian.example/1'},
+        {'outlet': 'The Guardian', 'link': 'https://guardian.example/2'},  # dupe outlet
+        {'outlet': 'NY Post', 'link': 'https://nypost.example/1'},
+        {'outlet': 'NPR World', 'link': 'https://npr.example/1'},
+        {'outlet': 'CBC World', 'link': 'https://cbc.example/1'},
+        {'outlet': 'Israel Hayom', 'link': 'https://ih.example/1'},  # beyond max 4
+    ]}
+    assert curate.also_covered_by(cl, rep) == [
+        {'outlet': 'The Guardian', 'url': 'https://guardian.example/1'},
+        {'outlet': 'NY Post', 'url': 'https://nypost.example/1'},
+        {'outlet': 'NPR World', 'url': 'https://npr.example/1'},
+        {'outlet': 'CBC World', 'url': 'https://cbc.example/1'},
+    ]
+
+
+def test_also_covered_by_empty_for_solo_cluster():
+    rep = {'outlet': 'BBC World', 'link': 'https://bbc.example/y'}
+    assert curate.also_covered_by({'items': [rep]}, rep) == []
+    # a second outlet with no link contributes nothing
+    other = {'outlet': 'Phys.org', 'link': ''}
+    assert curate.also_covered_by({'items': [rep, other]}, rep) == []
+
+
+# --------------------------------------------------------------------------
+# extract_author — bylines from JSON-LD, meta, or the conservative regex
+# --------------------------------------------------------------------------
+
+def test_extract_author_prefers_structured_sources():
+    raw = ('<script type="application/ld+json">'
+           '{"@type":"NewsArticle","author":[{"@type":"Person","name":"Sarah K. Chen"}]}'
+           '</script>')
+    assert curate.extract_author(raw) == 'Sarah K. Chen'
+    meta = '<meta property="article:author" content="James P. Osei">'
+    assert curate.extract_author(meta) == 'James P. Osei'
+
+
+def test_extract_author_byline_regex_fallback():
+    raw = '<p>By Maria Delgado-Martinez</p><p>More text follows this paragraph here.</p>'
+    assert curate.extract_author(raw, raw) == 'Maria Delgado-Martinez'
+
+
+def test_extract_author_absent_and_non_person():
+    assert curate.extract_author('<p>Nothing but plain prose in this paragraph.</p>') == ''
+    assert curate.extract_author(
+        '<meta property="article:author" content="Staff Reporter">') == ''
+    assert curate.extract_author(
+        '<script type="application/ld+json">{"author":"newsroom"}</script>') == ''
+
+
+# --------------------------------------------------------------------------
+# arxiv_pdf_url / merge_stories — pdfUrl + hand-field passthrough
+# --------------------------------------------------------------------------
+
+def test_arxiv_pdf_url():
+    assert curate.arxiv_pdf_url('2401.12345') == 'https://arxiv.org/pdf/2401.12345'
+    assert curate.arxiv_pdf_url('quant-ph/0508202') == 'https://arxiv.org/pdf/quant-ph/0508202'
+
+
+def test_merge_stories_passes_hand_fields_through_untouched():
+    hand = {'id': 'mind-1', 'title': 'Habit stacking for deep work',
+            'author': 'Anne Author',
+            'alsoCoveredBy': [{'outlet': 'BBC World', 'url': 'https://bbc.example/x'}],
+            'whyItMatters': 'Because focus compounds.'}
+    auto = {'id': 'news-a', 'title': 'Quake hits the region', 'author': 'Wire Name'}
+    auto_dup = {'id': 'news-b', 'title': 'Habit stacking for deep work'}  # overlaps hand
+    out = curate.merge_stories([auto, auto_dup], [hand])
+    assert [s['id'] for s in out] == ['news-a', 'mind-1']  # dup dropped, hand last
+    assert out[1] is hand                                   # same object: no rebuild/whitelist
+    assert out[1]['author'] == 'Anne Author'
+    assert out[1]['alsoCoveredBy'][0]['outlet'] == 'BBC World'
+    assert out[0]['author'] == 'Wire Name'                  # auto fields kept too
