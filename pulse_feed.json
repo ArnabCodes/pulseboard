@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T03:45:30Z",
+  "generated_at": "2026-11-01T10:56:04Z",
   "stories": [
     {
       "id": "news-geopolitics-20261101-fcb28481",
@@ -72,25 +72,26 @@
       "saved": false
     },
     {
-      "id": "news-tech-20261101-bac2f3be",
+      "id": "news-tech-20261101-c535d801",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "The Verge",
+      "source": "Ars Technica",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://www.theverge.com/gadgets/1013375/muse-charm-gadgets-preview-waveshare-esp32-claude-vibe-code",
-      "title": "I built an AI Tamagotchi before Meta could",
-      "dek": "Mark Zuckerberg's Meta made AI look so stinking cute by giving it a squishy little face - and this holiday season, he wants to sell you a Muse Charm so you can carry your jolly AI helper around like a…",
-      "content": "Mark Zuckerberg’s Meta made AI look so stinking cute by giving it a squishy little face — and this holiday season, he wants to sell you a Muse Charm so you can carry your jolly AI helper around like a Tamagotchi.\n\nBut I won’t be buying one, because we have Muse Charm at home . It cost just $50, and I’ve decided the learning experience was worth it.\n\nMy version doesn’t sport cameras or a 5G cellular radio , but it really talks to Muse and has cute avatars, too! It doubles as a pocket watch and a remote camera viewfinder, and it can (theoretically) control my smart home.\n\nWeeks ago, I paid $50 to get a 1.75-inch touchscreen computer pendant drop-shipped from China — specifically the Waveshare ESP32-S3 1.75C . Not only does the push-to-talk AI devkit look a lot like the Muse Charm, but it’s officially sanctioned by Meta. It’s one of the company’s first suggestions if you want to build a “Muse Gadget,” a device that uses Meta’s open-source code and tokens to directly connect to its Muse AI cloud.\n\nWhen the silver metal pocket watch arrived, it felt pretty useless to start. Setup was easy enough — I just plugged it into my PC and pointed Claude at Meta’s GitHub, then paired it to the Muse phone app. But even after I put Meta’s keys on the device, Muse originally thought I was sending it audio clips to transcribe rather than commands. After I cleared that up, Muse’s responses were still slow, and it didn’t answer me out loud. It was hard to tell what it was saying since it only showed a few words onscreen at a time, with no place to read full messages unless I whipped out my phone with its own Muse app.\n\nMeta’s build also only came with a single Jolly avatar that mostly just sat there and looked cute, and it wouldn’t automatically discover smart home gadgets like Amazon Echo or Google Home devices do. (This gadget really didn’t do anything useful after my initial install.) And though Meta AI software engineers Anant Narayanan and Jeremy Payne include a neat sample app showing how Muse Gadgets can stream video from your phone camera, the lack of a remote shutter button made it not so useful for taking photos.",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/verge-sean-hollister-muse-gadget-331A2564-01-3.jpg?quality=90&strip=all&crop=4%2C9.7534360513847%2C96%2C75.393048208485&w=1200",
+      "sourceUrl": "https://arstechnica.com/gadgets/2026/10/united-airlines-ceo-doubts-supersonic-airliner-from-boom-will-be-ready-by-2029/",
+      "title": "Supersonic airliner in doubt as company shifts to powering AI data centers",
+      "dek": "Boom’s airliner may be delayed, and its data center power business lost a customer.",
+      "content": "Boom’s airliner may be delayed, and its data center power business lost a customer.\n\nBoom Supersonic CEO Blake Scholl recently declared “it’s time for a renaissance in energy and in supersonic flight” as the supersonic airliner company unveiled a Colorado factory dedicated to making gas turbines for AI data centers. But Boom may be facing turbulence after early backers for both ventures have questioned the company’s delivery timeline or backed out entirely.\n\nOne of the company’s first customers, United Airlines CEO Scott Kirby, has expressed doubts about Boom’s original plan to deliver the first Overture supersonic airliner in 2029. Kirby’s latest frank assessment came during an interview with the Office Hours: Business Edition podcast that appeared on October 28, 2026.\n\n“‘29 is their official timeline,” Kirby told podcast host Monica Langley. “It’s not going to happen in ‘29—it’s going to take longer.”\n\nBoom first made headlines for flying its XB-1 demonstrator aircraft in 2024 and 2025 to demonstrate a “boomless cruise” concept that harnesses the Mach cutoff phenomenon. Such a feat involves flying just beyond supersonic speeds at higher altitudes under specific atmospheric conditions, so that the aircraft’s shockwaves refract upward and minimize the impact on the ground.\n\nThe company’s plan to revive supersonic air travel has been backed by the Trump administration via efforts to ease regulations. In June 2026, the Federal Aviation Administration (FAA) proposed a new rule overturning a long-standing ban on commercial supersonic flights over the United States, following an executive order from President Donald Trump.\n\nBoom’s press releases have previously described achieving aircraft certification and carrying the first paying customers by 2029. The company has conditional agreements with American Airlines, Japan Airlines, and United Airlines involving non-refundable deposits of unknown amounts that would allow the airlines to fully purchase the Overture aircraft once it becomes commercially available.\n\nBut United CEO Kirby pointed out that Boom still has “a lot of hurdles to overcome” while developing Overture and getting the supersonic airliner certified by the FAA. “So it’s not a guarantee that they’ll overcome,” he cautioned during the podcast interview, even though he praised Scholl and the company in general.\n\nThis follows Kirby’s earlier comments back in March that put the chances of Boom’s Overture airliner entering commercial service at “50-50.” Ars has reached out to Boom for comment.",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/Superpower-Superfactory-2560x1440.jpg",
       "gallery": [
-        "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/verge-sean-hollister-muse-gadget-331A2570-01-2.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
-        "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/verge-sean-hollister-muse-gadget-331A2576-01.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
-        "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/DJI_20261030134230_0857_D-1.jpg?quality=90&strip=all&crop=7.8125%2C0%2C84.375%2C100&w=2400"
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/Sprint-Core--640x427.jpg",
+          "alt": "Boom Supersonic’s prototype turbine core called Sprint Core is intended to power both gas turbines for AI data centers and the engine for Boom’s supersonic airliner. Credit: Boom Supersonic"
+        }
       ],
       "saved": false,
-      "author": "Sean Hollister"
+      "author": "Jeremy Hsu"
     },
     {
       "id": "news-quantum-20261101-1bcb475d",
