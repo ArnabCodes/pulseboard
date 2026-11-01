@@ -1,0 +1,26 @@
+name: Validate feed
+
+on:
+  push:
+  pull_request:
+  workflow_run:
+    # re-validate the exact commit the curation workflow just pushed
+    workflows: ['Autonomous Daily Pulse Curation']
+    types: [completed]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate pulse_feed.json
+        run: python3 tests/validate_feed.py --check-images pulse_feed.json

@@ -1,0 +1,37 @@
+name: Weekly link health check
+
+on:
+  schedule:
+    # Mondays 07:00 UTC
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check teachings videos, RSS sources and feed images
+        run: python3 tests/link_check.py --report-file /tmp/link-report.md
+
+      - name: Open GitHub issue for broken links
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create link-check --color d4c5f9 --description 'Automated weekly link health check' || true
+          gh issue create \
+            --title "[link-check] broken links found ($(date -u +%Y-%m-%d))" \
+            --body-file /tmp/link-report.md \
+            --label link-check
