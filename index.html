@@ -106,6 +106,72 @@
   /* Save-star micro-interaction: a small pop when bookmarking */
   @keyframes star-pop { 0% { transform: scale(1); } 45% { transform: scale(1.28); } 100% { transform: scale(1); } }
   .star-pop { animation: star-pop 0.32s cubic-bezier(0.3, 1.4, 0.5, 1); }
+
+  /* ============ UX pass: chip bar, pull-to-refresh, FAB, dim mode, a11y ============ */
+
+  /* Category chips: single-line horizontal scroll with fade edges (mobile overflow fix) */
+  #category-filters {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+  }
+  #category-filters::-webkit-scrollbar { display: none; }
+  #category-filters .cat-btn, #btn-unread-first { white-space: nowrap; }
+
+  /* 44px-class hit areas via padding + halo, without changing visual sizes */
+  .cat-btn { padding-top: 0.55rem !important; padding-bottom: 0.55rem !important; }
+  .cat-btn, #btn-unread-first, [data-save-story], [data-save-paper] { position: relative; }
+  .cat-btn::after, #btn-unread-first::after, [data-save-story]::after, [data-save-paper]::after {
+    content: ''; position: absolute; inset: -7px; border-radius: 9999px;
+  }
+
+  /* Pull-to-refresh indicator (dashboard, scroll-top only) */
+  .ptr-spin svg { animation: pb-ptr-spin 0.75s linear infinite; }
+  @keyframes pb-ptr-spin { to { transform: rotate(360deg); } }
+
+  /* Scroll-to-top FAB (themed via body class, below) */
+  #btn-scroll-top {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgb(203, 213, 225);
+    color: rgb(71, 85, 105);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  body.bg-slate-950 #btn-scroll-top {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgb(51, 65, 85);
+    color: rgb(226, 232, 240);
+  }
+
+  /* Night dim mode: warm late-night layer on top of the night edition (AA kept) */
+  body.pb-dim { background-color: #141008; }
+  body.pb-dim #app-header { background-color: rgba(23, 18, 8, 0.92); border-bottom-color: #2c2312; }
+  #page-story.pb-dim, #page-settings.pb-dim { background-color: #0f0b05; }
+  #page-story.pb-dim #story-header { background-color: rgba(15, 11, 5, 0.92); border-bottom-color: #2c2312; }
+  body.pb-dim #page-progress { background-color: #d97706; }
+  body.pb-dim #brand-badge { background-color: #a16207; }
+
+  /* Read-tracking: dim the cover image only — text stays fully readable */
+  .pb-read-img { opacity: 0.75; }
+
+  /* prefers-contrast: bump borders and muted text */
+  @media (prefers-contrast: more) {
+    .cat-btn { border-width: 2px !important; }
+    #news-grid article, #papers-list > div, #routine-card, #tasks-card, #schedule-card, #weather-card, #hero-banner { border-width: 2px !important; }
+    body.bg-slate-950 .text-slate-400 { color: #cbd5e1 !important; }
+    body.bg-slate-950 .text-slate-500 { color: #cbd5e1 !important; }
+    body:not(.bg-slate-950) .text-slate-400 { color: #475569 !important; }
+    body:not(.bg-slate-950) .text-slate-500 { color: #475569 !important; }
+    body:not(.bg-slate-950) .text-slate-600 { color: #334155 !important; }
+    .border-slate-200 { border-color: #64748b !important; }
+    .border-slate-800 { border-color: #64748b !important; }
+    .border-amber-200 { border-color: #b45309 !important; }
+  }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
@@ -210,8 +276,15 @@
           <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">0</span>
         </button>
 
-        <button type="button" id="btn-lock-now" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Lock Dashboard">
+        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Lock Dashboard">
           <span>🔒</span>
+        </button>
+
+        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.2"></circle>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path>
+          </svg>
         </button>
       </div>
     </div>
@@ -247,6 +320,13 @@
               <span id="weather-desc" class="text-xs font-medium text-slate-500">Encrypted</span>
             </div>
             <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Focus block locked</p>
+          </div>
+          <div id="weather-extras" class="hidden w-full pt-2 mt-1 border-t border-slate-200/70">
+            <div id="weather-hours" class="flex items-start justify-between gap-1"></div>
+            <div class="mt-1.5 flex items-center gap-2.5">
+              <svg id="weather-sun-arc" width="120" height="34" viewBox="0 0 120 34" role="img" aria-label="Sun position between sunrise and sunset"></svg>
+              <span id="weather-sun-times" class="text-[9px] tabular-nums"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -300,9 +380,9 @@
         <section aria-labelledby="newsboard-heading">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div>
-              <h3 id="newsboard-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+              <h2 id="newsboard-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
                 <span>📰 Visual Newsboard</span>
-              </h3>
+              </h2>
               <p id="feed-freshness" class="text-xs text-slate-500">Curated stories decrypted in memory</p>
             </div>
 
@@ -314,11 +394,12 @@
               <button type="button" data-category="Tech & AI" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">💻 Tech &amp; AI</button>
               <button type="button" data-category="Mind & Habits" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">🧘 Mind &amp; Habits</button>
               <button type="button" data-category="saved" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">★ Saved</button>
+              <button type="button" id="btn-unread-first" aria-pressed="false" class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">○ Unread first</button>
             </div>
           </div>
 
           <!-- News Cards Container (Skeleton placeholders when locked) -->
-          <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div id="news-grid" role="feed" aria-labelledby="newsboard-heading" class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div class="h-64 rounded-2xl skeleton border border-slate-200/80"></div>
             <div class="h-64 rounded-2xl skeleton border border-slate-200/80"></div>
           </div>
@@ -329,9 +410,9 @@
         <section id="backup-articles-section" class="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800">
           <div class="flex items-center justify-between mb-4">
             <div>
-              <h3 class="text-lg font-bold tracking-tight flex items-center gap-2">
+              <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
                 <span>📚 Deep-Reading Vault (Extra Curated Briefings)</span>
-              </h3>
+              </h2>
               <p class="text-xs text-slate-500">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
             </div>
             <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
@@ -372,9 +453,9 @@
         <section aria-labelledby="papers-heading">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div>
-              <h3 id="papers-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+              <h2 id="papers-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
                 <span>🔬 Papers Worth Reading</span>
-              </h3>
+              </h2>
               <p class="text-xs text-slate-500">Plain-English summaries decrypted upon authentication</p>
             </div>
             <button type="button" id="btn-expand-all-papers" class="text-xs font-semibold text-amber-700 hover:text-amber-900 underline underline-offset-4">
@@ -397,10 +478,10 @@
         <div id="routine-card" class="rounded-2xl p-5 border border-amber-200/90 bg-white shadow-sm transition-all">
           <div class="flex items-center justify-between mb-3">
             <div>
-              <h3 id="routine-title" class="text-base font-bold tracking-tight flex items-center gap-1.5">
+              <h2 id="routine-title" class="text-base font-bold tracking-tight flex items-center gap-1.5">
                 <span id="routine-emoji">☀️</span>
                 <span id="routine-heading-text">Daily Routine</span>
-              </h3>
+              </h2>
               <p id="routine-subtitle" class="text-xs text-slate-500">Encrypted personal habits</p>
             </div>
             <span id="routine-progress" class="text-xs font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
@@ -423,7 +504,7 @@
         <div id="schedule-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <div>
-              <h3 id="schedule-title" class="text-base font-bold tracking-tight">🗓️ Your Schedule</h3>
+              <h2 id="schedule-title" class="text-base font-bold tracking-tight">🗓️ Your Schedule</h2>
               <p id="schedule-subtitle" class="text-xs text-slate-500">Encrypted calendar blocks</p>
             </div>
             <span id="schedule-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Locked</span>
@@ -439,7 +520,7 @@
         <div id="tasks-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <div>
-              <h3 id="checklist-title" class="text-base font-bold tracking-tight">✅ Top Priorities</h3>
+              <h2 id="checklist-title" class="text-base font-bold tracking-tight">✅ Top Priorities</h2>
               <p class="text-xs text-slate-500">Personal daily goals</p>
             </div>
             <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">Locked</span>
@@ -503,6 +584,7 @@
             </button>
             <a id="story-source" href="#" target="_blank" rel="noopener" class="min-w-0 flex-1 truncate text-xs font-semibold hover:underline">Publication ↗</a>
             <span id="story-readmin" class="shrink-0 text-[11px] font-medium"></span>
+            <span id="story-pos" class="hidden shrink-0 text-[11px] font-medium"></span>
             <span id="story-spectrum" class="hidden shrink-0 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded"></span>
             <button type="button" id="story-save-btn" class="shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors">☆ Save</button>
             <button type="button" id="story-font-btn" class="shrink-0 text-[11px] font-bold px-2 py-1.5 rounded-full border transition-colors" aria-label="Cycle text size" title="Cycle text size">Aa</button>
@@ -529,6 +611,73 @@
         </div>
       </section>
 
+      <!-- ========== SETTINGS PAGE (pb_prefs — non-sensitive preferences) ========== -->
+      <section id="page-settings" class="hidden min-h-full" aria-label="Settings">
+        <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
+          <div class="flex items-center justify-between">
+            <button type="button" id="btn-close-settings" class="inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors" aria-label="Back to dashboard">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+              Back
+            </button>
+            <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400 select-none">Preferences</span>
+          </div>
+          <div class="pt-8">
+            <h1 class="text-2xl font-serif-editorial font-bold">Settings</h1>
+            <p id="settings-sub" class="text-xs text-slate-500 mt-1">Stored on this device only — non-sensitive preferences, separate from your encrypted vault.</p>
+
+            <div class="set-card mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="text-sm font-semibold">Haptic feedback</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Tiny vibrations on saves, checks and refreshes.</p>
+                </div>
+                <button type="button" id="set-haptics" role="switch" aria-checked="true" aria-label="Toggle haptic feedback" class="shrink-0 relative w-12 h-7 rounded-full border bg-slate-200 transition-colors">
+                  <span id="set-haptics-knob" class="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-white shadow transition-transform"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <p class="text-sm font-semibold">Edition</p>
+              <p class="text-xs text-slate-500 mt-0.5 mb-3">Auto follows the clock — morning 5:00–18:00, night otherwise.</p>
+              <div class="grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Edition override">
+                <button type="button" data-set-edition="auto" class="set-seg">Auto</button>
+                <button type="button" data-set-edition="morning" class="set-seg">Morning</button>
+                <button type="button" data-set-edition="night" class="set-seg">Night</button>
+              </div>
+            </div>
+
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <p class="text-sm font-semibold">Night dim mode</p>
+              <p class="text-xs text-slate-500 mt-0.5 mb-3">Warmer, darker tones for late-night reading. Auto: 22:00–05:00.</p>
+              <div class="grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Night dim mode">
+                <button type="button" data-set-dim="auto" class="set-seg">Auto</button>
+                <button type="button" data-set-dim="on" class="set-seg">On</button>
+                <button type="button" data-set-dim="off" class="set-seg">Off</button>
+              </div>
+            </div>
+
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <p class="text-sm font-semibold">Reader text size</p>
+              <p class="text-xs text-slate-500 mt-0.5 mb-3">Default size when a story opens (the Aa button still cycles it while reading).</p>
+              <div class="grid grid-cols-3 gap-1 rounded-xl p-1 bg-slate-100" role="group" aria-label="Reader text size">
+                <button type="button" data-set-font="0" class="set-seg">Standard</button>
+                <button type="button" data-set-font="1" class="set-seg">Large</button>
+                <button type="button" data-set-font="2" class="set-seg">Largest</button>
+              </div>
+            </div>
+
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <p class="text-sm font-semibold">Cached images</p>
+              <p class="text-xs text-slate-500 mt-0.5 mb-3">Clear the offline image cache and reload the latest feed.</p>
+              <button type="button" id="set-clear-cache" class="w-full px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Clear cached images &amp; refresh feed</button>
+            </div>
+
+            <p class="mt-6 text-[10px] text-center text-slate-400">PulseBoard · preferences live in local storage under <code>pb_prefs</code></p>
+          </div>
+        </div>
+      </section>
+
       <!-- ========== TEACHING PAGE (quote + breathing orb + meditation timer) ========== -->
       <section id="page-teaching" class="hidden min-h-full bg-gradient-to-b from-[#04060b] via-[#0b1026] to-[#04060b] text-slate-200" aria-label="Guided teaching">
         <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
@@ -541,7 +690,7 @@
           </div>
           <div class="pt-8 flex flex-col items-center text-center">
             <span id="teaching-tradition" class="text-[11px] font-bold uppercase tracking-widest text-amber-300/90"></span>
-            <h3 id="teaching-theme" class="text-sm font-medium text-slate-400 mt-1.5"></h3>
+            <h1 id="teaching-theme" class="text-sm font-medium text-slate-400 mt-1.5"></h1>
             <blockquote id="teaching-quote" class="font-serif-editorial italic text-lg sm:text-xl leading-relaxed mt-5 text-slate-100"></blockquote>
             <p id="teaching-reflection" class="text-xs text-slate-400 mt-3 leading-relaxed"></p>
 
@@ -583,7 +732,7 @@
           </div>
           <div class="pt-8 flex flex-col items-center text-center">
             <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-300/90">Evening Ritual</span>
-            <h3 class="text-2xl font-serif-editorial mt-1.5">Close the day</h3>
+            <h1 class="text-2xl font-serif-editorial mt-1.5">Close the day</h1>
             <p id="dayclose-date" class="text-xs text-slate-500 mt-1"></p>
 
             <div id="dayclose-wins" class="mt-5 w-full rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm space-y-1.5"></div>
@@ -622,11 +771,86 @@
       night_battery: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80"
     };
 
-    // Determine default edition based on current local hour
+    // ------------------------------------------------------------------
+    // Preferences (pb_prefs): non-sensitive UI prefs, kept separate from
+    // the encrypted vault. Haptics, edition override, night dim mode,
+    // reader font default, unread-first ordering.
+    // ------------------------------------------------------------------
+    const PB_PREFS_KEY = 'pb_prefs';
+    const PB_PREFS_DEFAULTS = { haptics: true, edition: 'auto', dim: 'auto', readerFont: 0, unreadFirst: false };
+    let pbPrefs = (function () {
+      try {
+        const raw = JSON.parse(localStorage.getItem(PB_PREFS_KEY) || '{}');
+        return Object.assign({}, PB_PREFS_DEFAULTS, (raw && typeof raw === 'object') ? raw : {});
+      } catch (e) { return Object.assign({}, PB_PREFS_DEFAULTS); }
+    })();
+    function pbSavePrefs() {
+      try { localStorage.setItem(PB_PREFS_KEY, JSON.stringify(pbPrefs)); } catch (e) { /* storage full: session-only */ }
+    }
+    // The single gate for every vibration in the app (Settings can switch it off)
+    function pbHaptic(pattern) {
+      if (pbPrefs.haptics === false) return;
+      try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) { /* no vibrator */ }
+    }
+    // Read-tracking: story ids opened in the reader for >= 10s (capped at 500)
+    const PB_READ_KEY = 'pb_read_ids';
+    let pbReadIds = (function () {
+      try {
+        const a = JSON.parse(localStorage.getItem(PB_READ_KEY) || '[]');
+        return new Set(Array.isArray(a) ? a.filter(x => typeof x === 'string') : []);
+      } catch (e) { return new Set(); }
+    })();
+    function pbPersistReadIds() {
+      try {
+        let arr = Array.from(pbReadIds);
+        if (arr.length > 500) { pbReadIds = new Set(arr.slice(arr.length - 500)); arr = Array.from(pbReadIds); }
+        localStorage.setItem(PB_READ_KEY, JSON.stringify(arr));
+      } catch (e) { /* storage full: tracking stays in-memory */ }
+    }
+    let pbReadTimer = null;
+    function pbCancelReadTracking() {
+      if (pbReadTimer) { clearTimeout(pbReadTimer); pbReadTimer = null; }
+    }
+    function pbArmReadTracking(id) {
+      pbCancelReadTracking();
+      pbReadTimer = setTimeout(() => {
+        pbReadTimer = null;
+        if (pbActivePage === 'story' && state.activeModalStoryId === id && !pbReadIds.has(id)) {
+          pbReadIds.add(id);
+          pbPersistReadIds();
+          renderApp(); // dim the card underneath; visible when the reader closes
+        }
+      }, 10000);
+    }
+    // Night dim mode: a warm late-night layer (auto = 22:00-05:00, night edition only)
+    function pbDimActive(isNight) {
+      if (!isNight) return false;
+      const mode = (pbPrefs.dim === 'on' || pbPrefs.dim === 'off') ? pbPrefs.dim : 'auto';
+      if (mode === 'off') return false;
+      if (mode === 'on') return true;
+      const h = new Date().getHours();
+      return h >= 22 || h < 5;
+    }
+    function pbApplyDim(isNight) {
+      const on = pbDimActive(isNight);
+      document.body.classList.toggle('pb-dim', on);
+      const ps = document.getElementById('page-story');
+      if (ps) ps.classList.toggle('pb-dim', on);
+      const pset = document.getElementById('page-settings');
+      if (pset) pset.classList.toggle('pb-dim', on);
+    }
+
+    // Determine default edition: the ?edition= param flows through the saved
+    // override (it SETS the override, so reloads keep it), then the override,
+    // then the local hour. Settings > Edition > Auto returns it to the clock.
     const currentHour = new Date().getHours();
     const urlEdition = (new URLSearchParams(location.search).get('edition') || '').toLowerCase();
-    const defaultEdition = (urlEdition === 'morning' || urlEdition === 'night')
-      ? urlEdition
+    if (urlEdition === 'morning' || urlEdition === 'night') {
+      pbPrefs.edition = urlEdition;
+      pbSavePrefs();
+    }
+    const defaultEdition = (pbPrefs.edition === 'morning' || pbPrefs.edition === 'night')
+      ? pbPrefs.edition
       : ((currentHour >= 5 && currentHour < 18) ? 'morning' : 'night');
 
     // Curated Secular Spiritual & Buddhist Teachings Collection
@@ -1078,7 +1302,7 @@ Key Insights:
         sessionStorage.setItem('pulseboard_session_unlocked', 'true');
         armTrustedDevice(enteredPin);
         saveSecurityState({ attempts: 0, lockedUntil: 0 });
-        try { navigator.vibrate && navigator.vibrate(20); } catch (e) {}
+        pbHaptic(20);
 
         offerBiometricEnrollment();
 
@@ -1244,13 +1468,13 @@ Key Insights:
     // The GitHub workflow curates pulse_feed.json; after any unlock we pull it
     // and replace editorial content (stories, papers) while keeping personal
     // data (tasks, routines) in the vault untouched.
-    async function refreshContentFromFeed() {
+    async function refreshContentFromFeed(force) {
       try {
         const res = await fetch('pulse_feed.json', { cache: 'no-cache' });
-        if (!res.ok) return;
+        if (!res.ok) throw new Error('feed http ' + res.status);
         const feed = await res.json();
         if (!feed || !feed.generated_at) return;
-        if (localStorage.getItem('pulseboard_feed_stamp') === feed.generated_at) return;
+        if (!force && localStorage.getItem('pulseboard_feed_stamp') === feed.generated_at) return;
         if (!Array.isArray(feed.stories) || !feed.stories.length) return;
         // Preserve the user's saved items across feed rotations
         const prevS = Array.isArray(state.stories) ? state.stories : [];
@@ -1268,9 +1492,15 @@ Key Insights:
           }).concat(savedP.filter(p => !feed.papers.some(n => n.id === p.id)));
         }
         localStorage.setItem('pulseboard_feed_stamp', feed.generated_at);
+        state.feedError = false;
         if (activeKey) await persistEncryptedState();
         renderApp();
-      } catch (e) { /* offline or feed unavailable: keep vault content */ }
+      } catch (e) {
+        // Offline or feed unavailable: keep vault content, but say so —
+        // a visible retry card replaces the old silent console-only failure.
+        state.feedError = true;
+        renderApp();
+      }
     }
 
     function initSecurityGate() {
@@ -1449,7 +1679,7 @@ Key Insights:
       playBell();
       setTimeout(playBell, 3200);
       setTimeout(playBell, 6400);
-      try { if (navigator.vibrate) navigator.vibrate([250, 150, 250]); } catch (e) {}
+      pbHaptic([250, 150, 250]);
     }
 
     function stopMeditation() {
@@ -1598,12 +1828,12 @@ Key Insights:
           if (item) {
             const wasComplete = currentList.every(r => r.done);
             item.done = checkbox.checked;
-            if (checkbox.checked) { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} }
+            if (checkbox.checked) pbHaptic(12);
             await persistEncryptedState();
             // Progress principle (Amabile & Kramer): finishing the set is the
             // day's small win — acknowledge it, gently.
             const nowComplete = currentList.every(r => r.done);
-            if (nowComplete && !wasComplete) { try { navigator.vibrate && navigator.vibrate([30, 50, 30]); } catch (e) {} }
+            if (nowComplete && !wasComplete) pbHaptic([30, 50, 30]);
             renderRoutine(isNight);
           }
         });
@@ -1645,6 +1875,7 @@ Key Insights:
         tempEl.textContent = '––°';
         descEl.textContent = 'Weather unavailable';
         focusEl.textContent = '';
+        renderWeatherExtras(isNight);
         return;
       }
       emojiEl.textContent = wmoEmoji(lastWeather.code, isNight);
@@ -1654,28 +1885,99 @@ Key Insights:
       focusEl.textContent = isNight
         ? `Wind-down mode${lastWeather.sunset ? ` · sunset was ${lastWeather.sunset}` : ''}`
         : (lastWeather.sunset ? `Sunset today at ${lastWeather.sunset}` : 'Make today count');
+      renderWeatherExtras(isNight);
     }
 
-    async function loadWeather() {
+    async function loadWeather(force) {
       try {
         const cached = JSON.parse(localStorage.getItem(WEATHER_CACHE_KEY) || 'null');
-        if (cached && Date.now() - cached.t < 30 * 60 * 1000) {
+        if (!force && cached && Date.now() - cached.t < 30 * 60 * 1000) {
           lastWeather = cached;
         } else {
-          const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.9039&longitude=34.8116&current=temperature_2m,weather_code,apparent_temperature&daily=sunset&timezone=auto&forecast_days=1');
+          const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.9039&longitude=34.8116&current=temperature_2m,weather_code,apparent_temperature&hourly=temperature_2m,weather_code,precipitation_probability&daily=sunrise,sunset&timezone=auto&forecast_days=2');
           if (!res.ok) throw new Error('weather http ' + res.status);
           const d = await res.json();
+          // Next ~5 hours from now (honest absence if the API omits them)
+          const hours = [];
+          if (d.hourly && Array.isArray(d.hourly.time)) {
+            const t = d.hourly.time;
+            const temps = d.hourly.temperature_2m || [];
+            const codes = d.hourly.weather_code || [];
+            const pops = d.hourly.precipitation_probability || [];
+            let i0 = t.findIndex(x => new Date(x).getTime() > Date.now() - 30 * 60 * 1000);
+            if (i0 < 0) i0 = 0;
+            for (let i = i0; i < t.length && hours.length < 5; i++) {
+              hours.push({
+                tm: String(t[i]).slice(11, 16),
+                h: parseInt(String(t[i]).slice(11, 13), 10) || 0,
+                temp: Math.round(temps[i]),
+                code: codes[i],
+                pop: (pops[i] != null ? pops[i] : null)
+              });
+            }
+          }
           lastWeather = {
             t: Date.now(),
             temp: Math.round(d.current.temperature_2m),
             feels: Math.round(d.current.apparent_temperature),
             code: d.current.weather_code,
-            sunset: ((d.daily && d.daily.sunset && d.daily.sunset[0]) || '').slice(11, 16)
+            sunrise: ((d.daily && d.daily.sunrise && d.daily.sunrise[0]) || '').slice(11, 16),
+            sunset: ((d.daily && d.daily.sunset && d.daily.sunset[0]) || '').slice(11, 16),
+            sunriseTs: (d.daily && d.daily.sunrise && d.daily.sunrise[0]) ? new Date(d.daily.sunrise[0]).getTime() : null,
+            sunsetTs: (d.daily && d.daily.sunset && d.daily.sunset[0]) ? new Date(d.daily.sunset[0]).getTime() : null,
+            hours
           };
           try { localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(lastWeather)); } catch (e) { /* storage full: skip cache */ }
         }
       } catch (e) { /* offline or API down: honest placeholder stays */ }
       renderWeather(state.edition === 'night');
+    }
+
+    // "Next hours" mini row + sun-position arc under the current temp.
+    // All honest data: hidden entirely when the hourly fetch is unavailable.
+    function renderWeatherExtras(isNight) {
+      const wrap = document.getElementById('weather-extras');
+      if (!wrap) return;
+      const hoursEl = document.getElementById('weather-hours');
+      const arcSvg = document.getElementById('weather-sun-arc');
+      const timesEl = document.getElementById('weather-sun-times');
+      if (!lastWeather || !Array.isArray(lastWeather.hours) || !lastWeather.hours.length || !hoursEl) {
+        wrap.classList.add('hidden');
+        if (arcSvg) arcSvg.innerHTML = '';
+        if (timesEl) timesEl.textContent = '';
+        return;
+      }
+      wrap.classList.remove('hidden');
+      wrap.className = 'w-full pt-2 mt-1 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-200/70');
+      hoursEl.innerHTML = lastWeather.hours.map(h => {
+        const slotNight = h.h >= 19 || h.h < 6; // icon honesty: moon after dusk
+        return `<div class="flex flex-col items-center gap-0.5 min-w-[40px]" title="${wmoText(h.code)}${h.pop != null ? ' · ' + h.pop + '% rain' : ''}">
+          <span class="text-base leading-none">${wmoEmoji(h.code, slotNight)}</span>
+          <span class="text-[11px] font-semibold tabular-nums">${h.temp}°</span>
+          <span class="text-[9px] ${isNight ? 'text-slate-500' : 'text-slate-400'}">${h.tm}</span>
+        </div>`;
+      }).join('');
+      const sr = lastWeather.sunriseTs, ss = lastWeather.sunsetTs;
+      if (arcSvg && sr && ss && ss > sr) {
+        const f = Math.max(0, Math.min(1, (Date.now() - sr) / (ss - sr)));
+        const upNow = Date.now() >= sr && Date.now() <= ss; // dot only while the sun is up
+        const cx = 60, cy = 30, r = 26;
+        const x = (cx - r * Math.cos(Math.PI * f)).toFixed(1);
+        const y = (cy - r * Math.sin(Math.PI * f)).toFixed(1);
+        arcSvg.innerHTML = `
+          <path d="M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}" fill="none" stroke="${isNight ? '#334155' : '#e2e8f0'}" stroke-width="2" stroke-dasharray="1 4" stroke-linecap="round"></path>
+          <circle cx="${cx - r}" cy="${cy}" r="2.5" fill="${isNight ? '#64748b' : '#94a3b8'}"></circle>
+          <circle cx="${cx + r}" cy="${cy}" r="2.5" fill="${isNight ? '#64748b' : '#94a3b8'}"></circle>
+          ${upNow ? `<circle cx="${x}" cy="${y}" r="4.5" fill="#f59e0b"></circle>` : ''}
+        `;
+        if (timesEl) {
+          timesEl.textContent = `↑ ${lastWeather.sunrise || '--'}  ↓ ${lastWeather.sunset || '--'}`;
+          timesEl.className = 'text-[9px] tabular-nums ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+        }
+      } else if (arcSvg) {
+        arcSvg.innerHTML = '';
+        if (timesEl) timesEl.textContent = '';
+      }
     }
 
     // Fresh-start effect (Dai, Milkman & Riis 2014): temporal landmarks
@@ -1806,7 +2108,7 @@ Key Insights:
       };
       await persistEncryptedState();
       playBell(0.35);
-      try { navigator.vibrate && navigator.vibrate([40, 60, 40]); } catch (e) {}
+      pbHaptic([40, 60, 40]);
       document.getElementById('btn-finish-day').classList.add('hidden');
       const after = document.getElementById('dayclose-after');
       after.classList.remove('hidden');
@@ -1851,6 +2153,9 @@ Key Insights:
         document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-800 border border-slate-700';
         document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
         document.getElementById('btn-lock-now').className = 'inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-open-settings').className = 'inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors';
+        btnMorning.setAttribute('aria-pressed', 'false');
+        btnNight.setAttribute('aria-pressed', 'true');
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1';
@@ -1860,7 +2165,7 @@ Key Insights:
         document.getElementById('greeting-subtitle').className = 'text-sm text-slate-300 mt-1 max-w-2xl';
         document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(true);
 
-        document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm shrink-0';
+        document.getElementById('weather-card').className = 'flex flex-wrap items-center gap-4 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm shrink-0';
         renderWeather(true);
 
         const closeDayBtn = document.getElementById('btn-close-day');
@@ -1889,6 +2194,9 @@ Key Insights:
         document.getElementById('edition-switcher').className = 'inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80';
         document.getElementById('btn-view-saved').className = 'relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors';
         document.getElementById('btn-lock-now').className = 'inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors';
+        document.getElementById('btn-open-settings').className = 'inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors';
+        btnMorning.setAttribute('aria-pressed', 'true');
+        btnNight.setAttribute('aria-pressed', 'false');
 
         heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all';
         document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1';
@@ -1897,7 +2205,7 @@ Key Insights:
         document.getElementById('greeting-subtitle').className = 'text-sm text-slate-600 mt-1 max-w-2xl';
         document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(false);
 
-        document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
+        document.getElementById('weather-card').className = 'flex flex-wrap items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
         renderWeather(false);
         document.getElementById('btn-close-day').classList.add('hidden');
 
@@ -1913,12 +2221,14 @@ Key Insights:
       // Update saved count badge
       const totalSaved = state.stories.filter(s => s.saved).length + state.papers.filter(p => p.saved).length;
       document.getElementById('saved-count-badge').textContent = String(totalSaved);
+      document.getElementById('btn-view-saved').setAttribute('aria-pressed', state.selectedCategory === 'saved' ? 'true' : 'false');
       document.getElementById('new-task-input').placeholder = TASK_IDEAS[Math.floor(Date.now() / 86400000) % TASK_IDEAS.length];
 
       // Update Category Filter Buttons
       document.querySelectorAll('.cat-btn').forEach(btn => {
         const cat = btn.getAttribute('data-category');
         const active = cat === state.selectedCategory;
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
         if (active) {
           btn.className = isNight
             ? 'cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500 text-white transition-colors'
@@ -1930,6 +2240,20 @@ Key Insights:
         }
       });
 
+      // Unread-first toggle chip (persisted in pb_prefs), styled to match
+      const ufBtn = document.getElementById('btn-unread-first');
+      if (ufBtn) {
+        ufBtn.setAttribute('aria-pressed', pbPrefs.unreadFirst ? 'true' : 'false');
+        ufBtn.className = 'px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ' + (pbPrefs.unreadFirst
+          ? (isNight ? 'bg-indigo-500 text-white' : 'bg-slate-900 text-white')
+          : (isNight ? 'bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'));
+      }
+      // Keep the active chip visible in the scrollable chip bar
+      const activeChip = document.querySelector('#category-filters .cat-btn[aria-pressed="true"]');
+      if (activeChip && activeChip.scrollIntoView) {
+        try { activeChip.scrollIntoView({ block: 'nearest', inline: 'center', behavior: pbReducedMotion() ? 'auto' : 'smooth' }); } catch (e) { /* older engines */ }
+      }
+
       renderWisdom(isNight);
       renderRoutine(isNight);
       updateFreshness();
@@ -1937,16 +2261,29 @@ Key Insights:
       renderPapers(isNight);
       renderSchedule(isNight);
       renderTasks(isNight);
+      pbApplyDim(isNight);
+      if (window.pbSyncScrollTop) window.pbSyncScrollTop();
     }
 
-    function renderNewsGrid(isNight) {
-      const container = document.getElementById('news-grid');
-      let filtered = state.stories.filter(s => {
+    // The exact set the grid shows — shared with reader swipe navigation,
+    // so "Story 3 of 9" and left/right swipes always match what's on screen.
+    function pbVisibleStories() {
+      const list = state.stories.filter(s => {
         if (state.selectedCategory === 'saved') return s.saved;
         if (state.selectedCategory !== 'all') return s.category === state.selectedCategory;
         // The day's (morning) briefing stays visible in the evening/night edition too
         return s.edition === state.edition || s.edition === 'morning';
       });
+      if (pbPrefs.unreadFirst) {
+        // Stable partition: unread first, original order kept within each group
+        return list.slice().sort((a, b) => (pbReadIds.has(a.id) ? 1 : 0) - (pbReadIds.has(b.id) ? 1 : 0));
+      }
+      return list;
+    }
+
+    function renderNewsGrid(isNight) {
+      const container = document.getElementById('news-grid');
+      let filtered = pbVisibleStories();
 
       // Cross-spectrum transparency: the leaning of outlets actually in view.
       // Only shown when two or more leanings are present — never overclaims.
@@ -1967,10 +2304,12 @@ Key Insights:
       }
 
       if (filtered.length === 0) {
+        const savedView = state.selectedCategory === 'saved';
         container.innerHTML = `
           <div class="md:col-span-2 rounded-2xl border border-dashed ${isNight ? 'border-slate-700 bg-slate-900/50 text-slate-400' : 'border-slate-300 bg-white/60 text-slate-500'} p-8 text-center">
-            <p class="text-sm font-medium">No stories match this filter right now.</p>
-            <button type="button" id="btn-reset-filter" class="mt-2 text-xs font-semibold underline">Show all stories for this edition</button>
+            <p class="text-sm font-medium">${savedView ? 'Nothing saved yet.' : 'No stories match this filter right now.'}</p>
+            <p class="mt-1 text-xs ${isNight ? 'text-slate-500' : 'text-slate-400'}">${savedView ? 'Tap ☆ on anything worth returning to — it will wait for you here.' : 'Try another pillar, or check the other edition.'}</p>
+            <button type="button" id="btn-reset-filter" class="mt-3 px-4 py-2 rounded-xl text-xs font-semibold underline">${savedView ? 'Back to all stories' : 'Show all stories for this edition'}</button>
           </div>
         `;
         const resetBtn = document.getElementById('btn-reset-filter');
@@ -1989,7 +2328,18 @@ Key Insights:
       const animate = sig !== lastGridSig;
       lastGridSig = sig;
 
-      container.innerHTML = filtered.map((story, idx) => {
+      // Feed-fetch failure: a visible retry card at the top of the grid
+      const feedErrorCard = state.feedError ? `
+        <div class="md:col-span-2 rounded-2xl border ${isNight ? 'border-rose-900/70 bg-rose-950/30' : 'border-rose-200 bg-rose-50/70'} p-4 flex items-center justify-between gap-3">
+          <div class="min-w-0">
+            <p class="text-sm font-semibold ${isNight ? 'text-rose-200' : 'text-rose-900'}">Couldn't refresh your feed</p>
+            <p class="text-xs mt-0.5 ${isNight ? 'text-slate-400' : 'text-slate-500'}">Showing your last synced stories — check the connection and try again.</p>
+          </div>
+          <button type="button" id="btn-retry-feed" class="shrink-0 px-4 py-2.5 rounded-xl text-xs font-semibold ${isNight ? 'bg-rose-900/70 text-rose-100 hover:bg-rose-900' : 'bg-rose-600 text-white hover:bg-rose-500'} transition-colors">Retry</button>
+        </div>
+      ` : '';
+
+      container.innerHTML = feedErrorCard + filtered.map((story, idx) => {
         const isHero = idx === 0 && filtered.length >= 3;
         const spanFull = isHero ? 'md:col-span-2' : '';
         const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
@@ -2005,7 +2355,7 @@ Key Insights:
         return `
           <article class="${spanFull} ${animate ? 'card-enter' : ''} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''}>
             <div class="relative ${isHero ? 'h-56 sm:h-72' : 'h-44'} w-full bg-slate-900 overflow-hidden cursor-pointer" data-open-story="${story.id}">
-              <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105" />
+              <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
               <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
                 ${story.category}
@@ -2013,6 +2363,7 @@ Key Insights:
               <button
                 type="button"
                 data-save-story="${story.id}"
+                aria-pressed="${story.saved ? 'true' : 'false'}"
                 class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${story.saved ? 'bg-amber-500 text-white' : 'bg-slate-900/75 text-slate-200 hover:bg-slate-900'} backdrop-blur-sm transition-colors"
                 title="Bookmark story"
               >
@@ -2069,6 +2420,15 @@ Key Insights:
           }
         });
       });
+
+      const retryBtn = document.getElementById('btn-retry-feed');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          state.feedError = false;
+          renderApp();
+          refreshContentFromFeed(true);
+        });
+      }
     }
 
     // ------------------------------------------------------------------
@@ -2104,8 +2464,10 @@ Key Insights:
     }
 
     function readerFontStep() {
-      const v = parseInt(localStorage.getItem('pb_reader_font') || '0', 10);
-      return (v >= 0 && v <= 2) ? v : 0;
+      const v = parseInt(localStorage.getItem('pb_reader_font') || '', 10);
+      if (v >= 0 && v <= 2) return v;
+      const d = parseInt(pbPrefs.readerFont, 10); // Settings default when never cycled
+      return (d >= 0 && d <= 2) ? d : 0;
     }
 
     const READER_FONT_STEPS = [
@@ -2148,9 +2510,10 @@ Key Insights:
       });
 
       if (papersForEdition.length === 0) {
+        const savedView = state.selectedCategory === 'saved';
         container.innerHTML = `
           <div class="rounded-2xl border border-dashed ${isNight ? 'border-slate-700 text-slate-400' : 'border-slate-300 text-slate-500'} p-6 text-center text-xs">
-            No saved papers yet. Click "☆ Save Paper" on any research digest to bookmark it.
+            ${savedView ? 'Nothing saved yet — tap "☆ Save Paper" on any digest worth returning to.' : 'No research digests in this edition yet.'}
           </div>
         `;
         return;
@@ -2175,6 +2538,7 @@ Key Insights:
                 <button
                   type="button"
                   data-save-paper="${paper.id}"
+                  aria-pressed="${paper.saved ? 'true' : 'false'}"
                   class="text-xs font-semibold ${paper.saved ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}"
                 >
                   ${paper.saved ? '★ Saved Paper' : '☆ Save Paper'}
@@ -2324,10 +2688,10 @@ Key Insights:
           if (task) {
             const wasComplete = state.tasks.every(t => t.done);
             task.done = checkbox.checked;
-            if (checkbox.checked) { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} }
+            if (checkbox.checked) pbHaptic(12);
             await persistEncryptedState();
             const nowComplete = state.tasks.every(t => t.done);
-            if (nowComplete && !wasComplete) { try { navigator.vibrate && navigator.vibrate([30, 50, 30]); } catch (e) {} }
+            if (nowComplete && !wasComplete) pbHaptic([30, 50, 30]);
             renderTasks(state.edition === 'night');
           }
         });
@@ -2351,9 +2715,10 @@ Key Insights:
 
     // Per-page cleanup: transient state and timers must die with the page.
     const PB_PAGE_CLEANUPS = {
-      story: () => { state.activeModalStoryId = null; },
+      story: () => { state.activeModalStoryId = null; pbCancelReadTracking(); },
       teaching: () => { stopBreathing(); stopMeditation(); },
-      dayclose: () => {}
+      dayclose: () => {},
+      settings: () => {}
     };
 
     function pbLockBodyScroll() {
@@ -2376,6 +2741,7 @@ Key Insights:
       surface.scrollTop = 0;
       layer.classList.remove('hidden');
       layer.setAttribute('aria-hidden', 'false');
+      if (window.pbSyncScrollTop) window.pbSyncScrollTop();
       if (pbReducedMotion()) { surface.classList.remove('pb-enter-from', 'pb-exit-to'); return; }
       surface.classList.remove('pb-exit-to');
       surface.classList.add('pb-enter-from');
@@ -2440,6 +2806,7 @@ Key Insights:
       (PB_PAGE_CLEANUPS[kind] || function () {})();
       pbHideLayer();
       pbUnlockBodyScroll();
+      if (window.pbSyncScrollTop) window.pbSyncScrollTop();
     }
 
     // Back/forward integration: leaving our history entry closes the page;
@@ -2452,6 +2819,7 @@ Key Insights:
         if (st.pbKind === 'story' && st.pbDetail && st.pbDetail.id) openStoryModal(st.pbDetail.id, { restore: true });
         else if (st.pbKind === 'teaching') openTeachingModal({ restore: true });
         else if (st.pbKind === 'dayclose') openDayClose({ restore: true });
+        else if (st.pbKind === 'settings') openSettingsPage({ restore: true });
       }
     });
 
@@ -2476,10 +2844,23 @@ Key Insights:
       return String(story.source || '').replace(/\s*[•·]\s*\d+\s+min(?:ute)?s?\s*(?:deep\s+)?read\s*$/i, '').trim() || String(story.source || '');
     }
 
+    // Live reading label: "% read · N min left" derived from scroll position
+    // (minutes from remaining words at 220 wpm, same rate as read times)
+    let pbStoryMeta = { words: 0 };
+    function pbUpdateReadLabel(pct) {
+      const el = document.getElementById('story-readmin');
+      if (!el || !pbStoryMeta.words) return;
+      const p = Math.round(pct);
+      if (p >= 100) { el.textContent = '100% read · done'; return; }
+      const minsLeft = Math.max(1, Math.ceil((pbStoryMeta.words * (100 - pct)) / 100 / 220));
+      el.textContent = `${p}% read · ${minsLeft} min left`;
+    }
+
     function renderStorySaveBtn(story) {
       const btn = document.getElementById('story-save-btn');
       const isNight = state.edition === 'night';
       btn.textContent = story.saved ? '★ Saved' : '☆ Save';
+      btn.setAttribute('aria-pressed', story.saved ? 'true' : 'false');
       btn.className = 'shrink-0 text-xs font-semibold px-2.5 py-1.5 rounded-full border transition-colors ' + (story.saved
         ? 'bg-amber-500 border-amber-500 text-white'
         : (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-amber-100'));
@@ -2491,6 +2872,7 @@ Key Insights:
       // Page chrome: warm paper by day, slate by night
       const page = document.getElementById('page-story');
       page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      if (pbDimActive(isNight)) page.classList.add('pb-dim'); // warm late-night layer
       document.getElementById('story-header').className = isNight
         ? 'sticky top-0 z-10 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md transition-colors'
         : 'sticky top-0 z-10 border-b border-amber-200/70 bg-[#fffdf7]/90 backdrop-blur-md transition-colors';
@@ -2506,6 +2888,22 @@ Key Insights:
       const readMinEl = document.getElementById('story-readmin');
       readMinEl.textContent = storyReadMinutes(story) + ' min';
       readMinEl.className = 'shrink-0 text-[11px] font-medium ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+
+      // Swipe-navigation position indicator ("Story 2 of 9") over the same
+      // visible set the grid shows
+      const posList = pbVisibleStories();
+      const posIdx = posList.findIndex(s => s.id === story.id);
+      const posEl = document.getElementById('story-pos');
+      if (posEl) {
+        if (posIdx >= 0) {
+          posEl.className = 'shrink-0 text-[11px] font-medium ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+          posEl.textContent = `Story ${posIdx + 1} of ${posList.length}`;
+        } else {
+          posEl.className = 'hidden';
+        }
+      }
+      // Word count drives the live "% read · N min left" label (220 wpm)
+      pbStoryMeta = { words: (story.content || story.dek || '').split(/\s+/).filter(Boolean).length };
 
       const chip = document.getElementById('story-spectrum');
       if (story.spectrum) {
@@ -2605,6 +3003,7 @@ Key Insights:
       if (!story) return;
       state.activeModalStoryId = storyId;
       renderStoryPage(story);
+      pbArmReadTracking(storyId); // counts as read after 10s in the reader
       pbNavigate('story', { id: storyId }, opts);
     }
 
@@ -2635,6 +3034,14 @@ Key Insights:
         state.selectedCategory = btn.getAttribute('data-category');
         renderApp();
       });
+    });
+
+    // Unread-first ordering toggle (persisted in pb_prefs)
+    document.getElementById('btn-unread-first').addEventListener('click', () => {
+      pbPrefs.unreadFirst = !pbPrefs.unreadFirst;
+      pbSavePrefs();
+      pbHaptic(8);
+      renderApp();
     });
 
     document.getElementById('btn-expand-all-papers').addEventListener('click', () => {
@@ -2700,6 +3107,7 @@ Key Insights:
       const max = el.scrollHeight - el.clientHeight;
       const pct = max > 0 ? Math.min(100, (el.scrollTop / max) * 100) : 0;
       document.getElementById('page-progress').style.width = pct.toFixed(1) + '%';
+      pbUpdateReadLabel(pct); // live "% read · N min left" in the reader header
     }, { passive: true });
 
     document.getElementById('story-save-btn').addEventListener('click', async () => {
@@ -2725,6 +3133,153 @@ Key Insights:
       if (story) pbShare(story.title, story.sourceUrl || location.href);
     });
 
+    // ------------------------------------------------------------------
+    // Reader swipe navigation: swipe left = next story, right = previous,
+    // across the exact visible set the grid shows. Never triggers on
+    // vertical scrolling or on gallery images (they own their gestures).
+    // ------------------------------------------------------------------
+    function pbStoryStep(delta) {
+      const list = pbVisibleStories();
+      const idx = list.findIndex(s => s.id === state.activeModalStoryId);
+      if (idx < 0) return;
+      const next = list[idx + delta];
+      if (!next) return; // at the first/last story — no fake wraparound
+      pbHaptic(10);
+      openStoryModal(next.id);
+    }
+    (function initStorySwipe() {
+      const page = document.getElementById('page-story');
+      let sx = 0, sy = 0, tracking = false;
+      page.addEventListener('touchstart', (e) => {
+        tracking = e.touches.length === 1 && !(e.target && e.target.closest && e.target.closest('#story-body img'));
+        if (tracking) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }
+      }, { passive: true });
+      page.addEventListener('touchend', (e) => {
+        if (!tracking) return;
+        tracking = false;
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) return;
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.2) return; // vertical scroll wins
+        pbStoryStep(dx < 0 ? 1 : -1);
+      }, { passive: true });
+      page.addEventListener('touchcancel', () => { tracking = false; }, { passive: true });
+    })();
+
+    // ------------------------------------------------------------------
+    // Settings page (pb_prefs): haptics, edition override, night dim,
+    // reader font default, cached-image clear
+    // ------------------------------------------------------------------
+    function openSettingsPage(opts) {
+      pbRenderSettings();
+      pbNavigate('settings', null, opts);
+    }
+
+    function pbRenderSettings() {
+      const isNight = state.edition === 'night';
+      const page = document.getElementById('page-settings');
+      page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      if (pbDimActive(isNight)) page.classList.add('pb-dim'); // warm late-night layer
+      document.getElementById('btn-close-settings').className = 'inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ' + (isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-800');
+      document.getElementById('settings-sub').className = 'text-xs mt-1 ' + (isNight ? 'text-slate-500' : 'text-slate-500');
+      document.querySelectorAll('#page-settings .set-card').forEach(el => {
+        el.className = 'set-card mt-4 rounded-2xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white');
+      });
+      const seg = (on, isNight) => 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ' + (on
+        ? (isNight ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-white')
+        : (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100'));
+      const hap = document.getElementById('set-haptics');
+      hap.setAttribute('aria-checked', pbPrefs.haptics !== false ? 'true' : 'false');
+      hap.className = 'shrink-0 relative w-12 h-7 rounded-full border transition-colors ' + (pbPrefs.haptics !== false
+        ? 'bg-emerald-600 border-emerald-600'
+        : (isNight ? 'bg-slate-800 border-slate-700' : 'bg-slate-200 border-slate-200'));
+      document.getElementById('set-haptics-knob').style.transform = pbPrefs.haptics !== false ? 'translateX(20px)' : 'translateX(0)';
+      document.querySelectorAll('[data-set-edition]').forEach(btn => {
+        const on = (pbPrefs.edition || 'auto') === btn.getAttribute('data-set-edition');
+        btn.className = seg(on, isNight);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-set-dim]').forEach(btn => {
+        const on = (pbPrefs.dim || 'auto') === btn.getAttribute('data-set-dim');
+        btn.className = seg(on, isNight);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-set-font]').forEach(btn => {
+        const on = String(pbPrefs.readerFont || 0) === btn.getAttribute('data-set-font');
+        btn.className = seg(on, isNight);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      document.getElementById('set-clear-cache').className = 'w-full px-4 py-2.5 rounded-xl text-xs font-semibold border transition-colors ' + (isNight
+        ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50');
+    }
+
+    document.getElementById('btn-open-settings').addEventListener('click', () => {
+      pbHaptic(8);
+      openSettingsPage();
+    });
+    document.getElementById('btn-close-settings').addEventListener('click', () => {
+      if (pbActivePage === 'settings') pbRequestClose();
+    });
+
+    document.getElementById('set-haptics').addEventListener('click', () => {
+      pbPrefs.haptics = pbPrefs.haptics === false ? true : false;
+      pbSavePrefs();
+      if (pbPrefs.haptics) pbHaptic(15);
+      pbRenderSettings();
+    });
+
+    document.querySelectorAll('[data-set-edition]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-set-edition');
+        pbPrefs.edition = val;
+        pbSavePrefs();
+        if (val === 'morning' || val === 'night') {
+          state.edition = val; // override: re-theme immediately, no reload
+          if (state.selectedCategory === 'saved') state.selectedCategory = 'all';
+        } else {
+          const h = new Date().getHours(); // auto: back to the clock
+          state.edition = (h >= 5 && h < 18) ? 'morning' : 'night';
+        }
+        pbHaptic(8);
+        renderApp();
+        pbRenderSettings();
+      });
+    });
+
+    document.querySelectorAll('[data-set-dim]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        pbPrefs.dim = btn.getAttribute('data-set-dim');
+        pbSavePrefs();
+        pbHaptic(8);
+        renderApp();
+        pbRenderSettings();
+      });
+    });
+
+    document.querySelectorAll('[data-set-font]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = Math.max(0, Math.min(2, parseInt(btn.getAttribute('data-set-font'), 10) || 0));
+        pbPrefs.readerFont = step;
+        pbSavePrefs();
+        try { localStorage.setItem('pb_reader_font', String(step)); } catch (e) { /* session-only */ }
+        pbHaptic(8);
+        pbRenderSettings();
+      });
+    });
+
+    document.getElementById('set-clear-cache').addEventListener('click', () => {
+      pbHaptic(12);
+      const reload = () => { try { location.reload(); } catch (e) { /* stay put */ } };
+      try {
+        if (window.caches && caches.keys) {
+          caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))).then(reload, reload);
+          return;
+        }
+      } catch (e) { /* no CacheStorage: plain reload */ }
+      reload();
+    });
+
     // Offline honesty: a small badge when the network is gone (the service
     // worker serves the last cached edition, so the app keeps working).
     const offlineBadge = document.createElement('div');
@@ -2736,6 +3291,108 @@ Key Insights:
     window.addEventListener('online', syncOfflineBadge);
     window.addEventListener('offline', syncOfflineBadge);
     syncOfflineBadge();
+
+    // ------------------------------------------------------------------
+    // Pull-to-refresh (dashboard only): drag down from scroll-top →
+    // spinner → refresh feed + weather + haptic. Touch-only, so desktop
+    // is a graceful no-op. Never fires while a page layer or the PIN gate
+    // is open, or when the page is scrolled.
+    // ------------------------------------------------------------------
+    (function initPullToRefresh() {
+      const THRESHOLD = 72;
+      const gate = document.getElementById('pin-gate-screen');
+      const badge = document.createElement('div');
+      badge.id = 'ptr-indicator';
+      badge.setAttribute('aria-hidden', 'true');
+      badge.className = 'hidden fixed left-1/2 top-3 z-[45] -translate-x-1/2 w-9 h-9 rounded-full bg-white/95 border border-slate-200 shadow-lg items-center justify-center';
+      badge.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
+      document.body.appendChild(badge);
+      const arrow = badge.querySelector('svg');
+
+      let startY = 0, active = false, pull = 0, refreshing = false;
+
+      const allowed = (e) => {
+        if (refreshing) return false;
+        if (pbActivePage !== null) return false;               // a page layer is open
+        if (!gate.classList.contains('hidden')) return false;  // PIN gate is up
+        if ((window.scrollY || 0) > 2) return false;           // not at scroll top
+        if (e.target && e.target.closest && e.target.closest('#category-filters, #page-layer, textarea, input, select')) return false;
+        return true;
+      };
+      const hideBadge = () => {
+        badge.classList.add('hidden'); badge.classList.remove('flex');
+        badge.classList.remove('ptr-spin');
+        badge.style.opacity = '';
+        if (arrow) arrow.style.transform = '';
+      };
+
+      document.addEventListener('touchstart', (e) => {
+        if (!allowed(e)) { active = false; return; }
+        startY = e.touches[0].clientY;
+        active = true; pull = 0;
+      }, { passive: true });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!active) return;
+        const dy = e.touches[0].clientY - startY;
+        if (dy <= 0) { pull = 0; hideBadge(); return; }
+        pull = dy;
+        const p = Math.min(1, dy / THRESHOLD);
+        badge.classList.remove('hidden'); badge.classList.add('flex');
+        badge.style.opacity = String(0.35 + 0.65 * p);
+        if (arrow) arrow.style.transform = 'rotate(' + Math.round(p * 270) + 'deg)';
+      }, { passive: true });
+
+      document.addEventListener('touchend', () => {
+        if (!active) return;
+        active = false;
+        if (pull >= THRESHOLD) {
+          refreshing = true;
+          badge.classList.remove('hidden'); badge.classList.add('flex');
+          badge.classList.add('ptr-spin');
+          badge.style.opacity = '1';
+          pbHaptic(14);
+          Promise.allSettled([refreshContentFromFeed(true), loadWeather(true)]).then(() => {
+            hideBadge();
+            refreshing = false;
+            updateFreshness();
+          });
+        } else {
+          hideBadge();
+        }
+        pull = 0;
+      });
+
+      document.addEventListener('touchcancel', () => { active = false; pull = 0; hideBadge(); }, { passive: true });
+    })();
+
+    // ------------------------------------------------------------------
+    // Scroll-to-top FAB: appears after ~2 viewport heights of scrolling,
+    // hides while any page layer or the PIN gate is open.
+    // ------------------------------------------------------------------
+    (function initScrollTopFab() {
+      const gate = document.getElementById('pin-gate-screen');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'btn-scroll-top';
+      btn.setAttribute('aria-label', 'Scroll back to top');
+      btn.className = 'hidden fixed right-4 bottom-[max(env(safe-area-inset-bottom),20px)] z-30 w-11 h-11 rounded-full border shadow-lg items-center justify-center';
+      btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-6 6m6-6l6 6"></path></svg>';
+      document.body.appendChild(btn);
+      const sync = () => {
+        const show = window.scrollY > window.innerHeight * 2 && pbActivePage === null && gate.classList.contains('hidden');
+        btn.classList.toggle('hidden', !show);
+        btn.classList.toggle('flex', show);
+      };
+      window.addEventListener('scroll', sync, { passive: true });
+      btn.addEventListener('click', () => {
+        pbHaptic(8);
+        try { window.scrollTo({ top: 0, behavior: pbReducedMotion() ? 'auto' : 'smooth' }); }
+        catch (e) { window.scrollTo(0, 0); }
+      });
+      window.pbSyncScrollTop = sync;
+      sync();
+    })();
 
     // WebAuthn Biometric Engine (Touch ID / Face ID / Android Fingerprint)
     let isBioEnrolled = false;
