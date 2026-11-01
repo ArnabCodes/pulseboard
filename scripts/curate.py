@@ -276,48 +276,91 @@ def _lead_image_candidates(raw, url):
     return out
 
 
+def _caption_ok(c):
+    """Clean a candidate caption; '' if missing/generic/junk. Real captions
+    say who or what the image shows; 'photo' or 'image' does not."""
+    c = strip_html(c or '').strip()
+    if not (4 <= len(c) <= 220):
+        return ''
+    low = c.lower().rstrip('.')
+    if low in ('image', 'photo', 'picture', 'img', 'illustration', 'untitled',
+               'placeholder', 'graphic', 'getty images', 'ap photo'):
+        return ''
+    if CODE_JUNK_RE.search(c):
+        return ''
+    return c
+
+
 def _gallery_images(scope, base, lead):
-    """Inline <img> URLs from the article scope (src / data-src /
-    data-lazy-src), absolutized. Skips data: URIs, .svg, logo/icon/avatar/
-    badge/placeholder/tracking-class basenames, images with explicit
-    width/height under 400, 1px tracking pixels, and the lead image itself.
-    Deduped; capped at GALLERY_MAX."""
+    """Inline article images with their captions, when the page provides
+    them. Sources, in order of authority: the enclosing <figure>'s
+    <figcaption>, then the img's own alt text. Entries are {'url', 'alt'}
+    dicts when a meaningful caption exists, plain URL strings otherwise.
+    Junk-filtered (data: URIs, .svg, logo/icon/avatar/headshot basenames,
+    explicit thumbnail sizes, tracking pixels, the lead image under any
+    dimension-suffixed URL), deduped, capped at GALLERY_MAX."""
     out, seen = [], set()
-    lead_norm = _img_normalize(lead) if lead else None
     seen_norm = set()
-    for tag in re.findall(r'<img\b[^>]*>', scope, re.I):
-        small = False
+    lead_norm = _img_normalize(lead) if lead else None
+
+    def accept(tag, u, caption):
+        if not u or u in seen or _img_normalize(u) in seen_norm:
+            return False
         for dim in ('width', 'height'):
             m = re.search(r'\b' + dim + r'=["\'](\d+)["\']', tag, re.I)
             if m and int(m.group(1)) < 400:
-                small = True
-                break
-        if small:
-            continue
-        m = (re.search(r'data-(?:lazy-)?src=["\']([^"\']+)["\']', tag, re.I)
-             or re.search(r'(?<![\w-])src=["\']([^"\']+)["\']', tag, re.I))
-        if not m:
-            continue
-        u = _absolutize(m.group(1), base)
-        if not u or u in seen or _img_normalize(u) in seen_norm:
-            continue
+                return False
         path = u.split('?', 1)[0]
         if path.lower().endswith('.svg'):
-            continue
+            return False
         if GALLERY_JUNK_RE.search(path.rsplit('/', 1)[-1].lower()):
-            continue
-        if re.search(r'[?&](?:width|w)=1\b', u):
-            continue  # tracking pixel
+            return False
         m_w = re.search(r'[?&](?:width|w)=(\d{1,4})\b', u)
         if m_w and int(m_w.group(1)) < 400:
-            continue  # explicit thumbnail size (e.g. Guardian ?width=100)
+            return False  # explicit thumbnail size (e.g. Guardian ?width=100)
         if lead and (u == lead or _img_normalize(u) == lead_norm):
-            continue  # the lead/og image itself (also under suffixed URLs)
+            return False  # the lead/og image itself (also under suffixed URLs)
         seen.add(u)
         seen_norm.add(_img_normalize(u))
-        out.append(u)
-        if len(out) >= GALLERY_MAX:
-            break
+        cap = _caption_ok(caption)
+        out.append({'url': u, 'alt': cap} if cap else u)
+        return True
+
+    def img_src(tag):
+        m = (re.search(r'data-(?:lazy-)?src=["\']([^"\']+)["\']', tag, re.I)
+             or re.search(r'(?<![\w-])src=["\']([^"\']+)["\']', tag, re.I))
+        return m.group(1) if m else None
+
+    # 1) <figure> blocks — the figcaption is the authoritative caption
+    taken = []
+    for fm in re.finditer(r'<figure\b[^>]*>.*?</figure\s*>', scope, re.S | re.I):
+        fig = fm.group(0)
+        tm = re.search(r'<img\b[^>]*>', fig, re.I)
+        if not tm:
+            continue
+        tag = tm.group(0)
+        src = img_src(tag)
+        if not src:
+            continue
+        cm = re.search(r'<figcaption\b[^>]*>(.*?)</figcaption\s*>', fig, re.S | re.I)
+        alt_m = re.search(r'\balt=["\']([^"\']*)["\']', tag, re.I)
+        caption = strip_html(cm.group(1)) if cm else (alt_m.group(1) if alt_m else '')
+        taken.append(fm.span())
+        if accept(tag, _absolutize(src, base), caption):
+            if len(out) >= GALLERY_MAX:
+                return out
+    # 2) bare <img> tags outside any figure — alt text only
+    for im in re.finditer(r'<img\b[^>]*>', scope, re.I):
+        if any(a <= im.start() < b for a, b in taken):
+            continue
+        tag = im.group(0)
+        src = img_src(tag)
+        if not src:
+            continue
+        alt_m = re.search(r'\balt=["\']([^"\']*)["\']', tag, re.I)
+        if accept(tag, _absolutize(src, base), alt_m.group(1) if alt_m else ''):
+            if len(out) >= GALLERY_MAX:
+                return out
     return out
 
 
@@ -328,6 +371,24 @@ def _paragraphize(text, per=3):
     if len(sents) <= 1:
         return [text] if text.strip() else []
     return [' '.join(sents[i:i + per]) for i in range(0, len(sents), per)]
+
+
+# Residual code/boilerplate that survives as text (script content in JS
+# strings, CSS in comments) — used on paragraphs AND captions.
+CODE_JUNK_RE = re.compile(
+    r'function\s*\(|getElementById|requestAnimationFrame|addEventListener\('
+    r'|display\s*:\s*none|\{[a-zA-Z-]+\s*:\s*|var\s+\w+\s*=|window\.|document\.'
+    r'|\.google-|@media|@import|<!\[CDATA',
+    re.I,
+)
+
+# Promotional callouts that prefix real prose inside the same <p>
+# ("Make New York Post a Preferred Source The Iran War may…").
+PROMO_PREFIX_RE = re.compile(
+    r'^(?:Make [A-Z][A-Za-z\'&. ]{2,40}? a Preferred Source'
+    r'|Click here[^.]{0,60}\.?'
+    r'|Thank you for reading[^.]{0,60}\.?)\s*',
+)
 
 
 def fetch_full_text(url, max_words=380):
@@ -347,15 +408,24 @@ def fetch_full_text(url, max_words=380):
         or re.search(r'<main[^>]*>(.*?)</main>', raw, re.S | re.I)
     if m:
         scope = m.group(1)
+    # Drop script/style/etc BLOCKS before any text/img scanning, or their
+    # contents masquerade as paragraphs and their HTML strings as images.
+    scope = re.sub(r'<(script|style|noscript|template|svg)\b[^>]*>.*?</\1\s*>',
+                   ' ', scope, flags=re.S | re.I)
     paras, total = [], 0
     for p in re.findall(r'<p[^>]*>(.*?)</p>', scope, re.S | re.I):
         t = strip_html(p)
+        t = PROMO_PREFIX_RE.sub('', t)
         if len(t) < 60:
             continue  # captions, bylines, nav crumbs
         low = t.lower()
         if any(k in low for k in ('sign up', 'subscribe', 'newsletter', 'all rights reserved',
-                                  'cookie', 'follow us', 'read more:', 'related:', 'originally published')):
+                                  'cookie', 'follow us', 'read more:', 'related:', 'originally published',
+                                  'preferred source', 'daily email digest', 'posts from this topic',
+                                  'homepage feed', 'share gift')):
             continue
+        if CODE_JUNK_RE.search(t):
+            continue  # CSS/JS that survived as text
         paras.append(t)
         total += len(t.split())
         if total >= max_words:
@@ -366,6 +436,11 @@ def fetch_full_text(url, max_words=380):
 def strip_html(s):
     if not s:
         return ''
+    # Non-prose BLOCKS must go first — removing just the tags would leave
+    # their JS/CSS text behind as fake "paragraphs" (NY Post shipped
+    # "…{display:none} (function() {…})()" into briefings this way).
+    s = re.sub(r'<(script|style|noscript|template|svg)\b[^>]*>.*?</\1\s*>', ' ', s,
+               flags=re.S | re.I)
     s = re.sub(r'<[^>]+>', ' ', s)
     s = re.sub(r'&#x([0-9a-fA-F]+);', lambda m: chr(int(m.group(1), 16)), s)
     s = re.sub(r'&#(\d+);', lambda m: chr(int(m.group(1))), s)

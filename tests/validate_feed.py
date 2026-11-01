@@ -17,6 +17,7 @@ Used by .github/workflows/validate-feed.yml and imported by tests/test_curate.py
 Usage: python3 tests/validate_feed.py [--check-images] [pulse_feed.json ...]
 """
 import json
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -64,6 +65,10 @@ def check_feed(feed, check_images=False):
             ids.append(st['id'])
         if isinstance(st, dict) and st.get('image'):
             covers.append(st['image'])
+        # Soft check: page chrome (CSS/JS text) must never reach briefings
+        if isinstance(st, dict) and st.get('content') and re.search(
+                r'display\s*:\s*none|function\s*\(|getElementById|@media', st['content']):
+            warnings.append(f'{where}: content contains CSS/JS junk text')
 
     for d in sorted({x for x in ids if ids.count(x) > 1}):
         errors.append(f'duplicate story id: {d}')
@@ -95,7 +100,8 @@ def check_feed(feed, check_images=False):
         for st in stories:
             if isinstance(st, dict):
                 urls.append(st.get('image'))
-                urls.extend(st.get('gallery') or [])
+                for g in st.get('gallery') or []:
+                    urls.append(g if isinstance(g, str) else (g or {}).get('url'))
         urls.extend(u for u in paper_imgs if u)
         for u in [u for u in urls if u]:
             status = http_status(u)

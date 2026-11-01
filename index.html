@@ -3282,6 +3282,10 @@ Key Insights:
         .map(g => (typeof g === 'string' ? g : (g && (g.url || g.src)) || ''))
         .filter(Boolean);
       const galleryImg = (idx) => {
+        // figure > img + caption: outlets' figcaption/alt text, shown only
+        // when it actually says who/what the image shows (never 'photo').
+        const wrap = document.createElement('figure');
+        wrap.className = 'my-1';
         const img = document.createElement('img');
         img.src = gallerySrcs[idx];
         const meta = story.gallery[idx];
@@ -3289,7 +3293,15 @@ Key Insights:
         img.loading = 'lazy';
         img.setAttribute('onerror', 'this.onerror=null;this.src=window.PB_IMG_FALLBACK');
         img.className = 'w-full rounded-2xl shadow-sm';
-        return img;
+        wrap.appendChild(img);
+        const cap = (meta && typeof meta === 'object' && typeof meta.alt === 'string') ? meta.alt.trim() : '';
+        if (cap && cap.length >= 4 && !/^(image|photo|picture|img|illustration|untitled|placeholder|graphic)\.?\??$/i.test(cap)) {
+          const fc = document.createElement('figcaption');
+          fc.textContent = cap;
+          fc.className = 'mt-1.5 mb-1 text-xs italic ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+          wrap.appendChild(fc);
+        }
+        return wrap;
       };
       const nodes = [];
       let imgIdx = 0;
