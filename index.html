@@ -106,6 +106,26 @@
   /* Save-star micro-interaction: a small pop when bookmarking */
   @keyframes star-pop { 0% { transform: scale(1); } 45% { transform: scale(1.28); } 100% { transform: scale(1); } }
   .star-pop { animation: star-pop 0.32s cubic-bezier(0.3, 1.4, 0.5, 1); }
+
+  /* ---- FEATURE PACK ---- */
+  /* Bottom toasts: queued, themed, auto-dismiss 3s; never block taps. */
+  #pb-toast-host { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+  .pb-toast { max-width: 88vw; padding: 10px 18px; border-radius: 9999px; font-size: 12px; font-weight: 600; box-shadow: 0 10px 34px rgba(2,6,23,0.4); animation: pb-toast-in 0.28s cubic-bezier(0.2,0.7,0.3,1) both; }
+  .pb-toast-morning { background: #0f172a; color: #fcd34d; border: 1px solid rgba(252,211,77,0.4); }
+  .pb-toast-night { background: #1e1b4b; color: #c7d2fe; border: 1px solid rgba(129,140,248,0.45); }
+  .pb-toast-out { animation: pb-toast-out 0.26s ease both; }
+  @keyframes pb-toast-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes pb-toast-out { from { opacity: 1; } to { opacity: 0; transform: translateY(8px); } }
+  /* Search match highlight (marks built from textContent, never innerHTML) */
+  mark.pb-mark { background: transparent; color: inherit; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(245,158,11,0.85); text-decoration-thickness: 2px; text-underline-offset: 2px; }
+  /* Focus ring: progress driven by JS stroke-dashoffset */
+  #focus-ring-fg { transition: stroke-dashoffset 0.9s linear, stroke 0.4s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    .pb-toast, .pb-toast-out { animation: none; }
+    #focus-ring-fg { transition: none; }
+  }
+  /* Meditation week strip: dots sized by minutes */
+  .pb-med-dot { border-radius: 9999px; }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
@@ -191,6 +211,12 @@
 
       <!-- Edition Toggle + Saved Counter + Lock Button -->
       <div class="flex items-center gap-3">
+        <button type="button" id="btn-open-search" class="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 transition-colors" title="Search stories, papers &amp; teachings" aria-label="Search">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
+          </svg>
+        </button>
         <div id="edition-switcher" class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
           <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
             <span>☀️</span>
@@ -233,12 +259,17 @@
           <p id="greeting-subtitle" class="text-sm text-slate-600 mt-1 max-w-2xl">
             Authenticate with your private PIN to decrypt your curated stories, papers, and routines.
           </p>
+          <div id="streak-row" class="hidden mt-2.5 flex flex-wrap items-center gap-2">
+            <span id="streak-chip" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border"></span>
+          </div>
           <button type="button" id="btn-close-day" class="hidden mt-4 inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-2xl border border-indigo-700 bg-indigo-600/90 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
             🌙 Close the day
           </button>
+          <button type="button" id="btn-open-week" class="hidden mt-2 self-start px-4 py-2 rounded-2xl border border-indigo-800 bg-slate-800/80 text-indigo-200 text-xs font-semibold hover:bg-slate-700 active:scale-[0.98] transition-all">🗓 Your week</button>
         </div>
 
-        <!-- Weather Card -->
+        <!-- Weather Card (wrapped so the On-this-day card can sit beneath it) -->
+        <div class="flex flex-col gap-3 shrink-0">
         <div id="weather-card" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0">
           <div class="text-3xl" id="weather-emoji">🌤️</div>
           <div>
@@ -248,6 +279,13 @@
             </div>
             <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Focus block locked</p>
           </div>
+        </div>
+        <!-- On this day in science (morning edition; hidden until this_day.json loads a verified entry) -->
+        <div id="thisday-card" class="hidden w-full lg:w-auto px-4 py-3 rounded-xl border border-amber-200/80 bg-white/90 shadow-sm">
+          <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">On this day</p>
+          <p id="thisday-event" class="text-xs text-slate-700 leading-relaxed"></p>
+          <a id="thisday-source" href="#" target="_blank" rel="noopener" class="text-[11px] font-semibold text-amber-700 hover:underline mt-1 inline-block">source ↗</a>
+        </div>
         </div>
       </div>
     </section>
@@ -382,6 +420,13 @@
             </button>
           </div>
 
+          <!-- FEATURE: read-later queue chip + .bib export + conference deadlines -->
+          <div id="papers-subnav" class="flex flex-wrap items-center gap-2 mb-3">
+            <button type="button" id="btn-readlater-filter" class="px-3 py-1 rounded-full text-xs font-semibold border transition-colors">◷ Read later (0)</button>
+            <button type="button" id="btn-download-bib" class="hidden px-3 py-1 rounded-full text-xs font-semibold border transition-colors">⤓ Download .bib</button>
+          </div>
+          <div id="deadlines-widget" class="hidden mb-5 rounded-2xl border p-4" title="Sources: official conference websites"></div>
+
           <div id="papers-list" class="space-y-4">
             <div class="h-32 rounded-2xl skeleton border border-slate-200/80"></div>
             <div class="h-32 rounded-2xl skeleton border border-slate-200/80"></div>
@@ -442,7 +487,10 @@
               <h3 id="checklist-title" class="text-base font-bold tracking-tight">✅ Top Priorities</h3>
               <p class="text-xs text-slate-500">Personal daily goals</p>
             </div>
-            <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">Locked</span>
+            <div class="flex items-center gap-2">
+              <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">Locked</span>
+              <button type="button" id="btn-open-focus" class="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-slate-300 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-colors" title="Pomodoro focus timer">◔ Focus</button>
+            </div>
           </div>
 
           <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden mb-4">
@@ -462,6 +510,12 @@
               disabled
               class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none"
              enterkeyhint="done" autocomplete="off" />
+            <button
+              type="button"
+              id="btn-task-repeat"
+              class="px-3 py-2 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-400 hover:text-slate-700 transition-colors shrink-0"
+              title="Repeat: off"
+            >↻ Off</button>
             <button
               type="submit"
               disabled
@@ -561,6 +615,9 @@
               <button type="button" id="btn-pause-meditation" class="text-xs font-semibold text-slate-400 hover:text-slate-200 underline underline-offset-4">pause</button>
             </div>
 
+            <!-- FEATURE: honest meditation log — week minutes + 7-dot strip (Mon–Sun) -->
+            <div id="med-week-summary" class="hidden mt-6 flex flex-col items-center gap-2.5"></div>
+
             <div id="teaching-story-section" class="hidden w-full text-left mt-10 pt-6 border-t border-slate-800">
               <button type="button" id="btn-toggle-story" class="text-xs font-bold uppercase tracking-widest text-amber-300/90 hover:text-amber-200 transition-colors">▸ The story behind it</button>
               <div id="teaching-story" class="hidden text-sm text-slate-300 leading-relaxed whitespace-pre-line mt-3"></div>
@@ -604,6 +661,91 @@
               Close the day 🌙
             </button>
             <p id="dayclose-after" class="hidden mt-4 text-sm text-slate-400"></p>
+
+            <!-- FEATURE: local data backup — plaintext export/import, user-initiated only -->
+            <div class="mt-8 w-full pt-5 border-t border-slate-800 text-left">
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Backup — your data, your device</p>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" id="btn-export-data" class="px-4 py-2 rounded-xl border border-slate-700 bg-slate-800/70 text-slate-200 text-xs font-semibold hover:bg-slate-700 transition-colors">⤓ Export data</button>
+                <button type="button" id="btn-import-data" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300 text-xs font-semibold hover:bg-slate-800 transition-colors">⤒ Import</button>
+                <input type="file" id="import-file-input" accept="application/json,.json" class="hidden" />
+              </div>
+              <p id="backup-note" class="text-[11px] text-slate-500 mt-2 min-h-[14px]">Plaintext JSON — stays local. Import merges; file wins on conflicts.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== UNIVERSAL SEARCH PAGE ========== -->
+      <section id="page-search" class="hidden min-h-full" aria-label="Search">
+        <header id="search-header" class="sticky top-0 z-10 border-b backdrop-blur-md transition-colors">
+          <div class="max-w-2xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-2">
+            <button type="button" id="search-back" aria-label="Back to dashboard" class="w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <input type="search" id="search-input" placeholder="Search stories, papers, teachings…" autocomplete="off" enterkeyhint="search"
+              class="flex-1 min-w-0 bg-transparent outline-none text-base font-medium" />
+            <button type="button" id="search-clear" class="hidden shrink-0 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-slate-300 text-slate-500 hover:bg-slate-100 transition-colors">Clear</button>
+          </div>
+        </header>
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 pt-4 pb-20">
+          <div id="search-results" class="space-y-7"></div>
+        </div>
+      </section>
+
+      <!-- ========== FOCUS MODE PAGE (pomodoro) ========== -->
+      <section id="page-focus" class="hidden min-h-full bg-gradient-to-b from-[#04060b] via-[#0b1026] to-[#04060b] text-slate-200" aria-label="Focus timer">
+        <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
+          <div class="flex items-center justify-between">
+            <button type="button" id="focus-back" class="inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors" aria-label="Back to dashboard">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+              Back
+            </button>
+            <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 select-none">Focus Block</span>
+          </div>
+          <div class="pt-8 flex flex-col items-center text-center">
+            <span id="focus-mode-label" class="text-[11px] font-bold uppercase tracking-widest text-indigo-300/90">Deep work</span>
+            <div class="relative mt-6 flex items-center justify-center shrink-0" style="width:248px;height:248px">
+              <svg width="248" height="248" viewBox="0 0 248 248" class="-rotate-90" aria-hidden="true">
+                <circle cx="124" cy="124" r="104" fill="none" stroke="rgba(148,163,184,0.16)" stroke-width="6"></circle>
+                <circle id="focus-ring-fg" cx="124" cy="124" r="104" fill="none" stroke="#818cf8" stroke-width="6" stroke-linecap="round" stroke-dasharray="653.45" stroke-dashoffset="0"></circle>
+              </svg>
+              <div class="absolute flex flex-col items-center">
+                <span id="focus-time" class="text-[44px] leading-none font-light tabular-nums text-slate-100 tracking-wider">25:00</span>
+                <span id="focus-sessions" class="mt-2 text-[11px] text-slate-500">0 sessions today</span>
+              </div>
+            </div>
+            <div class="mt-8 flex items-center gap-3">
+              <button type="button" id="focus-start-btn" class="px-7 py-2.5 rounded-2xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">Start</button>
+              <button type="button" id="focus-reset-btn" class="px-5 py-2.5 rounded-2xl border border-slate-700 text-slate-300 text-sm font-medium hover:bg-slate-800 transition-all">Reset</button>
+            </div>
+            <p class="mt-6 text-[11px] text-slate-500 leading-relaxed">25 min deep work · 5 min break · soft bell at every switch</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== WEEKLY DIGEST PAGE ========== -->
+      <section id="page-week" class="hidden min-h-full bg-gradient-to-b from-[#04060b] via-[#0d1130] to-[#04060b] text-slate-200" aria-label="Weekly digest">
+        <div class="max-w-md mx-auto px-6 pt-[max(env(safe-area-inset-top),10px)] pb-20">
+          <div class="flex items-center justify-between">
+            <button type="button" id="week-back" class="inline-flex items-center gap-1.5 -ml-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors" aria-label="Back to dashboard">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+              Back
+            </button>
+            <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 select-none">Your Week</span>
+          </div>
+          <div class="pt-8 flex flex-col items-center text-center">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-indigo-300/90">Weekly Digest</span>
+            <h3 class="text-2xl font-serif-editorial mt-1.5">Your week</h3>
+            <p id="week-range" class="text-xs text-slate-500 mt-1"></p>
+            <div id="week-totals" class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full"></div>
+            <div id="week-days" class="mt-6 w-full space-y-2.5"></div>
+            <div class="mt-7 w-full text-left">
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Saved this week</p>
+              <div id="week-saved" class="space-y-1.5"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -920,6 +1062,7 @@ Key Insights:
       edition: defaultEdition,
       selectedCategory: 'all',
       expandAllPapers: false,
+      readLaterFilter: false,
       activeModalStoryId: null,
       wisdomIndex: 0,
       dayLog: {},
@@ -1056,6 +1199,7 @@ Key Insights:
         refreshContentFromFeed();
         loadTeachings();
         loadWeather();
+        pbLoadDailies();
         return;
       }
 
@@ -1095,6 +1239,7 @@ Key Insights:
         refreshContentFromFeed();
         loadTeachings();
         loadWeather();
+        pbLoadDailies();
       } catch (err) {
         // Failed decryption / wrong PIN
         const sec = getSecurityState();
@@ -1234,6 +1379,7 @@ Key Insights:
         refreshContentFromFeed();
         loadTeachings();
         loadWeather();
+        pbLoadDailies();
         return true;
       } catch (e) {
         return false; // stale/tampered device key - normal gate takes over
@@ -1257,14 +1403,14 @@ Key Insights:
         const savedS = prevS.filter(s => s && s.saved);
         state.stories = feed.stories.map(s => {
           const old = prevS.find(o => o.id === s.id);
-          return (old && old.saved) ? Object.assign({}, s, { saved: true }) : s;
+          return (old && old.saved) ? Object.assign({}, s, { saved: true, savedAt: old.savedAt || null }) : s;
         }).concat(savedS.filter(s => !feed.stories.some(n => n.id === s.id)));
         if (Array.isArray(feed.papers) && feed.papers.length) {
           const prevP = Array.isArray(state.papers) ? state.papers : [];
           const savedP = prevP.filter(p => p && p.saved);
           state.papers = feed.papers.map(p => {
             const old = prevP.find(o => o.id === p.id);
-            return (old && old.saved) ? Object.assign({}, p, { saved: true }) : p;
+            return (old && old.saved) ? Object.assign({}, p, { saved: true, savedAt: old.savedAt || null }) : p;
           }).concat(savedP.filter(p => !feed.papers.some(n => n.id === p.id)));
         }
         localStorage.setItem('pulseboard_feed_stamp', feed.generated_at);
@@ -1423,8 +1569,11 @@ Key Insights:
       document.getElementById('meditation-remaining').textContent = `${m}:${String(s).padStart(2, '0')}`;
     }
 
+    let meditationSessionMin = 0; // feature: minutes of the running session (logged only on completion)
+
     function startMeditation(minutes) {
       stopMeditation();
+      meditationSessionMin = minutes;
       meditationRemaining = minutes * 60;
       meditationPaused = false;
       primeAudio();
@@ -1444,6 +1593,7 @@ Key Insights:
 
     function finishMeditation() {
       stopMeditation();
+      pbLogMeditation(meditationSessionMin); // honest log: only completions that ring the bell
       document.getElementById('breath-label').textContent = 'complete';
       document.getElementById('meditation-remaining').textContent = '· · ·';
       playBell();
@@ -1493,6 +1643,7 @@ Key Insights:
         section.classList.add('hidden');
       }
       resetMeditationUI();
+      renderMeditationWeek();
       document.getElementById('breath-label').textContent = 'breathe';
       pbNavigate('teaching', null, opts);
       startBreathing();
@@ -1826,6 +1977,7 @@ Key Insights:
 
     function renderApp() {
       migrateTomorrowsTask();
+      maybeResetRecurringTasks();
       const isNight = state.edition === 'night';
       const body = document.getElementById('app-body');
       const header = document.getElementById('app-header');
@@ -1867,6 +2019,7 @@ Key Insights:
         closeDayBtn.classList.remove('hidden');
         closeDayBtn.textContent = dayClosedToday ? 'Day closed ✓' : '🌙 Close the day';
         closeDayBtn.classList.toggle('opacity-70', dayClosedToday);
+        document.getElementById('btn-open-week').classList.remove('hidden');
 
         document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
         document.getElementById('schedule-title').textContent = '🌙 Evening Wind-Down';
@@ -1900,6 +2053,7 @@ Key Insights:
         document.getElementById('weather-card').className = 'flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
         renderWeather(false);
         document.getElementById('btn-close-day').classList.add('hidden');
+        document.getElementById('btn-open-week').classList.add('hidden');
 
         document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
         document.getElementById('schedule-title').textContent = '🗓️ Your Day Ahead';
@@ -1937,6 +2091,9 @@ Key Insights:
       renderPapers(isNight);
       renderSchedule(isNight);
       renderTasks(isNight);
+      renderStreakChip(isNight);
+      renderThisDay(isNight);
+      renderDeadlines(isNight);
     }
 
     function renderNewsGrid(isNight) {
@@ -2062,6 +2219,7 @@ Key Insights:
           const story = state.stories.find(s => s.id === id);
           if (story) {
             story.saved = !story.saved;
+            story.savedAt = story.saved ? Date.now() : null; // feature: stamp for "saved this week"
             await persistEncryptedState();
             renderApp();
             const fresh = document.querySelector(`[data-save-story="${id}"]`);
@@ -2140,8 +2298,10 @@ Key Insights:
     }
 
     function renderPapers(isNight) {
+      renderPapersSubnav(isNight);
       const container = document.getElementById('papers-list');
       const papersForEdition = state.papers.filter(p => {
+        if (state.readLaterFilter) return !!p.readLater;
         if (state.selectedCategory === 'saved') return p.saved;
         // Research digests are edition-agnostic reading; keep them visible at night
         return p.edition === state.edition || p.edition === 'morning';
@@ -2150,7 +2310,9 @@ Key Insights:
       if (papersForEdition.length === 0) {
         container.innerHTML = `
           <div class="rounded-2xl border border-dashed ${isNight ? 'border-slate-700 text-slate-400' : 'border-slate-300 text-slate-500'} p-6 text-center text-xs">
-            No saved papers yet. Click "☆ Save Paper" on any research digest to bookmark it.
+            ${state.readLaterFilter
+              ? 'Your read-later queue is empty. Tap "◷ Read later" on any research digest to queue it.'
+              : 'No saved papers yet. Click "☆ Save Paper" on any research digest to bookmark it.'}
           </div>
         `;
         return;
@@ -2178,6 +2340,14 @@ Key Insights:
                   class="text-xs font-semibold ${paper.saved ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}"
                 >
                   ${paper.saved ? '★ Saved Paper' : '☆ Save Paper'}
+                </button>
+                <button
+                  type="button"
+                  data-readlater-paper="${paper.id}"
+                  class="text-xs font-semibold ${paper.readLater ? 'text-indigo-500' : 'text-slate-400 hover:text-indigo-500'}"
+                  title="Read-later queue (separate from saved)"
+                >
+                  ${paper.readLater ? '◷ Reading later' : '◷ Read later'}
                 </button>
               </div>
             </div>
@@ -2240,11 +2410,18 @@ Key Insights:
           const paper = state.papers.find(p => p.id === id);
           if (paper) {
             paper.saved = !paper.saved;
+            paper.savedAt = paper.saved ? Date.now() : null; // feature: stamp for "saved this week"
             await persistEncryptedState();
             renderApp();
             const fresh = document.querySelector(`[data-save-paper="${id}"]`);
             if (fresh) { fresh.classList.add('star-pop'); setTimeout(() => fresh.classList.remove('star-pop'), 340); }
           }
+        });
+      });
+
+      container.querySelectorAll('[data-readlater-paper]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          pbToggleReadLater(btn.getAttribute('data-readlater-paper'));
         });
       });
 
@@ -2312,7 +2489,7 @@ Key Insights:
             class="w-5 h-5 rounded accent-emerald-600 cursor-pointer"
           />
           <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${task.done ? 'line-through opacity-50' : ''}">
-            ${task.text}
+            ${task.text}${task.recurring ? ` <span class="text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'}">↻ ${task.recurring}</span>` : ''}
           </span>
         </label>
       `).join('');
@@ -2351,9 +2528,12 @@ Key Insights:
 
     // Per-page cleanup: transient state and timers must die with the page.
     const PB_PAGE_CLEANUPS = {
-      story: () => { state.activeModalStoryId = null; },
+      story: () => { state.activeModalStoryId = null; pbCancelReadTimer(); },
       teaching: () => { stopBreathing(); stopMeditation(); },
-      dayclose: () => {}
+      dayclose: () => {},
+      search: () => { pbCancelSearchDebounce(); },
+      focus: () => { pbFocusOnClose(); },
+      week: () => {}
     };
 
     function pbLockBodyScroll() {
@@ -2423,6 +2603,7 @@ Key Insights:
 
     function pbRequestClose() {
       if (!pbActivePage) return;
+      if (pbCloseGuard && !pbCloseGuard()) return; // a page can veto (running focus session)
       // Pop our own history entry when we own the top of the stack, so the
       // Android back gesture, browser back and the in-page Back buttons all
       // take the exact same code path (no orphaned pbPage states).
@@ -2452,6 +2633,9 @@ Key Insights:
         if (st.pbKind === 'story' && st.pbDetail && st.pbDetail.id) openStoryModal(st.pbDetail.id, { restore: true });
         else if (st.pbKind === 'teaching') openTeachingModal({ restore: true });
         else if (st.pbKind === 'dayclose') openDayClose({ restore: true });
+        else if (st.pbKind === 'search') pbOpenSearch({ restore: true });
+        else if (st.pbKind === 'focus') pbOpenFocus({ restore: true });
+        else if (st.pbKind === 'week') pbOpenWeek({ restore: true });
       }
     });
 
@@ -2604,6 +2788,7 @@ Key Insights:
       const story = state.stories.find(s => s.id === storyId);
       if (!story) return;
       state.activeModalStoryId = storyId;
+      pbStartReadTimer();
       renderStoryPage(story);
       pbNavigate('story', { id: storyId }, opts);
     }
@@ -2678,10 +2863,12 @@ Key Insights:
       state.tasks.push({
         id: 't-' + Date.now(),
         text,
-        done: false
+        done: false,
+        recurring: taskRepeatMode !== 'off' ? taskRepeatMode : undefined
       });
       await persistEncryptedState();
       input.value = '';
+      pbSetTaskRepeat('off'); // one-off by default for the next task
       renderTasks(state.edition === 'night');
     });
 
@@ -2707,6 +2894,7 @@ Key Insights:
       const story = state.stories.find(s => s.id === state.activeModalStoryId);
       if (story) {
         story.saved = !story.saved;
+        story.savedAt = story.saved ? Date.now() : null; // feature: stamp for "saved this week"
         await persistEncryptedState();
         renderStorySaveBtn(story);
         renderApp();
@@ -2941,6 +3129,877 @@ Key Insights:
         }
       });
     }
+
+    // ==================================================================
+    // FEATURE PACK (branch agent/features): universal search, reading
+    // streaks, meditation log, focus mode, recurring tasks, read-later
+    // queue + .bib export, vault export/import, weekly digest,
+    // this-day-in-science, conference deadlines.
+    // Honesty rules: analytics only from real local data; this-day and
+    // deadline entries ship only with a verified source URL in the data
+    // files (this_day.json / deadlines.json, fetched no-store).
+    // ==================================================================
+
+    // ---- Bottom toasts: queued, themed, auto-dismiss 3s ----
+    const pbToastQueue = [];
+    let pbToastBusy = false;
+
+    function pbToast(message) {
+      let host = document.getElementById('pb-toast-host');
+      if (!host) {
+        host = document.createElement('div');
+        host.id = 'pb-toast-host';
+        document.body.appendChild(host);
+      }
+      const el = document.createElement('div');
+      el.className = 'pb-toast ' + (state.edition === 'night' ? 'pb-toast-night' : 'pb-toast-morning');
+      el.setAttribute('role', 'status');
+      el.textContent = message; // in-app text only; textContent, never innerHTML
+      host.appendChild(el);
+      pbToastQueue.push(el);
+      pbToastPump();
+    }
+
+    function pbToastPump() {
+      if (pbToastBusy || !pbToastQueue.length) return;
+      pbToastBusy = true;
+      const el = pbToastQueue.shift();
+      setTimeout(() => {
+        const remove = () => { el.remove(); pbToastBusy = false; pbToastPump(); };
+        if (pbReducedMotion()) { remove(); return; }
+        el.classList.add('pb-toast-out');
+        setTimeout(remove, 260);
+      }, 3000);
+    }
+
+    // ---- Reading streaks: a day counts when a story reader stays open >= 10s ----
+    const PB_READ_DAYS_KEY = 'pb_read_days';
+    const PB_READ_MIN_MS = 10000;
+    let pbReadTimer = null;
+
+    function pbReadDays() {
+      try {
+        const v = JSON.parse(localStorage.getItem(PB_READ_DAYS_KEY) || '[]');
+        return Array.isArray(v) ? v.filter(d => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) : [];
+      } catch (e) { return []; }
+    }
+
+    function pbStartReadTimer() {
+      pbCancelReadTimer();
+      pbReadTimer = setTimeout(() => { pbReadTimer = null; pbMarkReadDay(); }, PB_READ_MIN_MS);
+    }
+
+    function pbCancelReadTimer() {
+      if (pbReadTimer) { clearTimeout(pbReadTimer); pbReadTimer = null; }
+    }
+
+    function pbMarkReadDay() {
+      const days = pbReadDays();
+      const today = todayKey();
+      if (days.indexOf(today) !== -1) return;
+      days.push(today);
+      try { localStorage.setItem(PB_READ_DAYS_KEY, JSON.stringify(days)); } catch (e) {}
+      renderStreakChip(state.edition === 'night');
+      const streak = pbCurrentStreak(days);
+      if (streak === 3 || streak === 7 || streak === 30) {
+        pbToast('🔥 ' + streak + '-day reading streak — keep it alive');
+      }
+    }
+
+    function pbDateKeyOf(d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function pbCurrentStreak(days, nowMs) {
+      const set = new Set(days || pbReadDays());
+      const now = nowMs != null ? new Date(nowMs) : new Date();
+      let cursor = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      if (!set.has(pbDateKeyOf(cursor))) cursor.setDate(cursor.getDate() - 1); // today not read yet: streak runs to yesterday
+      let n = 0;
+      while (set.has(pbDateKeyOf(cursor))) { n += 1; cursor.setDate(cursor.getDate() - 1); }
+      return n;
+    }
+
+    function pbBestStreak(days) {
+      const list = (days || pbReadDays()).slice().sort();
+      let best = 0, run = 0, prev = null;
+      list.forEach(d => {
+        if (prev !== null) {
+          const gap = (new Date(d + 'T00:00:00') - new Date(prev + 'T00:00:00')) / 86400000;
+          run = gap === 1 ? run + 1 : 1;
+        } else run = 1;
+        if (run > best) best = run;
+        prev = d;
+      });
+      return best;
+    }
+
+    function renderStreakChip(isNight) {
+      const row = document.getElementById('streak-row');
+      const chip = document.getElementById('streak-chip');
+      if (!row || !chip) return;
+      const days = pbReadDays();
+      const streak = pbCurrentStreak(days);
+      if (streak < 1) { row.classList.add('hidden'); return; }
+      const best = pbBestStreak(days);
+      chip.textContent = '🔥 ' + streak + '-day streak';
+      chip.title = 'Best streak: ' + best + ' day' + (best === 1 ? '' : 's');
+      chip.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border ' + (isNight
+        ? 'bg-orange-950/60 border-orange-800/70 text-orange-300'
+        : 'bg-orange-100/80 border-orange-300 text-orange-800');
+      row.classList.remove('hidden');
+    }
+
+    // ---- Meditation log: only sessions that ring the completion bell ----
+    const PB_MED_LOG_KEY = 'pb_med_log';
+
+    function pbMedLog() {
+      try {
+        const v = JSON.parse(localStorage.getItem(PB_MED_LOG_KEY) || '[]');
+        return Array.isArray(v) ? v.filter(e => e && typeof e.date === 'string' && e.minutes > 0) : [];
+      } catch (e) { return []; }
+    }
+
+    function pbLogMeditation(minutes) {
+      if (!minutes || minutes <= 0) return;
+      const log = pbMedLog();
+      log.push({ date: todayKey(), minutes: minutes });
+      try { localStorage.setItem(PB_MED_LOG_KEY, JSON.stringify(log)); } catch (e) {}
+      renderMeditationWeek();
+    }
+
+    function pbIsoWeekDayKeys(nowMs) {
+      const now = nowMs != null ? new Date(nowMs) : new Date();
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      d.setDate(d.getDate() - (d.getDay() + 6) % 7); // back to Monday
+      const keys = [];
+      for (let i = 0; i < 7; i++) {
+        const x = new Date(d);
+        x.setDate(d.getDate() + i);
+        keys.push(pbDateKeyOf(x));
+      }
+      return keys;
+    }
+
+    function renderMeditationWeek() {
+      const wrap = document.getElementById('med-week-summary');
+      if (!wrap) return;
+      const days = pbIsoWeekDayKeys();
+      const today = todayKey();
+      const perDay = {};
+      let weekMin = 0, sessions = 0;
+      pbMedLog().forEach(e => {
+        if (days.indexOf(e.date) !== -1) { weekMin += e.minutes; sessions += 1; perDay[e.date] = (perDay[e.date] || 0) + e.minutes; }
+      });
+      wrap.innerHTML = '';
+      const line = document.createElement('p');
+      line.className = 'text-[11px] text-slate-400';
+      line.textContent = 'This week: ' + weekMin + ' min · ' + sessions + ' session' + (sessions === 1 ? '' : 's');
+      const strip = document.createElement('div');
+      strip.className = 'flex items-end gap-2';
+      strip.setAttribute('role', 'img');
+      strip.setAttribute('aria-label', 'Meditation minutes Monday to Sunday');
+      const maxMin = Math.max(10, ...days.map(d => perDay[d] || 0));
+      days.forEach(d => {
+        const mins = perDay[d] || 0;
+        const dot = document.createElement('span');
+        const size = mins > 0 ? Math.round(8 + 10 * Math.min(1, mins / maxMin)) : 8;
+        dot.className = 'pb-med-dot ' + (mins > 0 ? 'bg-amber-400/90' : 'bg-slate-700/60');
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        dot.title = d + ': ' + mins + ' min';
+        if (d === today) dot.style.boxShadow = '0 0 0 2px rgba(251,191,36,0.35)';
+        strip.appendChild(dot);
+      });
+      wrap.appendChild(line);
+      wrap.appendChild(strip);
+      wrap.classList.remove('hidden');
+    }
+
+    // ---- Focus mode (pomodoro): 25 min work / 5 min break ----
+    const PB_FOCUS_LOG_KEY = 'pb_focus_log';
+    const FOCUS_WORK_MIN = 25;
+    const FOCUS_BREAK_MIN = 5;
+    const FOCUS_RING_CIRC = 2 * Math.PI * 104; // r = 104 in the page SVG
+    let focusMode = 'work';
+    let focusRemaining = FOCUS_WORK_MIN * 60;
+    let focusRunning = false;
+    let focusInterval = null;
+    let focusTitleSaved = null;
+    let pbCloseGuard = null; // set by the focus page; vetoes close mid-session
+
+    function pbFocusSessionsToday() {
+      try {
+        const log = JSON.parse(localStorage.getItem(PB_FOCUS_LOG_KEY) || '{}');
+        return log[todayKey()] || 0;
+      } catch (e) { return 0; }
+    }
+
+    function pbFocusLogSession() {
+      try {
+        const log = JSON.parse(localStorage.getItem(PB_FOCUS_LOG_KEY) || '{}');
+        log[todayKey()] = (log[todayKey()] || 0) + 1;
+        localStorage.setItem(PB_FOCUS_LOG_KEY, JSON.stringify(log));
+      } catch (e) {}
+    }
+
+    function pbFocusTotalSec() { return (focusMode === 'work' ? FOCUS_WORK_MIN : FOCUS_BREAK_MIN) * 60; }
+
+    function pbFocusClock() {
+      const m = Math.floor(focusRemaining / 60), s = focusRemaining % 60;
+      return m + ':' + String(s).padStart(2, '0');
+    }
+
+    function pbFocusRender() {
+      const timeEl = document.getElementById('focus-time');
+      if (!timeEl) return;
+      timeEl.textContent = pbFocusClock();
+      const fg = document.getElementById('focus-ring-fg');
+      const total = pbFocusTotalSec();
+      if (fg) {
+        fg.setAttribute('stroke-dasharray', FOCUS_RING_CIRC.toFixed(2));
+        fg.setAttribute('stroke-dashoffset', (FOCUS_RING_CIRC * (1 - (total > 0 ? focusRemaining / total : 0))).toFixed(2));
+        fg.setAttribute('stroke', focusMode === 'work' ? '#818cf8' : '#34d399');
+      }
+      const label = document.getElementById('focus-mode-label');
+      if (label) {
+        label.textContent = focusMode === 'work' ? 'Deep work' : 'Break';
+        label.className = 'text-[11px] font-bold uppercase tracking-widest ' + (focusMode === 'work' ? 'text-indigo-300/90' : 'text-emerald-300/90');
+      }
+      const sessions = document.getElementById('focus-sessions');
+      if (sessions) sessions.textContent = pbFocusSessionsToday() + ' session' + (pbFocusSessionsToday() === 1 ? '' : 's') + ' today';
+      const btn = document.getElementById('focus-start-btn');
+      if (btn) btn.textContent = focusRunning ? 'Pause' : (focusRemaining < total ? 'Resume' : 'Start');
+      document.title = (focusRunning || focusRemaining < total)
+        ? pbFocusClock() + ' · ' + (focusMode === 'work' ? 'Focus' : 'Break') + ' — PulseBoard'
+        : (focusTitleSaved || 'PulseBoard — Morning & Night Custom News Dashboard');
+    }
+
+    function pbFocusTick() {
+      if (!focusRunning) return;
+      if (focusRemaining > 0) focusRemaining -= 1;
+      if (focusRemaining <= 0) pbFocusTransition();
+      pbFocusRender();
+    }
+
+    function pbFocusTransition() {
+      playBell(0.7); // soft bell; AudioContext was primed inside the Start tap
+      try { if (navigator.vibrate) navigator.vibrate([200, 120, 200]); } catch (e) {}
+      if (focusMode === 'work') {
+        pbFocusLogSession();
+        focusMode = 'break';
+        focusRemaining = FOCUS_BREAK_MIN * 60;
+        pbToast('Focus block done — take a 5-minute break');
+      } else {
+        focusMode = 'work';
+        focusRemaining = FOCUS_WORK_MIN * 60;
+        pbToast('Break over — back to deep work');
+      }
+    }
+
+    function pbFocusToggle() {
+      if (focusRunning) {
+        focusRunning = false;
+        if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
+      } else {
+        primeAudio(); // AudioContext must be created inside the tap gesture
+        focusRunning = true;
+        focusInterval = setInterval(pbFocusTick, 1000);
+      }
+      pbFocusRender();
+    }
+
+    function pbFocusReset() {
+      focusRunning = false;
+      if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
+      focusMode = 'work';
+      focusRemaining = FOCUS_WORK_MIN * 60;
+      pbFocusRender();
+    }
+
+    function pbOpenFocus(opts) {
+      if (!focusTitleSaved) focusTitleSaved = document.title;
+      pbCloseGuard = () => {
+        if (!focusRunning) return true;
+        return confirm('A focus session is running. Close the timer anyway?');
+      };
+      pbFocusRender();
+      pbNavigate('focus', null, opts);
+    }
+
+    function pbFocusOnClose() { // PB_PAGE_CLEANUPS hook
+      if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
+      focusRunning = false;
+      pbCloseGuard = null;
+      if (focusTitleSaved) document.title = focusTitleSaved;
+    }
+
+    function pbFocusClose() { if (pbActivePage === 'focus') pbRequestClose(); }
+
+    // ---- Recurring tasks: auto-reset on day / ISO-week change ----
+    const PB_TASK_RESET_KEY = 'pb_task_reset_marker';
+
+    function pbIsoWeekKey(nowMs) {
+      const now = nowMs != null ? new Date(nowMs) : new Date();
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      d.setDate(d.getDate() - (d.getDay() + 6) % 7 + 3); // Thursday of the ISO week
+      const firstThu = new Date(d.getFullYear(), 0, 4);
+      firstThu.setDate(firstThu.getDate() - (firstThu.getDay() + 6) % 7 + 3);
+      const week = 1 + Math.round((d - firstThu) / 604800000);
+      return d.getFullYear() + '-W' + String(week).padStart(2, '0');
+    }
+
+    function maybeResetRecurringTasks(nowMs) {
+      try {
+        let marker = {};
+        try { marker = JSON.parse(localStorage.getItem(PB_TASK_RESET_KEY) || '{}') || {}; } catch (e) {}
+        const dayKey = pbDateKeyOf(nowMs != null ? new Date(nowMs) : new Date());
+        const weekKey = pbIsoWeekKey(nowMs);
+        let changed = false;
+        if (marker.day !== dayKey) {
+          state.tasks.forEach(t => { if (t.recurring === 'daily' && t.done) { t.done = false; changed = true; } });
+          marker.day = dayKey;
+        }
+        if (marker.week !== weekKey) {
+          state.tasks.forEach(t => { if (t.recurring === 'weekly' && t.done) { t.done = false; changed = true; } });
+          marker.week = weekKey;
+        }
+        localStorage.setItem(PB_TASK_RESET_KEY, JSON.stringify(marker));
+        if (changed) persistEncryptedState().catch(() => {});
+      } catch (e) { /* never block rendering */ }
+    }
+
+    let taskRepeatMode = 'off'; // 'off' | 'daily' | 'weekly'
+
+    function pbSetTaskRepeat(mode) {
+      taskRepeatMode = mode;
+      const btn = document.getElementById('btn-task-repeat');
+      if (!btn) return;
+      const isNight = state.edition === 'night';
+      const labels = { off: '↻ Off', daily: '↻ Daily', weekly: '↻ Weekly' };
+      btn.textContent = labels[mode];
+      btn.title = 'Repeat: ' + (mode === 'off' ? 'one-off task' : mode === 'daily' ? 'resets every day' : 'resets every ISO week');
+      btn.className = 'px-3 py-2 rounded-xl text-xs font-semibold border transition-colors shrink-0 ' + (mode === 'off'
+        ? (isNight ? 'border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-100' : 'border-slate-200 bg-white text-slate-400 hover:text-slate-700')
+        : (isNight ? 'border-indigo-500 bg-indigo-950 text-indigo-300' : 'border-amber-400 bg-amber-100 text-amber-800'));
+    }
+
+    // ---- Read-later queue + .bib export ----
+    function renderPapersSubnav(isNight) {
+      const chip = document.getElementById('btn-readlater-filter');
+      const dl = document.getElementById('btn-download-bib');
+      if (!chip || !dl) return;
+      const n = state.papers.filter(p => p.readLater).length;
+      chip.textContent = '◷ Read later (' + n + ')';
+      const on = !!state.readLaterFilter;
+      chip.className = 'px-3 py-1 rounded-full text-xs font-semibold border transition-colors ' + (on
+        ? 'bg-slate-900 border-slate-900 text-white'
+        : (isNight ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'));
+      dl.className = (on ? '' : 'hidden ') + 'px-3 py-1 rounded-full text-xs font-semibold border transition-colors ' + (isNight
+        ? 'bg-slate-900 border-indigo-700 text-indigo-300 hover:bg-slate-800'
+        : 'bg-white border-amber-300 text-amber-800 hover:bg-amber-50');
+    }
+
+    function pbToggleReadLater(id) {
+      const paper = state.papers.find(p => p.id === id);
+      if (!paper) return;
+      paper.readLater = !paper.readLater;
+      persistEncryptedState().catch(() => {}); // persisted in the vault like saved (batched write)
+      renderApp();
+    }
+
+    function pbBibQueuePapers() {
+      const out = [], ids = new Set();
+      state.papers.forEach(p => {
+        if ((p.readLater || p.saved) && !ids.has(p.id)) { ids.add(p.id); out.push(p); }
+      });
+      return out;
+    }
+
+    function pbAssembleBib() {
+      const papers = pbBibQueuePapers();
+      if (!papers.length) return '';
+      return papers.map(p => paperBibtex(p)).join('\n\n') + '\n';
+    }
+
+    function pbDownloadBib() {
+      const bib = pbAssembleBib();
+      if (!bib) { pbToast('Queue is empty — flag papers with ◷ Read later or ★ Save'); return; }
+      const blob = new Blob([bib], { type: 'application/x-bibtex;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pulseboard-papers.bib';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }
+
+    // ---- Vault export / import (decrypted plaintext, user-initiated only) ----
+    function pbBuildExportPayload() {
+      return {
+        app: 'pulseboard',
+        version: 1,
+        exported_at: new Date().toISOString(),
+        stories: state.stories,
+        papers: state.papers,
+        tasks: state.tasks,
+        routines: state.routines,
+        dayLog: state.dayLog
+      };
+    }
+
+    function pbExportData() {
+      const payload = pbBuildExportPayload();
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pulseboard-backup-' + todayKey() + '.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      const note = document.getElementById('backup-note');
+      if (note) note.textContent = 'Exported ' + payload.stories.length + ' stories, ' + payload.papers.length + ' papers, ' + payload.tasks.length + ' tasks as plaintext JSON.';
+    }
+
+    function pbBackupShapeOk(d) {
+      if (!d || typeof d !== 'object') return false;
+      let fields = 0;
+      if (Array.isArray(d.stories)) fields++;
+      if (Array.isArray(d.papers)) fields++;
+      if (Array.isArray(d.tasks)) fields++;
+      if (d.routines && typeof d.routines === 'object') fields++;
+      if (d.dayLog && typeof d.dayLog === 'object') fields++;
+      return fields > 0 && (d.app === 'pulseboard' || typeof d.exported_at === 'string');
+    }
+
+    function pbMergeById(existing, imported) {
+      if (!Array.isArray(imported)) return existing;
+      const out = existing.slice();
+      imported.forEach(item => {
+        if (!item || item.id == null) return;
+        const i = out.findIndex(x => x.id === item.id);
+        if (i !== -1) out[i] = item; // import wins on conflict
+        else out.push(item);
+      });
+      return out;
+    }
+
+    function pbApplyBackup(d) {
+      state.stories = pbMergeById(state.stories, d.stories);
+      state.papers = pbMergeById(state.papers, d.papers);
+      state.tasks = pbMergeById(state.tasks, d.tasks);
+      if (d.routines && typeof d.routines === 'object') {
+        ['morning', 'night'].forEach(k => {
+          if (Array.isArray(d.routines[k])) state.routines[k] = pbMergeById(state.routines[k] || [], d.routines[k]);
+        });
+      }
+      if (d.dayLog && typeof d.dayLog === 'object') state.dayLog = Object.assign({}, state.dayLog, d.dayLog);
+      return persistEncryptedState();
+    }
+
+    function pbImportFile(file) {
+      const note = document.getElementById('backup-note');
+      file.text().then(txt => {
+        let data = null;
+        try { data = JSON.parse(txt); } catch (e) {}
+        if (!pbBackupShapeOk(data)) {
+          if (note) note.textContent = 'That file is not a valid PulseBoard backup.';
+          return;
+        }
+        if (!confirm('Import this backup? Matching items in the file replace local ones.')) {
+          if (note) note.textContent = 'Import cancelled.';
+          return;
+        }
+        pbApplyBackup(data).then(() => {
+          renderApp();
+          if (note) note.textContent = 'Backup imported ✓ (file wins on conflicts)';
+          pbToast('Backup imported');
+        }).catch(() => {
+          if (note) note.textContent = 'Import failed — is the vault unlocked?';
+        });
+      }).catch(() => { if (note) note.textContent = 'Could not read that file.'; });
+    }
+
+    // ---- Weekly digest: last 7 days, computed from real data only ----
+    function pbOpenWeek(opts) {
+      renderWeekPage();
+      pbNavigate('week', null, opts);
+    }
+
+    function renderWeekPage() {
+      const rangeEl = document.getElementById('week-range');
+      if (!rangeEl) return;
+      const days = [];
+      for (let i = 6; i >= 0; i--) days.push(dateKeyOffset(-i));
+      const dayLog = state.dayLog || {};
+      const readDays = new Set(pbReadDays());
+      rangeEl.textContent = new Date(Date.now() - 6 * 86400000).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+        + ' – ' + new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+
+      let tasksDone = 0, daysClosed = 0;
+      days.forEach(d => {
+        const e = dayLog[d];
+        if (e) {
+          daysClosed += 1;
+          if (e.stats && typeof e.stats.tDone === 'number') tasksDone += e.stats.tDone;
+        }
+      });
+      let medMin = 0;
+      pbMedLog().forEach(e => { if (days.indexOf(e.date) !== -1) medMin += e.minutes; });
+      let readingDays = 0;
+      days.forEach(d => { if (readDays.has(d)) readingDays += 1; });
+
+      const totalsEl = document.getElementById('week-totals');
+      totalsEl.innerHTML = '';
+      [['✅', String(tasksDone), 'tasks completed'],
+       ['🌙', daysClosed + '/7', 'days closed'],
+       ['🧘', medMin + ' min', 'meditation'],
+       ['📖', readingDays + '/7', 'reading days']].forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'rounded-2xl border border-slate-800 bg-slate-900/60 p-3 text-center';
+        const b = document.createElement('p');
+        b.className = 'text-lg font-bold text-slate-100';
+        b.textContent = t[0] + ' ' + t[1];
+        const s = document.createElement('p');
+        s.className = 'text-[10px] uppercase tracking-wide text-slate-500 mt-0.5';
+        s.textContent = t[2];
+        card.appendChild(b); card.appendChild(s);
+        totalsEl.appendChild(card);
+      });
+
+      const daysEl = document.getElementById('week-days');
+      daysEl.innerHTML = '';
+      days.slice().reverse().forEach(d => {
+        const e = dayLog[d];
+        const row = document.createElement('div');
+        row.className = 'rounded-2xl border p-3 ' + (e ? 'border-slate-800 bg-slate-900/60' : 'border-slate-800/50 border-dashed');
+        const head = document.createElement('p');
+        head.className = 'text-xs font-semibold ' + (e ? 'text-slate-200' : 'text-slate-500');
+        head.textContent = new Date(d + 'T00:00:00').toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
+          + (d === todayKey() ? ' · today' : '');
+        row.appendChild(head);
+        if (e) {
+          const stats = e.stats || {};
+          const line = document.createElement('p');
+          line.className = 'text-[11px] text-slate-400 mt-1';
+          const parts = [];
+          if (typeof stats.tDone === 'number') parts.push('✅ ' + stats.tDone + '/' + (stats.tTotal != null ? stats.tTotal : '?') + ' tasks');
+          if (typeof stats.rPct === 'number') parts.push('routine ' + stats.rPct + '%');
+          line.textContent = parts.length ? parts.join(' · ') : 'day closed';
+          row.appendChild(line);
+          if (e.gratitude) {
+            const g = document.createElement('p');
+            g.className = 'text-[11px] italic text-slate-500 mt-1';
+            g.textContent = '“' + e.gratitude + '”';
+            row.appendChild(g);
+          }
+        } else {
+          const line = document.createElement('p');
+          line.className = 'text-[11px] text-slate-600 mt-1';
+          line.textContent = 'not closed — no ritual entry';
+          row.appendChild(line);
+        }
+        daysEl.appendChild(row);
+      });
+
+      const savedEl = document.getElementById('week-saved');
+      savedEl.innerHTML = '';
+      const cutoff = Date.now() - 7 * 86400000;
+      const savedItems = []
+        .concat(state.stories.filter(s => s.saved && s.savedAt && s.savedAt >= cutoff).map(s => ({ title: s.title, meta: 'story' })))
+        .concat(state.papers.filter(p => p.saved && p.savedAt && p.savedAt >= cutoff).map(p => ({ title: p.title, meta: 'paper' })));
+      if (!savedItems.length) {
+        const p = document.createElement('p');
+        p.className = 'text-[11px] text-slate-600';
+        p.textContent = 'Nothing saved in the last 7 days.';
+        savedEl.appendChild(p);
+      } else {
+        savedItems.forEach(it => {
+          const p = document.createElement('p');
+          p.className = 'text-[11px] text-slate-300 leading-snug';
+          const tag = document.createElement('span');
+          tag.className = 'text-slate-600';
+          tag.textContent = '[' + it.meta + '] ';
+          p.appendChild(tag);
+          p.appendChild(document.createTextNode(it.title));
+          savedEl.appendChild(p);
+        });
+      }
+    }
+
+    // ---- On this day in science (this_day.json, no-store) ----
+    let thisDayDb = null;
+
+    async function loadThisDay() {
+      try {
+        const res = await fetch('this_day.json', { cache: 'no-store' });
+        if (!res.ok) return;
+        const db = await res.json();
+        if (db && Array.isArray(db.entries)) thisDayDb = db.entries;
+        renderThisDay(state.edition === 'night');
+      } catch (e) { /* offline: card stays hidden */ }
+    }
+
+    function thisDayEntry() {
+      if (!thisDayDb) return null;
+      const now = new Date();
+      const key = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+      return thisDayDb.find(e => e && e.date === key) || null;
+    }
+
+    function renderThisDay(isNight) {
+      const card = document.getElementById('thisday-card');
+      if (!card) return;
+      const entry = thisDayEntry();
+      if (isNight || !entry || !entry.event || !entry.source_url) { card.classList.add('hidden'); return; }
+      document.getElementById('thisday-event').textContent = entry.year + ' — ' + entry.event;
+      document.getElementById('thisday-source').href = entry.source_url;
+      card.className = 'w-full lg:w-auto px-4 py-3 rounded-xl border border-amber-200/80 bg-white/90 shadow-sm';
+    }
+
+    // ---- Conference deadlines (deadlines.json, no-store) ----
+    let deadlinesDb = null;
+
+    async function loadDeadlines() {
+      try {
+        const res = await fetch('deadlines.json', { cache: 'no-store' });
+        if (!res.ok) return;
+        const db = await res.json();
+        if (db && Array.isArray(db.deadlines)) deadlinesDb = db.deadlines;
+        renderDeadlines(state.edition === 'night');
+      } catch (e) { /* offline: widget stays hidden */ }
+    }
+
+    function pbDaysUntil(dateStr) {
+      const t = new Date(dateStr + 'T00:00:00');
+      if (isNaN(t.getTime())) return null;
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      return Math.round((t - today) / 86400000); // midnight-to-midnight: exact day count
+    }
+
+    function renderDeadlines(isNight) {
+      const wrap = document.getElementById('deadlines-widget');
+      if (!wrap) return;
+      if (!deadlinesDb || !deadlinesDb.length) { wrap.classList.add('hidden'); return; }
+      const list = deadlinesDb
+        .map(d => ({ d: d, days: pbDaysUntil(d.date) }))
+        .filter(x => x.days !== null)
+        .sort((a, b) => a.days - b.days);
+      wrap.innerHTML = '';
+      wrap.className = 'mb-5 rounded-2xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-slate-200/90 bg-white');
+      const head = document.createElement('p');
+      head.className = 'text-xs font-bold uppercase tracking-wider mb-1 ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+      head.textContent = '🗓 Conference deadlines';
+      wrap.appendChild(head);
+      list.forEach(x => {
+        const d = x.d;
+        const row = document.createElement('a');
+        row.href = d.url || '#';
+        row.target = '_blank';
+        row.rel = 'noopener';
+        row.className = 'flex items-center justify-between gap-3 py-2 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-100');
+        const left = document.createElement('div');
+        left.className = 'min-w-0';
+        const name = document.createElement('p');
+        name.className = 'text-xs font-semibold truncate ' + (isNight ? 'text-slate-200' : 'text-slate-800');
+        name.textContent = d.name;
+        const meta = document.createElement('p');
+        meta.className = 'text-[10px] ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+        meta.textContent = [d.kind, d.location].filter(Boolean).join(' · ');
+        left.appendChild(name); left.appendChild(meta);
+        const right = document.createElement('span');
+        let text, cls;
+        if (x.days < 0) { text = 'closed'; cls = isNight ? 'text-slate-600' : 'text-slate-300'; }
+        else if (x.days === 0) { text = 'today'; cls = 'text-rose-500'; }
+        else if (x.days < 7) { text = x.days + ' days'; cls = 'text-rose-500'; }
+        else if (x.days <= 30) { text = x.days + ' days'; cls = 'text-amber-500'; }
+        else { text = x.days + ' days'; cls = isNight ? 'text-slate-500' : 'text-slate-400'; }
+        right.className = 'text-[11px] font-bold shrink-0 ' + cls;
+        right.textContent = text;
+        row.appendChild(left); row.appendChild(right);
+        wrap.appendChild(row);
+      });
+      const foot = document.createElement('p');
+      foot.className = 'text-[10px] mt-2 ' + (isNight ? 'text-slate-600' : 'text-slate-400');
+      foot.textContent = 'Submission deadlines — dates verified against official conference websites';
+      wrap.appendChild(foot);
+    }
+
+    function pbLoadDailies() { loadThisDay(); loadDeadlines(); }
+
+    // ---- Universal search ----
+    let searchDebounceTimer = null;
+
+    function pbCancelSearchDebounce() {
+      if (searchDebounceTimer) { clearTimeout(searchDebounceTimer); searchDebounceTimer = null; }
+    }
+
+    function pbOpenSearch(opts) {
+      const isNight = state.edition === 'night';
+      const page = document.getElementById('page-search');
+      page.className = isNight ? 'min-h-full bg-slate-950 text-slate-100' : 'min-h-full bg-[#fffdf7] text-slate-900';
+      document.getElementById('search-header').className = 'sticky top-0 z-10 border-b backdrop-blur-md transition-colors ' + (isNight
+        ? 'border-slate-800 bg-slate-950/90' : 'border-amber-200/70 bg-[#fffdf7]/90');
+      document.getElementById('search-back').className = 'w-9 h-9 -ml-1.5 shrink-0 rounded-full flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-amber-100');
+      const input = document.getElementById('search-input');
+      input.className = 'flex-1 min-w-0 bg-transparent outline-none text-base font-medium ' + (isNight ? 'text-slate-100 placeholder-slate-600' : 'text-slate-900 placeholder-slate-400');
+      document.getElementById('search-results').innerHTML = '';
+      input.value = '';
+      document.getElementById('search-clear').classList.add('hidden');
+      pbNavigate('search', null, opts);
+      setTimeout(() => { try { input.focus(); } catch (e) {} }, 120);
+    }
+
+    function pbSearchClose() { if (pbActivePage === 'search') pbRequestClose(); }
+
+    function pbSearchFields(kind, item) {
+      if (kind === 'Stories') return [item.title, item.dek, item.content, item.source];
+      if (kind === 'Papers') return [item.title, item.authors, item.tldr, item.journal];
+      return [item.tradition, item.theme, item.quote, item.reflection];
+    }
+
+    function pbSearchEmptyState(el, text) {
+      const p = document.createElement('p');
+      p.className = 'text-sm text-slate-400 text-center py-10';
+      p.textContent = text;
+      el.appendChild(p);
+    }
+
+    // SAFE highlight: split the string on the needle and append plain text
+    // nodes + <mark> elements. Remote text never touches innerHTML.
+    function pbHighlight(el, text, q) {
+      const str = String(text == null ? '' : text);
+      const lower = str.toLowerCase();
+      const needle = q.toLowerCase();
+      let i = 0;
+      while (true) {
+        const idx = lower.indexOf(needle, i);
+        if (idx === -1) { el.appendChild(document.createTextNode(str.slice(i))); break; }
+        el.appendChild(document.createTextNode(str.slice(i, idx)));
+        const m = document.createElement('mark');
+        m.className = 'pb-mark';
+        m.textContent = str.slice(idx, idx + needle.length);
+        el.appendChild(m);
+        i = idx + needle.length;
+      }
+    }
+
+    function pbSnippet(text, q, radius) {
+      const str = String(text == null ? '' : text);
+      const idx = str.toLowerCase().indexOf(q.toLowerCase());
+      if (idx === -1) return str.slice(0, radius * 2) + (str.length > radius * 2 ? '…' : '');
+      const start = Math.max(0, idx - radius);
+      const end = Math.min(str.length, idx + q.length + radius);
+      return (start > 0 ? '…' : '') + str.slice(start, end) + (end < str.length ? '…' : '');
+    }
+
+    function pbSearchResultRow(kind, item, q, isNight) {
+      const row = document.createElement(kind === 'Papers' && item.url ? 'a' : 'button');
+      if (row.tagName === 'BUTTON') row.type = 'button';
+      else { row.href = item.url; row.target = '_blank'; row.rel = 'noopener'; }
+      row.className = 'w-full text-left rounded-2xl border p-3.5 mb-2 block transition-colors ' + (isNight
+        ? 'border-slate-800 bg-slate-900/70 hover:border-indigo-600/60'
+        : 'border-slate-200 bg-white hover:border-amber-400');
+      const title = document.createElement('p');
+      title.className = 'text-sm font-semibold leading-snug ' + (isNight ? 'text-slate-100' : 'text-slate-900');
+      pbHighlight(title, item.title || item.quote || '', q);
+      const meta = document.createElement('p');
+      meta.className = 'text-[11px] mt-1 ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+      if (kind === 'Stories') meta.textContent = item.source || '';
+      if (kind === 'Papers') meta.textContent = [item.authors, item.journal].filter(Boolean).join(' · ');
+      if (kind === 'Teachings') meta.textContent = [item.tradition, item.theme].filter(Boolean).join(' · ');
+      const snip = document.createElement('p');
+      snip.className = 'text-xs leading-relaxed mt-1 ' + (isNight ? 'text-slate-400' : 'text-slate-600');
+      const snipSrc = kind === 'Stories' ? (item.dek || item.content || '')
+        : kind === 'Papers' ? (item.tldr || '')
+        : (item.reflection || item.theme || '');
+      pbHighlight(snip, pbSnippet(snipSrc, q, 60), q);
+      row.appendChild(title); row.appendChild(meta); row.appendChild(snip);
+      if (kind === 'Stories') {
+        row.addEventListener('click', () => { pbCancelSearchDebounce(); openStoryModal(item.id); });
+      } else if (kind === 'Teachings') {
+        row.addEventListener('click', () => {
+          pbCancelSearchDebounce();
+          const pool = teachingsDb.filter(t => !t.edition || t.edition === 'any' || t.edition === state.edition);
+          const idx = pool.indexOf(item);
+          if (idx !== -1) state.wisdomIndex = idx; // jump the rotation to this teaching
+          openTeachingModal();
+        });
+      }
+      return row;
+    }
+
+    function pbSearchRun() {
+      const input = document.getElementById('search-input');
+      const results = document.getElementById('search-results');
+      const clearBtn = document.getElementById('search-clear');
+      const q = input.value.trim();
+      clearBtn.classList.toggle('hidden', !q);
+      results.innerHTML = '';
+      if (q.length < 2) {
+        pbSearchEmptyState(results, q ? 'Keep typing — search needs at least 2 characters.' : 'Search your stories, papers and teachings.');
+        return;
+      }
+      const isNight = state.edition === 'night';
+      const lower = q.toLowerCase();
+      const groups = [
+        { kind: 'Stories', items: state.stories.filter(s => pbSearchFields('Stories', s).some(f => f && String(f).toLowerCase().includes(lower))) },
+        { kind: 'Papers', items: state.papers.filter(p => pbSearchFields('Papers', p).some(f => f && String(f).toLowerCase().includes(lower))) },
+        { kind: 'Teachings', items: teachingsDb.filter(t => pbSearchFields('Teachings', t).some(f => f && String(f).toLowerCase().includes(lower))) }
+      ];
+      const total = groups.reduce((n, g) => n + g.items.length, 0);
+      if (!total) { pbSearchEmptyState(results, 'No matches for “' + q + '”.'); return; }
+      groups.forEach(g => {
+        if (!g.items.length) return;
+        const sec = document.createElement('section');
+        const h = document.createElement('h3');
+        h.className = 'text-xs font-bold uppercase tracking-widest text-slate-400 mb-2';
+        h.textContent = g.kind + ' (' + g.items.length + ')';
+        sec.appendChild(h);
+        g.items.forEach(item => sec.appendChild(pbSearchResultRow(g.kind, item, q, isNight)));
+        results.appendChild(sec);
+      });
+    }
+
+    // ---- Feature wiring ----
+    document.getElementById('btn-open-search').addEventListener('click', () => pbOpenSearch());
+    document.getElementById('search-back').addEventListener('click', pbSearchClose);
+    document.getElementById('search-clear').addEventListener('click', () => {
+      const input = document.getElementById('search-input');
+      input.value = '';
+      pbCancelSearchDebounce();
+      pbSearchRun();
+      try { input.focus(); } catch (e) {}
+    });
+    document.getElementById('search-input').addEventListener('input', () => {
+      pbCancelSearchDebounce();
+      searchDebounceTimer = setTimeout(() => { searchDebounceTimer = null; pbSearchRun(); }, 220);
+    });
+    document.getElementById('btn-open-focus').addEventListener('click', () => pbOpenFocus());
+    document.getElementById('focus-back').addEventListener('click', pbFocusClose);
+    document.getElementById('focus-start-btn').addEventListener('click', pbFocusToggle);
+    document.getElementById('focus-reset-btn').addEventListener('click', pbFocusReset);
+    document.getElementById('btn-task-repeat').addEventListener('click', () => {
+      pbSetTaskRepeat(taskRepeatMode === 'off' ? 'daily' : taskRepeatMode === 'daily' ? 'weekly' : 'off');
+    });
+    document.getElementById('btn-readlater-filter').addEventListener('click', () => {
+      state.readLaterFilter = !state.readLaterFilter;
+      renderApp();
+    });
+    document.getElementById('btn-download-bib').addEventListener('click', pbDownloadBib);
+    document.getElementById('btn-open-week').addEventListener('click', () => pbOpenWeek());
+    document.getElementById('week-back').addEventListener('click', () => { if (pbActivePage === 'week') pbRequestClose(); });
+    document.getElementById('btn-export-data').addEventListener('click', pbExportData);
+    document.getElementById('btn-import-data').addEventListener('click', () => document.getElementById('import-file-input').click());
+    document.getElementById('import-file-input').addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) pbImportFile(f);
+      e.target.value = '';
+    });
+    pbSetTaskRepeat('off');
 
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
