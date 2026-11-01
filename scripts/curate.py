@@ -191,7 +191,22 @@ def http_get(url, timeout=20, ua=None):
 # 'download' or 'road' in a filename are not mistaken for an ad.
 GALLERY_JUNK_RE = re.compile(
     r'logo|icon|avatar|sprite|emoji|gravatar|badge|placeholder|tracking'
-    r'|pixel|advert|doubleclick|(?<![a-z])ad[sv]?(?![a-z])', re.I)
+    r'|pixel|advert|doubleclick|(?<![a-z])ad[sv]?(?![a-z])'
+    # people-shots are author headshots, not article figures
+    r'|headshot|profile[-_]?pic|portrait|author'
+    # The Verge's default author avatar (Firstname_BLURPLE.jpg)
+    r'|_blurple', re.I)
+
+# Dimension suffixes CDNs append ("-2560x1440", "_640x427") — the same
+# picture as the lead image often appears under a suffixed URL, so gallery
+# dedupe compares suffix-stripped basenames too.
+_DIM_SUFFIX_RE = re.compile(r'[-_]\d{2,5}x\d{2,5}(?=\.[a-z]{3,4}$)', re.I)
+
+
+def _img_normalize(url):
+    """Canonical form for image-URL comparison: strip query + dimension suffix."""
+    path = url.split('?', 1)[0]
+    return _DIM_SUFFIX_RE.sub('', path).lower()
 
 GALLERY_MAX = 3
 
@@ -268,7 +283,8 @@ def _gallery_images(scope, base, lead):
     width/height under 400, 1px tracking pixels, and the lead image itself.
     Deduped; capped at GALLERY_MAX."""
     out, seen = [], set()
-    lead_path = lead.split('?', 1)[0] if lead else None
+    lead_norm = _img_normalize(lead) if lead else None
+    seen_norm = set()
     for tag in re.findall(r'<img\b[^>]*>', scope, re.I):
         small = False
         for dim in ('width', 'height'):
@@ -283,7 +299,7 @@ def _gallery_images(scope, base, lead):
         if not m:
             continue
         u = _absolutize(m.group(1), base)
-        if not u or u in seen:
+        if not u or u in seen or _img_normalize(u) in seen_norm:
             continue
         path = u.split('?', 1)[0]
         if path.lower().endswith('.svg'):
@@ -292,9 +308,13 @@ def _gallery_images(scope, base, lead):
             continue
         if re.search(r'[?&](?:width|w)=1\b', u):
             continue  # tracking pixel
-        if lead and (u == lead or path == lead_path):
-            continue  # the lead/og image itself
+        m_w = re.search(r'[?&](?:width|w)=(\d{1,4})\b', u)
+        if m_w and int(m_w.group(1)) < 400:
+            continue  # explicit thumbnail size (e.g. Guardian ?width=100)
+        if lead and (u == lead or _img_normalize(u) == lead_norm):
+            continue  # the lead/og image itself (also under suffixed URLs)
         seen.add(u)
+        seen_norm.add(_img_normalize(u))
         out.append(u)
         if len(out) >= GALLERY_MAX:
             break
