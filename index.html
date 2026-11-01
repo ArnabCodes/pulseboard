@@ -684,7 +684,7 @@
               <div class="flex items-center justify-between gap-3">
                 <div>
                   <p class="text-sm font-semibold">Haptic feedback</p>
-                  <p class="text-xs text-slate-500 mt-0.5">Tiny vibrations on saves, checks and refreshes.</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Tiny vibrations on saves, checks and refreshes. Switching it on gives a short test buzz.</p>
                 </div>
                 <button type="button" id="set-haptics" role="switch" aria-checked="true" aria-label="Toggle haptic feedback" class="shrink-0 relative w-12 h-7 rounded-full border bg-slate-200 transition-colors">
                   <span id="set-haptics-knob" class="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-white shadow transition-transform"></span>
@@ -728,6 +728,32 @@
               <button type="button" id="set-clear-cache" class="w-full px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Clear cached images &amp; refresh feed</button>
             </div>
 
+            <!-- FEATURE (78): About card — version, storage, update check, cache purge.
+                 Every bridge to the SW/version layer is typeof-guarded so the
+                 card degrades gracefully if that half is missing at merge. -->
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <p class="text-sm font-semibold">About</p>
+              <p class="text-xs text-slate-500 mt-1">Version <span id="about-version">—</span> · <span id="about-storage">storage…</span></p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <button type="button" id="btn-check-update" class="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Check for updates</button>
+                <button type="button" id="btn-purge-caches" class="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Clear cached files</button>
+                <button type="button" id="btn-update-reload" class="hidden px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 transition-colors">Update ready — Reload</button>
+              </div>
+              <p id="about-update-note" class="text-[11px] text-slate-500 mt-2 min-h-[14px]"></p>
+            </div>
+
+            <!-- FEATURE (80): 'Your data' honesty card — what is stored where, in plain words -->
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <p class="text-sm font-semibold">Your data</p>
+              <ul class="mt-2 space-y-1.5 text-xs text-slate-600 list-disc list-inside leading-relaxed">
+                <li><strong>Encrypted vault</strong> (AES-GCM, PIN-derived key, in <code>localStorage</code>): tasks, routines, saved stories &amp; papers, day-close log with mood.</li>
+                <li><strong>Plain <code>localStorage</code></strong>: preferences, read/unread story ids (capped at 500), reading-streak days, meditation &amp; focus logs, feed timestamp.</li>
+                <li><strong><code>sessionStorage</code></strong>: the day-close draft — wiped as soon as you close the day.</li>
+                <li><strong>Nothing leaves this device</strong> except public content fetches: the news/arXiv feed, weather, and images.</li>
+                <li>No accounts, no analytics, no tracking — clearing site data wipes everything.</li>
+              </ul>
+            </div>
+
             <p class="mt-6 text-[10px] text-center text-slate-400">PulseBoard · preferences live in local storage under <code>pb_prefs</code></p>
           </div>
         </div>
@@ -749,12 +775,40 @@
             <blockquote id="teaching-quote" class="font-serif-editorial italic text-lg sm:text-xl leading-relaxed mt-5 text-slate-100"></blockquote>
             <p id="teaching-reflection" class="text-xs text-slate-400 mt-3 leading-relaxed"></p>
 
+            <!-- FEATURE (86/87): favorite this teaching + copy the quote + favorites filter chip -->
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+              <button type="button" id="btn-fav-teaching" class="hidden px-3 py-1.5 rounded-full text-[11px] font-semibold border border-slate-600/60 text-slate-300 hover:bg-slate-800/70 transition-colors" aria-label="Add this teaching to favorites" aria-pressed="false">☆ Favorite</button>
+              <button type="button" id="btn-copy-quote" class="px-3 py-1.5 rounded-full text-[11px] font-semibold border border-slate-600/60 text-slate-300 hover:bg-slate-800/70 transition-colors" aria-label="Copy this quote to the clipboard">⧉ Copy quote</button>
+              <button type="button" id="btn-fav-filter" class="hidden px-3 py-1.5 rounded-full text-[11px] font-semibold border border-slate-600/60 text-slate-300 hover:bg-slate-800/70 transition-colors" aria-label="Show only favorited teachings" aria-pressed="false" title="Cycle and filter favorited teachings">★ Favorites</button>
+            </div>
+
             <div class="relative mt-10 mb-1 flex items-center justify-center shrink-0" style="width:230px;height:230px">
               <div id="breath-orb" class="breath-orb"></div>
               <span id="breath-label" class="absolute text-[11px] tracking-[0.3em] uppercase text-slate-300">breathe</span>
             </div>
 
-            <div id="meditation-controls" class="mt-8 flex flex-wrap items-center justify-center gap-2">
+            <!-- FEATURE (85): breath-pacing patterns — drives the orb phase timings -->
+            <div class="mt-6 w-full">
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Breath pacing</p>
+              <div id="breath-patterns" class="flex flex-wrap items-center justify-center gap-1.5" role="group" aria-label="Breath pacing pattern">
+                <button type="button" data-breath-pattern="box">Box 4-4-4-4</button>
+                <button type="button" data-breath-pattern="calm">Calm 4-7-8</button>
+                <button type="button" data-breath-pattern="coherent">Coherent 5-5</button>
+              </div>
+            </div>
+
+            <!-- FEATURE (84): session length — persisted default (pbPrefs.teachMin) -->
+            <div class="mt-8 w-full">
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Session length</p>
+              <div id="teach-duration-seg" class="flex flex-wrap items-center justify-center gap-1.5" role="group" aria-label="Meditation session length">
+                <button type="button" data-teach-min="2">2 min</button>
+                <button type="button" data-teach-min="5">5 min</button>
+                <button type="button" data-teach-min="10">10 min</button>
+                <button type="button" data-teach-min="15">15 min</button>
+              </div>
+            </div>
+
+            <div id="meditation-controls" class="mt-4 flex flex-wrap items-center justify-center gap-2">
               <button type="button" class="med-preset" data-min="1">1 min</button>
               <button type="button" class="med-preset" data-min="3">3 min</button>
               <button type="button" class="med-preset" data-min="5">5 min</button>
@@ -795,6 +849,18 @@
 
             <div id="dayclose-wins" class="mt-5 w-full rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-sm space-y-1.5"></div>
 
+            <!-- FEATURE (88): mood check-in, 1 (rough) … 5 (great), stored in the dayLog entry -->
+            <div class="mt-5 w-full text-left">
+              <p class="text-xs font-semibold text-slate-400">How was today? <span class="font-normal text-slate-600">(optional)</span></p>
+              <div id="dayclose-mood" class="mt-2 flex items-center justify-center gap-2" role="group" aria-label="Mood check-in for today">
+                <button type="button" data-mood="5" aria-label="Great day" class="pb-mood-btn">😌</button>
+                <button type="button" data-mood="4" aria-label="Good day" class="pb-mood-btn">🙂</button>
+                <button type="button" data-mood="3" aria-label="Okay day" class="pb-mood-btn">😐</button>
+                <button type="button" data-mood="2" aria-label="Difficult day" class="pb-mood-btn">😕</button>
+                <button type="button" data-mood="1" aria-label="Rough day" class="pb-mood-btn">😣</button>
+              </div>
+            </div>
+
             <div class="mt-5 w-full text-left">
               <label for="dayclose-gratitude" class="text-xs font-semibold text-slate-400">One good thing today <span class="font-normal text-slate-600">(optional)</span></label>
               <textarea id="dayclose-gratitude" rows="2" class="mt-1.5 w-full rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none resize-none" placeholder="Three words or three sentences — whatever was good today"></textarea>
@@ -806,6 +872,9 @@
             </div>
 
             <blockquote id="dayclose-quote" class="font-serif-editorial italic text-sm leading-relaxed text-slate-300 mt-6 px-2"></blockquote>
+
+            <!-- FEATURE (82): honest one-line day summary, computed from live state -->
+            <p id="dayclose-summary" class="hidden mt-4 text-[11px] text-slate-500"></p>
 
             <button type="button" id="btn-finish-day" class="mt-6 px-6 py-3 rounded-2xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
               Close the day 🌙
@@ -892,6 +961,14 @@
             <p id="week-range" class="text-xs text-slate-500 mt-1"></p>
             <div id="week-totals" class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full"></div>
             <div id="week-days" class="mt-6 w-full space-y-2.5"></div>
+
+            <!-- FEATURE (83/88): reading & practice stats + mood trend -->
+            <div class="mt-7 w-full text-left">
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Reading &amp; practice</p>
+              <div id="week-reading" class="space-y-1.5"></div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mt-4 mb-2">Mood this week</p>
+              <div id="week-mood" class="flex items-end gap-2"></div>
+            </div>
             <div class="mt-7 w-full text-left">
               <p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-2">Saved this week</p>
               <div id="week-saved" class="space-y-1.5"></div>
@@ -1742,7 +1819,13 @@ Key Insights:
 
     function currentTeaching() {
       if (!teachingsDb.length) return null;
-      const pool = teachingsDb.filter(t => !t.edition || t.edition === 'any' || t.edition === state.edition);
+      let pool = teachingsDb.filter(t => !t.edition || t.edition === 'any' || t.edition === state.edition);
+      // FEATURE (86): the '★ Favorites' filter narrows the pool; with no
+      // favorites in this edition it honestly falls back to the full pool.
+      if (pbTeachFavOnly) {
+        const favs = pool.filter(t => pbFavoriteTeachingIds().indexOf(t.id) !== -1);
+        if (favs.length) pool = favs;
+      }
       if (!pool.length) return null;
       const i = ((state.wisdomIndex % pool.length) + pool.length) % pool.length;
       return pool[i];
@@ -1774,20 +1857,20 @@ Key Insights:
 
     function startBreathing() {
       stopBreathing();
-      const orb = document.getElementById('breath-orb');
       const label = document.getElementById('breath-label');
-      const phases = [
-        { label: 'breathe in', act: 'grow', ms: 4000 },
-        { label: 'hold', act: 'keep', ms: 2000 },
-        { label: 'breathe out', act: 'shrink', ms: 4000 },
-        { label: 'rest', act: 'keep', ms: 2000 }
-      ];
+      // FEATURE (85): the pacing pattern (pbPrefs.breathPattern) drives the
+      // phase timings. Reduced motion (97): the orb keeps moving — that is the
+      // point of the feature — but 2x slower, animated via rAF because the
+      // global reduced-motion CSS collapses all transition durations.
+      const pat = PB_BREATH_PATTERNS[pbPrefs.breathPattern] || PB_BREATH_PATTERNS.box;
+      const slow = pbReducedMotion() ? 2 : 1;
+      const phases = pat.phases.map(p => ({ label: p[0], act: p[1], ms: p[2] * slow }));
       let i = 0;
       const step = () => {
         const p = phases[i % phases.length]; i += 1;
         label.textContent = p.label;
-        if (p.act === 'grow') orb.classList.add('breath-in');
-        else if (p.act === 'shrink') orb.classList.remove('breath-in');
+        if (p.act === 'grow') pbOrbScale(1.5, p.ms);
+        else if (p.act === 'shrink') pbOrbScale(1, p.ms);
         breathingTimer = setTimeout(step, p.ms);
       };
       step();
@@ -1795,8 +1878,14 @@ Key Insights:
 
     function stopBreathing() {
       if (breathingTimer) { clearTimeout(breathingTimer); breathingTimer = null; }
+      pbOrbScaleCancel();
       const orb = document.getElementById('breath-orb');
-      if (orb) orb.classList.remove('breath-in');
+      if (orb) {
+        orb.classList.remove('breath-in');
+        orb.style.transform = '';
+        orb.style.transitionDuration = '';
+      }
+      pbOrbScaleNow = 1;
     }
 
     function updateMeditationDisplay() {
@@ -1852,34 +1941,10 @@ Key Insights:
     }
 
     function openTeachingModal(opts) {
-      const t = currentTeaching();
-      const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
-      const fallback = list[state.wisdomIndex % list.length];
-      const data = t || fallback;
-      document.getElementById('teaching-tradition').textContent = data.tradition;
-      document.getElementById('teaching-theme').textContent = data.theme;
-      document.getElementById('teaching-quote').textContent = `“${data.quote.replace(/^"|"$/g, '')}”`;
-      document.getElementById('teaching-reflection').textContent = data.reflection || '';
-      const section = document.getElementById('teaching-story-section');
-      const storyEl = document.getElementById('teaching-story');
-      const srcEl = document.getElementById('teaching-source');
-      const vidEl = document.getElementById('teaching-video');
-      if (t && t.story) {
-        section.classList.remove('hidden');
-        storyEl.textContent = t.story;
-        storyEl.classList.add('hidden');
-        document.getElementById('btn-toggle-story').textContent = '▸ The story behind it';
-        if (t.source) { srcEl.textContent = '— ' + t.source; srcEl.classList.remove('hidden'); } else { srcEl.classList.add('hidden'); }
-        if (t.videoUrl) {
-          vidEl.href = t.videoUrl;
-          document.getElementById('teaching-video-label').textContent = t.videoLabel || 'Watch';
-          vidEl.classList.remove('hidden');
-        } else { vidEl.classList.add('hidden'); }
-      } else {
-        section.classList.add('hidden');
-      }
+      pbRenderTeachingContent();
       resetMeditationUI();
       renderMeditationWeek();
+      pbRenderTeachControls();
       document.getElementById('breath-label').textContent = 'breathe';
       pbNavigate('teaching', null, opts);
       startBreathing();
@@ -2243,6 +2308,7 @@ Key Insights:
 
     function openDayClose(opts) {
       const entry = (state.dayLog || {})[closingDayKey()];
+      const draft = entry ? null : pbLoadDaycloseDraft(); // FEATURE (81): restore an unsent draft
       const s = dayStats();
       document.getElementById('dayclose-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
       const lines = [
@@ -2255,8 +2321,11 @@ Key Insights:
       const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
       const q = t ? t.quote : list[0].quote;
       document.getElementById('dayclose-quote').textContent = `“${String(q).replace(/^"|"$/g, '')}”`;
-      document.getElementById('dayclose-gratitude').value = entry ? (entry.gratitude || '') : '';
-      document.getElementById('dayclose-tomorrow').value = entry ? (entry.tomorrow || '') : '';
+      document.getElementById('dayclose-gratitude').value = entry ? (entry.gratitude || '') : (draft ? (draft.g || '') : '');
+      document.getElementById('dayclose-tomorrow').value = entry ? (entry.tomorrow || '') : (draft ? (draft.t || '') : '');
+      pbDaycloseMood = entry ? (entry.mood || 0) : (draft ? (draft.m || 0) : 0); // FEATURE (88)
+      pbRenderMoodButtons();
+      pbRenderDaycloseSummary(); // FEATURE (82): honest one-line day summary
       const finishBtn = document.getElementById('btn-finish-day');
       const after = document.getElementById('dayclose-after');
       if (entry) {
@@ -2280,10 +2349,12 @@ Key Insights:
       state.dayLog[key] = {
         gratitude: document.getElementById('dayclose-gratitude').value.trim(),
         tomorrow: document.getElementById('dayclose-tomorrow').value.trim(),
+        mood: pbDaycloseMood || undefined, // FEATURE (88): 1 (rough) … 5 (great), optional
         stats: dayStats(),
         closedAt: new Date().toISOString(),
         migrated: false
       };
+      pbClearDaycloseDraft(); // FEATURE (81): the draft served its purpose
       await persistEncryptedState();
       playBell(0.35);
       pbHaptic([40, 60, 40]);
@@ -2303,6 +2374,489 @@ Key Insights:
       'If you could only do one thing today…',
       'Something meaningful, not just urgent…'
     ];
+
+    // ====================================================================
+    // QUALITY WAVE (items 76–100) — all new functions & wiring live here,
+    // in one block, so the merge with the other agents' regions stays clean.
+    // ====================================================================
+
+    // ---- (76) Focus trap for the page layer ---------------------------
+    // While a page is open, Tab/Shift-Tab cycle within #page-layer only.
+    // The keydown listener sits on the layer itself, so it is inert whenever
+    // the layer is hidden (no page open). Focus is moved into the opened
+    // page by pbTrapFocusActivate() (called from pbShowLayer) and returned
+    // to the trigger by pbTrapFocusRestore() (called from pbPerformClose,
+    // right after the PB_PAGE_CLEANUPS hook for the closing page).
+    let pbFocusReturnEl = null;
+    function pbTrapFocusables() {
+      const layer = document.getElementById('page-layer');
+      if (!layer || layer.classList.contains('hidden')) return [];
+      const sel = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      const visible = (el) => { try { return el.getClientRects().length > 0; } catch (e) { return false; } };
+      return Array.prototype.filter.call(layer.querySelectorAll(sel), visible);
+    }
+    function pbTrapFocusActivate() {
+      const layer = document.getElementById('page-layer');
+      if (!layer) return;
+      const ae = document.activeElement;
+      if (ae && ae !== document.body && !layer.contains(ae)) {
+        pbFocusReturnEl = ae; // the control that opened this page
+      }
+      // Move focus onto the page section itself (tabindex=-1, no ring) so
+      // keyboard users land inside the dialog — standard modal behaviour.
+      const section = document.querySelector('#page-surface > section:not(.hidden)');
+      if (section) {
+        section.tabIndex = -1;
+        section.classList.add('outline-none');
+        try { section.focus({ preventScroll: true }); } catch (e) { try { section.focus(); } catch (e2) { /* focus unsupported */ } }
+      }
+    }
+    function pbTrapFocusRestore() {
+      const el = pbFocusReturnEl;
+      pbFocusReturnEl = null;
+      if (el && document.contains(el)) {
+        try { el.focus({ preventScroll: true }); } catch (e) { /* element no longer focusable */ }
+      }
+    }
+    function pbTrapFocusKeydown(e) {
+      if (e.key !== 'Tab' || e.ctrlKey || e.metaKey || e.altKey) return;
+      const layer = document.getElementById('page-layer');
+      if (!layer || layer.classList.contains('hidden')) return;
+      const list = pbTrapFocusables();
+      if (!list.length) return; // nothing focusable: don't intercept Tab
+      const idx = list.indexOf(document.activeElement);
+      if (e.shiftKey && (idx === 0 || idx === -1)) {
+        e.preventDefault(); list[list.length - 1].focus();
+      } else if (!e.shiftKey && (idx === list.length - 1 || idx === -1)) {
+        e.preventDefault(); list[0].focus();
+      }
+    }
+    document.getElementById('page-layer').addEventListener('keydown', pbTrapFocusKeydown);
+
+    // ---- (89) Keyboard shortcuts --------------------------------------
+    // '/' opens (or focuses) search; Escape closes the top page via the
+    // existing handler, which now skips keystrokes while typing.
+    function pbIsTypingTarget(t) {
+      if (!t || !t.tagName) return false;
+      const tag = t.tagName.toLowerCase();
+      return tag === 'input' || tag === 'textarea' || tag === 'select' || t.isContentEditable === true;
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (pbIsTypingTarget(e.target)) return; // the user is typing a literal '/'
+      const gate = document.getElementById('pin-gate-screen');
+      if (gate && !gate.classList.contains('hidden')) return; // locked
+      e.preventDefault();
+      if (pbActivePage === 'search') {
+        try { document.getElementById('search-input').focus(); } catch (err) { /* detached */ }
+      } else {
+        pbOpenSearch(); // opens the page if closed, then focuses its input
+      }
+    });
+
+    // ---- (85) Breath-pacing patterns + reduced-motion-safe orb motion --
+    const PB_BREATH_PATTERNS = {
+      box:      { label: 'Box 4-4-4-4',  phases: [['breathe in', 'grow', 4000], ['hold', 'keep', 4000], ['breathe out', 'shrink', 4000], ['rest', 'keep', 4000]] },
+      calm:     { label: 'Calm 4-7-8',   phases: [['breathe in', 'grow', 4000], ['hold', 'keep', 7000], ['breathe out', 'shrink', 8000]] },
+      coherent: { label: 'Coherent 5-5', phases: [['breathe in', 'grow', 5000], ['breathe out', 'shrink', 5000]] }
+    };
+    let pbOrbRafId = null;
+    let pbOrbScaleNow = 1;
+    function pbOrbScaleCancel() {
+      if (pbOrbRafId != null) { cancelAnimationFrame(pbOrbRafId); pbOrbRafId = null; }
+    }
+    // Scale the orb to `target` over `durationMs`. The duration is exposed as
+    // a CSS custom property AND applied as the inline transition-duration
+    // (the stylesheet's fixed 4s can't read the property without a global
+    // CSS edit). Under prefers-reduced-motion the global CSS collapses all
+    // transition durations to ~0, so the orb is animated manually with rAF
+    // instead — it keeps moving (that is the point of the feature) but the
+    // phases are already 2x slower from startBreathing(). Documented choice
+    // for item 97.
+    function pbOrbScale(target, durationMs) {
+      const orb = document.getElementById('breath-orb');
+      if (!orb) return;
+      if (pbReducedMotion()) {
+        pbOrbScaleCancel();
+        const from = pbOrbScaleNow;
+        const t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+        const frame = (now) => {
+          const t = Math.min(1, (now - t0) / Math.max(1, durationMs));
+          const eased = 0.5 - 0.5 * Math.cos(Math.PI * t); // gentle sine ease
+          pbOrbScaleNow = from + (target - from) * eased;
+          orb.style.transform = 'scale(' + pbOrbScaleNow.toFixed(4) + ')';
+          pbOrbRafId = t < 1 ? requestAnimationFrame(frame) : null;
+        };
+        pbOrbRafId = requestAnimationFrame(frame);
+      } else {
+        try {
+          orb.style.setProperty('--pb-breath-ms', String(durationMs));
+          orb.style.transitionDuration = durationMs + 'ms';
+        } catch (e) { /* older engines: the stylesheet default (4s) applies */ }
+        orb.style.transform = ''; // let the .breath-in class own the transform
+        if (target > 1.25) orb.classList.add('breath-in');
+        else orb.classList.remove('breath-in');
+        pbOrbScaleNow = target;
+      }
+    }
+
+    // ---- (84/85/86/87) Teachings: segments, favorites, quote copy -----
+    function pbSegClass(on) {
+      return 'px-3 py-1.5 rounded-full text-[11px] font-semibold border transition-colors ' + (on
+        ? 'bg-amber-400 text-slate-900 border-amber-400'
+        : 'text-slate-300 border-slate-600/60 hover:bg-slate-800/70');
+    }
+    function pbRenderTeachControls() {
+      const pat = PB_BREATH_PATTERNS[pbPrefs.breathPattern] ? pbPrefs.breathPattern : 'box';
+      document.querySelectorAll('[data-breath-pattern]').forEach(btn => {
+        const on = btn.getAttribute('data-breath-pattern') === pat;
+        btn.className = pbSegClass(on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-teach-min]').forEach(btn => {
+        const on = String(pbPrefs.teachMin || '') === btn.getAttribute('data-teach-min');
+        btn.className = pbSegClass(on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+    let pbTeachFavOnly = false; // the '★ Favorites' filter state (not persisted)
+    function pbFavoriteTeachingIds() {
+      const a = pbPrefs.favoriteTeachings;
+      return Array.isArray(a) ? a.filter(x => typeof x === 'string') : [];
+    }
+    function pbToggleFavoriteTeaching(id) {
+      if (!id) return;
+      const favs = pbFavoriteTeachingIds();
+      const i = favs.indexOf(id);
+      if (i !== -1) favs.splice(i, 1); else favs.push(id);
+      pbPrefs.favoriteTeachings = favs.slice(-200); // capped like pb_read_ids (99)
+      pbSavePrefs();
+    }
+    // Land state.wisdomIndex on the next favorited teaching (within the
+    // current edition pool). With the favorites filter on, currentTeaching()
+    // indexes the favorites-only pool, so this must advance within it.
+    function pbJumpToNextFavorite() {
+      const pool = teachingsDb.filter(t => !t.edition || t.edition === 'any' || t.edition === state.edition);
+      const favIds = pbFavoriteTeachingIds();
+      const favs = pool.filter(t => favIds.indexOf(t.id) !== -1);
+      if (!favs.length) { pbTeachFavOnly = false; return; }
+      const curIdx = ((state.wisdomIndex % pool.length) + pool.length) % pool.length;
+      const curId = (pool[curIdx] || {}).id;
+      const pos = favs.findIndex(t => t.id === curId);
+      state.wisdomIndex = pos >= 0 ? (pos + 1) % favs.length : 0;
+    }
+    // Fill the teaching page from the current teaching (db entry or the
+    // inline fallback quotes) — factored out of openTeachingModal so the
+    // favorites filter (86) can swap the shown teaching without touching a
+    // running meditation session.
+    function pbRenderTeachingContent() {
+      const t = currentTeaching();
+      const list = WISDOM_TEACHINGS[state.edition] || WISDOM_TEACHINGS.morning;
+      const fallback = list[((state.wisdomIndex % list.length) + list.length) % list.length];
+      const data = t || fallback;
+      document.getElementById('teaching-tradition').textContent = data.tradition;
+      document.getElementById('teaching-theme').textContent = data.theme;
+      document.getElementById('teaching-quote').textContent = `“${data.quote.replace(/^"|"$/g, '')}”`;
+      document.getElementById('teaching-reflection').textContent = data.reflection || '';
+      const section = document.getElementById('teaching-story-section');
+      const storyEl = document.getElementById('teaching-story');
+      const srcEl = document.getElementById('teaching-source');
+      const vidEl = document.getElementById('teaching-video');
+      if (t && t.story) {
+        section.classList.remove('hidden');
+        storyEl.textContent = t.story;
+        storyEl.classList.add('hidden');
+        document.getElementById('btn-toggle-story').textContent = '▸ The story behind it';
+        if (t.source) { srcEl.textContent = '— ' + t.source; srcEl.classList.remove('hidden'); } else { srcEl.classList.add('hidden'); }
+        if (t.videoUrl) {
+          vidEl.href = t.videoUrl;
+          document.getElementById('teaching-video-label').textContent = t.videoLabel || 'Watch';
+          vidEl.classList.remove('hidden');
+        } else { vidEl.classList.add('hidden'); }
+      } else {
+        section.classList.add('hidden');
+      }
+      // Favorites row (86): only db teachings have stable ids — the inline
+      // fallback quotes can't be favorited, so the star hides for them.
+      const favBtn = document.getElementById('btn-fav-teaching');
+      const fav = !!(t && t.id && pbFavoriteTeachingIds().indexOf(t.id) !== -1);
+      if (t && t.id) {
+        favBtn.classList.remove('hidden');
+        favBtn.setAttribute('aria-pressed', fav ? 'true' : 'false');
+        favBtn.setAttribute('aria-label', fav ? 'Remove this teaching from favorites' : 'Add this teaching to favorites');
+        favBtn.textContent = fav ? '★ Favorited' : '☆ Favorite';
+      } else {
+        favBtn.classList.add('hidden');
+      }
+      const n = pbFavoriteTeachingIds().length;
+      const chip = document.getElementById('btn-fav-filter');
+      if (chip) {
+        chip.classList.toggle('hidden', n === 0);
+        chip.textContent = '★ Favorites' + (pbTeachFavOnly ? ' on' : '') + ' (' + n + ')';
+        chip.setAttribute('aria-pressed', pbTeachFavOnly ? 'true' : 'false');
+      }
+    }
+    document.querySelectorAll('[data-breath-pattern]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        pbPrefs.breathPattern = btn.getAttribute('data-breath-pattern');
+        pbSavePrefs();
+        pbRenderTeachControls();
+        pbHaptic(8);
+        if (pbActivePage === 'teaching') startBreathing(); // re-pace immediately
+      });
+    });
+    document.querySelectorAll('[data-teach-min]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mins = parseInt(btn.getAttribute('data-teach-min'), 10) || 5;
+        pbPrefs.teachMin = mins; // remembered as the usual session length (84)
+        pbSavePrefs();
+        pbRenderTeachControls();
+        startMeditation(mins); // and start it now, like the classic presets
+      });
+    });
+    document.getElementById('btn-copy-quote').addEventListener('click', (e) => {
+      const t = currentTeaching();
+      const q = document.getElementById('teaching-quote').textContent;
+      copyText(q + (t && t.tradition ? '\n— ' + t.tradition : ''), e.currentTarget); // (87)
+      pbHaptic(8);
+    });
+    document.getElementById('btn-fav-teaching').addEventListener('click', () => {
+      const t = currentTeaching();
+      if (!t || !t.id) return;
+      pbToggleFavoriteTeaching(t.id);
+      pbRenderTeachingContent();
+      pbHaptic(8);
+    });
+    document.getElementById('btn-fav-filter').addEventListener('click', () => {
+      const turningOn = !pbTeachFavOnly;
+      pbTeachFavOnly = turningOn;
+      if (turningOn) pbJumpToNextFavorite();
+      pbRenderTeachingContent();
+      renderWisdom(state.edition === 'night'); // the dashboard card follows the filter
+      pbHaptic(8);
+    });
+
+    // ---- (81/82/88) Day-close: drafts, summary line, mood check-in ----
+    let pbDaycloseMood = 0; // 0 = not chosen; 1 (rough) … 5 (great)
+    let pbDaycloseDraftTimer = null;
+    function pbDaycloseDraftKey() { return 'pb_dayclose_draft_' + closingDayKey(); }
+    function pbSaveDaycloseDraftSoon() {
+      if (pbDaycloseDraftTimer) clearTimeout(pbDaycloseDraftTimer);
+      pbDaycloseDraftTimer = setTimeout(() => {
+        pbDaycloseDraftTimer = null;
+        try {
+          sessionStorage.setItem(pbDaycloseDraftKey(), JSON.stringify({
+            g: document.getElementById('dayclose-gratitude').value,
+            t: document.getElementById('dayclose-tomorrow').value,
+            m: pbDaycloseMood
+          }));
+        } catch (e) { /* private mode: the draft just stays in the inputs */ }
+      }, 400);
+    }
+    function pbLoadDaycloseDraft() {
+      try {
+        const d = JSON.parse(sessionStorage.getItem(pbDaycloseDraftKey()) || 'null');
+        if (d && typeof d === 'object') return d;
+      } catch (e) { /* corrupt draft: ignore */ }
+      return null;
+    }
+    function pbClearDaycloseDraft() {
+      try { sessionStorage.removeItem(pbDaycloseDraftKey()); } catch (e) { /* nothing to clear */ }
+    }
+    ['dayclose-gratitude', 'dayclose-tomorrow'].forEach(id => {
+      document.getElementById(id).addEventListener('input', pbSaveDaycloseDraftSoon);
+    });
+    function pbRenderMoodButtons() {
+      document.querySelectorAll('#dayclose-mood [data-mood]').forEach(btn => {
+        const on = parseInt(btn.getAttribute('data-mood'), 10) === pbDaycloseMood;
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.className = 'pb-mood-btn w-11 h-11 rounded-full border text-xl flex items-center justify-center transition-transform transition-colors ' + (on
+          ? 'border-indigo-400 bg-indigo-500/20 scale-110'
+          : 'border-slate-700 bg-slate-800/50 hover:bg-slate-800');
+      });
+    }
+    document.querySelectorAll('#dayclose-mood [data-mood]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        pbDaycloseMood = parseInt(btn.getAttribute('data-mood'), 10) || 0;
+        pbRenderMoodButtons();
+        pbSaveDaycloseDraftSoon(); // the mood rides along in the draft
+        pbHaptic(8);
+      });
+    });
+    function pbRenderDaycloseSummary() {
+      const el = document.getElementById('dayclose-summary');
+      if (!el) return;
+      const s = dayStats();
+      // Honest accounting (82): read-tracking (pb_read_ids) is not
+      // date-stamped, so a "briefings read today" count would be a guess —
+      // the tasks line is all we can state truthfully.
+      el.textContent = s.tTotal > 0
+        ? `You completed ${s.tDone} of ${s.tTotal} tasks today.`
+        : 'No tasks tracked today — the day still counts.';
+      el.classList.remove('hidden');
+    }
+
+    // ---- (78) Settings: About card (version / storage / updates) ------
+    function pbRenderAboutCard() {
+      const vEl = document.getElementById('about-version');
+      if (vEl) {
+        vEl.textContent = (typeof window.PB_VERSION === 'string' && window.PB_VERSION)
+          ? window.PB_VERSION : 'dev';
+      }
+      const sEl = document.getElementById('about-storage');
+      if (sEl) {
+        sEl.textContent = 'storage…';
+        if (navigator.storage && typeof navigator.storage.estimate === 'function') {
+          navigator.storage.estimate().then(est => {
+            if (sEl.isConnected && est && typeof est.usage === 'number') {
+              sEl.textContent = (est.usage / 1048576).toFixed(1) + ' MB used';
+            }
+          }).catch(() => { if (sEl.isConnected) sEl.textContent = 'storage unknown'; });
+        } else {
+          sEl.textContent = 'storage unknown';
+        }
+      }
+      const reloadBtn = document.getElementById('btn-update-reload');
+      if (reloadBtn && typeof window.__pbUpdateReady !== 'undefined' && window.__pbUpdateReady) {
+        reloadBtn.classList.remove('hidden'); // an update landed while we were open
+      }
+      const purgeBtn = document.getElementById('btn-purge-caches');
+      if (purgeBtn) purgeBtn.classList.toggle('hidden', typeof window.pbPurgeCaches !== 'function'); // merge guard
+    }
+    document.getElementById('btn-check-update').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-check-update');
+      const note = document.getElementById('about-update-note');
+      const reloadBtn = document.getElementById('btn-update-reload');
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+      btn.textContent = 'Checking…';
+      if (note) note.textContent = '';
+      let found = !!(typeof window.__pbUpdateReady !== 'undefined' && window.__pbUpdateReady);
+      try {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistration) {
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (reg) {
+            if (!found && typeof reg.addEventListener === 'function') {
+              reg.addEventListener('updatefound', () => { found = true; }); // fires async during update()
+            }
+            if (typeof reg.update === 'function') await reg.update();
+            if (reg.waiting) found = true; // a fresh worker is already waiting to activate
+          }
+        }
+      } catch (err) { /* offline / unsupported: the 3s verdict below stays honest */ }
+      setTimeout(() => {
+        if (!btn.isConnected) return;
+        btn.disabled = false;
+        btn.textContent = 'Check for updates';
+        const ready = found || (typeof window.__pbUpdateReady !== 'undefined' && window.__pbUpdateReady);
+        if (note) note.textContent = ready ? 'A new version is ready.' : 'No update found.';
+        if (reloadBtn) reloadBtn.classList.toggle('hidden', !ready);
+      }, 3000);
+    });
+    document.getElementById('btn-update-reload').addEventListener('click', () => {
+      try { location.reload(); } catch (e) { /* stay put */ }
+    });
+    document.getElementById('btn-purge-caches').addEventListener('click', async () => {
+      if (typeof window.pbPurgeCaches !== 'function') return; // bridge absent (merge guard)
+      if (!window.confirm('Clear all cached offline files? The app reloads.')) return;
+      pbHaptic(12);
+      try { await window.pbPurgeCaches(); } catch (e) { /* still reload: the caches may be gone */ }
+      try { location.reload(); } catch (e) { /* stay put */ }
+    });
+
+    // ---- (83/88) Weekly page: reading stats + mood trend --------------
+    // Honest accounting: read-tracking stores plain story ids with NO
+    // timestamps, so "articles read this week" is approximated as the
+    // briefings in the current feed that have been opened, labelled as
+    // such ("this feed"); minutes-read is their summed readMin estimate;
+    // meditation numbers come from the completion-bell log (this ISO week);
+    // mood dots are one per day Mon–Sun from dayLog[].mood (1–5), with
+    // honest hollow gaps for days without a check-in.
+    function pbRenderWeekExtras() {
+      const readEl = document.getElementById('week-reading');
+      const moodEl = document.getElementById('week-mood');
+      if (!readEl || !moodEl) return;
+      const days = pbIsoWeekDayKeys();
+      const dayLog = state.dayLog || {};
+
+      const readStories = state.stories.filter(s => pbReadIds.has(s.id));
+      const readMin = readStories.reduce((sum, s) => sum + (storyReadMinutes(s) || 0), 0);
+      let medSessions = 0, medMin = 0;
+      pbMedLog().forEach(e => { if (days.indexOf(e.date) !== -1) { medSessions += 1; medMin += e.minutes; } });
+
+      readEl.innerHTML = '';
+      const mkLine = (txt) => {
+        const p = document.createElement('p');
+        p.className = 'text-[11px] text-slate-300 leading-snug';
+        p.textContent = txt;
+        return p;
+      };
+      readEl.appendChild(mkLine(`Briefings opened (this feed): ${readStories.length}`));
+      readEl.appendChild(mkLine(`Reading time estimate: ~${readMin} min`));
+      readEl.appendChild(mkLine(`Meditation: ${medSessions} session${medSessions === 1 ? '' : 's'} · ${medMin} min`));
+
+      moodEl.innerHTML = '';
+      moodEl.setAttribute('role', 'img');
+      moodEl.setAttribute('aria-label', 'Mood this week, Monday to Sunday');
+      const tints = { 1: 'bg-rose-500/80', 2: 'bg-orange-400/80', 3: 'bg-amber-400/80', 4: 'bg-lime-400/80', 5: 'bg-emerald-400/80' };
+      const names = { 1: 'rough', 2: 'difficult', 3: 'okay', 4: 'good', 5: 'great' };
+      days.forEach(d => {
+        const mood = (dayLog[d] && typeof dayLog[d].mood === 'number') ? Math.max(1, Math.min(5, Math.round(dayLog[d].mood))) : 0;
+        const dot = document.createElement('span');
+        dot.className = 'inline-block rounded-full ' + (mood > 0 ? tints[mood] : 'border border-slate-700');
+        const size = mood > 0 ? Math.round(8 + mood * 2.4) : 8;
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        dot.title = d + (mood > 0 ? ': ' + names[mood] + ' day' : ': no check-in');
+        moodEl.appendChild(dot);
+      });
+    }
+
+    // ---- (98) Friday-evening nudge toward the weekly review -----------
+    // Shows from Friday 17:00 local time; dismissal (or opening the week
+    // page) is remembered for the ISO week in pbPrefs.weekReviewDismissed.
+    (function initWeekReviewChip() {
+      const chip = document.createElement('div');
+      chip.id = 'week-review-chip';
+      chip.setAttribute('aria-label', 'Weekly review reminder');
+      chip.className = 'hidden fixed left-1/2 -translate-x-1/2 bottom-[max(env(safe-area-inset-bottom),76px)] z-30 flex items-center rounded-full bg-indigo-600 text-white shadow-lg';
+      const go = document.createElement('button');
+      go.type = 'button';
+      go.className = 'px-4 py-2 text-xs font-semibold hover:bg-indigo-500 transition-colors';
+      go.textContent = 'Weekly review is ready →';
+      const off = document.createElement('button');
+      off.type = 'button';
+      off.setAttribute('aria-label', 'Dismiss the weekly review reminder');
+      off.className = 'pr-3 py-2 text-xs text-indigo-200 hover:text-white';
+      off.textContent = '✕';
+      chip.appendChild(go); chip.appendChild(off);
+      document.body.appendChild(chip);
+      const sync = () => {
+        const gate = document.getElementById('pin-gate-screen');
+        const locked = gate && !gate.classList.contains('hidden');
+        const now = new Date();
+        const fridayEvening = now.getDay() === 5 && now.getHours() >= 17; // day 5 = Friday
+        const dismissed = pbPrefs.weekReviewDismissed === pbIsoWeekKey();
+        const show = !locked && fridayEvening && !dismissed;
+        chip.classList.toggle('hidden', !show);
+        chip.classList.toggle('flex', show);
+      };
+      go.addEventListener('click', () => {
+        pbPrefs.weekReviewDismissed = pbIsoWeekKey(); // it served its purpose
+        pbSavePrefs();
+        sync();
+        pbOpenWeek();
+      });
+      off.addEventListener('click', () => {
+        pbPrefs.weekReviewDismissed = pbIsoWeekKey();
+        pbSavePrefs();
+        pbHaptic(8);
+        sync();
+      });
+      window.pbSyncWeekReviewChip = sync; // other surfaces may re-check on demand
+      sync();
+      setInterval(sync, 60000); // Friday 17:00 can arrive while the app is open
+    })();
 
     function renderApp() {
       migrateTomorrowsTask();
@@ -2603,7 +3157,7 @@ Key Insights:
         </div>
       ` : '';
 
-      container.innerHTML = feedErrorCard + filtered.map((story, idx) => {
+      const storyCard = (story, idx) => {
         const isHero = idx === 0 && filtered.length >= 3;
         const spanFull = isHero ? 'md:col-span-2' : '';
         const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
@@ -2662,7 +3216,33 @@ Key Insights:
             </div>
           </article>
         `;
-      }).join('');
+      };
+
+      // FEATURE (90): saved view — group headers 'Today / This week / Earlier'
+      // by savedAt stamp, newest first within each group. Items without a
+      // stamp (imported/legacy saves) land in 'Earlier'. Only when >0 saved.
+      let cardsHtml;
+      if (state.selectedCategory === 'saved') {
+        const dayStart = new Date(); dayStart.setHours(0, 0, 0, 0);
+        const weekAgo = Date.now() - 7 * 86400000;
+        const sorted = filtered.slice().sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
+        const groups = [
+          ['Today', s => (s.savedAt || 0) >= dayStart.getTime()],
+          ['This week', s => (s.savedAt || 0) >= weekAgo && (s.savedAt || 0) < dayStart.getTime()],
+          ['Earlier', () => true]
+        ];
+        cardsHtml = '';
+        let cardIdx = 0;
+        groups.forEach(g => {
+          const items = sorted.filter(g[1]);
+          if (!items.length) return;
+          cardsHtml += `<div class="md:col-span-2 mt-3 text-[10px] font-bold uppercase tracking-widest ${isNight ? 'text-slate-500' : 'text-slate-400'}">${g[0]}</div>`;
+          items.forEach(s => { cardsHtml += storyCard(s, cardIdx); cardIdx += 1; });
+        });
+      } else {
+        cardsHtml = filtered.map((story, idx) => storyCard(story, idx)).join('');
+      }
+      container.innerHTML = feedErrorCard + cardsHtml;
 
       container.querySelectorAll('[data-open-story]').forEach(el => {
         el.addEventListener('click', () => {
@@ -2772,12 +3352,17 @@ Key Insights:
     function renderPapers(isNight) {
       renderPapersSubnav(isNight);
       const container = document.getElementById('papers-list');
-      const papersForEdition = state.papers.filter(p => {
+      let papersForEdition = state.papers.filter(p => {
         if (state.readLaterFilter) return !!p.readLater;
         if (state.selectedCategory === 'saved') return p.saved;
         // Research digests are edition-agnostic reading; keep them visible at night
         return p.edition === state.edition || p.edition === 'morning';
       });
+      // FEATURE (91): the read-later queue in "up next first" order — the
+      // oldest-queued digest sits on top whenever the filter is active.
+      if (state.readLaterFilter) {
+        papersForEdition = papersForEdition.slice().sort((a, b) => (a.readLaterAt || 0) - (b.readLaterAt || 0));
+      }
 
       if (papersForEdition.length === 0) {
         const savedView = state.selectedCategory === 'saved';
@@ -2791,7 +3376,19 @@ Key Insights:
         return;
       }
 
-      container.innerHTML = papersForEdition.map(paper => {
+      // FEATURE (91): 'Up next' hint line — the first queued digest, shown
+      // whenever the queue is non-empty and the read-later filter isn't
+      // already displaying it as the top card.
+      const pbQueue = state.papers.filter(p => p.readLater)
+        .slice().sort((a, b) => (a.readLaterAt || 0) - (b.readLaterAt || 0));
+      const upNextHtml = (pbQueue.length && !state.readLaterFilter)
+        ? `<div class="mb-4 rounded-xl border px-4 py-2.5 text-[11px] flex items-center justify-between gap-3 ${isNight ? 'border-indigo-900/60 bg-indigo-950/40 text-slate-300' : 'border-indigo-200 bg-indigo-50/70 text-slate-700'}">
+             <span class="min-w-0 truncate">◷ Up next: <strong class="font-semibold ${isNight ? 'text-indigo-300' : 'text-indigo-700'}">${pbQueue[0].title}</strong></span>
+             <button type="button" id="btn-goto-queue" class="shrink-0 font-semibold underline underline-offset-2 ${isNight ? 'text-indigo-300 hover:text-indigo-200' : 'text-indigo-700 hover:text-indigo-900'}">Open queue</button>
+           </div>`
+        : '';
+
+      container.innerHTML = upNextHtml + papersForEdition.map(paper => {
         const cardStyle = isNight
           ? 'bg-slate-900 border-slate-800'
           : 'bg-white border-slate-200/90';
@@ -2883,6 +3480,14 @@ Key Insights:
           }
         });
       });
+
+      const gotoQueueBtn = document.getElementById('btn-goto-queue');
+      if (gotoQueueBtn) {
+        gotoQueueBtn.addEventListener('click', () => {
+          state.readLaterFilter = true;
+          renderApp();
+        });
+      }
 
       container.querySelectorAll('[data-save-paper]').forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -3059,6 +3664,7 @@ Key Insights:
       layer.classList.remove('hidden');
       layer.setAttribute('aria-hidden', 'false');
       if (window.pbSyncScrollTop) window.pbSyncScrollTop();
+      pbTrapFocusActivate(); // a11y (76): move focus into the page, arm the Tab trap
       if (pbReducedMotion()) { surface.classList.remove('pb-enter-from', 'pb-exit-to'); return; }
       surface.classList.remove('pb-exit-to');
       surface.classList.add('pb-enter-from');
@@ -3122,6 +3728,7 @@ Key Insights:
       const kind = pbActivePage;
       pbActivePage = null;
       (PB_PAGE_CLEANUPS[kind] || function () {})();
+      pbTrapFocusRestore(); // a11y (76): return focus to the control that opened the page
       pbHideLayer();
       pbUnlockBodyScroll();
       if (window.pbSyncScrollTop) window.pbSyncScrollTop();
@@ -3448,7 +4055,7 @@ Key Insights:
 
     // ---- Page layer wiring: back buttons, Escape, reading progress ----
     document.getElementById('story-back').addEventListener('click', closeStoryModal);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pbRequestClose(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !pbIsTypingTarget(e.target)) pbRequestClose(); });
     // Reading-progress bar: updates from the page layer's own scroll
     // container (the body is locked while the page is open).
     document.getElementById('page-surface').addEventListener('scroll', () => {
@@ -3563,6 +4170,7 @@ Key Insights:
       document.getElementById('set-clear-cache').className = 'w-full px-4 py-2.5 rounded-xl text-xs font-semibold border transition-colors ' + (isNight
         ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
         : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50');
+      pbRenderAboutCard(); // FEATURE (78): version, storage, update & purge wiring
     }
 
     document.getElementById('btn-open-settings').addEventListener('click', () => {
@@ -3576,7 +4184,7 @@ Key Insights:
     document.getElementById('set-haptics').addEventListener('click', () => {
       pbPrefs.haptics = pbPrefs.haptics === false ? true : false;
       pbSavePrefs();
-      if (pbPrefs.haptics) pbHaptic(15);
+      if (pbPrefs.haptics) pbHaptic(20); // feature (79): short test buzz so the toggle is felt, not guessed
       pbRenderSettings();
     });
 
@@ -4325,6 +4933,7 @@ Key Insights:
       const paper = state.papers.find(p => p.id === id);
       if (!paper) return;
       paper.readLater = !paper.readLater;
+      paper.readLaterAt = paper.readLater ? Date.now() : null; // FEATURE (91): queue order — oldest queued is "up next"
       persistEncryptedState().catch(() => {}); // persisted in the vault like saved (batched write)
       renderApp();
     }
@@ -4548,6 +5157,8 @@ Key Insights:
           savedEl.appendChild(p);
         });
       }
+
+      pbRenderWeekExtras(); // FEATURE (83/88): reading & practice stats + mood trend
     }
 
     // ---- On this day in science (this_day.json, no-store) ----
@@ -4826,7 +5437,9 @@ Key Insights:
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(err => {
-          console.log('ServiceWorker registration skipped:', err);
+          // intentional diagnostics channel (95): warn, not log — registration
+          // failures are worth surfacing in the console
+          console.warn('ServiceWorker registration skipped:', err);
         });
       });
     }

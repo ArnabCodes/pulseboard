@@ -91,6 +91,35 @@ Three channels, merged:
 
 **Fallback image pools** — `FALLBACK_CATEGORY_IMAGES` in `scripts/curate.py`. Keep any URL you add curl-verified (HTTP 200 with a browser UA); a guessed Unsplash photo id 404s silently.
 
+## Quality & accessibility wave (this release)
+
+- **Focus trap** — while any full-screen page is open, Tab/Shift-Tab cycle within the page layer; focus moves into the page on open and returns to the trigger on close.
+- **Keyboard shortcuts** — `/` opens (or focuses) search; Escape closes the top page. Both skip keystrokes while you're typing in a field.
+- **Settings → About** — app version, storage used (`navigator.storage.estimate()`), a "Check for updates" button (service-worker update check; shows a reload button when one is ready) and "Clear cached files".
+- **Settings → Your data** — a plain-words honesty card listing exactly what is stored where (see the privacy model below).
+- **Haptics toggle** — switching it on now gives a short test buzz, so you feel what you're toggling.
+- **Day-close** — drafts autosave to `sessionStorage` (restored on reopen, cleared on close); an honest one-line summary of completed tasks above the finish button; an optional 5-emoji mood check-in stored with the day.
+- **Weekly digest** — a reading & practice section (briefings opened, minutes-read estimate, meditation sessions/minutes) and a 7-dot mood trend with honest gaps for missed days; on Friday evenings a dismissible chip nudges you to the weekly review (once per ISO week).
+- **Teachings** — selectable session lengths (2/5/10/15 min, remembered); breath-pacing patterns (Box 4-4-4-4, Calm 4-7-8, Coherent 5-5) driving the orb; favorite teachings with a ★-filter chip; a copy-quote button. Under `prefers-reduced-motion` the orb keeps moving but at half speed (the pacing is the point of the feature) — page transitions are skipped entirely.
+- **Saved view** — saved stories group under Today / This week / Earlier, newest first. The papers read-later queue shows an "Up next" hint and orders itself up-next-first.
+
+## Testing
+
+```bash
+python3 -m pytest tests/ -q          # full suite: curator, feed, static app checks, data files
+node --check <extracted-script.js>  # the inline script, verified automatically by tests/test_static.py
+python3 tests/validate_feed.py      # feed shape invariants (add --check-images for reachability)
+```
+
+`tests/test_static.py` extracts the single inline `<script>` from `index.html`, runs `node --check` on it (skipped if node is absent), fails on any NEW duplicate function declaration, and verifies every literal `getElementById('X')` has a matching `id="X"` somewhere in the file. `tests/test_data_files.py` pins the shapes of `teachings_db.json` / `deadlines.json` / `this_day.json`.
+
+## What is stored where (settings → Your data, in detail)
+
+- **Encrypted vault** (AES-GCM, PIN-derived key, in `localStorage`): tasks, routines, saved stories & papers, the day-close log including mood. The PIN never leaves the device and is never stored.
+- **Plain `localStorage`** (non-sensitive by design): UI preferences (`pb_prefs`, incl. favorite teachings and breath pattern), read/unread story ids (capped at 500), reading-streak days, meditation and focus logs, the feed timestamp.
+- **`sessionStorage`**: only the day-close draft — wiped the moment you close the day.
+- **What leaves the device**: nothing of yours. The app fetches only public content — the deployed news/arXiv feed, open-meteo weather (fixed coordinates, no geolocation), and images from CDNs. No accounts, no analytics, no tracking; clearing site data wipes everything.
+
 ## CI
 
 | Workflow | Trigger | What it does |
