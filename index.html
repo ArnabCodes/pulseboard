@@ -302,6 +302,20 @@
   /* (47) Recurring chip is tappable help */
   .pb-recur-chip { cursor: help; }
 
+  /* Card drag & swipe-to-delete for Todo & Routine lists */
+  .pb-drag-handle { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
+  .pb-drag-handle:active { cursor: grabbing; }
+  .pb-dragging { z-index: 20; }
+  .pb-dragging .pb-item-card { box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.28); transform: scale(1.02); opacity: 0.96; }
+  @media (hover: hover) and (pointer: fine) {
+    .pb-item-del { opacity: 0; transition: opacity 0.15s ease; }
+    .pb-item-card:hover .pb-item-del, .pb-item-del:focus-visible { opacity: 1; }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .pb-item-del { display: none; }
+    .pb-item-del:focus-visible { display: inline-flex; opacity: 1; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pb-streak-pop { animation: none; }
     #main-content { transition: none; }
@@ -1801,9 +1815,10 @@ Key Insights:
       try {
         // pbFetchJSON (boot block): AbortController timeout + one retry —
         // a hung CDN can no longer stall the post-unlock refresh forever.
-        const feed = (typeof window.pbFetchJSON === 'function')
-          ? await window.pbFetchJSON('pulse_feed.json', 10000)
-          : await fetch('pulse_feed.json', { cache: 'no-cache' }).then(r => {
+        const feedUrl = force ? ('pulse_feed.json?t=' + Date.now()) : 'pulse_feed.json';
+        const feed = (typeof window.pbFetchJSON === 'function' && !force)
+          ? await window.pbFetchJSON(feedUrl, 10000)
+          : await fetch(feedUrl, { cache: force ? 'no-store' : 'no-cache' }).then(r => {
               if (!r.ok) throw new Error('feed http ' + r.status);
               return r.json();
             });
@@ -2191,6 +2206,137 @@ Key Insights:
       });
     }
 
+    // Shared drag-to-reorder (:: handle) + mobile swipe-to-delete for Todo & Routine cards
+    function pbBindCardListInteractions(container, list, onPersistAndRender, onDelete) {
+      if (!container) return;
+      // 1. Drag handle (pointer events for mouse & touch + ArrowUp/ArrowDown for keyboard)
+      container.querySelectorAll('[data-drag-handle]').forEach(handle => {
+        const id = handle.getAttribute('data-drag-handle');
+        handle.addEventListener('keydown', async (e) => {
+          if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+          e.preventDefault();
+          const i = list.findIndex(x => x.id === id);
+          const j = i + (e.key === 'ArrowUp' ? -1 : 1);
+          if (i < 0 || j < 0 || j >= list.length) return;
+          [list[i], list[j]] = [list[j], list[i]];
+          pbHaptic(8);
+          await onPersistAndRender();
+          const nextHandle = container.querySelector(`[data-drag-handle="${id}"]`);
+          if (nextHandle) { try { nextHandle.focus(); } catch (err) {} }
+        });
+
+        handle.addEventListener('pointerdown', (e) => {
+          if (e.button && e.button !== 0) return;
+          const wrap = handle.closest('[data-item-wrap]');
+          if (!wrap) return;
+          e.preventDefault();
+          e.stopPropagation();
+          try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+          wrap.classList.add('pb-dragging');
+          pbHaptic(8);
+          const initialOrder = Array.from(container.querySelectorAll('[data-item-wrap]')).map(el => el.getAttribute('data-item-wrap')).join(',');
+
+          const onMove = (ev) => {
+            const siblings = Array.from(container.querySelectorAll('[data-item-wrap]'));
+            const curIdx = siblings.indexOf(wrap);
+            if (curIdx === -1) return;
+            for (let k = 0; k < siblings.length; k++) {
+              if (k === curIdx) continue;
+              const sib = siblings[k];
+              const rect = sib.getBoundingClientRect();
+              const midY = rect.top + rect.height / 2;
+              if (k < curIdx && ev.clientY < midY) {
+                container.insertBefore(wrap, sib);
+                pbHaptic(5);
+                break;
+              } else if (k > curIdx && ev.clientY > midY) {
+                container.insertBefore(wrap, sib.nextSibling);
+                pbHaptic(5);
+                break;
+              }
+            }
+          };
+
+          const onUp = async () => {
+            handle.removeEventListener('pointermove', onMove);
+            handle.removeEventListener('pointerup', onUp);
+            handle.removeEventListener('pointercancel', onUp);
+            wrap.classList.remove('pb-dragging');
+            const newIds = Array.from(container.querySelectorAll('[data-item-wrap]')).map(el => el.getAttribute('data-item-wrap'));
+            if (newIds.join(',') !== initialOrder) {
+              const byId = {};
+              list.forEach(item => { byId[item.id] = item; });
+              const reordered = newIds.map(k => byId[k]).filter(Boolean);
+              if (reordered.length === list.length) {
+                list.splice(0, list.length, ...reordered);
+                await onPersistAndRender();
+              }
+            }
+          };
+
+          handle.addEventListener('pointermove', onMove);
+          handle.addEventListener('pointerup', onUp);
+          handle.addEventListener('pointercancel', onUp);
+        });
+      });
+
+      // 2. Touch horizontal swipe-to-delete on mobile
+      container.querySelectorAll('[data-item-wrap]').forEach(wrap => {
+        const id = wrap.getAttribute('data-item-wrap');
+        const card = wrap.querySelector('.pb-item-card');
+        const bg = wrap.querySelector('.pb-swipe-bg');
+        if (!card || !bg) return;
+        let startX = 0, startY = 0, dx = 0, lockedAxis = null, active = false;
+
+        wrap.addEventListener('touchstart', (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          if (e.target.closest('[data-drag-handle]') || e.target.closest('.pb-inline-edit-input')) return;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          dx = 0;
+          lockedAxis = null;
+          active = true;
+        }, { passive: true });
+
+        wrap.addEventListener('touchmove', (e) => {
+          if (!active || !e.touches || e.touches.length !== 1) return;
+          const curX = e.touches[0].clientX;
+          const curY = e.touches[0].clientY;
+          const deltaX = curX - startX;
+          const deltaY = curY - startY;
+          if (!lockedAxis) {
+            if (Math.abs(deltaX) < 8 && Math.abs(deltaY) < 8) return;
+            lockedAxis = Math.abs(deltaX) > Math.abs(deltaY) * 1.2 ? 'x' : 'y';
+          }
+          if (lockedAxis !== 'x') return;
+          if (e.cancelable) e.preventDefault();
+          dx = deltaX;
+          card.style.transition = 'none';
+          card.style.transform = `translateX(${dx}px)`;
+          bg.style.opacity = String(Math.min(1, Math.abs(dx) / 72));
+        }, { passive: false });
+
+        const finishSwipe = () => {
+          if (!active) return;
+          active = false;
+          if (lockedAxis !== 'x') return;
+          if (Math.abs(dx) >= 72) {
+            card.style.transition = 'transform 0.18s ease-out, opacity 0.18s ease-out';
+            card.style.transform = `translateX(${dx > 0 ? '100%' : '-100%'})`;
+            card.style.opacity = '0';
+            setTimeout(() => onDelete(id), 170);
+          } else {
+            card.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            card.style.transform = '';
+            bg.style.opacity = '0';
+          }
+        };
+
+        wrap.addEventListener('touchend', finishSwipe);
+        wrap.addEventListener('touchcancel', finishSwipe);
+      });
+    }
+
     // (45) Spectrum line → button: honest pool + in-view lean counts,
     // computed from state.stories (leanings live per-story in the feed).
     function pbSpectrumInfo() {
@@ -2341,22 +2487,33 @@ Key Insights:
           : 'h-full bg-amber-500 transition-all duration-300';
       }
 
-      container.innerHTML = currentList.length ? currentList.map((item, i) => `
-        <div class="flex items-center gap-1 p-3 rounded-xl transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
-          <label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-            <input
-              type="checkbox"
-              data-routine-id="${item.id}"
-              ${item.done ? 'checked' : ''}
-              class="w-5 h-5 rounded accent-amber-600 cursor-pointer shrink-0"
-            />
-            <span data-routine-edit="${item.id}" role="button" tabindex="0" aria-label="Edit '${item.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${item.done ? 'line-through opacity-50' : ''}">
-              ${item.text}
-            </span>
-          </label>
-          <button type="button" data-routine-up="${item.id}" aria-label="Move '${item.text.replace(/'/g, '')}' up" ${i === 0 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↑</button>
-          <button type="button" data-routine-down="${item.id}" aria-label="Move '${item.text.replace(/'/g, '')}' down" ${i === currentList.length - 1 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↓</button>
-          <button type="button" data-routine-del="${item.id}" aria-label="Delete '${item.text.replace(/'/g, '')}'" class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-rose-300 hover:bg-slate-800' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
+      container.innerHTML = currentList.length ? currentList.map((item) => `
+        <div class="pb-swipe-wrap relative overflow-hidden rounded-xl select-none" data-item-wrap="${item.id}">
+          <div class="pb-swipe-bg absolute inset-0 bg-rose-500/90 text-white text-xs font-semibold flex items-center justify-between px-4 pointer-events-none opacity-0 transition-opacity" aria-hidden="true">
+            <span>Delete</span>
+            <span>Delete</span>
+          </div>
+          <div class="pb-item-card group relative flex items-center gap-2.5 p-3 rounded-xl border transition-all ${isNight ? 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700' : 'border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-slate-300/90 hover:shadow-sm'}">
+            <button type="button" data-drag-handle="${item.id}" aria-label="Drag or use arrow keys to reorder '${item.text.replace(/'/g, '')}'" title="Drag to reorder" class="pb-drag-handle shrink-0 p-1 -ml-1 rounded-md ${isNight ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600'}">
+              <svg class="w-3.5 h-4" viewBox="0 0 12 16" fill="currentColor" aria-hidden="true">
+                <circle cx="3.5" cy="3" r="1.4"></circle><circle cx="8.5" cy="3" r="1.4"></circle>
+                <circle cx="3.5" cy="8" r="1.4"></circle><circle cx="8.5" cy="8" r="1.4"></circle>
+                <circle cx="3.5" cy="13" r="1.4"></circle><circle cx="8.5" cy="13" r="1.4"></circle>
+              </svg>
+            </button>
+            <label class="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer">
+              <input
+                type="checkbox"
+                data-routine-id="${item.id}"
+                ${item.done ? 'checked' : ''}
+                class="w-5 h-5 rounded accent-amber-600 cursor-pointer shrink-0"
+              />
+              <span data-routine-edit="${item.id}" role="button" tabindex="0" aria-label="Edit '${item.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${item.done ? 'line-through opacity-50' : ''}">
+                ${item.text}
+              </span>
+            </label>
+            <button type="button" data-routine-del="${item.id}" aria-label="Delete '${item.text.replace(/'/g, '')}'" title="Delete" class="pb-item-del w-6 h-6 -my-1 rounded-lg text-xs font-bold flex items-center justify-center ${isNight ? 'text-slate-400 hover:text-rose-300 hover:bg-slate-700' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
+          </div>
         </div>
       `).join('') : `
         <div class="rounded-xl border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-slate-300 text-slate-400'} p-4 text-center text-xs">No habits in this routine yet.</div>
@@ -2380,24 +2537,7 @@ Key Insights:
         });
       });
 
-      // Reordering: ↑/↓ move an item within this routine (persisted)
-      const pbMoveRoutine = async (id, delta) => {
-        const i = currentList.findIndex(r => r.id === id);
-        const j = i + delta;
-        if (i < 0 || j < 0 || j >= currentList.length) return;
-        [currentList[i], currentList[j]] = [currentList[j], currentList[i]];
-        pbHaptic(8);
-        await persistEncryptedState();
-        renderRoutine(isNight);
-      };
-      container.querySelectorAll('[data-routine-up]').forEach(btn => {
-        btn.addEventListener('click', () => pbMoveRoutine(btn.getAttribute('data-routine-up'), -1));
-      });
-      container.querySelectorAll('[data-routine-down]').forEach(btn => {
-        btn.addEventListener('click', () => pbMoveRoutine(btn.getAttribute('data-routine-down'), 1));
-      });
-
-      // (28) Routine edit (tap the text) + delete (×) with undo
+      // (28) Routine edit (tap the text) + delete (×) with undo + card drag & swipe-to-delete
       container.querySelectorAll('[data-routine-edit]').forEach(el => {
         const start = () => {
           const item = currentList.find(r => r.id === el.getAttribute('data-routine-edit'));
@@ -2411,6 +2551,10 @@ Key Insights:
       container.querySelectorAll('[data-routine-del]').forEach(btn => {
         btn.addEventListener('click', () => pbRoutineDelete(btn.getAttribute('data-routine-del')));
       });
+      pbBindCardListInteractions(container, currentList, async () => {
+        await persistEncryptedState();
+        renderRoutine(state.edition === 'night');
+      }, pbRoutineDelete);
     }
 
     // ------------------------------------------------------------------
@@ -4601,23 +4745,34 @@ Key Insights:
         : `${doneCount}/${total} done`;
       document.getElementById('tasks-progress-bar').style.width = `${pct}%`;
 
-      container.innerHTML = state.tasks.length ? state.tasks.map((task, i) => `
-        <div class="flex items-center gap-1 p-3 rounded-xl transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
-          <label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-            <input
-              type="checkbox"
-              data-task-id="${task.id}"
-              ${task.done ? 'checked' : ''}
-              class="w-5 h-5 rounded accent-emerald-600 cursor-pointer shrink-0"
-            />
-            <span data-task-edit="${task.id}" role="button" tabindex="0" aria-label="Edit '${task.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${task.done ? 'line-through opacity-50' : ''}">
-              ${task.text}
-            </span>
-            ${task.recurring ? `<button type="button" data-task-recur="${task.id}" class="pb-recur-chip shrink-0 text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'} — tap for what that means">↻ ${task.recurring}</button>` : ''}
-          </label>
-          <button type="button" data-task-up="${task.id}" aria-label="Move '${task.text.replace(/'/g, '')}' up" ${i === 0 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↑</button>
-          <button type="button" data-task-down="${task.id}" aria-label="Move '${task.text.replace(/'/g, '')}' down" ${i === state.tasks.length - 1 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↓</button>
-          <button type="button" data-task-del="${task.id}" aria-label="Delete '${task.text.replace(/'/g, '')}'" class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-rose-300 hover:bg-slate-800' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
+      container.innerHTML = state.tasks.length ? state.tasks.map((task) => `
+        <div class="pb-swipe-wrap relative overflow-hidden rounded-xl select-none" data-item-wrap="${task.id}">
+          <div class="pb-swipe-bg absolute inset-0 bg-rose-500/90 text-white text-xs font-semibold flex items-center justify-between px-4 pointer-events-none opacity-0 transition-opacity" aria-hidden="true">
+            <span>Delete</span>
+            <span>Delete</span>
+          </div>
+          <div class="pb-item-card group relative flex items-center gap-2.5 p-3 rounded-xl border transition-all ${isNight ? 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700' : 'border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-slate-300/90 hover:shadow-sm'}">
+            <button type="button" data-drag-handle="${task.id}" aria-label="Drag or use arrow keys to reorder '${task.text.replace(/'/g, '')}'" title="Drag to reorder" class="pb-drag-handle shrink-0 p-1 -ml-1 rounded-md ${isNight ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600'}">
+              <svg class="w-3.5 h-4" viewBox="0 0 12 16" fill="currentColor" aria-hidden="true">
+                <circle cx="3.5" cy="3" r="1.4"></circle><circle cx="8.5" cy="3" r="1.4"></circle>
+                <circle cx="3.5" cy="8" r="1.4"></circle><circle cx="8.5" cy="8" r="1.4"></circle>
+                <circle cx="3.5" cy="13" r="1.4"></circle><circle cx="8.5" cy="13" r="1.4"></circle>
+              </svg>
+            </button>
+            <label class="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer">
+              <input
+                type="checkbox"
+                data-task-id="${task.id}"
+                ${task.done ? 'checked' : ''}
+                class="w-5 h-5 rounded accent-emerald-600 cursor-pointer shrink-0"
+              />
+              <span data-task-edit="${task.id}" role="button" tabindex="0" aria-label="Edit '${task.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${task.done ? 'line-through opacity-50' : ''}">
+                ${task.text}
+              </span>
+              ${task.recurring ? `<button type="button" data-task-recur="${task.id}" class="pb-recur-chip shrink-0 text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'} — tap for what that means">↻ ${task.recurring}</button>` : ''}
+            </label>
+            <button type="button" data-task-del="${task.id}" aria-label="Delete '${task.text.replace(/'/g, '')}'" title="Delete" class="pb-item-del w-6 h-6 -my-1 rounded-lg text-xs font-bold flex items-center justify-center ${isNight ? 'text-slate-400 hover:text-rose-300 hover:bg-slate-700' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
+          </div>
         </div>
       `).join('') : `
         <div class="rounded-xl border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-slate-300 text-slate-400'} p-4 text-center text-xs">No priorities yet — add your first one below.</div>
@@ -4639,24 +4794,7 @@ Key Insights:
         });
       });
 
-      // Reordering: ↑/↓ move a task within today's list (persisted in the vault)
-      const pbMoveTask = async (id, delta) => {
-        const i = state.tasks.findIndex(t => t.id === id);
-        const j = i + delta;
-        if (i < 0 || j < 0 || j >= state.tasks.length) return;
-        [state.tasks[i], state.tasks[j]] = [state.tasks[j], state.tasks[i]];
-        pbHaptic(8);
-        await persistEncryptedState();
-        renderTasks(state.edition === 'night');
-      };
-      container.querySelectorAll('[data-task-up]').forEach(btn => {
-        btn.addEventListener('click', () => pbMoveTask(btn.getAttribute('data-task-up'), -1));
-      });
-      container.querySelectorAll('[data-task-down]').forEach(btn => {
-        btn.addEventListener('click', () => pbMoveTask(btn.getAttribute('data-task-down'), 1));
-      });
-
-      // (26/27/47) Delete with undo, tap-text edit, recurring help toast
+      // (26/27/47) Delete with undo, tap-text edit, recurring help toast, drag & swipe
       container.querySelectorAll('[data-task-del]').forEach(btn => {
         btn.addEventListener('click', () => pbTaskDelete(btn.getAttribute('data-task-del')));
       });
@@ -4679,6 +4817,10 @@ Key Insights:
             : 'Resets daily: after the day closes, this task returns unfinished.');
         });
       });
+      pbBindCardListInteractions(container, state.tasks, async () => {
+        await persistEncryptedState();
+        renderTasks(state.edition === 'night');
+      }, pbTaskDelete);
     }
 
     // ------------------------------------------------------------------
@@ -6745,6 +6887,17 @@ Key Insights:
       // (No alert/toast here on purpose; the SW no longer force-reloads.)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (__pbSawUpdate) window.__pbUpdateReady = true;
+      });
+
+      // When sw.js finishes its background stale-while-revalidate fetch of
+      // pulse_feed.json and sees a new generated_at timestamp, apply it live.
+      navigator.serviceWorker.addEventListener('message', (e) => {
+        const msg = e.data;
+        if (msg && msg.type === 'FEED_UPDATED' && msg.generated_at) {
+          if (localStorage.getItem('pulseboard_feed_stamp') !== msg.generated_at) {
+            refreshContentFromFeed(true);
+          }
+        }
       });
 
       // Self-update when the installed PWA returns to the foreground, so

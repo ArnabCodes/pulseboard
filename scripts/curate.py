@@ -602,8 +602,17 @@ def matched_keywords(*texts):
 def parse_date(s):
     if not s:
         return None
+    s = s.strip()
     try:
         d = email.utils.parsedate_to_datetime(s)
+        if d.tzinfo is None:
+            d = d.replace(tzinfo=timezone.utc)
+        return d.astimezone(timezone.utc)
+    except Exception:
+        pass
+    try:
+        iso = s[:-1] + '+00:00' if s.endswith('Z') else s
+        d = datetime.fromisoformat(iso)
         if d.tzinfo is None:
             d = d.replace(tzinfo=timezone.utc)
         return d.astimezone(timezone.utc)
@@ -900,10 +909,34 @@ def merge_stories(auto, hand):
     return auto_final + hand
 
 
+def _load_previous_auto_stories():
+    """Return (prev_urls, prev_token_sets) from the currently committed
+    pulse_feed.json so daily runs rotate in fresh stories instead of
+    repeating yesterday's high-keyword picks."""
+    prev_urls, prev_tokens = set(), []
+    feed_path = os.path.join(BASE, 'pulse_feed.json')
+    try:
+        with open(feed_path, 'r', encoding='utf-8') as f:
+            prev = json.load(f)
+        for st in prev.get('stories', []):
+            if not str(st.get('id', '')).startswith('news-'):
+                continue
+            u = (st.get('sourceUrl') or '').strip()
+            if u:
+                prev_urls.add(u)
+            toks = title_tokens(st.get('title', ''))
+            if toks:
+                prev_tokens.append(toks)
+    except Exception:
+        pass
+    return prev_urls, prev_tokens
+
+
 def pick_news_stories():
     kw = NEWS_KEYWORDS
     now = datetime.now(timezone.utc)
     auto, used_sources = [], set()
+    prev_urls, prev_tokens = _load_previous_auto_stories()
 
     for topic, sources in NEWS_SOURCES.items():
         items = []
@@ -925,12 +958,16 @@ def pick_news_stories():
                 fresh = 1.0
                 if date:
                     age_h = (now - date).total_seconds() / 3600
-                    if age_h <= 24:
-                        fresh = 1.5
-                    elif age_h <= 48:
-                        fresh = 1.2
-                    elif age_h > 96:
-                        fresh = 0.7
+                    if age_h <= 12:
+                        fresh = 2.0
+                    elif age_h <= 24:
+                        fresh = 1.6
+                    elif age_h <= 36:
+                        fresh = 1.1
+                    elif age_h <= 72:
+                        fresh = 0.6
+                    else:
+                        fresh = 0.25
                 s = (keyword_score(it['title'], kw[topic], 3)
                      + keyword_score(it['description'], kw[topic], 1)) * fresh
                 if best is None or s > best[0]:
@@ -941,7 +978,18 @@ def pick_news_stories():
             if best is not None:
                 sides = {NEWS_SPECTRUM.get(i['outlet'], 'center') for i in cl['items']}
                 spread = 1 + 0.1 * (len(sides) - 1)
-                scored.append((best[0] * (1 + 0.4 * (len(cl['items']) - 1)) * spread, best[1], cl))
+                score = best[0] * (1 + 0.4 * (len(cl['items']) - 1)) * spread
+                # Demote stories already present in the previous feed so new
+                # daily articles rotate in while keeping old ones as fallback.
+                already_shown = any((i.get('link') or '').strip() in prev_urls for i in cl['items'])
+                if not already_shown and cl['tokens']:
+                    already_shown = any(
+                        len(cl['tokens'] & pt) / len(cl['tokens'] | pt) >= 0.45
+                        for pt in prev_tokens if pt
+                    )
+                if already_shown:
+                    score *= 0.15
+                scored.append((score, best[1], cl))
         scored.sort(key=lambda x: -x[0])
 
         # Detailed-briefing-aware selection, three passes:

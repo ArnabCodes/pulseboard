@@ -1,4 +1,4 @@
-// Service Worker for PulseBoard PWA — v18 "integration wave"
+// Service Worker for PulseBoard PWA — v19 "integration wave"
 //
 // Strategies
 //   navigation : network-first -> cache -> inline offline page (a cold
@@ -31,7 +31,7 @@
 //                                this; the message is the on-demand path)
 //   { type: 'PURGE_CACHES' }  -> deletes EVERY cache (settings "reset cached
 //                                data"); the worker re-populates lazily
-const CACHE_NAME = 'pulseboard-v18';
+const CACHE_NAME = 'pulseboard-v19';
 const IMAGE_CACHE_NAME = CACHE_NAME + '-img'; // runtime article-image cache
 const IMAGE_CACHE_MAX = 60;                   // soft cap, LRU-ish trim
 const ASSETS = [
@@ -197,11 +197,19 @@ self.addEventListener('fetch', (e) => {
       if (cache) {
         try { cached = await cache.match(req); } catch (err) { cached = null; }
       }
-      const refresh = fetch(req)
+      const refresh = fetch(req, { cache: 'no-store' })
         .then((networkRes) => {
           if (networkRes && networkRes.status === 200 && cache) {
             const clone = networkRes.clone();
+            const notifyClone = networkRes.clone();
             cache.put(req, clone).catch(() => {});
+            notifyClone.json().then((data) => {
+              if (data && data.generated_at) {
+                self.clients.matchAll({ type: 'window' }).then((clients) => {
+                  clients.forEach((client) => client.postMessage({ type: 'FEED_UPDATED', generated_at: data.generated_at }));
+                }).catch(() => {});
+              }
+            }).catch(() => {});
           }
           return networkRes;
         })
