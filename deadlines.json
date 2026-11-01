@@ -1,0 +1,54 @@
+{
+  "note": "Submission deadlines for conferences relevant to an NMR / quantum-sensing postdoc. Every date verified against the official conference website (linked as url) on 2026-11-01. Sources: official sites only. Curated by hand - only verified entries ship.",
+  "deadlines": [
+    {
+      "name": "APS Global Physics Summit 2027 - contributed abstracts",
+      "kind": "Abstract (contributed)",
+      "date": "2026-10-29",
+      "location": "Meeting: Atlanta, GA & online, Apr 11-16, 2027",
+      "url": "https://summit.aps.org/attend/abstracts/"
+    },
+    {
+      "name": "Pittcon 2027 - poster abstracts",
+      "kind": "Poster abstract",
+      "date": "2026-11-13",
+      "location": "Pittsburgh, PA, Apr 24-28, 2027",
+      "url": "https://pittcon.secure-platform.com/calls"
+    },
+    {
+      "name": "QIP 2027 - poster submissions",
+      "kind": "Poster submission",
+      "date": "2026-12-04",
+      "location": "Singapore, Feb 20-26, 2027",
+      "url": "https://qipconference.org/2027/"
+    },
+    {
+      "name": "ENC 2027 (68th) - oral & early-decision poster abstracts",
+      "kind": "Abstract (oral + early posters)",
+      "date": "2027-01-08",
+      "location": "Asilomar Conference Center, CA, Apr 4-8, 2027",
+      "url": "https://www.enc-conference.org/ENC-2027"
+    },
+    {
+      "name": "ENC 2027 (68th) - final / late-breaking abstracts",
+      "kind": "Abstract (final poster deadline)",
+      "date": "2027-02-19",
+      "location": "Asilomar Conference Center, CA, Apr 4-8, 2027",
+      "url": "https://www.enc-conference.org/ENC-2027"
+    },
+    {
+      "name": "EUROMAR-ISMAR 2027 - oral abstracts",
+      "kind": "Abstract (oral)",
+      "date": "2027-03-30",
+      "location": "Lyon, France, Jul 4-8, 2027",
+      "url": "https://www.euroismar2027.org/"
+    },
+    {
+      "name": "EUROMAR-ISMAR 2027 - poster abstracts",
+      "kind": "Abstract (poster)",
+      "date": "2027-04-30",
+      "location": "Lyon, France, Jul 4-8, 2027",
+      "url": "https://www.euroismar2027.org/"
+    }
+  ]
+}

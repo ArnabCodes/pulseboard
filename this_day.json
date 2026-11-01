@@ -1,0 +1,185 @@
+{
+  "note": "On this day in science. Every event below was verified against its linked source (NASA/ESA/Nobel/Britannica/APS/Nature/arXiv/...) on 2026-11-01. Covers 30 dates from 2026-11-01. If a date ever has no verified entry, ship {\"date\": \"MM-DD\"} only - the app hides the widget for that day rather than inventing history.",
+  "entries": [
+    {
+      "date": "11-01",
+      "year": 1963,
+      "event": "The Arecibo Observatory was inaugurated in Puerto Rico - the world's largest single-dish radio telescope for the next 53 years.",
+      "source_url": "https://phl.upr.edu/library/labnotes/50th-anniversary-of-the-arecibo-observatory"
+    },
+    {
+      "date": "11-02",
+      "year": 2000,
+      "event": "The Expedition 1 crew entered the International Space Station - humanity has lived aboard continuously ever since.",
+      "source_url": "https://www.nasa.gov/history/space-station-20th-expedition-1-arrives-at-the-international-space-station/"
+    },
+    {
+      "date": "11-03",
+      "year": 1957,
+      "event": "The USSR launched Sputnik 2, carrying Laika - the first animal to orbit the Earth.",
+      "source_url": "https://www.nasa.gov/history/60-years-ago-the-first-animal-in-orbit/"
+    },
+    {
+      "date": "11-04",
+      "year": 1869,
+      "event": "The first issue of the scientific journal Nature was published in London.",
+      "source_url": "https://www.nature.com/nature/history-of-nature"
+    },
+    {
+      "date": "11-05",
+      "year": 2013,
+      "event": "ISRO launched the Mars Orbiter Mission (Mangalyaan), India's first interplanetary probe.",
+      "source_url": "https://science.nasa.gov/mission/mom/"
+    },
+    {
+      "date": "11-06",
+      "year": 1572,
+      "event": "The supernova SN 1572 ('Tycho's Nova') was first observed in Europe - a 'new star' appearing in Cassiopeia.",
+      "source_url": "https://arxiv.org/abs/astro-ph/0309009"
+    },
+    {
+      "date": "11-07",
+      "year": 1996,
+      "event": "NASA launched Mars Global Surveyor, which went on to map the Red Planet in unprecedented detail.",
+      "source_url": "https://nssdc.gsfc.nasa.gov/planetary/marsurv.html"
+    },
+    {
+      "date": "11-08",
+      "year": 1895,
+      "event": "Wilhelm Roentgen discovered X-rays - a discovery that transformed physics and medicine.",
+      "source_url": "https://medicalmuseum.health.mil/index.cfm/visit/exhibits/virtual/xraydiscovery/index"
+    },
+    {
+      "date": "11-09",
+      "year": 1967,
+      "event": "Apollo 4 lifted off - the first flight of the Saturn V, the rocket that would carry astronauts to the Moon.",
+      "source_url": "https://www.nasa.gov/history/55-years-ago-apollo-4-the-first-flight-of-the-saturn-v/"
+    },
+    {
+      "date": "11-10",
+      "year": 1968,
+      "event": "The Soviet Union launched Zond 6 on a circumlunar flight - an uncrewed rehearsal for a crewed Moon flyby.",
+      "source_url": "https://en.wikipedia.org/wiki/Zond_6"
+    },
+    {
+      "date": "11-11",
+      "year": 1572,
+      "event": "Tycho Brahe first observed the 'new star' (SN 1572) whose distance shattered the ancient idea of an unchanging heavens.",
+      "source_url": "https://www.aps.org/apsnews/2019/11/tycho-brahe-spots-supernova"
+    },
+    {
+      "date": "11-12",
+      "year": 2014,
+      "event": "ESA's Philae lander touched down on comet 67P/Churyumov-Gerasimenko - the first soft landing on a comet nucleus.",
+      "source_url": "https://sci.esa.int/web/rosetta/-/54932-touchdown-rosetta-philae-probe-lands-on-comet"
+    },
+    {
+      "date": "11-13",
+      "year": 1971,
+      "event": "Mariner 9 entered orbit around Mars - the first spacecraft to orbit another planet.",
+      "source_url": "https://www.nasa.gov/history/50-years-ago-mariner-9-enters-mars-orbit/"
+    },
+    {
+      "date": "11-14",
+      "year": 1969,
+      "event": "Apollo 12 launched from Kennedy Space Center toward the second crewed Moon landing.",
+      "source_url": "https://www.nasa.gov/missions/apollo/apollo-12-the-pinpoint-mission/"
+    },
+    {
+      "date": "11-15",
+      "year": 1988,
+      "event": "The Soviet Buran space shuttle flew its only orbital mission - launched, flown and landed without a crew.",
+      "source_url": "https://www.esa.int/ESA_Multimedia/Images/2021/01/1988_launch_of_Soviet_Buran_shuttle"
+    },
+    {
+      "date": "11-16",
+      "year": 1974,
+      "event": "The Arecibo message - humanity's first interstellar radio broadcast - was beamed toward globular cluster M13.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/0019103575901165"
+    },
+    {
+      "date": "11-17",
+      "year": 1970,
+      "event": "Luna 17 deployed Lunokhod 1 - the first remote-controlled rover to roll on the Moon.",
+      "source_url": "https://science.nasa.gov/image-article/apod-2006-january-14-lunokhod-moon-robot/"
+    },
+    {
+      "date": "11-18",
+      "year": 1989,
+      "event": "NASA launched COBE, the satellite that mapped the cosmic microwave background - the afterglow of the Big Bang.",
+      "source_url": "https://science.nasa.gov/mission/cobe/"
+    },
+    {
+      "date": "11-19",
+      "year": 1969,
+      "event": "Apollo 12's lunar module Intrepid landed on the Ocean of Storms - the second crewed lunar landing.",
+      "source_url": "https://www.nasa.gov/image-article/on-this-day-apollo-12-lands-on-the-moon/"
+    },
+    {
+      "date": "11-20",
+      "year": 1998,
+      "event": "Zarya, the first module of the International Space Station, launched from Baikonur atop a Proton rocket.",
+      "source_url": "https://www.nasa.gov/history/20-years-ago-space-station-construction-begins/"
+    },
+    {
+      "date": "11-21",
+      "year": 1783,
+      "event": "Pilatre de Rozier and the marquis d'Arlandes made the first free flight in a hot-air balloon, over Paris.",
+      "source_url": "https://www.britannica.com/biography/Jean-Francois-Pilatre-de-Rozier"
+    },
+    {
+      "date": "11-22",
+      "year": 1904,
+      "event": "Physicist Louis Neel was born in Lyon - his work on antiferro- and ferrimagnetism won the 1970 Nobel Prize in Physics.",
+      "source_url": "https://www.nobelprize.org/prizes/physics/1970/neel/biographical/"
+    },
+    {
+      "date": "11-23",
+      "year": 1837,
+      "event": "Physicist Johannes Diderik van der Waals was born in Leiden - later of the real-gas equation of state.",
+      "source_url": "https://www.nobelprize.org/prizes/physics/1910/waals/facts/"
+    },
+    {
+      "date": "11-24",
+      "year": 1859,
+      "event": "Charles Darwin published On the Origin of Species.",
+      "source_url": "https://www.npr.org/2009/11/24/120692695/at-150-darwins-origin-stirs-even-more-debate"
+    },
+    {
+      "date": "11-25",
+      "year": 1915,
+      "event": "Albert Einstein presented the field equations of gravitation to the physics-mathematics section of the Prussian Academy of Sciences.",
+      "source_url": "https://academic.oup.com/book/54698/chapter-abstract/422648225"
+    },
+    {
+      "date": "11-26",
+      "year": 1965,
+      "event": "France launched Asterix, its first satellite, atop a Diamant rocket - becoming the third spacefaring nation.",
+      "source_url": "https://en.wikipedia.org/wiki/Ast%C3%A9rix_(satellite)"
+    },
+    {
+      "date": "11-27",
+      "year": 1971,
+      "event": "The Soviet Mars 2 lander became the first human-made object to reach the surface of Mars (a hard landing).",
+      "source_url": "https://science.nasa.gov/photojournal/search-for-the-mars-2-debris-field/"
+    },
+    {
+      "date": "11-28",
+      "year": 1967,
+      "event": "Jocelyn Bell first recorded the pulsed radio signal of PSR B1919+21 - the discovery of pulsars.",
+      "source_url": "https://physicstoday.aip.org/news/detection-of-the-first-pulsar"
+    },
+    {
+      "date": "11-29",
+      "year": 1961,
+      "event": "Enos the chimpanzee orbited the Earth aboard Mercury-Atlas 5 - the final step before John Glenn's orbital flight.",
+      "source_url": "https://airandspace.si.edu/stories/editorial/enos-forgotten-chimp"
+    },
+    {
+      "date": "11-30",
+      "year": 1954,
+      "event": "The Sylacauga meteorite crashed through a roof in Alabama and struck Ann Hodges - the only verified case of a meteorite injuring a person.",
+      "source_url": "https://www.astronomy.com/today-in-the-history-of-astronomy/nov-30-1954-the-first-known-human-injury-via-a-meteorite/"
+    }
+  ]
+}
