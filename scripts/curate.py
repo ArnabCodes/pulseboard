@@ -15,6 +15,8 @@ Three honest content channels, merged into pulse_feed.json:
    is structural - topic quotas, max one story per outlet per topic, and a
    cross-source corroboration boost (stories covered by several outlets
    score higher). Text is the outlet's own summary, never rewritten.
+   Briefings are paragraph-structured, carry the article's own inline image
+   gallery, and every cover image in the feed is guaranteed unique.
 
 Run locally or via .github/workflows/update-pulse.yml (04:00/19:00 UTC).
 The workflow commits the result; Vercel deploys; the app pulls the feed
@@ -137,11 +139,37 @@ NEWS_QUOTAS = {'Geopolitics & Global': 3, 'Tech & AI': 1, 'Quantum & Physics': 1
 # A full briefing must be at least this many words of the outlet's own text.
 BRIEF_MIN_WORDS = 200
 
+# Cover-image fallback POOLS (4 distinct verified URLs per category). Member 0
+# is the long-standing default; the rest were extracted from real Unsplash
+# search pages for each topic (never hand-typed — a guessed photo id 404s
+# silently) and curl-verified HTTP 200 with a browser UA. Assignment is
+# deterministic per story title and guaranteed distinct within a feed; see
+# ensure_distinct_covers().
 FALLBACK_CATEGORY_IMAGES = {
-    'Geopolitics & Global': 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
-    'Quantum & Physics': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80',
-    'Tech & AI': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
-    'Mind & Habits': 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80',
+    'Geopolitics & Global': [
+        'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1706823871410-ed8b01faef7e?auto=format&fit=crop&w=1200&q=80',
+    ],
+    'Quantum & Physics': [
+        'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1576319155264-99536e0be1ee?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1666112835145-d79fc3f2e008?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1527409335569-f0e5c91fa707?auto=format&fit=crop&w=1200&q=80',
+    ],
+    'Tech & AI': [
+        'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1674027444485-cec3da58eef4?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1694903110330-cc64b7e1d21d?auto=format&fit=crop&w=1200&q=80',
+    ],
+    'Mind & Habits': [
+        'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1522075782449-e45a34f1ddfb?auto=format&fit=crop&w=1200&q=80',
+    ],
 }
 
 BROWSER_UA = ('Mozilla/5.0 (Linux; Android 13; Pixel 6a) AppleWebKit/537.36 '
@@ -158,30 +186,148 @@ def http_get(url, timeout=20, ua=None):
         return resp.read()
 
 
+# Inline-article-image junk filter: logos, icons, avatars, badges, sprites,
+# tracking pixels, ad hosts. The ad token is boundary-guarded so words like
+# 'download' or 'road' in a filename are not mistaken for an ad.
+GALLERY_JUNK_RE = re.compile(
+    r'logo|icon|avatar|sprite|emoji|gravatar|badge|placeholder|tracking'
+    r'|pixel|advert|doubleclick|(?<![a-z])ad[sv]?(?![a-z])', re.I)
+
+GALLERY_MAX = 3
+
+
+def _absolutize(cand, base):
+    """Resolve a candidate image URL against the page URL; '' if unusable."""
+    cand = htmllib.unescape(cand or '').strip()
+    if cand.startswith(('http://', 'https://')):
+        return cand
+    if cand and not cand.startswith('data:'):
+        return urljoin(base, cand)
+    return ''
+
+
+def _jsonld_images(raw):
+    """Image URLs from <script type="application/ld+json"> blocks, walked
+    deeply (covers @graph nesting). The image may be a string, a list, or an
+    object with url/@id. Order of appearance is preserved."""
+    urls = []
+
+    def harvest(node):
+        if isinstance(node, list):
+            for n in node:
+                harvest(n)
+        elif isinstance(node, dict):
+            img = node.get('image')
+            for v in (img if isinstance(img, list) else [img]):
+                if isinstance(v, str):
+                    urls.append(v)
+                elif isinstance(v, dict):
+                    urls.append(v.get('url') or v.get('@id') or '')
+            for n in node.values():
+                harvest(n)
+
+    for block in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+                            raw, re.S | re.I):
+        try:
+            harvest(json.loads(block))
+        except Exception:
+            continue
+    return [u for u in urls if isinstance(u, str) and u.startswith(('http://', 'https://'))]
+
+
+def _lead_image_candidates(raw, url):
+    """Lead-image candidates, best first: og:image, twitter:image,
+    og:image:secure_url, then JSON-LD image. Absolutized, deduped."""
+    cands = []
+
+    def meta(*names):
+        for name in names:
+            m = (re.search(r'<meta[^>]+(?:property|name)=["\']' + re.escape(name)
+                           + r'["\'][^>]+content=["\']([^"\']+)', raw, re.I)
+                 or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)='
+                              + re.escape(name) + r'["\']', raw, re.I))
+            if m:
+                yield m.group(1)
+
+    cands += list(meta('og:image'))
+    cands += list(meta('twitter:image', 'twitter:image:src'))
+    cands += list(meta('og:image:secure_url'))
+    cands += _jsonld_images(raw)
+    out = []
+    for c in cands:
+        c = _absolutize(c, url)
+        if c and c not in out:
+            out.append(c)
+    return out
+
+
+def _gallery_images(scope, base, lead):
+    """Inline <img> URLs from the article scope (src / data-src /
+    data-lazy-src), absolutized. Skips data: URIs, .svg, logo/icon/avatar/
+    badge/placeholder/tracking-class basenames, images with explicit
+    width/height under 400, 1px tracking pixels, and the lead image itself.
+    Deduped; capped at GALLERY_MAX."""
+    out, seen = [], set()
+    lead_path = lead.split('?', 1)[0] if lead else None
+    for tag in re.findall(r'<img\b[^>]*>', scope, re.I):
+        small = False
+        for dim in ('width', 'height'):
+            m = re.search(r'\b' + dim + r'=["\'](\d+)["\']', tag, re.I)
+            if m and int(m.group(1)) < 400:
+                small = True
+                break
+        if small:
+            continue
+        m = (re.search(r'data-(?:lazy-)?src=["\']([^"\']+)["\']', tag, re.I)
+             or re.search(r'(?<![\w-])src=["\']([^"\']+)["\']', tag, re.I))
+        if not m:
+            continue
+        u = _absolutize(m.group(1), base)
+        if not u or u in seen:
+            continue
+        path = u.split('?', 1)[0]
+        if path.lower().endswith('.svg'):
+            continue
+        if GALLERY_JUNK_RE.search(path.rsplit('/', 1)[-1].lower()):
+            continue
+        if re.search(r'[?&](?:width|w)=1\b', u):
+            continue  # tracking pixel
+        if lead and (u == lead or path == lead_path):
+            continue  # the lead/og image itself
+        seen.add(u)
+        out.append(u)
+        if len(out) >= GALLERY_MAX:
+            break
+    return out
+
+
+def _paragraphize(text, per=3):
+    """Group a verbatim text's own sentences into paragraphs of `per`.
+    Presentation only: no word is added, dropped, or reordered."""
+    sents = sentences(text)
+    if len(sents) <= 1:
+        return [text] if text.strip() else []
+    return [' '.join(sents[i:i + per]) for i in range(0, len(sents), per)]
+
+
 def fetch_full_text(url, max_words=380):
-    """Fetch the article page and extract its own paragraph text (never
-    rewritten) plus its og:image lead image. Returns (text, image);
-    ('', '') if the page is unreachable."""
+    """Fetch the article page and extract, verbatim: its own paragraphs, its
+    lead image (og:image > twitter:image > og:image:secure_url > JSON-LD
+    image), and up to GALLERY_MAX inline article images. Returns
+    (paragraphs, lead_image, gallery); ([], '', []) if the page is
+    unreachable."""
     try:
         raw = http_get(url, timeout=15, ua=BROWSER_UA).decode('utf-8', 'ignore')
     except Exception:
-        return '', ''
-    og = ''
-    m = (re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', raw, re.I)
-         or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', raw, re.I)
-         or re.search(r'<meta[^>]+name=["\']og:image["\'][^>]+content=["\']([^"\']+)', raw, re.I))
-    if m:
-        cand = htmllib.unescape(m.group(1)).strip()
-        if cand.startswith(('http://', 'https://')):
-            og = cand
-        elif cand and not cand.startswith('data:'):
-            og = urljoin(url, cand)
+        return [], '', []
+    leads = _lead_image_candidates(raw, url)
+    lead = leads[0] if leads else ''
     scope = raw
     m = re.search(r'<article[^>]*>(.*?)</article>', raw, re.S | re.I) \
         or re.search(r'<main[^>]*>(.*?)</main>', raw, re.S | re.I)
     if m:
         scope = m.group(1)
-    out, total = [], 0
+    paras, total = [], 0
     for p in re.findall(r'<p[^>]*>(.*?)</p>', scope, re.S | re.I):
         t = strip_html(p)
         if len(t) < 60:
@@ -190,11 +336,11 @@ def fetch_full_text(url, max_words=380):
         if any(k in low for k in ('sign up', 'subscribe', 'newsletter', 'all rights reserved',
                                   'cookie', 'follow us', 'read more:', 'related:', 'originally published')):
             continue
-        out.append(t)
+        paras.append(t)
         total += len(t.split())
         if total >= max_words:
             break
-    return ' '.join(out), og
+    return paras, lead, _gallery_images(scope, url, lead)
 
 
 def strip_html(s):
@@ -429,24 +575,46 @@ def cluster_items(items):
     return clusters
 
 
-def images_map():
-    """Category images: hand-curated entries win; fallbacks only fill gaps."""
-    imgs = {}
-    try:
-        with open(os.path.join(BASE, 'articles_db.json'), 'r', encoding='utf-8') as f:
-            for st in json.load(f):
-                if st.get('image') and st.get('category'):
-                    imgs.setdefault(st['category'], st['image'])
-    except Exception:
-        pass
-    for cat, url in FALLBACK_CATEGORY_IMAGES.items():
-        imgs.setdefault(cat, url)
-    return imgs
+def ensure_distinct_covers(stories):
+    """Guarantee every cover image in the feed is unique (hard app
+    requirement — two stories sharing a fallback cover was a visible bug).
+
+    Hand-curated stories claim their authored covers first; any story whose
+    cover is missing or already claimed gets a deterministic distinct
+    fallback from its category pool: pool[sha1(title) % len(pool)], walking
+    forward through the pool until an unused URL is found (wrapping around;
+    if a pool is ever exhausted, the hash slot is reused deterministically).
+    """
+    used = set()
+
+    def claim(st):
+        img = st.get('image') or ''
+        if img and img not in used:
+            used.add(img)
+            return
+        pool = FALLBACK_CATEGORY_IMAGES.get(st.get('category')) or []
+        if not pool:
+            return
+        start = int(hashlib.sha1(st.get('title', '').encode('utf-8')).hexdigest(), 16) % len(pool)
+        for i in range(len(pool)):
+            cand = pool[(start + i) % len(pool)]
+            if cand not in used:
+                st['image'] = cand
+                used.add(cand)
+                return
+        st['image'] = pool[start]  # pool exhausted: deterministic reuse
+        used.add(pool[start])
+
+    hand = [s for s in stories if not str(s.get('id', '')).startswith('news-')]
+    auto = [s for s in stories if str(s.get('id', '')).startswith('news-')]
+    for st in hand:  # authored covers take precedence
+        claim(st)
+    for st in auto:
+        claim(st)
 
 
 def pick_news_stories():
     kw = NEWS_KEYWORDS
-    imgs = images_map()
     now = datetime.now(timezone.utc)
     auto, used_sources = [], set()
 
@@ -507,7 +675,7 @@ def pick_news_stories():
         def full_text(link):
             if link not in cache:
                 if fetches['n'] >= FETCH_BUDGET:
-                    cache[link] = ('', '')
+                    cache[link] = ([], '', [])
                 else:
                     fetches['n'] += 1
                     cache[link] = fetch_full_text(link)
@@ -515,36 +683,44 @@ def pick_news_stories():
 
         def attempt(cl, allow_used):
             """Rotate the cluster's outlets (same corroborated story) until
-            one copy yields a full briefing; return (rep, desc, content, image)."""
+            one copy yields a full briefing; return (rep, desc, paragraphs,
+            image, gallery)."""
             cands = [c for c in cl['items'] if allow_used or c['outlet'] not in used_sources]
             if not cands:
                 return None
             cands.sort(key=lambda x: -len(x['description']))
-            rep, desc, content, img = None, '', '', ''
+            best = None  # (words, rep, desc, paragraphs, image, gallery)
             for c in cands:
                 d = c['description'] or ''
                 if len(d) > 1000:
                     d = d[:1000].rsplit(' ', 1)[0] + '…'
                 # Detailed briefing: the article's own paragraphs, verbatim;
                 # keep whichever text is longer so a failed fetch never
-                # degrades the summary. og:image beats the feed-level image.
-                t, og = full_text(c['link'])
-                if len(t.split()) <= len(d.split()):
-                    t = d
+                # degrades the summary. The lead image beats the feed image.
+                paras, og, gallery = full_text(c['link'])
+                if len(' '.join(paras).split()) <= len(d.split()):
+                    # the feed summary wins: its own sentences, regrouped
+                    # into paragraphs (verbatim — presentation only)
+                    paras = _paragraphize(d)
                 story_img = og or c.get('image') or ''
-                if len(t.split()) >= BRIEF_MIN_WORDS:
-                    return c, d, t, story_img
-                if rep is None or len(t.split()) > len(content.split()):
-                    rep, desc, content, img = c, d, t, story_img
-            return (rep, desc, content, img) if rep is not None else None
+                words = len(' '.join(paras).split())
+                if words >= BRIEF_MIN_WORDS:
+                    return c, d, paras, story_img, gallery
+                if best is None or words > best[0]:
+                    best = (words, c, d, paras, story_img, gallery)
+            return (best[1], best[2], best[3], best[4], best[5]) if best is not None else None
 
-        def build_story(rep, desc, content, image):
+        def build_story(rep, desc, paragraphs, image, gallery):
             dek = sentences(desc)[0] if sentences(desc) else desc[:180]
             date_slug = now.strftime('%Y%m%d')
             # Unique per story (topic+date alone would collide when a topic
             # yields several stories), but stable across same-day reruns so
             # the app can carry saved flags between regenerations.
             title_hash = hashlib.sha1(rep['title'].encode('utf-8')).hexdigest()[:8]
+            # Paragraph-structured verbatim briefing; the app renders the
+            # \n\n breaks.
+            content = '\n\n'.join(paragraphs)
+            img = image or (FALLBACK_CATEGORY_IMAGES.get(topic) or [''])[0]
             return {
                 'id': f"news-{topic.split(' ')[0].lower()}-{date_slug}-{title_hash}",
                 'edition': EDITION,
@@ -560,8 +736,12 @@ def pick_news_stories():
                 'dek': dek[:200] + ('…' if len(dek) > 200 else ''),
                 'content': content,
                 # The story's own lead image (og:image or the feed's media/
-                # enclosure); the category image is only a last resort.
-                'image': image or imgs.get(topic, FALLBACK_CATEGORY_IMAGES.get(topic, '')),
+                # enclosure); a distinct category-pool fallback is assigned
+                # in ensure_distinct_covers when missing or duplicated.
+                'image': img,
+                # The article's own inline images (junk-filtered; never the
+                # cover), max GALLERY_MAX.
+                'gallery': [g for g in (gallery or []) if g and g != img][:GALLERY_MAX],
                 'saved': False,
             }
 
@@ -572,10 +752,10 @@ def pick_news_stories():
             got = attempt(cl, allow_used=False)
             if got is None:
                 continue
-            rep, desc, content, image = got
+            rep, desc, paragraphs, image, gallery = got
             used_sources.add(rep['outlet'])
-            story = build_story(rep, desc, content, image)
-            if len(content.split()) >= BRIEF_MIN_WORDS:
+            story = build_story(rep, desc, paragraphs, image, gallery)
+            if len(story['content'].split()) >= BRIEF_MIN_WORDS:
                 picks.append(story)
             else:
                 fallbacks.append(story)
@@ -588,11 +768,11 @@ def pick_news_stories():
                 got = attempt(cl, allow_used=True)
                 if got is None:
                     continue
-                rep, desc, content, image = got
-                if len(content.split()) < BRIEF_MIN_WORDS:
+                rep, desc, paragraphs, image, gallery = got
+                if len(' '.join(paragraphs).split()) < BRIEF_MIN_WORDS:
                     continue
                 used_sources.add(rep['outlet'])
-                picks.append(build_story(rep, desc, content, image))
+                picks.append(build_story(rep, desc, paragraphs, image, gallery))
         for story in fallbacks:
             if len(picks) >= quota:
                 break
@@ -627,6 +807,9 @@ def main():
 
     # freshest news first; the reflective hand-written column closes the briefing
     stories = auto_final + hand
+
+    # hard requirement: no two stories in a feed share a cover image
+    ensure_distinct_covers(stories)
 
     feed = {
         'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
