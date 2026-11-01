@@ -580,7 +580,10 @@
         <button type="button" data-lens="postdocs" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">§ 04 · Postdocs &amp; Labs</button>
         <button type="button" data-lens="all" aria-pressed="false" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-50 border border-stone-200/80 text-stone-600 hover:bg-stone-100 transition-all">All Sections</button>
       </div>
-      <span id="lens-context-hint" class="font-mono-tabular text-[10px] text-stone-500 hidden xl:inline">Curated signal · Zero visual overload</span>
+      <div class="flex items-center gap-2 ml-auto">
+        <span id="lens-context-hint" class="font-mono-tabular text-[10px] text-stone-500 hidden xl:inline">Curated signal · Zero visual overload</span>
+        <button type="button" id="btn-smart-alerts-quick" title="Configure Intelligent Notifications" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded-lg border border-stone-200 bg-stone-50 text-stone-700 hover:bg-stone-100 transition-colors">🔔 Alerts</button>
+      </div>
     </nav>
 
     <!-- Urgent <21d Deadlines & Tracked Applications Radar Strip -->
@@ -940,6 +943,37 @@
             <p id="settings-sub" class="text-xs text-slate-500 mt-1">Stored on this device only — non-sensitive preferences, separate from your encrypted vault.</p>
 
             <div class="set-card mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="text-sm font-semibold">Intelligent Notifications</p>
+                  <p id="set-notif-status" class="set-desc text-xs text-slate-500 mt-0.5">High-signal alerts for urgent/tracked deadlines (14d, 7d, 3d, 1d), new briefings &amp; schedule transitions. Silenced during night dim hours (22:00–07:00).</p>
+                </div>
+                <button type="button" id="set-notifications" role="switch" aria-checked="false" aria-label="Toggle intelligent notifications" class="shrink-0 relative w-12 h-7 rounded-full border bg-slate-200 transition-colors">
+                  <span id="set-notifications-knob" class="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-white shadow transition-transform"></span>
+                </button>
+              </div>
+              <div class="mt-3 pt-3 border-t border-slate-200/70 space-y-2.5">
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Signal Channels</p>
+                <div class="flex flex-wrap gap-1.5" role="group" aria-label="Notification channels">
+                  <button type="button" data-notif-chan="deadlines" class="notif-chan-btn px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors">⏳ Deadlines &amp; Tracked Roles</button>
+                  <button type="button" data-notif-chan="briefing" class="notif-chan-btn px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors">⚛ New Briefing &amp; Preprints</button>
+                  <button type="button" data-notif-chan="schedule" class="notif-chan-btn px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors">⏱ Schedule &amp; Focus Blocks</button>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                  <button type="button" id="btn-test-notif" class="px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">🔔 Send test notification</button>
+                </div>
+                <div class="pt-2 border-t border-slate-200/70">
+                  <label for="set-ntfy-topic" class="block text-xs font-semibold">Phone / Desktop Push when Closed (<a href="https://ntfy.sh" target="_blank" rel="noopener" class="underline">ntfy.sh</a> topic)</label>
+                  <p class="set-desc text-[11px] text-slate-500 mt-0.5">Optional: enter a private ntfy.sh topic (and set <code>NTFY_TOPIC</code> in GitHub repo secrets) to receive autonomous push alerts on iOS/Android even when the browser is closed.</p>
+                  <div class="mt-2 flex items-center gap-2">
+                    <input id="set-ntfy-topic" type="text" placeholder="e.g. arnab-pulse-weizmann-9x2k" class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs focus:outline-none" />
+                    <button type="button" id="btn-test-ntfy" class="shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors">Test Push ↗</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="set-card mt-4 rounded-2xl border border-slate-200 bg-white p-4">
               <div class="flex items-center justify-between gap-3">
                 <div>
                   <p class="text-sm font-semibold">Haptic feedback</p>
@@ -5720,6 +5754,7 @@ Key Insights:
         ? 'bg-emerald-600 border-emerald-600'
         : (isNight ? 'bg-slate-800 border-slate-700' : 'bg-slate-200 border-slate-200'));
       document.getElementById('set-haptics-knob').style.transform = pbPrefs.haptics !== false ? 'translateX(20px)' : 'translateX(0)';
+      if (typeof pbRenderNotifSettings === 'function') pbRenderNotifSettings(isNight);
       document.querySelectorAll('[data-set-edition]').forEach(btn => {
         const on = (pbPrefs.edition || 'auto') === btn.getAttribute('data-set-edition');
         btn.className = seg(on, isNight);
@@ -6448,10 +6483,16 @@ Key Insights:
         focusMode = 'break';
         focusRemaining = FOCUS_BREAK_MIN * 60;
         pbToast('Focus block done — take a 5-minute break');
+        if (typeof pbSendNotification === 'function' && pbPrefs.notifEnabled && pbPrefs.notifSchedule !== false) {
+          pbSendNotification('Focus Block Complete (25 min)', 'Take a 5-minute decompression break before the next ultradian block.', { tag: 'pb-focus-done', lens: 'smart' });
+        }
       } else {
         focusMode = 'work';
         focusRemaining = FOCUS_WORK_MIN * 60;
         pbToast('Break over — back to deep work');
+        if (typeof pbSendNotification === 'function' && pbPrefs.notifEnabled && pbPrefs.notifSchedule !== false) {
+          pbSendNotification('Break Complete', 'Ready to start your next 25-minute deep work block.', { tag: 'pb-focus-break', lens: 'smart' });
+        }
       }
     }
 
@@ -6906,6 +6947,7 @@ Key Insights:
         renderCareerBoard(isNight);
         renderPostdocBoard(isNight);
         renderWorkspaceLens(isNight);
+        if (typeof pbEvaluateDeadlineNotifications === 'function') pbEvaluateDeadlineNotifications();
       } catch (e) { /* offline: widget stays hidden */ }
     }
 
@@ -7077,6 +7119,14 @@ Key Insights:
       if (hint) {
         hint.textContent = hints[lens] || hints.smart;
         hint.className = 'font-mono-tabular text-[10px] hidden xl:inline ' + (isNight ? 'text-slate-400' : 'text-stone-500');
+      }
+      const qAlertBtn = document.getElementById('btn-smart-alerts-quick');
+      if (qAlertBtn) {
+        const on = Boolean(pbPrefs.notifEnabled && ('Notification' in window) && Notification.permission === 'granted');
+        qAlertBtn.textContent = on ? '🔔 Alerts On' : '🔔 Alerts';
+        qAlertBtn.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded-lg border transition-colors ' + (on
+          ? (isNight ? 'border-emerald-700/70 bg-emerald-950/60 text-emerald-300' : 'border-emerald-300 bg-emerald-50 text-emerald-900')
+          : (isNight ? 'border-slate-800 bg-slate-950/70 text-slate-300 hover:bg-slate-800' : 'border-stone-200 bg-stone-50 text-stone-700 hover:bg-stone-100'));
       }
 
       document.querySelectorAll('.lens-btn').forEach(btn => {
@@ -7763,6 +7813,402 @@ Key Insights:
           renderPostdocBoard(state.edition === 'night');
         });
       }
+    })();
+
+    // ---- Intelligent Notifications Engine (Browser/SW + ntfy.sh Mobile Push) ----
+    const PB_NOTIFIED_LOG_KEY = 'pb_notified_log';
+
+    function pbNotifiedLog() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(PB_NOTIFIED_LOG_KEY) || '{}');
+        return (raw && typeof raw === 'object') ? raw : {};
+      } catch (e) { return {}; }
+    }
+
+    function pbMarkNotified(key) {
+      const log = pbNotifiedLog();
+      log[key] = Date.now();
+      const keys = Object.keys(log);
+      if (keys.length > 250) {
+        keys.sort((a, b) => (log[a] || 0) - (log[b] || 0)).slice(0, keys.length - 200).forEach(k => delete log[k]);
+      }
+      try { localStorage.setItem(PB_NOTIFIED_LOG_KEY, JSON.stringify(log)); } catch (e) {}
+    }
+
+    function pbQuietHoursActive() {
+      const h = new Date().getHours();
+      return (h >= 22 || h < 7);
+    }
+
+    async function pbSendNotification(title, body, opts) {
+      opts = opts || {};
+      if (!opts.force && pbQuietHoursActive()) return false;
+
+      let delivered = false;
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+              type: 'SHOW_NOTIFICATION',
+              title: title,
+              body: body,
+              tag: opts.tag || 'pb-smart-alert',
+              renotify: Boolean(opts.renotify),
+              url: opts.url || './',
+              lens: opts.lens || 'smart'
+            });
+            delivered = true;
+          } else if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+            const reg = await navigator.serviceWorker.ready;
+            if (reg && reg.showNotification) {
+              await reg.showNotification(title, {
+                body: body,
+                icon: './icon-192.png',
+                badge: './icon-192.png',
+                tag: opts.tag || 'pb-smart-alert',
+                data: { url: opts.url || './', lens: opts.lens || 'smart' }
+              });
+              delivered = true;
+            }
+          }
+        } catch (e) {}
+        if (!delivered) {
+          try {
+            new Notification(title, { body: body, icon: './icon-192.png', tag: opts.tag || 'pb-smart-alert' });
+            delivered = true;
+          } catch (e) {}
+        }
+      }
+
+      if (opts.pushNtfy && pbPrefs.ntfyTopic && typeof pbPrefs.ntfyTopic === 'string' && pbPrefs.ntfyTopic.trim()) {
+        const topic = pbPrefs.ntfyTopic.trim().replace(/[^a-zA-Z0-9_-]/g, '');
+        if (topic) {
+          try {
+            await fetch('https://ntfy.sh/' + encodeURIComponent(topic), {
+              method: 'POST',
+              headers: {
+                'Title': title,
+                'Priority': opts.priority || 'default',
+                'Tags': opts.tags || 'bell,mortar_board',
+                'Click': 'https://pulseboard-arnabcodes.vercel.app/'
+              },
+              body: body
+            });
+            delivered = true;
+          } catch (e) {}
+        }
+      }
+      return delivered;
+    }
+
+    function pbEvaluateDeadlineNotifications() {
+      if (!pbPrefs.notifEnabled || pbPrefs.notifDeadlines === false) return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if (pbQuietHoursActive()) return;
+
+      const log = pbNotifiedLog();
+      const today = todayKey();
+      const milestones = [14, 7, 3, 2, 1, 0];
+      const alerts = [];
+
+      const checkList = (arr, kindLabel, lensName) => {
+        (arr || []).forEach(item => {
+          const days = pbDaysUntil(item.date);
+          if (days === null || days < 0) return;
+          const tracked = pbIsOppTracked(item.id);
+          const isMilestone = milestones.indexOf(days) !== -1;
+          if ((tracked && days <= 21) || (!tracked && days <= 7 && isMilestone)) {
+            const key = 'dl:' + (item.id || item.name) + ':' + days + 'd:' + today;
+            if (!log[key]) {
+              alerts.push({ key, item, days, tracked, kindLabel, lensName });
+            }
+          }
+        });
+      };
+
+      checkList(deadlinesDb, 'Conference', 'papers');
+      checkList(careerJobsDb, 'Faculty/Industry', 'career');
+      checkList(postdocsDb, 'Postdoc/Fellowship', 'postdocs');
+
+      if (!alerts.length) return;
+      alerts.sort((a, b) => (b.tracked ? 1 : 0) - (a.tracked ? 1 : 0) || a.days - b.days);
+      const top = alerts[0];
+      alerts.slice(0, 4).forEach(a => pbMarkNotified(a.key));
+
+      const title = alerts.length === 1
+        ? (top.tracked ? '★ Tracked Deadline: ' : '⏳ Urgent Deadline: ') + top.item.name
+        : '⏳ ' + alerts.length + ' Imminent Deadlines Need Attention';
+      const body = alerts.slice(0, 3).map(a => {
+        const when = a.days === 0 ? 'closes TODAY' : ('in ' + a.days + 'd (' + a.item.date + ')');
+        return (a.tracked ? '★ ' : '• ') + (a.item.org || a.item.name) + ' — ' + when;
+      }).join('\n');
+
+      pbSendNotification(title, body, {
+        tag: 'pb-deadline-' + today,
+        lens: top.lensName,
+        url: top.item.url || './'
+      });
+    }
+
+    function pbEvaluateFeedNotification(generatedAt) {
+      if (!pbPrefs.notifEnabled || pbPrefs.notifBriefing === false) return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if (!generatedAt || pbQuietHoursActive()) return;
+
+      const key = 'feed:' + generatedAt;
+      const log = pbNotifiedLog();
+      if (log[key]) return;
+      pbMarkNotified(key);
+
+      const leadStory = (state.stories || []).find(s => !s.vault);
+      const topPaper = (state.papers || [])[0];
+      if (!leadStory && !topPaper) return;
+
+      const title = state.edition === 'night'
+        ? '🌙 Evening Edition & arXiv Preprints Ready'
+        : '☀️ Morning Briefing & Quantum Preprints Ready';
+      const lines = [];
+      if (leadStory) lines.push('Lead: ' + leadStory.title);
+      if (topPaper) lines.push('arXiv: ' + topPaper.title);
+
+      pbSendNotification(title, lines.join('\n'), {
+        tag: 'pb-edition-update',
+        lens: 'smart'
+      });
+    }
+
+    function pbEvaluateScheduleNotification() {
+      if (!pbPrefs.notifEnabled || pbPrefs.notifSchedule === false) return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if (pbQuietHoursActive()) return;
+
+      const now = new Date();
+      const nowMins = now.getHours() * 60 + now.getMinutes();
+      const today = todayKey();
+      const log = pbNotifiedLog();
+
+      const parseMins = (tStr) => {
+        const m = String(tStr || '').match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+        if (!m) return null;
+        let h = parseInt(m[1], 10);
+        const mins = parseInt(m[2], 10);
+        const ampm = m[3].toUpperCase();
+        if (ampm === 'PM' && h < 12) h += 12;
+        if (ampm === 'AM' && h === 12) h = 0;
+        return h * 60 + mins;
+      };
+
+      (SCHEDULE || []).forEach(item => {
+        const bMins = parseMins(item.time);
+        if (bMins === null) return;
+        // Trigger within the first 2 minutes of a scheduled block
+        if (nowMins >= bMins && nowMins <= bMins + 2) {
+          const key = 'sched:' + today + ':' + item.time;
+          if (!log[key]) {
+            pbMarkNotified(key);
+            pbSendNotification('⏱ ' + item.time + ' · ' + item.tag, item.title, {
+              tag: 'pb-schedule-block',
+              lens: 'smart'
+            });
+          }
+        }
+      });
+    }
+
+    function pbRenderNotifSettings(isNight) {
+      const sw = document.getElementById('set-notifications');
+      const knob = document.getElementById('set-notifications-knob');
+      const statusEl = document.getElementById('set-notif-status');
+      if (!sw || !knob) return;
+
+      const supported = ('Notification' in window);
+      const perm = supported ? Notification.permission : 'unsupported';
+      const active = Boolean(pbPrefs.notifEnabled && perm === 'granted');
+
+      sw.setAttribute('aria-checked', active ? 'true' : 'false');
+      sw.className = 'shrink-0 relative w-12 h-7 rounded-full border transition-colors ' + (active
+        ? 'bg-emerald-600 border-emerald-600'
+        : (isNight ? 'bg-slate-800 border-slate-700' : 'bg-slate-200 border-slate-200'));
+      knob.style.transform = active ? 'translateX(20px)' : 'translateX(0)';
+
+      if (statusEl) {
+        if (!supported) {
+          statusEl.textContent = 'Browser notifications are not supported in this view — use the ntfy.sh Phone Push topic below for iOS/Android alerts.';
+        } else if (perm === 'denied') {
+          statusEl.textContent = 'Notification permission is blocked in browser site settings. Allow notifications for this site or use ntfy.sh below.';
+        } else if (active) {
+          statusEl.textContent = 'Active ✓ · High-signal alerts for deadlines (14d, 7d, 3d, 1d), new editions & time blocks. Quiet hours: 22:00–07:00.';
+        } else {
+          statusEl.textContent = 'High-signal alerts for urgent/tracked deadlines (14d, 7d, 3d, 1d), new briefings & schedule transitions.';
+        }
+      }
+
+      const chanMap = {
+        deadlines: pbPrefs.notifDeadlines !== false,
+        briefing: pbPrefs.notifBriefing !== false,
+        schedule: pbPrefs.notifSchedule !== false
+      };
+      document.querySelectorAll('.notif-chan-btn').forEach(btn => {
+        const ch = btn.getAttribute('data-notif-chan');
+        const on = Boolean(chanMap[ch]);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.className = 'notif-chan-btn px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ' + (on
+          ? (isNight ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-slate-900 border-slate-900 text-white')
+          : (isNight ? 'bg-slate-800 border-slate-700 text-slate-400' : 'bg-slate-100 border-slate-200 text-slate-500'));
+      });
+
+      const ntfyInput = document.getElementById('set-ntfy-topic');
+      if (ntfyInput) {
+        if (document.activeElement !== ntfyInput) {
+          ntfyInput.value = pbPrefs.ntfyTopic || '';
+        }
+        ntfyInput.className = 'flex-1 min-w-0 rounded-xl border px-3 py-1.5 text-xs focus:outline-none ' + (isNight
+          ? 'border-slate-700 bg-slate-800 text-slate-100 placeholder-slate-500 focus:border-indigo-500'
+          : 'border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:border-slate-400');
+      }
+      ['btn-test-notif', 'btn-test-ntfy'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) {
+          b.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors ' + (isNight
+            ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+            : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50');
+        }
+      });
+    }
+
+    (function pbInitNotifications() {
+      const quickBtn = document.getElementById('btn-smart-alerts-quick');
+      if (quickBtn) {
+        quickBtn.addEventListener('click', () => {
+          pbHaptic(8);
+          openSettingsPage();
+        });
+      }
+
+      const masterBtn = document.getElementById('set-notifications');
+      if (masterBtn) {
+        masterBtn.addEventListener('click', async () => {
+          pbHaptic(10);
+          if (!('Notification' in window)) {
+            pbToast('Browser notifications unavailable here — use the ntfy.sh Phone Push topic below');
+            return;
+          }
+          if (!pbPrefs.notifEnabled) {
+            let perm = Notification.permission;
+            if (perm === 'default') {
+              try { perm = await Notification.requestPermission(); } catch (e) {}
+            }
+            if (perm !== 'granted') {
+              pbPrefs.notifEnabled = false;
+              pbSavePrefs();
+              pbRenderNotifSettings(state.edition === 'night');
+              pbToast('Please allow notifications in browser site settings');
+              return;
+            }
+            pbPrefs.notifEnabled = true;
+            pbSavePrefs();
+            pbRenderNotifSettings(state.edition === 'night');
+            renderWorkspaceLens(state.edition === 'night');
+            pbToast('Intelligent Notifications enabled ✓');
+            await pbSendNotification(
+              'PulseBoard Intelligent Alerts Active',
+              'You will be notified of imminent/tracked deadlines (14d, 7d, 3d, 1d), new editions, and focus transitions.',
+              { force: true, tag: 'pb-welcome-notif' }
+            );
+            pbEvaluateDeadlineNotifications();
+          } else {
+            pbPrefs.notifEnabled = false;
+            pbSavePrefs();
+            pbRenderNotifSettings(state.edition === 'night');
+            renderWorkspaceLens(state.edition === 'night');
+            pbToast('Notifications paused');
+          }
+        });
+      }
+
+      document.querySelectorAll('.notif-chan-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          pbHaptic(6);
+          const ch = btn.getAttribute('data-notif-chan');
+          if (ch === 'deadlines') pbPrefs.notifDeadlines = pbPrefs.notifDeadlines === false ? true : false;
+          if (ch === 'briefing') pbPrefs.notifBriefing = pbPrefs.notifBriefing === false ? true : false;
+          if (ch === 'schedule') pbPrefs.notifSchedule = pbPrefs.notifSchedule === false ? true : false;
+          pbSavePrefs();
+          pbRenderNotifSettings(state.edition === 'night');
+        });
+      });
+
+      const testBtn = document.getElementById('btn-test-notif');
+      if (testBtn) {
+        testBtn.addEventListener('click', async () => {
+          pbHaptic(10);
+          if ('Notification' in window && Notification.permission === 'default') {
+            try { await Notification.requestPermission(); } catch (e) {}
+          }
+          if (!('Notification' in window) || Notification.permission !== 'granted') {
+            pbToast('Enable browser notification permission first');
+            return;
+          }
+          pbPrefs.notifEnabled = true;
+          pbSavePrefs();
+          pbRenderNotifSettings(state.edition === 'night');
+          renderWorkspaceLens(state.edition === 'night');
+
+          const urgentCount = [].concat(deadlinesDb || [], careerJobsDb || [], postdocsDb || [])
+            .filter(x => { const d = pbDaysUntil(x.date); return d !== null && d >= 0 && d <= 21; }).length;
+          const ok = await pbSendNotification(
+            'PulseBoard · Intelligent Alert Digest',
+            urgentCount + ' deadlines closing within ≤21 days · Lead dispatch & arXiv preprints verified.',
+            { force: true, renotify: true, tag: 'pb-test-alert', lens: 'smart' }
+          );
+          pbToast(ok ? 'Test notification sent ✓' : 'Notification dispatched');
+        });
+      }
+
+      const ntfyInput = document.getElementById('set-ntfy-topic');
+      if (ntfyInput) {
+        ntfyInput.addEventListener('change', () => {
+          pbPrefs.ntfyTopic = (ntfyInput.value || '').trim();
+          pbSavePrefs();
+          pbToast(pbPrefs.ntfyTopic ? 'Saved ntfy.sh topic: ' + pbPrefs.ntfyTopic : 'Cleared ntfy.sh topic');
+        });
+      }
+
+      const testNtfyBtn = document.getElementById('btn-test-ntfy');
+      if (testNtfyBtn) {
+        testNtfyBtn.addEventListener('click', async () => {
+          pbHaptic(10);
+          const topic = ((ntfyInput && ntfyInput.value) || pbPrefs.ntfyTopic || '').trim();
+          if (!topic) {
+            pbToast('Enter a private ntfy.sh topic name first (e.g. arnab-pulse-9x2k)');
+            return;
+          }
+          pbPrefs.ntfyTopic = topic;
+          pbSavePrefs();
+          const ok = await pbSendNotification(
+            'PulseBoard Mobile Push Connected',
+            'Your phone/desktop will receive high-signal deadline & briefing alerts via ntfy.sh/' + topic,
+            { force: true, pushNtfy: true, priority: 'high' }
+          );
+          pbToast(ok ? 'Sent push to ntfy.sh/' + topic + ' ✓' : 'Could not reach ntfy.sh — check connection');
+        });
+      }
+
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.addEventListener('message', (e) => {
+          const msg = e.data;
+          if (!msg || typeof msg !== 'object') return;
+          if (msg.type === 'FEED_UPDATED' && msg.generated_at) {
+            pbEvaluateFeedNotification(msg.generated_at);
+          }
+          if (msg.type === 'NOTIFICATION_CLICK' && msg.lens) {
+            pbSetLens(msg.lens);
+          }
+        });
+      }
+
+      // Check schedule time-blocks once per minute
+      setInterval(pbEvaluateScheduleNotification, 60000);
     })();
 
     function pbLoadDailies() { loadThisDay(); loadDeadlines(); }

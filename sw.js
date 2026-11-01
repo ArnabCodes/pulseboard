@@ -128,6 +128,37 @@ self.addEventListener('message', (e) => {
       } catch (err) { /* already gone */ }
     })());
   }
+  if (msg.type === 'SHOW_NOTIFICATION' && msg.title && self.registration && self.registration.showNotification) {
+    e.waitUntil(
+      self.registration.showNotification(String(msg.title), {
+        body: String(msg.body || ''),
+        icon: './icon-192.png',
+        badge: './icon-192.png',
+        tag: String(msg.tag || 'pulseboard-alert'),
+        renotify: Boolean(msg.renotify),
+        data: { url: msg.url || './', lens: msg.lens || 'smart' }
+      }).catch(() => {})
+    );
+  }
+});
+
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const data = (e.notification && e.notification.data) || {};
+  const targetLens = data.lens || 'smart';
+  e.waitUntil((async () => {
+    const allClients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const client of allClients) {
+      if ('focus' in client) {
+        await client.focus();
+        client.postMessage({ type: 'NOTIFICATION_CLICK', lens: targetLens, url: data.url || '' });
+        return;
+      }
+    }
+    if (self.clients.openWindow) {
+      await self.clients.openWindow(data.url || './');
+    }
+  })());
 });
 
 // Is this request an <img>-class fetch from an allowed article CDN?

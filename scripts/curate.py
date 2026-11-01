@@ -1307,6 +1307,75 @@ def refresh_deadlines_db():
             f.write('\n')
 
 
+def send_intelligent_push(feed):
+    """If NTFY_TOPIC (or PULSE_NOTIFY_WEBHOOK) is configured in the environment,
+    dispatch a concise, high-signal push notification summarizing:
+      1. Any conference, faculty, or postdoc deadlines hitting 14d/7d/3d/1d/0d milestones
+      2. The lead curated news dispatch and top arXiv quantum/NMR preprint
+    """
+    topic = (os.environ.get('NTFY_TOPIC') or '').strip()
+    webhook = (os.environ.get('PULSE_NOTIFY_WEBHOOK') or '').strip()
+    if not topic and not webhook:
+        return
+
+    today = datetime.now(timezone.utc).date()
+    milestones = {14, 7, 3, 2, 1, 0}
+    urgent_lines = []
+    try:
+        with open(os.path.join(BASE, 'deadlines.json'), 'r', encoding='utf-8') as f:
+            db = json.load(f)
+        for sec in ('deadlines', 'career_jobs', 'postdocs'):
+            for it in db.get(sec, []):
+                if it.get('verified') is False:
+                    continue
+                try:
+                    dt = datetime.strptime(it.get('date', ''), '%Y-%m-%d').date()
+                except ValueError:
+                    continue
+                days = (dt - today).days
+                if days in milestones:
+                    label = it.get('org') or it.get('name') or 'Deadline'
+                    when = 'TODAY' if days == 0 else f'in {days}d ({it.get("date")})'
+                    urgent_lines.append(f'⏳ {label}: {when}')
+    except Exception:
+        pass
+
+    stories = feed.get('stories') or []
+    papers = feed.get('papers') or []
+    body_lines = []
+    if urgent_lines:
+        body_lines.extend(urgent_lines[:3])
+    if stories:
+        body_lines.append(f'📰 Lead: {stories[0].get("title", "")}')
+    if papers:
+        body_lines.append(f'⚛ arXiv: {papers[0].get("title", "")}')
+    if not body_lines:
+        return
+
+    title = (f'PulseBoard · {len(urgent_lines)} Urgent Deadline Milestone(s)'
+             if urgent_lines else 'PulseBoard · Fresh Briefing & arXiv Preprints')
+    body = '\n'.join(body_lines)
+    target_url = webhook or f'https://ntfy.sh/{topic}'
+    try:
+        req = urllib.request.Request(
+            target_url,
+            data=body.encode('utf-8'),
+            headers={
+                'User-Agent': UA,
+                'Title': title,
+                'Priority': 'high' if urgent_lines else 'default',
+                'Tags': 'bell,mortar_board',
+                'Click': 'https://pulseboard-arnabcodes.vercel.app/',
+            },
+            method='POST',
+        )
+        with urllib.request.urlopen(req, timeout=10) as r:
+            r.read()
+        print(f'Intelligent push notification dispatched to {target_url}')
+    except Exception as e:
+        print(f'Push notification skipped/failed: {e}')
+
+
 # --------------------------------------------------------------------------
 # Assemble the feed
 # --------------------------------------------------------------------------
@@ -1341,6 +1410,7 @@ def main():
         json.dump(feed, f, indent=2, ensure_ascii=False)
     print(f'pulse_feed.json: {len(stories)} stories ({len(stories) - len(hand)} auto + {len(hand)} hand), '
           f'{len(feed["papers"])} papers, stamp {feed["generated_at"]}')
+    send_intelligent_push(feed)
 
 
 if __name__ == '__main__':
