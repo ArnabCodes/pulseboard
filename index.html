@@ -61,20 +61,29 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       transition: background-color 0.35s ease, color 0.35s ease;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     }
     .font-serif-editorial {
-      font-family: 'Newsreader', Georgia, serif;
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    }
+    .font-mono-tabular {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-variant-numeric: tabular-nums;
     }
     .card-hover {
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.22s cubic-bezier(0.2, 0.7, 0.3, 1), border-color 0.2s ease;
     }
     .card-hover:hover {
       transform: translateY(-2px);
+      box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.08), 0 4px 10px -3px rgba(15, 23, 42, 0.04);
+    }
+    body.bg-slate-950 .card-hover:hover {
+      box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.55);
     }
     /* Touch feedback (Material motion guidance): instant, subtle */
     .card-hover:active { transform: scale(0.985); }
@@ -383,63 +392,72 @@
     </div>
   </div>
 
-  <!-- Top Navigation & Edition Switcher -->
-  <header id="app-header" class="sticky top-0 z-30 border-b border-amber-200/70 bg-white/90 backdrop-blur-md transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+  <!-- Top Navigation & Editorial Masthead -->
+  <header id="app-header" class="sticky top-0 z-30 border-b border-stone-200/90 bg-[#fbf9f5]/95 backdrop-blur-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
       <div class="flex items-center gap-3">
-        <div id="brand-badge" class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-sm transition-colors">
-          <svg id="edition-icon-sun" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <div id="brand-badge" class="w-9 h-9 rounded-lg bg-stone-900 text-amber-400 border border-stone-800 flex items-center justify-center shadow-sm transition-colors">
+          <svg id="edition-icon-sun" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="4"></circle>
             <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
           </svg>
-          <svg id="edition-icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg id="edition-icon-moon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
           </svg>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-lg sm:text-xl font-bold tracking-tight">PulseBoard</h1>
-            <span id="edition-pill" class="text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">
+          <div class="flex items-center gap-2.5">
+            <h1 class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight leading-none">PulseBoard</h1>
+            <span id="edition-pill" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded border border-amber-800/25 bg-amber-50 text-amber-900">
               Morning Edition
             </span>
           </div>
-          <p id="header-date" class="text-xs text-slate-500">Encrypted Personal Briefing</p>
+          <p id="header-date" class="font-mono-tabular text-[11px] text-stone-500 mt-0.5 tracking-tight">Encrypted Personal Briefing</p>
         </div>
       </div>
 
       <!-- Edition Toggle + Saved Counter + Lock Button -->
-      <div class="flex items-center gap-1 sm:gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-        <button type="button" id="btn-open-search" class="inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 transition-colors" title="Search stories, papers &amp; teachings" aria-label="Search">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+      <div class="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-between sm:justify-end">
+        <button type="button" id="btn-open-search" class="inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors" title="Search stories, papers &amp; teachings" aria-label="Search">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle>
             <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
           </svg>
         </button>
-        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 rounded-xl p-1 bg-slate-100 border border-slate-200/80">
-          <button type="button" id="btn-morning" class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
-            <span>☀️</span>
+        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 rounded-lg p-0.5 bg-stone-200/70 border border-stone-300/60">
+          <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-white text-stone-900 shadow-sm transition-all">
+            <svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path stroke-linecap="round" d="M12 2.5v2m0 15v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2.5 12h2m15 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+            </svg>
             <span>Morning</span>
           </button>
-          <button type="button" id="btn-night" class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">
-            <span>🌙</span>
+          <button type="button" id="btn-night" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium text-stone-600 hover:text-stone-900 transition-all">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
             <span>Night</span>
           </button>
         </div>
 
-        <button type="button" id="btn-view-saved" class="relative inline-flex shrink-0 items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
-          <svg class="w-4 h-4 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+        <button type="button" id="btn-view-saved" class="relative inline-flex shrink-0 items-center gap-1.5 px-2.5 sm:px-3 py-1.5 h-9 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 transition-colors">
+          <svg class="w-3.5 h-3.5 text-amber-700 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
           </svg>
           <span>Saved</span>
-          <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">0</span>
+          <span id="saved-count-badge" class="font-mono-tabular px-1.5 py-0.5 rounded text-[11px] font-semibold bg-stone-100 text-stone-800">0</span>
         </button>
 
-        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Lock Dashboard">
-          <span>🔒</span>
+        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex shrink-0 items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:px-2.5 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors" title="Lock Dashboard">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+            <path stroke-linecap="round" d="M8 11V7a4 4 0 018 0v4"></path>
+          </svg>
+          <span class="hidden sm:inline">Lock</span>
         </button>
 
-        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="3.2"></circle>
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path>
           </svg>
@@ -451,76 +469,79 @@
   <!-- Main Content Container (Contains Skeleton Placeholders Until Decrypted) -->
   <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 outline-none">
 
-    <!-- Greeting Banner -->
-    <section id="hero-banner" class="rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div>
-          <p id="greeting-kicker" class="text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1">
+    <!-- Editorial Front-Page Folio Banner -->
+    <section id="hero-banner" class="relative overflow-hidden rounded-2xl p-5 sm:p-7 mb-6 border border-stone-200/90 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.03)] before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:bg-amber-700 transition-all">
+      <div class="flex flex-col lg:grid lg:grid-cols-12 lg:items-start gap-6 lg:gap-8">
+        <div class="lg:col-span-7 xl:col-span-8">
+          <p id="greeting-kicker" class="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-2">
             ENCRYPTED BRIEFING
           </p>
-          <h2 id="greeting-title" class="text-2xl sm:text-3xl font-bold font-serif-editorial tracking-tight">
+          <h2 id="greeting-title" class="text-2xl sm:text-[32px] font-semibold font-serif-editorial tracking-tight leading-[1.18]">
             Dashboard Locked
           </h2>
-          <p id="greeting-subtitle" class="text-sm text-slate-600 mt-1 max-w-2xl">
+          <p id="greeting-subtitle" class="text-xs sm:text-sm text-stone-600 mt-2 max-w-2xl leading-relaxed">
             Authenticate with your private PIN to decrypt your curated stories, papers, and routines.
           </p>
-          <div id="streak-row" class="hidden mt-2.5 flex flex-wrap items-center gap-2">
-            <span id="streak-chip" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border"></span>
+          <div id="streak-row" class="hidden mt-3 flex flex-wrap items-center gap-2">
+            <span id="streak-chip" class="font-mono-tabular inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] font-semibold border"></span>
           </div>
-          <button type="button" id="btn-close-day" class="hidden mt-4 inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-2xl border border-indigo-700 bg-indigo-600/90 text-white text-sm font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
-            🌙 Close the day
-          </button>
-          <button type="button" id="btn-open-week" class="hidden mt-2 self-start px-4 py-2 rounded-2xl border border-indigo-800 bg-slate-800/80 text-indigo-200 text-xs font-semibold hover:bg-slate-700 active:scale-[0.98] transition-all">🗓 Your week</button>
+          <div class="flex flex-wrap items-center gap-2.5 mt-4 empty:hidden">
+            <button type="button" id="btn-close-day" class="hidden inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-indigo-500/80 bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-500 active:scale-[0.98] transition-all">
+              Close the day →
+            </button>
+            <button type="button" id="btn-open-week" class="hidden inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-700 bg-slate-800/90 text-slate-200 text-xs font-semibold hover:bg-slate-700 active:scale-[0.98] transition-all">
+              Weekly dossier
+            </button>
+          </div>
         </div>
 
-        <!-- Weather Card (wrapped so the On-this-day card can sit beneath it) -->
-        <div class="flex flex-col gap-3 shrink-0 w-full lg:w-[360px] xl:w-[400px]">
-        <div id="weather-card" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0">
-          <div class="text-3xl" id="weather-emoji">🌤️</div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span id="weather-temp" class="text-base font-bold">--°C</span>
-              <span id="weather-desc" class="text-xs font-medium text-slate-500">Encrypted</span>
-              <!-- (35) Precipitation probability chip: next hour's honest pop -->
-              <span id="weather-precip" class="hidden text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-600" title=""></span>
+        <!-- Meteorological & Historical Almanac Column -->
+        <div class="flex flex-col gap-3 shrink-0 w-full lg:col-span-5 xl:col-span-4 lg:pl-6 lg:border-l lg:border-stone-200/80">
+          <div id="weather-card" class="flex flex-wrap items-center gap-3.5 px-4 py-3 rounded-xl bg-stone-50/80 border border-stone-200/80 shrink-0">
+            <div class="text-2xl leading-none select-none" id="weather-emoji">🌤️</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span id="weather-temp" class="font-mono-tabular text-base font-semibold tracking-tight">--°C</span>
+                <span id="weather-desc" class="text-xs font-medium text-stone-500">Encrypted</span>
+                <span id="weather-precip" class="hidden font-mono-tabular text-[10px] font-semibold px-1.5 py-0.5 rounded bg-stone-200/70 text-stone-700" title=""></span>
+              </div>
+              <p id="focus-status" class="font-mono-tabular text-[11px] text-emerald-800 font-medium mt-0.5">Focus block locked</p>
             </div>
-            <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Focus block locked</p>
-          </div>
-          <div id="weather-extras" class="hidden w-full pt-2 mt-1 border-t border-slate-200/70">
-            <div id="weather-hours" class="flex items-start justify-between gap-1"></div>
-            <div class="mt-1.5 flex items-center gap-2.5">
-              <svg id="weather-sun-arc" width="120" height="34" viewBox="0 0 120 34" role="img" aria-label="Sun position between sunrise and sunset"></svg>
-              <span id="weather-sun-times" class="text-[9px] tabular-nums"></span>
+            <div id="weather-extras" class="hidden w-full pt-2.5 mt-1.5 border-t border-stone-200/80">
+              <div id="weather-hours" class="flex items-start justify-between gap-1"></div>
+              <div class="mt-2 flex items-center justify-between gap-2.5">
+                <svg id="weather-sun-arc" width="120" height="34" viewBox="0 0 120 34" role="img" aria-label="Sun position between sunrise and sunset"></svg>
+                <span id="weather-sun-times" class="font-mono-tabular text-[10px] tabular-nums"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- On this day in science (morning edition; hidden until this_day.json loads a verified entry) -->
-        <div id="thisday-card" class="hidden w-full lg:w-auto px-4 py-3 rounded-xl border border-amber-200/80 bg-white/90 shadow-sm">
-          <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">On this day</p>
-          <p id="thisday-event" class="text-xs text-slate-700 leading-relaxed"></p>
-          <a id="thisday-source" href="#" target="_blank" rel="noopener" class="text-[11px] font-semibold text-amber-700 hover:underline mt-1 inline-block">source ↗</a>
-        </div>
+          <!-- On this day in science (morning edition; hidden until this_day.json loads a verified entry) -->
+          <div id="thisday-card" class="hidden w-full px-4 py-3 rounded-xl border border-stone-200/80 bg-stone-50/60">
+            <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-800 mb-1">Almanac · On This Day</p>
+            <p id="thisday-event" class="text-xs font-serif-editorial text-stone-800 leading-relaxed"></p>
+            <a id="thisday-source" href="#" target="_blank" rel="noopener" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-wider text-amber-800 hover:underline mt-1.5 inline-block">Source ↗</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SECULAR SPIRITUAL / BUDDHA TEACHING BANNER -->
-    <section id="wisdom-card" class="rounded-2xl p-5 sm:p-6 mb-8 border border-amber-200/90 bg-gradient-to-r from-amber-100/60 via-amber-50/50 to-orange-50/60 shadow-sm transition-all">
+    <!-- CONTEMPLATIVE PULL-QUOTE EPIGRAPH -->
+    <section id="wisdom-card" class="rounded-xl p-5 sm:p-6 mb-10 border border-stone-200/90 border-l-4 border-l-amber-700 bg-[#faf7f2] transition-all">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-start gap-3.5">
-          <span class="text-2xl sm:text-3xl shrink-0 mt-0.5">🪷</span>
+        <div class="flex items-start gap-3.5 max-w-3xl">
+          <span class="hidden sm:inline-flex items-center justify-center w-6 h-6 rounded border border-amber-800/20 text-amber-800/80 font-serif-editorial text-xs italic shrink-0 mt-0.5 select-none" aria-hidden="true">§</span>
           <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span id="wisdom-tradition" class="text-xs font-bold uppercase tracking-wider text-amber-800">
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <span id="wisdom-tradition" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-800">
                 Daily Reflection
               </span>
-              <span class="text-slate-300">•</span>
-              <span id="wisdom-theme" class="text-xs font-medium text-slate-500">Mindful Awareness</span>
+              <span class="text-stone-300" aria-hidden="true">/</span>
+              <span id="wisdom-theme" class="font-mono-tabular text-[10px] uppercase tracking-[0.12em] text-stone-500">Mindful Awareness</span>
             </div>
-            <blockquote id="wisdom-quote" class="text-base sm:text-lg font-serif-editorial italic text-slate-900 leading-snug">
+            <blockquote id="wisdom-quote" class="text-lg sm:text-xl font-serif-editorial italic text-stone-900 leading-relaxed">
               "Enter your private PIN to reveal today's reflection."
             </blockquote>
-            <p id="wisdom-reflection" class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
+            <p id="wisdom-reflection" class="text-xs sm:text-sm text-stone-600 mt-1.5 leading-relaxed">
               Protected by client-side AES-256-GCM encryption.
             </p>
           </div>
@@ -529,53 +550,58 @@
           <button
             type="button"
             id="btn-open-teaching"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-600/60 bg-slate-900/85 hover:bg-slate-800 text-slate-100 transition-colors shrink-0"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border border-stone-900 bg-stone-900 hover:bg-stone-800 text-stone-50 transition-colors shrink-0"
           >
-            <span>🧘 Sit with it</span>
+            <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <circle cx="12" cy="12" r="3.5"></circle>
+            </svg>
+            <span>Sit with it</span>
           </button>
           <button
             type="button"
             id="btn-next-wisdom"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0"
+            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 transition-colors shrink-0"
           >
-            <span>↻ Next Teaching</span>
+            <span>↻ Next</span>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- 3-Column Dashboard Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- 12-Column Editorial & Personal Command Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
 
-      <!-- Left Column: Visual Newsboard + Papers (8 cols) -->
-      <div class="lg:col-span-8 space-y-10">
+      <!-- Left Column: Visual Newsboard + Vault + Papers (8 cols) -->
+      <div class="lg:col-span-8 space-y-12">
 
         <!-- Newsboard -->
         <section aria-labelledby="newsboard-heading">
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div class="flex flex-wrap items-end justify-between gap-4 pb-3 mb-5 border-b border-stone-200/90">
             <div>
-              <h2 id="newsboard-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
-                <span>📰 Visual Newsboard</span>
+              <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 01 · Curated Dispatches</p>
+              <h2 id="newsboard-heading" class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight">
+                Visual Newsboard
               </h2>
-              <p id="feed-freshness" class="text-xs text-slate-500">Curated stories decrypted in memory</p>
+              <p id="feed-freshness" class="font-mono-tabular text-[11px] text-stone-500 mt-0.5">Curated stories decrypted in memory</p>
             </div>
 
             <!-- Diverse Multi-Pillar Filters -->
             <div id="category-filters" class="flex flex-wrap items-center gap-1.5">
-              <button type="button" data-category="all" class="cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white transition-colors">All Pillars</button>
-              <button type="button" data-category="Geopolitics & Global" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">🌐 Geopolitics &amp; Levant</button>
-              <button type="button" data-category="Quantum & Physics" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">⚛️ Quantum &amp; Physics</button>
-              <button type="button" data-category="Tech & AI" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">💻 Tech &amp; AI</button>
-              <button type="button" data-category="Mind & Habits" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">🧘 Mind &amp; Habits</button>
-              <button type="button" data-category="saved" class="cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">★ Saved</button>
-              <button type="button" id="btn-unread-first" aria-pressed="false" class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">○ Unread first</button>
+              <button type="button" data-category="all" class="cat-btn px-3 py-1 rounded-md text-xs font-semibold bg-stone-900 text-white transition-colors">All Pillars</button>
+              <button type="button" data-category="Geopolitics & Global" class="cat-btn px-3 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Geopolitics &amp; Levant</button>
+              <button type="button" data-category="Quantum & Physics" class="cat-btn px-3 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Quantum &amp; Physics</button>
+              <button type="button" data-category="Tech & AI" class="cat-btn px-3 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Tech &amp; AI</button>
+              <button type="button" data-category="Mind & Habits" class="cat-btn px-3 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">Mind &amp; Habits</button>
+              <button type="button" data-category="saved" class="cat-btn px-3 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">★ Saved</button>
+              <button type="button" id="btn-unread-first" aria-pressed="false" class="px-3 py-1 rounded-md text-xs font-semibold whitespace-nowrap bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors">○ Unread first</button>
             </div>
           </div>
 
           <!-- News Cards Container (Skeleton placeholders when locked) -->
           <div id="news-grid" role="feed" aria-labelledby="newsboard-heading" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="h-64 rounded-2xl skeleton border border-slate-200/80"></div>
-            <div class="h-64 rounded-2xl skeleton border border-slate-200/80"></div>
+            <div class="h-64 rounded-xl skeleton border border-stone-200/80"></div>
+            <div class="h-64 rounded-xl skeleton border border-stone-200/80"></div>
           </div>
         </section>
 
@@ -583,18 +609,19 @@
         <!-- Deep Reading Archive / Backup Articles for Deep Mood
              (rendered dynamically by renderVault() from EXTRA_STORIES —
              evergreen deep dives, always available even offline) -->
-        <section id="backup-articles-section" class="mt-12 pt-8 border-t border-slate-200/80">
-          <div class="flex items-start sm:items-center justify-between gap-3 mb-4">
+        <section id="backup-articles-section" class="mt-12 pt-8 border-t border-stone-200/90">
+          <div class="flex items-start sm:items-end justify-between gap-3 mb-5">
             <div class="min-w-0">
-              <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
-                <span>📚 Deep-Reading Vault (Extra Curated Briefings)</span>
+              <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 02 · Evergreen Archive</p>
+              <h2 class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight">
+                Deep-Reading Vault
               </h2>
-              <p id="vault-subtitle" class="text-xs text-slate-500 mt-0.5">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
+              <p id="vault-subtitle" class="text-xs text-stone-500 mt-0.5">Long-form technical essays &amp; foundational analyses for unhurried reading</p>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-              <span id="vault-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">2 long reads</span>
+              <span id="vault-count" class="font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border border-stone-200 bg-stone-100 text-stone-700">2 long reads</span>
               <!-- (46) Collapse toggle, persisted in pb_prefs -->
-              <button type="button" id="btn-vault-collapse" aria-expanded="true" aria-controls="vault-grid" aria-label="Collapse deep-reading vault" class="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:bg-slate-100 transition-colors flex items-center justify-center" title="Collapse / expand vault"><span id="vault-chevron" aria-hidden="true">▾</span></button>
+              <button type="button" id="btn-vault-collapse" aria-expanded="true" aria-controls="vault-grid" aria-label="Collapse deep-reading vault" class="w-8 h-8 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-100 transition-colors flex items-center justify-center" title="Collapse / expand vault"><span id="vault-chevron" aria-hidden="true">▾</span></button>
             </div>
           </div>
           <div id="vault-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
@@ -603,98 +630,102 @@
 
         <!-- Papers Section -->
         <section aria-labelledby="papers-heading">
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div class="flex flex-wrap items-end justify-between gap-3 pb-3 mb-4 border-b border-stone-200/90">
             <div>
-              <h2 id="papers-heading" class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
-                <span>🔬 Papers Worth Reading</span>
+              <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-1">§ 03 · Preprints &amp; Literature</p>
+              <h2 id="papers-heading" class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight">
+                Papers Worth Reading
               </h2>
-              <p class="text-xs text-slate-500">Plain-English summaries decrypted upon authentication</p>
+              <p class="text-xs text-stone-500 mt-0.5">Curated arXiv preprints &amp; plain-English syntheses tailored to your research profile</p>
             </div>
-            <button type="button" id="btn-expand-all-papers" class="text-xs font-semibold text-amber-700 hover:text-amber-900 underline underline-offset-4">
+            <button type="button" id="btn-expand-all-papers" class="font-mono-tabular text-[11px] font-semibold uppercase tracking-wider text-amber-800 hover:text-amber-950 underline underline-offset-4">
               Expand all summaries
             </button>
           </div>
 
           <!-- FEATURE: read-later queue chip + .bib export + conference deadlines -->
-          <div id="papers-subnav" class="flex flex-wrap items-center gap-2 mb-3">
-            <button type="button" id="btn-readlater-filter" class="px-3 py-1 rounded-full text-xs font-semibold border transition-colors">◷ Read later (0)</button>
-            <button type="button" id="btn-download-bib" class="hidden px-3 py-1 rounded-full text-xs font-semibold border transition-colors">⤓ Download .bib</button>
+          <div id="papers-subnav" class="flex flex-wrap items-center gap-2 mb-4">
+            <button type="button" id="btn-readlater-filter" class="px-3 py-1 rounded-md text-xs font-semibold border transition-colors">◷ Read later (0)</button>
+            <button type="button" id="btn-download-bib" class="hidden px-3 py-1 rounded-md text-xs font-semibold border transition-colors">⤓ Download .bib</button>
           </div>
-          <div id="deadlines-widget" class="hidden mb-5 rounded-2xl border p-4" title="Sources: official conference websites"></div>
+          <div id="deadlines-widget" class="hidden mb-5 rounded-xl border p-4" title="Sources: official conference websites"></div>
 
           <div id="papers-list" class="space-y-4">
-            <div class="h-32 rounded-2xl skeleton border border-slate-200/80"></div>
-            <div class="h-32 rounded-2xl skeleton border border-slate-200/80"></div>
+            <div class="h-32 rounded-xl skeleton border border-stone-200/80"></div>
+            <div class="h-32 rounded-xl skeleton border border-stone-200/80"></div>
           </div>
         </section>
 
       </div>
 
-      <!-- Right Column: Routines, Schedule & Priorities Sidebar (4 cols) -->
+      <!-- Right Column: Routines, Schedule & Priorities Command Column (4 cols) -->
       <aside class="lg:col-span-4 space-y-6">
 
         <!-- Dedicated Routine Checklist -->
-        <div id="routine-card" class="rounded-2xl p-5 border border-amber-200/90 bg-white shadow-sm transition-all">
-          <div class="flex items-center justify-between mb-3">
+        <div id="routine-card" class="rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm transition-all">
+          <div class="flex items-start justify-between gap-2 mb-3">
             <div>
-              <h2 id="routine-title" class="text-base font-bold tracking-tight flex items-center gap-1.5">
-                <span id="routine-emoji">☀️</span>
+              <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-800 mb-0.5">I · Daily Ritual</p>
+              <h2 id="routine-title" class="font-serif-editorial text-lg font-semibold tracking-tight flex items-center gap-1.5">
+                <span id="routine-emoji" class="hidden" aria-hidden="true"></span>
                 <span id="routine-heading-text">Daily Routine</span>
               </h2>
-              <p id="routine-subtitle" class="text-xs text-slate-500">Encrypted personal habits</p>
+              <p id="routine-subtitle" class="text-xs text-stone-500">Encrypted personal habits</p>
             </div>
-            <span id="routine-progress" class="text-xs font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
+            <span id="routine-progress" class="font-mono-tabular text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded">
               -- done
             </span>
           </div>
 
-          <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden mb-3.5">
-            <div id="routine-progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+          <div class="w-full h-1 rounded-full bg-stone-100 overflow-hidden mb-3.5">
+            <div id="routine-progress-bar" class="h-full bg-amber-700 transition-all duration-300" style="width: 0%"></div>
           </div>
 
-          <div id="routine-list" class="space-y-2 mb-3">
-            <div class="h-8 rounded-xl skeleton"></div>
-            <div class="h-8 rounded-xl skeleton"></div>
-            <div class="h-8 rounded-xl skeleton"></div>
+          <div id="routine-list" class="space-y-2 mb-2">
+            <div class="h-8 rounded-lg skeleton"></div>
+            <div class="h-8 rounded-lg skeleton"></div>
+            <div class="h-8 rounded-lg skeleton"></div>
           </div>
         </div>
 
         <!-- Schedule & Day Ahead Card -->
-        <div id="schedule-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
-          <div class="flex items-center justify-between mb-4">
+        <div id="schedule-card" class="rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm">
+          <div class="flex items-start justify-between gap-2 mb-4">
             <div>
-              <h2 id="schedule-title" class="text-base font-bold tracking-tight">🗓️ Your Schedule</h2>
-              <p id="schedule-subtitle" class="text-xs text-slate-500">Encrypted calendar blocks</p>
+              <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-800 mb-0.5">II · Time Blocks</p>
+              <h2 id="schedule-title" class="font-serif-editorial text-lg font-semibold tracking-tight">Your Day Ahead</h2>
+              <p id="schedule-subtitle" class="text-xs text-stone-500">Encrypted calendar blocks</p>
             </div>
-            <span id="schedule-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Locked</span>
+            <span id="schedule-count" class="font-mono-tabular text-[11px] font-semibold px-2 py-0.5 rounded bg-stone-100 text-stone-700">Locked</span>
           </div>
 
-          <div id="schedule-timeline" class="space-y-3">
-            <div class="h-12 rounded-xl skeleton"></div>
-            <div class="h-12 rounded-xl skeleton"></div>
+          <div id="schedule-timeline" class="space-y-2.5">
+            <div class="h-12 rounded-lg skeleton"></div>
+            <div class="h-12 rounded-lg skeleton"></div>
           </div>
         </div>
 
         <!-- Daily Priorities Checklist Card -->
-        <div id="tasks-card" class="rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm">
-          <div class="flex items-center justify-between mb-3">
+        <div id="tasks-card" class="rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm">
+          <div class="flex items-start justify-between gap-2 mb-3">
             <div>
-              <h2 id="checklist-title" class="text-base font-bold tracking-tight">✅ Top Priorities</h2>
-              <p class="text-xs text-slate-500">Personal daily goals</p>
+              <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-800 mb-0.5">III · Priorities</p>
+              <h2 id="checklist-title" class="font-serif-editorial text-lg font-semibold tracking-tight">Top Priorities</h2>
+              <p class="text-xs text-stone-500">Personal daily goals</p>
             </div>
             <div class="flex items-center gap-2">
-              <span id="tasks-progress" class="text-xs font-semibold text-emerald-700">Locked</span>
-              <button type="button" id="btn-open-focus" class="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-slate-300 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-colors" title="Pomodoro focus timer">◔ Focus</button>
+              <span id="tasks-progress" class="font-mono-tabular text-[11px] font-semibold text-emerald-800">Locked</span>
+              <button type="button" id="btn-open-focus" class="font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border border-stone-300 text-stone-600 hover:text-stone-900 hover:border-stone-400 transition-colors" title="Pomodoro focus timer">◔ Focus</button>
             </div>
           </div>
 
-          <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden mb-4">
-            <div id="tasks-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
+          <div class="w-full h-1 rounded-full bg-stone-100 overflow-hidden mb-4">
+            <div id="tasks-progress-bar" class="h-full bg-emerald-600 transition-all duration-300" style="width: 0%"></div>
           </div>
 
           <div id="tasks-list" class="space-y-2 mb-4">
-            <div class="h-8 rounded-xl skeleton"></div>
-            <div class="h-8 rounded-xl skeleton"></div>
+            <div class="h-8 rounded-lg skeleton"></div>
+            <div class="h-8 rounded-lg skeleton"></div>
           </div>
 
           <form id="add-task-form" class="flex gap-2">
@@ -703,19 +734,19 @@
               id="new-task-input"
               placeholder="Unlock to add tasks..."
               disabled
-              class="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none"
+              class="flex-1 min-w-0 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-900 placeholder-stone-400 focus:border-amber-700 focus:bg-white focus:outline-none"
              enterkeyhint="done" autocomplete="off" />
             <button
               type="button"
               id="btn-task-repeat"
-              class="px-3 py-2 rounded-xl text-xs font-semibold border border-slate-200 bg-white text-slate-400 hover:text-slate-700 transition-colors shrink-0"
+              class="font-mono-tabular px-2.5 py-2 rounded-lg text-[11px] font-semibold border border-stone-200 bg-white text-stone-500 hover:text-stone-800 transition-colors shrink-0"
               title="Repeat: off"
             >↻ Off</button>
             <button
               type="submit"
               id="btn-add-task"
               disabled
-              class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white transition-colors shrink-0 disabled:opacity-50"
+              class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-stone-900 hover:bg-stone-800 text-white transition-colors shrink-0 disabled:opacity-50"
             >
               Add
             </button>
@@ -2088,17 +2119,19 @@ Key Insights:
       const card = document.getElementById('wisdom-card');
 
       if (isNight) {
-        card.className = 'rounded-2xl p-5 sm:p-6 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/70 to-slate-900 shadow-sm transition-all';
-        document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-indigo-300';
-        document.getElementById('wisdom-quote').className = 'text-base sm:text-lg font-serif-editorial italic text-slate-100 leading-snug';
+        card.className = 'rounded-xl p-5 sm:p-6 mb-10 border border-slate-800/90 border-l-4 border-l-indigo-500 bg-slate-900/80 shadow-sm transition-all';
+        document.getElementById('wisdom-tradition').className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] text-indigo-300';
+        document.getElementById('wisdom-quote').className = 'text-lg sm:text-xl font-serif-editorial italic text-slate-100 leading-relaxed';
         document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed';
-        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-indigo-800 bg-slate-800 text-indigo-200 hover:bg-slate-700 transition-colors shrink-0';
+        document.getElementById('btn-open-teaching').className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border border-indigo-500/80 bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shrink-0';
+        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors shrink-0';
       } else {
-        card.className = 'rounded-2xl p-5 sm:p-6 mb-8 border border-amber-200/90 bg-gradient-to-r from-amber-100/60 via-amber-50/50 to-orange-50/60 shadow-sm transition-all';
-        document.getElementById('wisdom-tradition').className = 'text-xs font-bold uppercase tracking-wider text-amber-800';
-        document.getElementById('wisdom-quote').className = 'text-base sm:text-lg font-serif-editorial italic text-slate-900 leading-snug';
-        document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed';
-        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-amber-300 bg-white/80 hover:bg-white text-amber-900 transition-colors shrink-0';
+        card.className = 'rounded-xl p-5 sm:p-6 mb-10 border border-stone-200/90 border-l-4 border-l-amber-700 bg-[#faf7f2] shadow-[0_1px_2px_rgba(15,23,42,0.02)] transition-all';
+        document.getElementById('wisdom-tradition').className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-800';
+        document.getElementById('wisdom-quote').className = 'text-lg sm:text-xl font-serif-editorial italic text-stone-900 leading-relaxed';
+        document.getElementById('wisdom-reflection').className = 'text-xs sm:text-sm text-stone-600 mt-1.5 leading-relaxed';
+        document.getElementById('btn-open-teaching').className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border border-stone-900 bg-stone-900 hover:bg-stone-800 text-stone-50 transition-colors shrink-0';
+        document.getElementById('btn-next-wisdom').className = 'inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 transition-colors shrink-0';
       }
 
       document.getElementById('wisdom-tradition').textContent = current.tradition;
@@ -2408,9 +2441,9 @@ Key Insights:
       if (section) section.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
       if (btn) {
         const isNight = state.edition === 'night';
-        btn.className = 'w-8 h-8 rounded-full border transition-colors flex items-center justify-center shrink-0 ' + (isNight
+        btn.className = 'w-8 h-8 rounded-lg border transition-colors flex items-center justify-center shrink-0 ' + (isNight
           ? 'border-slate-700 text-slate-400 hover:bg-slate-800'
-          : 'border-slate-200 text-slate-500 hover:bg-slate-100');
+          : 'border-stone-200 text-stone-500 hover:bg-stone-100');
         btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
         btn.setAttribute('aria-label', collapsed ? 'Expand deep-reading vault' : 'Collapse deep-reading vault');
       }
@@ -2464,41 +2497,41 @@ Key Insights:
       progressBar.style.width = `${pct}%`;
 
       if (isNight) {
-        routineCard.className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm transition-all';
+        routineCard.className = 'rounded-xl p-5 border border-slate-800 bg-slate-900 shadow-sm transition-all';
         title.textContent = 'Night Wind-Down Routine';
         subtitle.textContent = remaining === 0 ? 'Complete — small wins compound' : 'Digital sunset & restorative sleep prep';
-        emoji.textContent = '🌙';
+        if (emoji) { emoji.textContent = ''; emoji.className = 'hidden'; }
         progressBadge.className = remaining === 0
-          ? 'text-xs font-semibold text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded-full border border-emerald-800'
-          : 'text-xs font-semibold text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-800';
+          ? 'font-mono-tabular text-[11px] font-semibold text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800'
+          : 'font-mono-tabular text-[11px] font-semibold text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800';
         progressBar.className = remaining === 0
           ? 'h-full bg-emerald-500 transition-all duration-300'
           : 'h-full bg-indigo-500 transition-all duration-300';
       } else {
-        routineCard.className = 'rounded-2xl p-5 border border-amber-200/90 bg-white shadow-sm transition-all';
+        routineCard.className = 'rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm transition-all';
         title.textContent = 'Morning Routine';
         subtitle.textContent = remaining === 0 ? 'Complete — small wins compound' : 'Daily "Never Zero" foundation & clarity';
-        emoji.textContent = '☀️';
+        if (emoji) { emoji.textContent = ''; emoji.className = 'hidden'; }
         progressBadge.className = remaining === 0
-          ? 'text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full'
-          : 'text-xs font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full';
+          ? 'font-mono-tabular text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded'
+          : 'font-mono-tabular text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded';
         progressBar.className = remaining === 0
-          ? 'h-full bg-emerald-500 transition-all duration-300'
-          : 'h-full bg-amber-500 transition-all duration-300';
+          ? 'h-full bg-emerald-600 transition-all duration-300'
+          : 'h-full bg-amber-700 transition-all duration-300';
       }
 
       container.innerHTML = currentList.length ? currentList.map((item) => `
-        <div class="pb-swipe-wrap relative overflow-hidden rounded-xl select-none" data-item-wrap="${item.id}">
+        <div class="pb-swipe-wrap relative overflow-hidden rounded-lg select-none" data-item-wrap="${item.id}">
           <div class="pb-swipe-bg absolute inset-0 bg-rose-500/90 text-white text-xs font-semibold flex items-center justify-between px-4 pointer-events-none opacity-0 transition-opacity" aria-hidden="true">
             <span>Delete</span>
             <span>Delete</span>
           </div>
-          <div class="pb-item-card group relative flex items-center gap-2.5 p-3 rounded-xl border transition-all ${isNight ? 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700' : 'border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-slate-300/90 hover:shadow-sm'}">
-            <button type="button" data-drag-handle="${item.id}" aria-label="Drag or use arrow keys to reorder '${item.text.replace(/'/g, '')}'" title="Drag to reorder" class="pb-drag-handle shrink-0 p-1 -ml-1 rounded-md ${isNight ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600'}">
+          <div class="pb-item-card group relative flex items-center gap-2.5 px-3 py-2.5 rounded-lg border transition-all ${isNight ? 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700' : 'border-stone-200/80 bg-[#fbf9f5] hover:bg-white hover:border-stone-300 hover:shadow-sm'}">
+            <button type="button" data-drag-handle="${item.id}" aria-label="Drag or use arrow keys to reorder '${item.text.replace(/'/g, '')}'" title="Drag to reorder" class="pb-drag-handle shrink-0 p-1 -ml-1 rounded ${isNight ? 'text-slate-500 hover:text-slate-300' : 'text-stone-400 hover:text-stone-600'}">
               <svg class="w-3.5 h-4" viewBox="0 0 12 16" fill="currentColor" aria-hidden="true">
-                <circle cx="3.5" cy="3" r="1.4"></circle><circle cx="8.5" cy="3" r="1.4"></circle>
-                <circle cx="3.5" cy="8" r="1.4"></circle><circle cx="8.5" cy="8" r="1.4"></circle>
-                <circle cx="3.5" cy="13" r="1.4"></circle><circle cx="8.5" cy="13" r="1.4"></circle>
+                <circle cx="3.5" cy="3" r="1.3"></circle><circle cx="8.5" cy="3" r="1.3"></circle>
+                <circle cx="3.5" cy="8" r="1.3"></circle><circle cx="8.5" cy="8" r="1.3"></circle>
+                <circle cx="3.5" cy="13" r="1.3"></circle><circle cx="8.5" cy="13" r="1.3"></circle>
               </svg>
             </button>
             <label class="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer">
@@ -2506,17 +2539,17 @@ Key Insights:
                 type="checkbox"
                 data-routine-id="${item.id}"
                 ${item.done ? 'checked' : ''}
-                class="w-5 h-5 rounded accent-amber-600 cursor-pointer shrink-0"
+                class="w-4 h-4 rounded accent-amber-700 cursor-pointer shrink-0"
               />
-              <span data-routine-edit="${item.id}" role="button" tabindex="0" aria-label="Edit '${item.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${item.done ? 'line-through opacity-50' : ''}">
+              <span data-routine-edit="${item.id}" role="button" tabindex="0" aria-label="Edit '${item.text.replace(/'/g, '')}'" class="text-xs sm:text-[13px] leading-snug flex-1 transition-all duration-300 cursor-text ${item.done ? 'line-through opacity-50' : ''}">
                 ${item.text}
               </span>
             </label>
-            <button type="button" data-routine-del="${item.id}" aria-label="Delete '${item.text.replace(/'/g, '')}'" title="Delete" class="pb-item-del w-6 h-6 -my-1 rounded-lg text-xs font-bold flex items-center justify-center ${isNight ? 'text-slate-400 hover:text-rose-300 hover:bg-slate-700' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
+            <button type="button" data-routine-del="${item.id}" aria-label="Delete '${item.text.replace(/'/g, '')}'" title="Delete" class="pb-item-del w-6 h-6 -my-1 rounded text-xs font-bold flex items-center justify-center ${isNight ? 'text-slate-400 hover:text-rose-300 hover:bg-slate-700' : 'text-stone-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
           </div>
         </div>
       `).join('') : `
-        <div class="rounded-xl border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-slate-300 text-slate-400'} p-4 text-center text-xs">No habits in this routine yet.</div>
+        <div class="rounded-lg border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-stone-300 text-stone-400'} p-4 text-center text-xs">No habits in this routine yet.</div>
       `;
 
       container.querySelectorAll('[data-routine-id]').forEach(checkbox => {
@@ -3370,85 +3403,87 @@ Key Insights:
 
       if (isNight) {
         body.className = 'min-h-screen bg-slate-950 text-slate-100 antialiased';
-        header.className = 'sticky top-0 z-30 border-b border-slate-800 bg-[#04060b]/90 backdrop-blur-md transition-colors duration-300';
-        brandBadge.className = 'w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center shadow-sm transition-colors';
+        header.className = 'sticky top-0 z-30 border-b border-slate-800/90 bg-[#04060b]/95 backdrop-blur-md transition-colors duration-300';
+        brandBadge.className = 'w-9 h-9 rounded-lg bg-indigo-950/90 text-indigo-300 border border-indigo-800/80 flex items-center justify-center shadow-sm transition-colors';
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
-        editionPill.className = 'text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800';
+        editionPill.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-indigo-950/90 text-indigo-300 border border-indigo-800/80';
         editionPill.textContent = 'Night Edition';
 
-        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors';
-        btnMorning.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-white transition-all';
-        btnNight.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-indigo-600 text-white shadow-sm transition-all';
-        document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-xl p-1 bg-slate-800 border border-slate-700';
-        document.getElementById('btn-view-saved').className = 'relative inline-flex shrink-0 items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
-        document.getElementById('btn-lock-now').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors';
-        document.getElementById('btn-open-settings').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-lg border border-slate-700/90 bg-slate-800/90 text-slate-300 hover:bg-slate-700 transition-colors';
+        btnMorning.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium text-slate-400 hover:text-white transition-all';
+        btnNight.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-indigo-600 text-white shadow-sm transition-all';
+        document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-lg p-0.5 bg-slate-800/90 border border-slate-700/90';
+        document.getElementById('btn-view-saved').className = 'relative inline-flex shrink-0 items-center gap-1.5 px-2.5 sm:px-3 py-1.5 h-9 rounded-lg text-xs font-medium border border-slate-700/90 bg-slate-800/90 text-slate-200 hover:bg-slate-700 transition-colors';
+        document.getElementById('saved-count-badge').className = 'font-mono-tabular px-1.5 py-0.5 rounded text-[11px] font-semibold bg-slate-900 text-indigo-300 border border-slate-700';
+        document.getElementById('btn-lock-now').className = 'inline-flex shrink-0 items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:px-2.5 rounded-lg text-xs font-medium border border-slate-700/90 bg-slate-800/90 text-slate-200 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-open-settings').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border border-slate-700/90 bg-slate-800/90 text-slate-300 hover:bg-slate-700 transition-colors';
         btnMorning.setAttribute('aria-pressed', 'false');
         btnNight.setAttribute('aria-pressed', 'true');
 
-        heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-indigo-900/80 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 shadow-sm transition-all';
-        document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1';
+        heroBanner.className = 'relative overflow-hidden rounded-2xl p-5 sm:p-7 mb-6 border border-slate-800/90 bg-slate-900/90 shadow-sm before:content-[\'\'] before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:bg-indigo-500 transition-all';
+        document.getElementById('greeting-kicker').className = 'font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-indigo-400 mb-2';
         const dayClosedToday = !!(state.dayLog && state.dayLog[closingDayKey()]);
         document.getElementById('greeting-kicker').textContent = dayClosedToday ? 'DAY CLOSED • REST WELL' : freshStartKicker('NIGHT EDITION • CALM EVENING WRAP-UP');
         document.getElementById('greeting-title').textContent = buildGreetingTitle();
-        document.getElementById('greeting-subtitle').className = 'text-sm text-slate-300 mt-1 max-w-2xl';
+        document.getElementById('greeting-subtitle').className = 'text-xs sm:text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed';
         document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(true);
 
-        document.getElementById('weather-card').className = 'flex flex-wrap items-center gap-4 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm shrink-0';
+        document.getElementById('weather-card').className = 'flex flex-wrap items-center gap-3.5 px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-800 shrink-0';
         renderWeather(true);
 
         const closeDayBtn = document.getElementById('btn-close-day');
         closeDayBtn.classList.remove('hidden');
-        closeDayBtn.textContent = dayClosedToday ? 'Day closed ✓' : '🌙 Close the day';
+        closeDayBtn.textContent = dayClosedToday ? 'Day closed ✓' : 'Close the day →';
         closeDayBtn.classList.toggle('opacity-70', dayClosedToday);
         document.getElementById('btn-open-week').classList.remove('hidden');
 
-        document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
-        document.getElementById('schedule-title').textContent = '🌙 Evening Wind-Down';
+        document.getElementById('schedule-card').className = 'rounded-xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
+        document.getElementById('schedule-title').textContent = 'Evening Wind-Down';
         document.getElementById('schedule-subtitle').textContent = 'Tonight’s calm schedule';
 
-        document.getElementById('tasks-card').className = 'rounded-2xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
-        document.getElementById('checklist-title').textContent = '✅ Before You Unplug';
-        document.getElementById('new-task-input').className = 'flex-1 min-w-0 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-100 placeholder-slate-400 focus:border-indigo-500 focus:outline-none';
+        document.getElementById('tasks-card').className = 'rounded-xl p-5 border border-slate-800 bg-slate-900 shadow-sm';
+        document.getElementById('checklist-title').textContent = 'Before You Unplug';
+        document.getElementById('new-task-input').className = 'flex-1 min-w-0 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-100 placeholder-slate-400 focus:border-indigo-500 focus:outline-none';
       } else {
-        body.className = 'min-h-screen bg-amber-50/40 text-slate-900 antialiased';
-        header.className = 'sticky top-0 z-30 border-b border-amber-200/70 bg-white/90 backdrop-blur-md transition-colors duration-300';
-        brandBadge.className = 'w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-sm transition-colors';
+        body.className = 'min-h-screen bg-[#fbf9f5] text-stone-900 antialiased';
+        header.className = 'sticky top-0 z-30 border-b border-stone-200/90 bg-[#fbf9f5]/95 backdrop-blur-md transition-colors duration-300';
+        brandBadge.className = 'w-9 h-9 rounded-lg bg-stone-900 text-amber-400 border border-stone-800 flex items-center justify-center shadow-sm transition-colors';
         sunIcon.classList.remove('hidden');
         moonIcon.classList.add('hidden');
-        editionPill.className = 'text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
+        editionPill.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded border border-amber-800/25 bg-amber-50 text-amber-900';
         editionPill.textContent = 'Morning Edition';
 
-        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 transition-colors';
-        btnMorning.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all';
-        btnNight.className = 'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition-all';
-        document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-xl p-1 bg-slate-100 border border-slate-200/80';
-        document.getElementById('btn-view-saved').className = 'relative inline-flex shrink-0 items-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 transition-colors';
-        document.getElementById('btn-lock-now').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors';
-        document.getElementById('btn-open-settings').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors';
+        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors';
+        btnMorning.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-white text-stone-900 shadow-sm transition-all';
+        btnNight.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium text-stone-600 hover:text-stone-900 transition-all';
+        document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-lg p-0.5 bg-stone-200/70 border border-stone-300/60';
+        document.getElementById('btn-view-saved').className = 'relative inline-flex shrink-0 items-center gap-1.5 px-2.5 sm:px-3 py-1.5 h-9 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 transition-colors';
+        document.getElementById('saved-count-badge').className = 'font-mono-tabular px-1.5 py-0.5 rounded text-[11px] font-semibold bg-stone-100 text-stone-800';
+        document.getElementById('btn-lock-now').className = 'inline-flex shrink-0 items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:px-2.5 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors';
+        document.getElementById('btn-open-settings').className = 'inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors';
         btnMorning.setAttribute('aria-pressed', 'true');
         btnNight.setAttribute('aria-pressed', 'false');
 
-        heroBanner.className = 'rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all';
-        document.getElementById('greeting-kicker').className = 'text-xs font-semibold uppercase tracking-widest text-amber-700 mb-1';
+        heroBanner.className = 'relative overflow-hidden rounded-2xl p-5 sm:p-7 mb-6 border border-stone-200/90 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.03)] before:content-[\'\'] before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:bg-amber-700 transition-all';
+        document.getElementById('greeting-kicker').className = 'font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-800 mb-2';
         document.getElementById('greeting-kicker').textContent = freshStartKicker('MORNING BRIEFING • TODAY’S PULSE');
         document.getElementById('greeting-title').textContent = buildGreetingTitle();
-        document.getElementById('greeting-subtitle').className = 'text-sm text-slate-600 mt-1 max-w-2xl';
+        document.getElementById('greeting-subtitle').className = 'text-xs sm:text-sm text-stone-600 mt-2 max-w-2xl leading-relaxed';
         document.getElementById('greeting-subtitle').textContent = buildGreetingSubtitle(false);
 
-        document.getElementById('weather-card').className = 'flex flex-wrap items-center gap-4 px-4 py-3 rounded-xl bg-white/90 border border-slate-200/80 shadow-sm shrink-0';
+        document.getElementById('weather-card').className = 'flex flex-wrap items-center gap-3.5 px-4 py-3 rounded-xl bg-stone-50/80 border border-stone-200/80 shrink-0';
         renderWeather(false);
         document.getElementById('btn-close-day').classList.add('hidden');
         document.getElementById('btn-open-week').classList.add('hidden');
 
-        document.getElementById('schedule-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
-        document.getElementById('schedule-title').textContent = '🗓️ Your Day Ahead';
+        document.getElementById('schedule-card').className = 'rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm';
+        document.getElementById('schedule-title').textContent = 'Your Day Ahead';
         document.getElementById('schedule-subtitle').textContent = 'Key blocks & upcoming focus';
 
-        document.getElementById('tasks-card').className = 'rounded-2xl p-5 border border-slate-200/90 bg-white shadow-sm';
-        document.getElementById('checklist-title').textContent = '✅ Today’s Top Priorities';
-        document.getElementById('new-task-input').className = 'flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none';
+        document.getElementById('tasks-card').className = 'rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm';
+        document.getElementById('checklist-title').textContent = 'Today’s Top Priorities';
+        document.getElementById('new-task-input').className = 'flex-1 min-w-0 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-900 placeholder-stone-400 focus:border-amber-700 focus:bg-white focus:outline-none';
       }
 
       // Update saved count badge
@@ -3464,12 +3499,12 @@ Key Insights:
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
         if (active) {
           btn.className = isNight
-            ? 'cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500 text-white transition-colors'
-            : 'cat-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white transition-colors';
+            ? 'cat-btn px-3 py-1 rounded-md text-xs font-semibold bg-indigo-600 text-white transition-colors'
+            : 'cat-btn px-3 py-1 rounded-md text-xs font-semibold bg-stone-900 text-white transition-colors';
         } else {
           btn.className = isNight
-            ? 'cat-btn px-3 py-1 rounded-full text-xs font-medium bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors'
-            : 'cat-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors';
+            ? 'cat-btn px-3 py-1 rounded-md text-xs font-medium bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors'
+            : 'cat-btn px-3 py-1 rounded-md text-xs font-medium bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition-colors';
         }
       });
 
@@ -3477,9 +3512,9 @@ Key Insights:
       const ufBtn = document.getElementById('btn-unread-first');
       if (ufBtn) {
         ufBtn.setAttribute('aria-pressed', pbPrefs.unreadFirst ? 'true' : 'false');
-        ufBtn.className = 'px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ' + (pbPrefs.unreadFirst
-          ? (isNight ? 'bg-indigo-500 text-white' : 'bg-slate-900 text-white')
-          : (isNight ? 'bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'));
+        ufBtn.className = 'px-3 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ' + (pbPrefs.unreadFirst
+          ? (isNight ? 'bg-indigo-600 text-white' : 'bg-stone-900 text-white')
+          : (isNight ? 'bg-slate-900 border border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-100'));
       }
       // Keep the active chip visible in the scrollable chip bar (horizontal only — never scroll the window vertically)
       const chipBar = document.getElementById('category-filters');
@@ -3496,6 +3531,7 @@ Key Insights:
       renderPapers(isNight);
       renderSchedule(isNight);
       renderTasks(isNight);
+      pbSetTaskRepeat(taskRepeatMode);
       pbApplyDim(isNight);
       if (window.pbSyncScrollTop) window.pbSyncScrollTop();
       renderStreakChip(isNight);
@@ -3524,47 +3560,47 @@ Key Insights:
       if (!vault.length) { if (section) section.classList.add('hidden'); return; }
       if (section) {
         section.classList.remove('hidden');
-        section.className = 'mt-12 pt-8 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-200/80');
+        section.className = 'mt-12 pt-8 border-t ' + (isNight ? 'border-slate-800' : 'border-stone-200/90');
       }
       const vaultCountEl = document.getElementById('vault-count');
       if (vaultCountEl) {
         vaultCountEl.textContent = vault.length + (vault.length === 1 ? ' long read' : ' long reads');
-        vaultCountEl.className = 'text-xs font-semibold px-2.5 py-1 rounded-full ' + (isNight ? 'bg-slate-800 text-slate-300 border border-slate-700' : 'bg-slate-100 text-slate-700');
+        vaultCountEl.className = 'font-mono-tabular text-[11px] font-semibold px-2.5 py-1 rounded border ' + (isNight ? 'bg-slate-800 text-slate-300 border-slate-700' : 'bg-stone-100 text-stone-700 border-stone-200');
       }
       const vaultSub = document.getElementById('vault-subtitle');
-      if (vaultSub) vaultSub.className = 'text-xs mt-0.5 ' + (isNight ? 'text-slate-400' : 'text-slate-500');
+      if (vaultSub) vaultSub.className = 'text-xs mt-0.5 ' + (isNight ? 'text-slate-400' : 'text-stone-500');
       const cardBg = isNight
         ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50'
-        : 'bg-white border-slate-200/90 hover:border-amber-400';
-      const textMuted = isNight ? 'text-slate-400' : 'text-slate-600';
+        : 'bg-white border-stone-200/90 hover:border-amber-700/60';
+      const textMuted = isNight ? 'text-slate-400' : 'text-stone-600';
       grid.innerHTML = vault.map(story => {
-        const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
-        const readMin = story.readMin || Math.max(1, Math.round(words / 220));
+        const readMin = storyReadMinutes(story);
         return `
-          <article class="card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open deep read: ${story.title}">
-            <div class="relative h-36 w-full bg-slate-900 overflow-hidden">
-              <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="288" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
-              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">${story.category}</span>
+          <article class="card-hover rounded-xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open deep read: ${story.title}">
+            <div class="relative h-40 w-full bg-slate-900 overflow-hidden">
+              <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="320" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent"></div>
+              <span class="font-mono-tabular absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-slate-950/85 text-slate-100 border border-white/10 backdrop-blur-sm">${story.category}</span>
               <button
                 type="button"
                 data-save-story="${story.id}"
                 aria-pressed="${story.saved ? 'true' : 'false'}"
-                class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${story.saved ? 'bg-amber-500 text-white' : 'bg-slate-900/75 text-slate-200 hover:bg-slate-900'} backdrop-blur-sm transition-colors"
+                class="font-mono-tabular absolute top-3 right-3 px-2.5 py-1 rounded text-[11px] font-semibold ${story.saved ? 'bg-amber-600 text-white' : 'bg-slate-950/80 text-slate-200 hover:bg-slate-900 border border-white/10'} backdrop-blur-sm transition-colors"
                 title="Bookmark deep read"
               >${story.saved ? '★ Saved' : '☆ Save'}</button>
             </div>
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between gap-2 text-xs ${textMuted} mb-1.5">
-                  <span class="truncate">${storyOutletName(story)}</span>
-                  <span class="font-medium shrink-0">${readMin} min</span>
+                <div class="flex items-center justify-between gap-2 font-mono-tabular text-[11px] ${textMuted} mb-2">
+                  <span class="uppercase tracking-wider font-medium truncate">${storyOutletName(story)}</span>
+                  <span class="shrink-0">${readMin} min read</span>
                 </div>
-                <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug mb-2">${story.title}</h4>
-                <p class="text-xs sm:text-sm ${textMuted} leading-relaxed">${story.dek}</p>
+                <h4 class="text-lg sm:text-[19px] font-semibold font-serif-editorial leading-[1.28] mb-2">${story.title}</h4>
+                <p class="text-xs sm:text-[13px] ${textMuted} leading-relaxed">${story.dek}</p>
               </div>
-              <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'}">
-                <span class="text-xs font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}">Read Deep Briefing →</span>
+              <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-stone-100'} flex items-center justify-between">
+                <span class="font-mono-tabular text-[11px] font-semibold uppercase tracking-wider ${isNight ? 'text-indigo-400' : 'text-amber-800'}">Read Monograph →</span>
+                <span class="font-mono-tabular text-[10px] uppercase tracking-widest ${isNight ? 'text-slate-600' : 'text-stone-400'}">Deep Vault</span>
               </div>
             </div>
           </article>
@@ -3994,9 +4030,9 @@ Key Insights:
     let pbPaperTagFilter = null; // null = All
 
     function pbPaperChipCls(active, isNight) {
-      return 'px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border ' + (active
-        ? (isNight ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-900 border-slate-900 text-white')
-        : (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-200 bg-white text-slate-600 hover:border-amber-400'));
+      return 'px-3 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-colors border ' + (active
+        ? (isNight ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-stone-900 border-stone-900 text-white')
+        : (isNight ? 'border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800' : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-100'));
     }
 
     function pbPaperTagChipsHtml(tags, isNight) {
@@ -4164,8 +4200,8 @@ Key Insights:
         btn = document.createElement('button');
         btn.type = 'button';
         btn.id = 'thisday-another';
-        btn.textContent = '🔀 Another';
-        btn.className = 'text-[11px] font-semibold text-slate-400 hover:text-amber-700 transition-colors mt-1 ml-3 inline-block';
+        btn.textContent = '↻ Another';
+        btn.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-wider text-stone-400 hover:text-amber-800 transition-colors mt-1.5 ml-3 inline-block';
         btn.addEventListener('click', pbThisDayAnother);
         const src = document.getElementById('thisday-source');
         if (src) src.insertAdjacentElement('afterend', btn);
@@ -4305,30 +4341,79 @@ Key Insights:
 
       const storyCard = (story, idx) => {
         const isHero = idx === 0 && filtered.length >= 3;
-        const spanFull = isHero ? 'md:col-span-2' : '';
-        const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
-        const readMin = story.readMin || Math.max(1, Math.round(words / 220));
+        const readMin = storyReadMinutes(story);
+        const outletName = storyOutletName(story);
         const cardBg = isNight
           ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50'
-          : 'bg-white border-slate-200/90 hover:border-amber-400';
-        const textMuted = isNight ? 'text-slate-400' : 'text-slate-600';
+          : 'bg-white border-stone-200/90 hover:border-amber-700/60';
+        const textMuted = isNight ? 'text-slate-400' : 'text-stone-600';
         const spectrumChip = story.spectrum
-          ? `<span class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200'}" title="Outlet's lean in the curated pool">${story.spectrum}</span>`
+          ? `<span class="font-mono-tabular text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-stone-100 text-stone-600 border border-stone-200'}" title="Outlet's lean in the curated pool">${story.spectrum}</span>`
           : '';
 
+        if (isHero) {
+          return `
+            <article class="md:col-span-2 md:grid md:grid-cols-12 ${animate ? 'card-enter' : ''} card-hover rounded-xl border ${cardBg} shadow-sm overflow-hidden cursor-pointer" ${animate ? `style="animation-delay: 0ms"` : ''} data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open lead story: ${story.title}">
+              <div class="relative h-56 sm:h-64 md:h-full md:min-h-[270px] md:col-span-7 w-full bg-slate-900 overflow-hidden">
+                <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="448" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent"></div>
+                <span class="font-mono-tabular absolute top-3.5 left-3.5 px-2.5 py-1 rounded text-[10px] font-semibold uppercase tracking-wider bg-slate-950/85 text-white border border-white/10 backdrop-blur-sm">
+                  ${story.category}
+                </span>
+                <button
+                  type="button"
+                  data-save-story="${story.id}"
+                  aria-pressed="${story.saved ? 'true' : 'false'}"
+                  class="font-mono-tabular absolute top-3.5 right-3.5 px-2.5 py-1 rounded text-[11px] font-semibold ${story.saved ? 'bg-amber-600 text-white' : 'bg-slate-950/80 text-slate-200 hover:bg-slate-900 border border-white/10'} backdrop-blur-sm transition-colors"
+                  title="Bookmark story"
+                >
+                  ${story.saved ? '★ Saved' : '☆ Save'}
+                </button>
+              </div>
+
+              <div class="p-5 sm:p-6 md:col-span-5 flex flex-col justify-between">
+                <div>
+                  <div class="flex flex-wrap items-center justify-between gap-2 font-mono-tabular text-[11px] ${textMuted} mb-2.5">
+                    <span class="flex items-center gap-1.5 min-w-0">
+                      <span class="uppercase tracking-wider font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-800'}">Lead</span>
+                      <span aria-hidden="true">·</span>
+                      <span class="truncate font-medium">${outletName}</span>${spectrumChip}
+                    </span>
+                  </div>
+                  <h4 class="text-xl sm:text-2xl font-semibold font-serif-editorial leading-[1.2] tracking-tight mb-2.5">
+                    ${story.title}
+                  </h4>
+                  <p class="text-xs sm:text-sm ${textMuted} leading-relaxed">
+                    ${story.dek}
+                  </p>
+                </div>
+
+                <div class="mt-5 pt-3.5 border-t ${isNight ? 'border-slate-800' : 'border-stone-200/80'} flex items-center justify-between">
+                  <span class="font-mono-tabular text-[11px] font-semibold uppercase tracking-wider ${isNight ? 'text-indigo-400' : 'text-amber-800'}">
+                    Read Briefing →
+                  </span>
+                  <span class="font-mono-tabular text-[11px] ${textMuted}">
+                    ${readMin} min read
+                  </span>
+                </div>
+              </div>
+            </article>
+          `;
+        }
+
         return `
-          <article class="${spanFull} ${animate ? 'card-enter' : ''} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''} data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open story: ${story.title}">
-            <div class="relative ${isHero ? 'h-56 sm:h-72' : 'h-44'} w-full bg-slate-900 overflow-hidden">
-              <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="${isHero ? 448 : 352}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
-              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
+          <article class="${animate ? 'card-enter' : ''} card-hover rounded-xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''} data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open story: ${story.title}">
+            <div class="relative h-44 w-full bg-slate-900 overflow-hidden">
+              <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="352" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent"></div>
+              <span class="font-mono-tabular absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-slate-950/85 text-white border border-white/10 backdrop-blur-sm">
                 ${story.category}
               </span>
               <button
                 type="button"
                 data-save-story="${story.id}"
                 aria-pressed="${story.saved ? 'true' : 'false'}"
-                class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${story.saved ? 'bg-amber-500 text-white' : 'bg-slate-900/75 text-slate-200 hover:bg-slate-900'} backdrop-blur-sm transition-colors"
+                class="font-mono-tabular absolute top-3 right-3 px-2.5 py-1 rounded text-[11px] font-semibold ${story.saved ? 'bg-amber-600 text-white' : 'bg-slate-950/80 text-slate-200 hover:bg-slate-900 border border-white/10'} backdrop-blur-sm transition-colors"
                 title="Bookmark story"
               >
                 ${story.saved ? '★ Saved' : '☆ Save'}
@@ -4337,26 +4422,23 @@ Key Insights:
 
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between gap-2 text-xs ${textMuted} mb-1.5">
+                <div class="flex items-center justify-between gap-2 font-mono-tabular text-[11px] ${textMuted} mb-2">
                   <span class="flex items-center gap-1.5 min-w-0">
-                    <span class="truncate">${story.source}</span>${spectrumChip}
+                    <span class="truncate font-medium">${outletName}</span>${spectrumChip}
                   </span>
-                  <span class="flex items-center gap-1.5 shrink-0">
-                    <span class="font-medium">${readMin} min</span>
-                    <span>${story.edition === 'morning' ? '☀️' : '🌙'}</span>
-                  </span>
+                  <span class="shrink-0">${readMin} min</span>
                 </div>
-                <h4 class="${isHero ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} font-bold font-serif-editorial leading-snug mb-2">
+                <h4 class="text-lg sm:text-[19px] font-semibold font-serif-editorial leading-[1.28] mb-2">
                   ${story.title}
                 </h4>
-                <p class="${isHero ? 'text-sm' : 'text-xs sm:text-sm'} ${textMuted} leading-relaxed">
+                <p class="text-xs sm:text-[13px] ${textMuted} leading-relaxed">
                   ${story.dek}
                 </p>
               </div>
 
-              <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'} flex items-center justify-between">
-                <span class="text-xs font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}">
-                  Read Full Briefing →
+              <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-stone-100'} flex items-center justify-between">
+                <span class="font-mono-tabular text-[11px] font-semibold uppercase tracking-wider ${isNight ? 'text-indigo-400' : 'text-amber-800'}">
+                  Read Briefing →
                 </span>
               </div>
             </div>
@@ -4545,10 +4627,10 @@ Key Insights:
       container.innerHTML = upNextHtml + chipsRow + papersView.map(paper => {
         const cardStyle = isNight
           ? 'bg-slate-900 border-slate-800'
-          : 'bg-white border-slate-200/90';
+          : 'bg-white border-stone-200/90';
         const summaryBg = isNight
           ? 'bg-slate-950/80 border-slate-800 text-slate-300'
-          : 'bg-amber-50/60 border-amber-200/70 text-slate-700';
+          : 'bg-[#faf7f2] border-stone-200/90 text-stone-700';
         // 'More like this' (item 59): another visible paper sharing >=2
         // matched research-profile keywords
         const similar = pbPaperSimilar(paper, papersView);
@@ -4556,77 +4638,82 @@ Key Insights:
           ? similar.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
 
         return `
-          <div data-paper-card="${paper.id}" class="rounded-2xl border ${cardStyle} p-5 shadow-sm transition-all">
+          <div data-paper-card="${paper.id}" class="rounded-xl border ${cardStyle} p-5 sm:p-6 shadow-sm transition-all">
             ${paper.image ? `
-            <div class="relative h-32 w-full rounded-xl overflow-hidden mb-4 bg-slate-900 shrink-0">
+            <div class="relative h-28 w-full rounded-lg overflow-hidden mb-4 bg-slate-900 shrink-0">
               <img src="${paper.image}" alt="Category visual · ${paper.tag}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent"></div>
-              <span class="absolute bottom-2.5 left-3 text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-950/70 text-slate-300 backdrop-blur-sm">illustrative</span>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent"></div>
+              <span class="font-mono-tabular absolute bottom-2 left-2.5 text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded bg-slate-950/75 text-slate-300 backdrop-blur-sm">illustrative</span>
             </div>` : ''}
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${isNight ? 'bg-indigo-950 text-indigo-300' : 'bg-slate-100 text-slate-700'}">
-                ${paper.tag}
-              </span>
-              <div class="flex items-center gap-3">
-                <span class="text-xs text-slate-400">${paper.readTime}</span>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono-tabular text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${isNight ? 'bg-indigo-950/80 text-indigo-300 border-indigo-800/80' : 'bg-stone-100 text-stone-800 border-stone-200'}">
+                  ${paper.tag}
+                </span>
+                ${paper.arxivId ? `<span class="font-mono-tabular text-[11px] ${isNight ? 'text-slate-500' : 'text-stone-400'}">arXiv:${paper.arxivId}</span>` : ''}
+              </div>
+              <div class="flex items-center gap-3 font-mono-tabular text-[11px]">
+                <span class="${isNight ? 'text-slate-400' : 'text-stone-500'}">${paper.readTime}</span>
                 <button
                   type="button"
                   data-save-paper="${paper.id}"
                   aria-pressed="${paper.saved ? 'true' : 'false'}"
-                  class="text-xs font-semibold ${paper.saved ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}"
+                  class="font-semibold ${paper.saved ? 'text-amber-600' : (isNight ? 'text-slate-400 hover:text-amber-400' : 'text-stone-500 hover:text-amber-800')}"
                 >
-                  ${paper.saved ? '★ Saved Paper' : '☆ Save Paper'}
+                  ${paper.saved ? '★ Saved' : '☆ Save'}
                 </button>
                 <button
                   type="button"
                   data-readlater-paper="${paper.id}"
-                  class="text-xs font-semibold ${paper.readLater ? 'text-indigo-500' : 'text-slate-400 hover:text-indigo-500'}"
+                  class="font-semibold ${paper.readLater ? 'text-indigo-500' : (isNight ? 'text-slate-400 hover:text-indigo-400' : 'text-stone-500 hover:text-indigo-700')}"
                   title="Read-later queue (separate from saved)"
                 >
-                  ${paper.readLater ? '◷ Reading later' : '◷ Read later'}
+                  ${paper.readLater ? '◷ Queued' : '◷ Queue'}
                 </button>
               </div>
             </div>
 
-            <h4 class="text-base sm:text-lg font-bold font-serif-editorial leading-snug">
+            <h4 class="text-lg sm:text-xl font-semibold font-serif-editorial leading-[1.28] tracking-tight">
               ${paper.title}
             </h4>
-            <p class="text-xs text-slate-400 mt-0.5">${paper.authors || ''}${paper.year ? ' · ' + paper.year : ''}${paper.journal ? ' · ' + paper.journal : ''}</p>
+            <p class="text-xs ${isNight ? 'text-slate-400' : 'text-stone-500'} font-medium mt-1">${paper.authors || ''}${paper.year ? ' · ' + paper.year : ''}${paper.journal ? ' · ' + paper.journal : ''}</p>
             ${(paper.matched && paper.matched.length) ? `
-            <div class="flex flex-wrap gap-1.5 mt-2">
-              ${paper.matched.map(k => `<span class="text-[10px] font-medium px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-200'}" title="Matched your research profile">${k}</span>`).join('')}
+            <div class="flex flex-wrap gap-1.5 mt-2.5">
+              ${paper.matched.map(k => `<span class="font-mono-tabular text-[10px] font-medium px-1.5 py-0.5 rounded ${isNight ? 'bg-slate-800 text-slate-400 border border-slate-700' : 'bg-stone-100 text-stone-600 border border-stone-200/90'}" title="Matched your research profile">${k}</span>`).join('')}
             </div>` : ''}
             ${similar ? `
-            <button type="button" data-similar-paper="${similar.id}" title="Jump to this similar digest" class="mt-2 block max-w-full truncate text-left text-[11px] transition-colors ${isNight ? 'text-slate-500 hover:text-indigo-300' : 'text-slate-400 hover:text-amber-700'}">↔ Similar: ${similarTitle}</button>` : ''}
+            <button type="button" data-similar-paper="${similar.id}" title="Jump to this similar digest" class="mt-2 block max-w-full truncate text-left text-[11px] transition-colors ${isNight ? 'text-slate-500 hover:text-indigo-300' : 'text-stone-500 hover:text-amber-800'}">↔ Related: ${similarTitle}</button>` : ''}
 
-            <p class="text-xs sm:text-sm ${isNight ? 'text-slate-300' : 'text-slate-600'} leading-relaxed mb-3">
-              <strong class="font-semibold">TL;DR:</strong> ${paper.tldr}
-            </p>
+            <div class="mt-3.5 pl-3.5 border-l-2 ${isNight ? 'border-indigo-500/50' : 'border-amber-700/50'} mb-3.5">
+              <p class="text-xs sm:text-[13px] ${isNight ? 'text-slate-300' : 'text-stone-700'} leading-relaxed">
+                <strong class="font-mono-tabular text-[10px] uppercase tracking-wider ${isNight ? 'text-indigo-300' : 'text-amber-900'} mr-1.5">Abstract Synthesis ·</strong>${paper.tldr}
+              </p>
+            </div>
 
             <button
               type="button"
               data-toggle-paper="${paper.id}"
-              class="inline-flex items-center gap-1.5 text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}"
+              class="font-mono-tabular inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-800 hover:text-amber-950'}"
             >
-              <span>${paper.expanded ? '▼ Hide Key Takeaways' : '▶ Show Key Takeaways'}</span>
+              <span>${paper.expanded ? '▼ Hide Key Findings' : '▶ Key Findings & Takeaways'}</span>
             </button>
 
             ${paper.expanded ? `
-              <div class="mt-3 rounded-xl border ${summaryBg} p-4">
-                <p class="text-xs font-bold uppercase tracking-wider mb-2 opacity-75">Key Findings &amp; Summary</p>
-                <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm">
+              <div class="mt-3 rounded-lg border ${summaryBg} p-4">
+                <p class="font-mono-tabular text-[10px] font-semibold uppercase tracking-widest mb-2 opacity-75">Key Findings &amp; Methodology</p>
+                <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm leading-relaxed">
                   ${paper.takeaways.map(t => `<li>${t}</li>`).join('')}
                 </ul>
               </div>
             ` : ''}
 
-            <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-slate-100'} flex flex-wrap items-center gap-x-4 gap-y-2">
-              ${paper.url ? `<a href="${paper.url}" target="_blank" rel="noopener" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">Read on arXiv ↗</a>` : ''}
-              ${paper.arxivId ? `<a href="${paper.pdfUrl || ('https://arxiv.org/pdf/' + paper.arxivId)}" target="_blank" rel="noopener" class="text-xs font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-700 hover:text-amber-900'}">PDF ↗</a>` : ''}
-              ${paper.arxivId ? `<a href="https://www.semanticscholar.org/arxiv/${paper.arxivId}" target="_blank" rel="noopener" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">Citations ↗</a><span data-s2-count="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-500' : 'text-slate-400'}"></span>` : ''}
-              <button type="button" data-cite-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ Cite</button>
-              <button type="button" data-bibtex-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">⧉ BibTeX</button>
-              <button type="button" data-share-paper="${paper.id}" class="text-xs font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}">↗ Share</button>
+            <div class="mt-4 pt-3 border-t ${isNight ? 'border-slate-800' : 'border-stone-100'} flex flex-wrap items-center gap-x-4 gap-y-2 font-mono-tabular text-[11px]">
+              ${paper.url ? `<a href="${paper.url}" target="_blank" rel="noopener" class="font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-800 hover:text-amber-950'}">arXiv ↗</a>` : ''}
+              ${paper.arxivId ? `<a href="${paper.pdfUrl || ('https://arxiv.org/pdf/' + paper.arxivId)}" target="_blank" rel="noopener" class="font-semibold ${isNight ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-800 hover:text-amber-950'}">PDF ↗</a>` : ''}
+              ${paper.arxivId ? `<a href="https://www.semanticscholar.org/arxiv/${paper.arxivId}" target="_blank" rel="noopener" class="font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-stone-500 hover:text-stone-800'}">Citations ↗</a><span data-s2-count="${paper.id}" class="font-medium ${isNight ? 'text-slate-500' : 'text-stone-400'}"></span>` : ''}
+              <button type="button" data-cite-paper="${paper.id}" class="font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-stone-500 hover:text-stone-800'}">⧉ Cite</button>
+              <button type="button" data-bibtex-paper="${paper.id}" class="font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-stone-500 hover:text-stone-800'}">⧉ BibTeX</button>
+              <button type="button" data-share-paper="${paper.id}" class="font-medium ${isNight ? 'text-slate-400 hover:text-slate-200' : 'text-stone-500 hover:text-stone-800'}">↗ Share</button>
             </div>
           </div>
         `;
@@ -4714,20 +4801,27 @@ Key Insights:
 
     function renderSchedule(isNight) {
       const items = state.schedules[state.edition] || [];
-      document.getElementById('schedule-count').textContent = `${items.length} items`;
+      const countEl = document.getElementById('schedule-count');
+      countEl.textContent = `${items.length} blocks`;
+      countEl.className = 'font-mono-tabular text-[11px] font-semibold px-2 py-0.5 rounded border ' + (isNight
+        ? 'bg-slate-800 text-slate-300 border-slate-700'
+        : 'bg-stone-100 text-stone-700 border-stone-200');
       const container = document.getElementById('schedule-timeline');
 
-      container.innerHTML = items.map(item => `
-        <div class="flex items-start gap-3 p-3 rounded-xl ${isNight ? 'bg-slate-800/70' : 'bg-slate-50'}">
-          <span class="text-xs font-bold ${isNight ? 'text-indigo-400' : 'text-amber-700'} shrink-0 pt-0.5">${item.time}</span>
+      container.innerHTML = `<div class="relative pl-3.5 border-l ${isNight ? 'border-slate-800' : 'border-stone-200'} space-y-2.5">` + items.map(item => `
+        <div class="relative flex items-start justify-between gap-3 px-3 py-2.5 rounded-lg border ${isNight ? 'border-slate-800 bg-slate-800/60' : 'border-stone-200/80 bg-[#fbf9f5]'}">
+          <span class="absolute -left-[18.5px] top-3.5 w-2 h-2 rounded-full border-2 ${isNight ? 'bg-slate-900 border-indigo-400' : 'bg-white border-amber-700'}" aria-hidden="true"></span>
           <div class="min-w-0 flex-1">
-            <p class="text-xs sm:text-sm font-semibold leading-snug">${item.title}</p>
-            <span class="inline-block mt-1 text-[11px] font-medium px-2 py-0.5 rounded-md ${isNight ? 'bg-slate-700 text-slate-300' : 'bg-white border border-slate-200 text-slate-600'}">
-              ${item.tag}
-            </span>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="font-mono-tabular text-[11px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-800'} shrink-0">${item.time}</span>
+              <span class="font-mono-tabular text-[10px] uppercase tracking-wider px-1.5 py-0.2 rounded ${isNight ? 'bg-slate-700/80 text-slate-300' : 'bg-stone-200/70 text-stone-600'}">
+                ${item.tag}
+              </span>
+            </div>
+            <p class="text-xs sm:text-[13px] font-medium leading-snug">${item.title}</p>
           </div>
         </div>
-      `).join('');
+      `).join('') + `</div>`;
     }
 
     function renderTasks(isNight) {
@@ -4738,25 +4832,27 @@ Key Insights:
       const remaining = total - doneCount;
 
       // Same goal-gradient framing as the routine card
-      document.getElementById('tasks-progress').textContent = total === 0 ? 'Empty'
+      const progEl = document.getElementById('tasks-progress');
+      progEl.textContent = total === 0 ? 'Empty'
         : remaining === 0 ? 'All done ✓'
         : remaining === 1 ? '1 to go'
         : pct >= 60 ? `${remaining} to go`
         : `${doneCount}/${total} done`;
+      progEl.className = 'font-mono-tabular text-[11px] font-semibold ' + (isNight ? 'text-emerald-400' : 'text-emerald-800');
       document.getElementById('tasks-progress-bar').style.width = `${pct}%`;
 
       container.innerHTML = state.tasks.length ? state.tasks.map((task) => `
-        <div class="pb-swipe-wrap relative overflow-hidden rounded-xl select-none" data-item-wrap="${task.id}">
+        <div class="pb-swipe-wrap relative overflow-hidden rounded-lg select-none" data-item-wrap="${task.id}">
           <div class="pb-swipe-bg absolute inset-0 bg-rose-500/90 text-white text-xs font-semibold flex items-center justify-between px-4 pointer-events-none opacity-0 transition-opacity" aria-hidden="true">
             <span>Delete</span>
             <span>Delete</span>
           </div>
-          <div class="pb-item-card group relative flex items-center gap-2.5 p-3 rounded-xl border transition-all ${isNight ? 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700' : 'border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-slate-300/90 hover:shadow-sm'}">
-            <button type="button" data-drag-handle="${task.id}" aria-label="Drag or use arrow keys to reorder '${task.text.replace(/'/g, '')}'" title="Drag to reorder" class="pb-drag-handle shrink-0 p-1 -ml-1 rounded-md ${isNight ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600'}">
+          <div class="pb-item-card group relative flex items-center gap-2.5 px-3 py-2.5 rounded-lg border transition-all ${isNight ? 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700' : 'border-stone-200/80 bg-[#fbf9f5] hover:bg-white hover:border-stone-300 hover:shadow-sm'}">
+            <button type="button" data-drag-handle="${task.id}" aria-label="Drag or use arrow keys to reorder '${task.text.replace(/'/g, '')}'" title="Drag to reorder" class="pb-drag-handle shrink-0 p-1 -ml-1 rounded ${isNight ? 'text-slate-500 hover:text-slate-300' : 'text-stone-400 hover:text-stone-600'}">
               <svg class="w-3.5 h-4" viewBox="0 0 12 16" fill="currentColor" aria-hidden="true">
-                <circle cx="3.5" cy="3" r="1.4"></circle><circle cx="8.5" cy="3" r="1.4"></circle>
-                <circle cx="3.5" cy="8" r="1.4"></circle><circle cx="8.5" cy="8" r="1.4"></circle>
-                <circle cx="3.5" cy="13" r="1.4"></circle><circle cx="8.5" cy="13" r="1.4"></circle>
+                <circle cx="3.5" cy="3" r="1.3"></circle><circle cx="8.5" cy="3" r="1.3"></circle>
+                <circle cx="3.5" cy="8" r="1.3"></circle><circle cx="8.5" cy="8" r="1.3"></circle>
+                <circle cx="3.5" cy="13" r="1.3"></circle><circle cx="8.5" cy="13" r="1.3"></circle>
               </svg>
             </button>
             <label class="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer">
@@ -4764,18 +4860,18 @@ Key Insights:
                 type="checkbox"
                 data-task-id="${task.id}"
                 ${task.done ? 'checked' : ''}
-                class="w-5 h-5 rounded accent-emerald-600 cursor-pointer shrink-0"
+                class="w-4 h-4 rounded accent-emerald-600 cursor-pointer shrink-0"
               />
-              <span data-task-edit="${task.id}" role="button" tabindex="0" aria-label="Edit '${task.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${task.done ? 'line-through opacity-50' : ''}">
+              <span data-task-edit="${task.id}" role="button" tabindex="0" aria-label="Edit '${task.text.replace(/'/g, '')}'" class="text-xs sm:text-[13px] leading-snug flex-1 transition-all duration-300 cursor-text ${task.done ? 'line-through opacity-50' : ''}">
                 ${task.text}
               </span>
-              ${task.recurring ? `<button type="button" data-task-recur="${task.id}" class="pb-recur-chip shrink-0 text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'} — tap for what that means">↻ ${task.recurring}</button>` : ''}
+              ${task.recurring ? `<button type="button" data-task-recur="${task.id}" class="pb-recur-chip font-mono-tabular shrink-0 text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-800'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'} — tap for what that means">↻ ${task.recurring}</button>` : ''}
             </label>
-            <button type="button" data-task-del="${task.id}" aria-label="Delete '${task.text.replace(/'/g, '')}'" title="Delete" class="pb-item-del w-6 h-6 -my-1 rounded-lg text-xs font-bold flex items-center justify-center ${isNight ? 'text-slate-400 hover:text-rose-300 hover:bg-slate-700' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
+            <button type="button" data-task-del="${task.id}" aria-label="Delete '${task.text.replace(/'/g, '')}'" title="Delete" class="pb-item-del w-6 h-6 -my-1 rounded text-xs font-bold flex items-center justify-center ${isNight ? 'text-slate-400 hover:text-rose-300 hover:bg-slate-700' : 'text-stone-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
           </div>
         </div>
       `).join('') : `
-        <div class="rounded-xl border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-slate-300 text-slate-400'} p-4 text-center text-xs">No priorities yet — add your first one below.</div>
+        <div class="rounded-lg border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-stone-300 text-stone-400'} p-4 text-center text-xs">No priorities yet — add your first one below.</div>
       `;
 
       container.querySelectorAll('[data-task-id]').forEach(checkbox => {
@@ -4976,8 +5072,11 @@ Key Insights:
     // Story reader page
     // ------------------------------------------------------------------
     function storyReadMinutes(story) {
+      if (story.readMin) return story.readMin;
+      const m = String(story.source || '').match(/[•·]\s*(\d+)\s+min/i);
+      if (m) return parseInt(m[1], 10);
       const words = (story.content || story.dek || '').split(/\s+/).filter(Boolean).length;
-      return story.readMin || Math.max(1, Math.round(words / 220));
+      return Math.max(1, Math.round(words / 220));
     }
 
     function storyOutletName(story) {
@@ -6239,9 +6338,9 @@ Key Insights:
       const labels = { off: '↻ Off', daily: '↻ Daily', weekly: '↻ Weekly' };
       btn.textContent = labels[mode];
       btn.title = 'Repeat: ' + (mode === 'off' ? 'one-off task' : mode === 'daily' ? 'resets every day' : 'resets every ISO week');
-      btn.className = 'px-3 py-2 rounded-xl text-xs font-semibold border transition-colors shrink-0 ' + (mode === 'off'
-        ? (isNight ? 'border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-100' : 'border-slate-200 bg-white text-slate-400 hover:text-slate-700')
-        : (isNight ? 'border-indigo-500 bg-indigo-950 text-indigo-300' : 'border-amber-400 bg-amber-100 text-amber-800'));
+      btn.className = 'font-mono-tabular px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-colors shrink-0 ' + (mode === 'off'
+        ? (isNight ? 'border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-100' : 'border-stone-200 bg-white text-stone-500 hover:text-stone-800')
+        : (isNight ? 'border-indigo-500 bg-indigo-950 text-indigo-300' : 'border-amber-600/50 bg-amber-50 text-amber-900'));
     }
 
     // ---- Read-later queue + .bib export ----
@@ -6252,10 +6351,10 @@ Key Insights:
       const n = state.papers.filter(p => p.readLater).length;
       chip.textContent = '◷ Read later (' + n + ')';
       const on = !!state.readLaterFilter;
-      chip.className = 'px-3 py-1 rounded-full text-xs font-semibold border transition-colors ' + (on
-        ? 'bg-slate-900 border-slate-900 text-white'
-        : (isNight ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'));
-      dl.className = (on ? '' : 'hidden ') + 'px-3 py-1 rounded-full text-xs font-semibold border transition-colors ' + (isNight
+      chip.className = 'font-mono-tabular px-3 py-1 rounded-md text-xs font-semibold border transition-colors ' + (on
+        ? (isNight ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-stone-900 border-stone-900 text-white')
+        : (isNight ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-100'));
+      dl.className = (on ? '' : 'hidden ') + 'font-mono-tabular px-3 py-1 rounded-md text-xs font-semibold border transition-colors ' + (isNight
         ? 'bg-slate-900 border-indigo-700 text-indigo-300 hover:bg-slate-800'
         : 'bg-white border-amber-300 text-amber-800 hover:bg-amber-50');
     }
@@ -6524,8 +6623,8 @@ Key Insights:
       document.getElementById('thisday-event').textContent =
         (shuffled ? pbThisDayDateLabel(entry.date) + ' · ' : '') + entry.year + ' — ' + entry.event;
       document.getElementById('thisday-source').href = entry.source_url;
-      card.className = 'w-full lg:w-auto px-4 py-3 rounded-xl border border-amber-200/80 bg-white/90 shadow-sm';
-      pbThisDayEnsureBtn(); // '🔀 Another' (item 64)
+      card.className = 'w-full px-4 py-3 rounded-xl border border-stone-200/80 bg-stone-50/70';
+      pbThisDayEnsureBtn(); // '↻ Another' (item 64)
     }
 
     // ---- Conference deadlines (deadlines.json, no-store) ----
@@ -6558,55 +6657,55 @@ Key Insights:
         .filter(x => x.days !== null && x.days > -31) // auto-hide >30 days past (item 65)
         .sort((a, b) => a.days - b.days);
       wrap.innerHTML = '';
-      wrap.className = 'mb-5 rounded-2xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-slate-200/90 bg-white');
+      wrap.className = 'mb-5 rounded-xl border p-4 ' + (isNight ? 'border-slate-800 bg-slate-900' : 'border-stone-200/90 bg-white');
       const head = document.createElement('p');
-      head.className = 'text-xs font-bold uppercase tracking-wider mb-1 ' + (isNight ? 'text-slate-400' : 'text-slate-500');
-      head.textContent = '🗓 Conference deadlines';
+      head.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.15em] mb-2 ' + (isNight ? 'text-indigo-400' : 'text-amber-800');
+      head.textContent = 'Upcoming Submission Deadlines';
       wrap.appendChild(head);
       list.forEach(x => {
         const d = x.d;
         const row = document.createElement('div'); // card row: link (left) + chip & Add (right)
-        row.className = 'flex items-center justify-between gap-3 py-2 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-100');
+        row.className = 'flex items-center justify-between gap-3 py-2 border-t ' + (isNight ? 'border-slate-800' : 'border-stone-100');
         const left = document.createElement('a');
         left.href = d.url || '#';
         left.target = '_blank';
         left.rel = 'noopener';
-        left.className = 'min-w-0 flex-1';
+        left.className = 'min-w-0 flex-1 group';
         const name = document.createElement('p');
-        name.className = 'text-xs font-semibold truncate ' + (isNight ? 'text-slate-200' : 'text-slate-800');
+        name.className = 'text-xs font-semibold truncate group-hover:underline ' + (isNight ? 'text-slate-200' : 'text-stone-800');
         name.textContent = d.name;
         const meta = document.createElement('p');
-        meta.className = 'text-[10px] ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+        meta.className = 'font-mono-tabular text-[10px] ' + (isNight ? 'text-slate-500' : 'text-stone-400');
         meta.textContent = [d.kind, d.location, d.date].filter(Boolean).join(' · ');
         left.appendChild(name); left.appendChild(meta);
         const right = document.createElement('div');
         right.className = 'flex items-center gap-2 shrink-0';
         // days-left countdown chip (item 65): "in 12d" / "today" / "closed"
         let text, tone;
-        if (x.days < 0) { text = 'closed'; tone = isNight ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-400'; }
+        if (x.days < 0) { text = 'closed'; tone = isNight ? 'bg-slate-800 text-slate-500' : 'bg-stone-100 text-stone-400'; }
         else if (x.days === 0) { text = 'today'; tone = 'bg-rose-500/15 text-rose-500'; }
         else if (x.days < 7) { text = 'in ' + x.days + 'd'; tone = 'bg-rose-500/15 text-rose-500'; }
-        else if (x.days <= 30) { text = 'in ' + x.days + 'd'; tone = 'bg-amber-500/15 text-amber-600'; }
-        else { text = 'in ' + x.days + 'd'; tone = isNight ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'; }
+        else if (x.days <= 30) { text = 'in ' + x.days + 'd'; tone = 'bg-amber-500/15 text-amber-700'; }
+        else { text = 'in ' + x.days + 'd'; tone = isNight ? 'bg-slate-800 text-slate-400' : 'bg-stone-100 text-stone-600'; }
         const chip = document.createElement('span');
-        chip.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap ' + tone;
+        chip.className = 'font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded whitespace-nowrap ' + tone;
         chip.textContent = text;
         right.appendChild(chip);
-        // 📅 Add → .ics download (item 66)
+        // + .ics download (item 66)
         const add = document.createElement('button');
         add.type = 'button';
         add.title = 'Add to calendar (.ics)';
         add.setAttribute('aria-label', 'Add ' + (d.name || 'deadline') + ' to calendar');
-        add.textContent = '📅';
-        add.className = 'w-7 h-7 rounded-full text-sm flex items-center justify-center transition-colors ' + (isNight ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-400 hover:bg-amber-100');
+        add.textContent = '+ .ics';
+        add.className = 'font-mono-tabular px-2 py-0.5 rounded border text-[10px] font-semibold transition-colors ' + (isNight ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-stone-200 text-stone-600 hover:bg-stone-100');
         add.addEventListener('click', () => pbDeadlineIcs(d));
         right.appendChild(add);
         row.appendChild(left); row.appendChild(right);
         wrap.appendChild(row);
       });
       const foot = document.createElement('p');
-      foot.className = 'text-[10px] mt-2 ' + (isNight ? 'text-slate-600' : 'text-slate-400');
-      foot.textContent = 'Submission deadlines — dates verified against official conference websites';
+      foot.className = 'font-mono-tabular text-[10px] mt-2 ' + (isNight ? 'text-slate-600' : 'text-stone-400');
+      foot.textContent = 'Submission deadlines — verified against official conference portals';
       wrap.appendChild(foot);
     }
 
