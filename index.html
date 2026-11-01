@@ -235,9 +235,77 @@
   }
   /* Meditation week strip: dots sized by minutes */
   .pb-med-dot { border-radius: 9999px; }
+
+  /* ============ UX wave 2 (items 26-50) ============ */
+
+  /* (31) Chip bar: scroll-snap so flicks settle on a chip. The edge fade
+     masks and active-chip scrollIntoView already exist above/below. */
+  #category-filters { scroll-snap-type: x proximity; }
+  #category-filters .cat-btn, #category-filters #btn-unread-first { scroll-snap-align: center; }
+
+  /* (34) News cards: skip offscreen rendering. contain-intrinsic-size keeps
+     the grid reserve space (auto = remember real height once rendered).
+     The .card-enter stagger animates the <article> element itself
+     (opacity/transform), which content-visibility does not skip — the
+     entrance animation still plays. */
+  #news-grid article { content-visibility: auto; contain-intrinsic-size: auto 460px; }
+
+  /* (40) Streak chip: one-time scale-pop when the streak increments */
+  @keyframes pb-streak-pop { 0% { transform: scale(1); } 40% { transform: scale(1.28); } 100% { transform: scale(1); } }
+  .pb-streak-pop { animation: pb-streak-pop 0.45s cubic-bezier(0.3, 1.4, 0.5, 1); }
+
+  /* (43) Skip-to-content: off-screen until keyboard-focused, then slides in */
+  .pb-skip-link {
+    position: fixed; top: 10px; left: 10px; z-index: 60;
+    padding: 10px 16px; border-radius: 9999px;
+    background: #0f172a; color: #fcd34d; border: 1px solid rgba(252,211,77,0.5);
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    transform: translateY(-160px); transition: transform 0.15s ease;
+  }
+  .pb-skip-link:focus { transform: translateY(0); }
+
+  /* (46) Vault collapse: chevron rotates with the section state */
+  #vault-chevron { display: inline-block; transition: transform 0.2s ease; }
+  #backup-articles-section[data-collapsed="true"] #vault-chevron { transform: rotate(-90deg); }
+
+  /* (48) Edition switch: cross-fade the dashboard container (200ms) */
+  #main-content { transition: opacity 200ms ease; }
+  #main-content.pb-fading { opacity: 0; }
+
+  /* (42) Offline badge is now a button */
+  #offline-badge { cursor: pointer; }
+  #offline-badge:active { transform: translateX(-50%) scale(0.96); }
+
+  /* (29) Action toasts (Undo): pill grows an inline action button */
+  .pb-toast-action { display: inline-flex; align-items: center; gap: 10px; pointer-events: auto; }
+  .pb-toast-action-btn {
+    pointer-events: auto; cursor: pointer; font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 9999px; border: 1px solid currentColor;
+    background: transparent; color: inherit; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .pb-toast-action-btn:active { transform: scale(0.95); }
+
+  /* (27/28) Inline task/routine edit input */
+  .pb-inline-edit-input {
+    flex: 1; min-width: 0; font-size: 12px; padding: 3px 8px; border-radius: 8px;
+    border: 1px solid #f59e0b; outline: none; background: #ffffff; color: #0f172a;
+  }
+  body.bg-slate-950 .pb-inline-edit-input { background: #0f172a; color: #f1f5f9; border-color: #818cf8; }
+
+  /* (47) Recurring chip is tappable help */
+  .pb-recur-chip { cursor: help; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pb-streak-pop { animation: none; }
+    #main-content { transition: none; }
+    #vault-chevron { transition: none; }
+  }
   </style>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
+
+  <!-- (43) Skip-to-content: first focusable element, visually hidden until focused -->
+  <a href="#main-content" id="skip-to-content" class="pb-skip-link">Skip to content</a>
 
   <!-- ZERO-KNOWLEDGE SECURITY LOCK SCREEN OVERLAY -->
   <div id="pin-gate-screen" class="fixed inset-0 z-50 overflow-hidden bg-[#04060b] flex flex-col items-center transition-opacity duration-300">
@@ -326,7 +394,7 @@
             <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
           </svg>
         </button>
-        <div id="edition-switcher" class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
+        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
           <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-900 shadow-sm transition-all">
             <span>☀️</span>
             <span>Morning</span>
@@ -360,7 +428,7 @@
   </header>
 
   <!-- Main Content Container (Contains Skeleton Placeholders Until Decrypted) -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+  <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 outline-none">
 
     <!-- Greeting Banner -->
     <section id="hero-banner" class="rounded-2xl p-5 sm:p-7 mb-8 border border-amber-200/80 bg-gradient-to-r from-amber-50 via-white to-orange-50 shadow-sm transition-all">
@@ -392,6 +460,8 @@
             <div class="flex items-center gap-2">
               <span id="weather-temp" class="text-base font-bold">--°C</span>
               <span id="weather-desc" class="text-xs font-medium text-slate-500">Encrypted</span>
+              <!-- (35) Precipitation probability chip: next hour's honest pop -->
+              <span id="weather-precip" class="hidden text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-600" title=""></span>
             </div>
             <p id="focus-status" class="text-xs text-emerald-700 font-medium mt-0.5">Focus block locked</p>
           </div>
@@ -498,7 +568,11 @@
               </h2>
               <p class="text-xs text-slate-500">In-depth technical papers &amp; analyses for when you are in a thorough reading mood</p>
             </div>
-            <span id="vault-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
+            <div class="flex items-center gap-2 shrink-0">
+              <span id="vault-count" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">2 long reads</span>
+              <!-- (46) Collapse toggle, persisted in pb_prefs -->
+              <button type="button" id="btn-vault-collapse" aria-expanded="true" aria-controls="vault-grid" aria-label="Collapse deep-reading vault" class="w-8 h-8 rounded-full border border-slate-200 text-slate-500 hover:bg-slate-100 transition-colors flex items-center justify-center" title="Collapse / expand vault"><span id="vault-chevron" aria-hidden="true">▾</span></button>
+            </div>
           </div>
           <div id="vault-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
         </section>
@@ -937,7 +1011,7 @@
     // reader font default, unread-first ordering.
     // ------------------------------------------------------------------
     const PB_PREFS_KEY = 'pb_prefs';
-    const PB_PREFS_DEFAULTS = { haptics: true, edition: 'auto', dim: 'auto', readerFont: 0, unreadFirst: false };
+    const PB_PREFS_DEFAULTS = { haptics: true, edition: 'auto', dim: 'auto', readerFont: 0, unreadFirst: false, focusChime: true, vaultCollapsed: false };
     let pbPrefs = (function () {
       try {
         const raw = JSON.parse(localStorage.getItem(PB_PREFS_KEY) || '{}');
@@ -1933,6 +2007,207 @@ Key Insights:
       document.getElementById('wisdom-reflection').textContent = current.reflection;
     }
 
+    // ------------------------------------------------------------------
+    // UX wave 2 (items 26-50). All NEW functions live in this one block,
+    // right before renderRoutine, to keep merge conflicts near-zero.
+    // Everything reuses pbToast/pbHaptic/pbPrefs/persistEncryptedState —
+    // no parallel systems.
+    // ------------------------------------------------------------------
+
+    // (29) Toast with an inline action button (e.g. Undo). Thin wrapper over
+    // pbToast (same queue, same cap, aria-live host). Default window 5s.
+    function pbToastAction(label, message, onAction, durationMs) {
+      pbToast(message, { actionLabel: label, onAction: onAction, duration: durationMs || 5000 });
+    }
+
+    // (26) Delete a task with a 5s Undo window — the removed task object is
+    // kept in the closure and restored at its original index on undo.
+    async function pbTaskDelete(id) {
+      const i = state.tasks.findIndex(t => t.id === id);
+      if (i < 0) return;
+      const removed = state.tasks[i];
+      state.tasks.splice(i, 1);
+      pbHaptic(10);
+      await persistEncryptedState();
+      renderTasks(state.edition === 'night');
+      pbToastAction('Undo', 'Task deleted', async () => {
+        if (state.tasks.some(t => t.id === removed.id)) return; // already restored
+        state.tasks.splice(Math.min(i, state.tasks.length), 0, removed);
+        await persistEncryptedState();
+        renderTasks(state.edition === 'night');
+      }, 5000);
+    }
+
+    // (28) Same delete-with-undo for routine items (currentList is a live
+    // ref to state.routines[state.edition], so splicing it mutates state).
+    async function pbRoutineDelete(id) {
+      const list = state.routines[state.edition] || (state.routines[state.edition] = []);
+      const i = list.findIndex(r => r.id === id);
+      if (i < 0) return;
+      const removed = list[i];
+      list.splice(i, 1);
+      pbHaptic(10);
+      await persistEncryptedState();
+      renderRoutine(state.edition === 'night');
+      pbToastAction('Undo', 'Routine item deleted', async () => {
+        const l = state.routines[state.edition] || [];
+        if (l.some(r => r.id === removed.id)) return;
+        l.splice(Math.min(i, l.length), 0, removed);
+        await persistEncryptedState();
+        renderRoutine(state.edition === 'night');
+      }, 5000);
+    }
+
+    // (27/28) Inline text edit: swap the span for an <input> with the current
+    // text. Enter/blur saves (trimmed, non-empty), Esc cancels; empty blur
+    // cancels. onDone(newValue|null) — null means cancelled (re-render only).
+    function pbInlineEdit(span, currentText, onDone) {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = currentText;
+      input.setAttribute('aria-label', 'Edit item');
+      input.setAttribute('enterkeyhint', 'done');
+      input.setAttribute('autocomplete', 'off');
+      input.className = 'pb-inline-edit-input';
+      span.replaceWith(input);
+      input.focus();
+      try { input.setSelectionRange(input.value.length, input.value.length); } catch (e) { /* older engines */ }
+      let done = false;
+      const finish = (save) => {
+        if (done) return;
+        done = true;
+        const v = input.value.trim();
+        onDone(save && v && v !== currentText ? v : null);
+      };
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+        else if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+      });
+      input.addEventListener('blur', () => finish(true));
+    }
+
+    // (27) Task text edit — tap the task text (not the checkbox)
+    function pbTaskEditStart(span, task) {
+      pbInlineEdit(span, task.text, async (v) => {
+        if (v == null) { renderTasks(state.edition === 'night'); return; } // cancelled
+        task.text = v;
+        await persistEncryptedState();
+        renderTasks(state.edition === 'night');
+      });
+    }
+
+    // (28) Routine item edit — same pattern
+    function pbRoutineEditStart(span, item) {
+      pbInlineEdit(span, item.text, async (v) => {
+        if (v == null) { renderRoutine(state.edition === 'night'); return; }
+        item.text = v;
+        await persistEncryptedState();
+        renderRoutine(state.edition === 'night');
+      });
+    }
+
+    // (45) Spectrum line → button: honest pool + in-view lean counts,
+    // computed from state.stories (leanings live per-story in the feed).
+    function pbSpectrumInfo() {
+      const leanOrder = ['left', 'left-center', 'center', 'right-center', 'right'];
+      const pool = {}; // lean -> Set(outlet names)
+      state.stories.forEach(s => {
+        if (!s.spectrum) return;
+        const src = storyOutletName(s) || s.source || '';
+        if (!src) return;
+        (pool[s.spectrum] = pool[s.spectrum] || new Set()).add(src);
+      });
+      const leans = leanOrder.filter(l => pool[l] && pool[l].size);
+      if (!leans.length) { pbToast('No spectrum tags in the current pool'); return; }
+      const vis = {};
+      pbVisibleStories().forEach(s => { if (s.spectrum) vis[s.spectrum] = (vis[s.spectrum] || 0) + 1; });
+      const poolTotal = leans.reduce((n, l) => n + pool[l].size, 0);
+      const poolTxt = leans.map(l => pool[l].size + ' ' + l).join(', ');
+      const visTxt = leans.map(l => (vis[l] || 0) + ' ' + l).join(', ');
+      pbToast('Pool: ' + poolTotal + ' outlets tagged ' + poolTxt + ' · in view: ' + visTxt + '. Rotation + corroboration boost explained in README.');
+    }
+
+    // (48) Edition switch with a 200ms cross-fade of the main container
+    // (reduced-motion: instant switch; CSS kills the transition too).
+    function pbEditionSwitch(edition) {
+      if (state.edition === edition) return;
+      const main = document.getElementById('main-content');
+      const doSwitch = () => {
+        state.edition = edition;
+        if (state.selectedCategory === 'saved') state.selectedCategory = 'all';
+        renderApp();
+      };
+      if (!main || pbReducedMotion()) { doSwitch(); return; }
+      main.classList.add('pb-fading');
+      setTimeout(() => {
+        doSwitch();
+        main.classList.remove('pb-fading');
+      }, 200);
+    }
+
+    // (39) Wake Lock during an active focus session (screen). Released on
+    // pause/reset/close; no-op where unsupported or denied. The lock
+    // auto-releases when the tab hides, so re-request on return while running.
+    let pbWakeLock = null;
+    async function pbRequestWakeLock() {
+      try {
+        if (!('wakeLock' in navigator) || !navigator.wakeLock || !navigator.wakeLock.request) return;
+        pbWakeLock = await navigator.wakeLock.request('screen');
+        if (pbWakeLock && pbWakeLock.addEventListener) {
+          pbWakeLock.addEventListener('release', () => { pbWakeLock = null; });
+        }
+      } catch (e) { /* unsupported or denied: the timer works fine anyway */ }
+    }
+    function pbReleaseWakeLock() {
+      try {
+        if (pbWakeLock) { const wl = pbWakeLock; pbWakeLock = null; wl.release().catch(() => {}); }
+      } catch (e) { /* already released */ }
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && typeof focusRunning !== 'undefined' && focusRunning && !pbWakeLock) pbRequestWakeLock();
+    });
+
+    // (46) Vault section collapse, persisted in pb_prefs (default expanded)
+    function pbApplyVaultCollapse() {
+      const section = document.getElementById('backup-articles-section');
+      const grid = document.getElementById('vault-grid');
+      const btn = document.getElementById('btn-vault-collapse');
+      const collapsed = pbPrefs.vaultCollapsed === true;
+      if (grid) grid.classList.toggle('hidden', collapsed);
+      if (section) section.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
+      if (btn) {
+        const isNight = state.edition === 'night';
+        btn.className = 'w-8 h-8 rounded-full border transition-colors flex items-center justify-center shrink-0 ' + (isNight
+          ? 'border-slate-700 text-slate-400 hover:bg-slate-800'
+          : 'border-slate-200 text-slate-500 hover:bg-slate-100');
+        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        btn.setAttribute('aria-label', collapsed ? 'Expand deep-reading vault' : 'Collapse deep-reading vault');
+      }
+    }
+    (function initVaultCollapse() {
+      const btn = document.getElementById('btn-vault-collapse');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        pbPrefs.vaultCollapsed = pbPrefs.vaultCollapsed !== true;
+        pbSavePrefs();
+        pbHaptic(8);
+        pbApplyVaultCollapse();
+      });
+      pbApplyVaultCollapse();
+    })();
+
+    // (43) Skip-to-content: focus management, not just scroll — the link is
+    // the first focusable element in the body.
+    (function initSkipLink() {
+      const link = document.getElementById('skip-to-content');
+      const main = document.getElementById('main-content');
+      if (!link || !main) return;
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        try { main.focus(); } catch (err) { /* focus not supported */ }
+      });
+    })();
+
     function renderRoutine(isNight) {
       const routineCard = document.getElementById('routine-card');
       const title = document.getElementById('routine-heading-text');
@@ -1981,7 +2256,7 @@ Key Insights:
           : 'h-full bg-amber-500 transition-all duration-300';
       }
 
-      container.innerHTML = currentList.map((item, i) => `
+      container.innerHTML = currentList.length ? currentList.map((item, i) => `
         <div class="flex items-center gap-1 p-3 rounded-xl transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
           <label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
             <input
@@ -1990,14 +2265,17 @@ Key Insights:
               ${item.done ? 'checked' : ''}
               class="w-5 h-5 rounded accent-amber-600 cursor-pointer shrink-0"
             />
-            <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${item.done ? 'line-through opacity-50' : ''}">
+            <span data-routine-edit="${item.id}" role="button" tabindex="0" aria-label="Edit '${item.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${item.done ? 'line-through opacity-50' : ''}">
               ${item.text}
             </span>
           </label>
           <button type="button" data-routine-up="${item.id}" aria-label="Move '${item.text.replace(/'/g, '')}' up" ${i === 0 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↑</button>
           <button type="button" data-routine-down="${item.id}" aria-label="Move '${item.text.replace(/'/g, '')}' down" ${i === currentList.length - 1 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↓</button>
+          <button type="button" data-routine-del="${item.id}" aria-label="Delete '${item.text.replace(/'/g, '')}'" class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-rose-300 hover:bg-slate-800' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
         </div>
-      `).join('');
+      `).join('') : `
+        <div class="rounded-xl border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-slate-300 text-slate-400'} p-4 text-center text-xs">No habits in this routine yet.</div>
+      `;
 
       container.querySelectorAll('[data-routine-id]').forEach(checkbox => {
         checkbox.addEventListener('change', async () => {
@@ -2033,6 +2311,21 @@ Key Insights:
       container.querySelectorAll('[data-routine-down]').forEach(btn => {
         btn.addEventListener('click', () => pbMoveRoutine(btn.getAttribute('data-routine-down'), 1));
       });
+
+      // (28) Routine edit (tap the text) + delete (×) with undo
+      container.querySelectorAll('[data-routine-edit]').forEach(el => {
+        const start = () => {
+          const item = currentList.find(r => r.id === el.getAttribute('data-routine-edit'));
+          if (item) pbRoutineEditStart(el, item);
+        };
+        el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); start(); }); // preventDefault stops the label toggling the checkbox
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); start(); }
+        });
+      });
+      container.querySelectorAll('[data-routine-del]').forEach(btn => {
+        btn.addEventListener('click', () => pbRoutineDelete(btn.getAttribute('data-routine-del')));
+      });
     }
 
     // ------------------------------------------------------------------
@@ -2065,17 +2358,37 @@ Key Insights:
       const tempEl = document.getElementById('weather-temp');
       const descEl = document.getElementById('weather-desc');
       const focusEl = document.getElementById('focus-status');
+      const precipEl = document.getElementById('weather-precip');
+      const precipCls = 'text-[10px] font-semibold px-1.5 py-0.5 rounded-full ' + (isNight ? 'bg-slate-800 text-indigo-300' : 'bg-slate-100 text-slate-600');
       if (!lastWeather) {
         emojiEl.textContent = isNight ? '🌙' : '☀️';
         tempEl.textContent = '––°';
         descEl.textContent = 'Weather unavailable';
         focusEl.textContent = '';
+        if (precipEl) precipEl.className = 'hidden';
         renderWeatherExtras(isNight);
         return;
       }
       emojiEl.textContent = wmoEmoji(lastWeather.code, isNight);
       tempEl.textContent = `${lastWeather.temp}°C`;
       descEl.textContent = wmoText(lastWeather.code) + (lastWeather.feels != null ? ` · feels ${lastWeather.feels}°` : '');
+      // (35) Precipitation probability chip: the nearest upcoming hour's pop
+      // (hourly already fetches precipitation_probability). '—' when the
+      // cached payload has no pop value; hidden when no hourly row at all.
+      if (precipEl) {
+        const h0 = Array.isArray(lastWeather.hours) ? lastWeather.hours[0] : null;
+        if (h0 && h0.pop != null) {
+          precipEl.textContent = '🌧 ' + h0.pop + '%';
+          precipEl.title = 'Chance of precipitation in the next hour';
+          precipEl.className = precipCls;
+        } else if (h0) {
+          precipEl.textContent = '🌧 —';
+          precipEl.title = 'Precipitation probability unavailable';
+          precipEl.className = precipCls;
+        } else {
+          precipEl.className = 'hidden';
+        }
+      }
       focusEl.className = 'text-xs font-medium mt-0.5 ' + (isNight ? 'text-indigo-400' : 'text-emerald-700');
       focusEl.textContent = isNight
         ? `Wind-down mode${lastWeather.sunset ? ` · sunset was ${lastWeather.sunset}` : ''}`
@@ -2146,10 +2459,12 @@ Key Insights:
       wrap.className = 'w-full pt-2 mt-1 border-t ' + (isNight ? 'border-slate-800' : 'border-slate-200/70');
       hoursEl.innerHTML = lastWeather.hours.map(h => {
         const slotNight = h.h >= 19 || h.h < 6; // icon honesty: moon after dusk
-        return `<div class="flex flex-col items-center gap-0.5 min-w-[40px]" title="${wmoText(h.code)}${h.pop != null ? ' · ' + h.pop + '% rain' : ''}">
-          <span class="text-base leading-none">${wmoEmoji(h.code, slotNight)}</span>
-          <span class="text-[11px] font-semibold tabular-nums">${h.temp}°</span>
-          <span class="text-[9px] ${isNight ? 'text-slate-500' : 'text-slate-400'}">${h.tm}</span>
+        // (36) Each hour cell reads out fully: "14:00, 24°, partly cloudy"
+        const cellLabel = `${h.tm}, ${h.temp}°, ${wmoText(h.code)}${h.pop != null ? `, ${h.pop}% chance of rain` : ''}`;
+        return `<div class="flex flex-col items-center gap-0.5 min-w-[40px]" role="img" aria-label="${cellLabel}" title="${wmoText(h.code)}${h.pop != null ? ' · ' + h.pop + '% rain' : ''}">
+          <span class="text-base leading-none" aria-hidden="true">${wmoEmoji(h.code, slotNight)}</span>
+          <span class="text-[11px] font-semibold tabular-nums" aria-hidden="true">${h.temp}°</span>
+          <span class="text-[9px] ${isNight ? 'text-slate-500' : 'text-slate-400'}" aria-hidden="true">${h.tm}</span>
         </div>`;
       }).join('');
       const sr = lastWeather.sunriseTs, ss = lastWeather.sunsetTs;
@@ -2497,7 +2812,7 @@ Key Insights:
         return `
           <article class="card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open deep read: ${story.title}">
             <div class="relative h-36 w-full bg-slate-900 overflow-hidden">
-              <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
+              <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="288" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
               <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">${story.category}</span>
               <button
@@ -2543,6 +2858,7 @@ Key Insights:
           }
         });
       });
+      pbApplyVaultCollapse(); // (46) keep the collapse state applied across re-renders
     }
 
     // The exact set the grid shows — shared with reader swipe navigation,
@@ -2572,14 +2888,16 @@ Key Insights:
       filtered.forEach(s => { if (s.spectrum) specCounts[s.spectrum] = (specCounts[s.spectrum] || 0) + 1; });
       const specKeys = Object.keys(specCounts).sort();
       const balEl = document.getElementById('spectrum-balance') || (() => {
-        const el = document.createElement('p');
+        const el = document.createElement('button'); // (45) tappable → pool + in-view detail toast
+        el.type = 'button';
         el.id = 'spectrum-balance';
+        el.addEventListener('click', pbSpectrumInfo);
         container.insertAdjacentElement('afterend', el);
         return el;
       })();
       if (specKeys.length >= 2) {
         balEl.textContent = 'Cross-spectrum in view: ' + specKeys.map(k => `${specCounts[k]} ${k}`).join(' · ') + ' — so you see more than one side.';
-        balEl.className = 'mt-4 text-[11px] leading-relaxed ' + (isNight ? 'text-slate-500' : 'text-slate-400');
+        balEl.className = 'mt-4 text-[11px] leading-relaxed text-left underline underline-offset-2 decoration-dotted cursor-pointer ' + (isNight ? 'text-slate-500' : 'text-slate-400');
       } else {
         balEl.className = 'hidden';
       }
@@ -2636,7 +2954,7 @@ Key Insights:
         return `
           <article class="${spanFull} ${animate ? 'card-enter' : ''} card-hover rounded-2xl border ${cardBg} shadow-sm overflow-hidden flex flex-col cursor-pointer" ${animate ? `style="animation-delay: ${Math.min(idx, 7) * 70}ms"` : ''} data-open-story="${story.id}" role="button" tabindex="0" aria-label="Open story: ${story.title}">
             <div class="relative ${isHero ? 'h-56 sm:h-72' : 'h-44'} w-full bg-slate-900 overflow-hidden">
-              <img src="${story.image}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
+              <img src="${story.image}" alt="${story.title}" decoding="async" width="800" height="${isHero ? 448 : 352}" loading="lazy" onerror="this.onerror=null;this.src=window.PB_IMG_FALLBACK" class="w-full h-full object-cover max-w-full transition-transform duration-500 hover:scale-105${pbReadIds.has(story.id) ? ' pb-read-img' : ''}" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent"></div>
               <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-sm">
                 ${story.category}
@@ -2977,7 +3295,7 @@ Key Insights:
         : `${doneCount}/${total} done`;
       document.getElementById('tasks-progress-bar').style.width = `${pct}%`;
 
-      container.innerHTML = state.tasks.map((task, i) => `
+      container.innerHTML = state.tasks.length ? state.tasks.map((task, i) => `
         <div class="flex items-center gap-1 p-3 rounded-xl transition-colors ${isNight ? 'hover:bg-slate-800/70' : 'hover:bg-slate-50'}">
           <label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
             <input
@@ -2986,14 +3304,18 @@ Key Insights:
               ${task.done ? 'checked' : ''}
               class="w-5 h-5 rounded accent-emerald-600 cursor-pointer shrink-0"
             />
-            <span class="text-xs sm:text-sm flex-1 transition-all duration-300 ${task.done ? 'line-through opacity-50' : ''}">
-              ${task.text}${task.recurring ? ` <span class="text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'}">↻ ${task.recurring}</span>` : ''}
+            <span data-task-edit="${task.id}" role="button" tabindex="0" aria-label="Edit '${task.text.replace(/'/g, '')}'" class="text-xs sm:text-sm flex-1 transition-all duration-300 cursor-text ${task.done ? 'line-through opacity-50' : ''}">
+              ${task.text}
             </span>
+            ${task.recurring ? `<button type="button" data-task-recur="${task.id}" class="pb-recur-chip shrink-0 text-[10px] font-semibold ${isNight ? 'text-indigo-400' : 'text-amber-700'}" title="Repeats ${task.recurring === 'daily' ? 'every day' : 'every ISO week'} — tap for what that means">↻ ${task.recurring}</button>` : ''}
           </label>
           <button type="button" data-task-up="${task.id}" aria-label="Move '${task.text.replace(/'/g, '')}' up" ${i === 0 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↑</button>
           <button type="button" data-task-down="${task.id}" aria-label="Move '${task.text.replace(/'/g, '')}' down" ${i === state.tasks.length - 1 ? 'disabled' : ''} class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-slate-200 hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'} disabled:opacity-25 shrink-0">↓</button>
+          <button type="button" data-task-del="${task.id}" aria-label="Delete '${task.text.replace(/'/g, '')}'" class="w-7 h-7 -my-1 rounded-lg text-[11px] font-bold ${isNight ? 'text-slate-500 hover:text-rose-300 hover:bg-slate-800' : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50'} shrink-0">×</button>
         </div>
-      `).join('');
+      `).join('') : `
+        <div class="rounded-xl border border-dashed ${isNight ? 'border-slate-700 text-slate-500' : 'border-slate-300 text-slate-400'} p-4 text-center text-xs">No priorities yet — add your first one below.</div>
+      `;
 
       container.querySelectorAll('[data-task-id]').forEach(checkbox => {
         checkbox.addEventListener('change', async () => {
@@ -3026,6 +3348,30 @@ Key Insights:
       });
       container.querySelectorAll('[data-task-down]').forEach(btn => {
         btn.addEventListener('click', () => pbMoveTask(btn.getAttribute('data-task-down'), 1));
+      });
+
+      // (26/27/47) Delete with undo, tap-text edit, recurring help toast
+      container.querySelectorAll('[data-task-del]').forEach(btn => {
+        btn.addEventListener('click', () => pbTaskDelete(btn.getAttribute('data-task-del')));
+      });
+      container.querySelectorAll('[data-task-edit]').forEach(el => {
+        const start = () => {
+          const task = state.tasks.find(t => t.id === el.getAttribute('data-task-edit'));
+          if (task) pbTaskEditStart(el, task);
+        };
+        el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); start(); }); // preventDefault stops the label toggling the checkbox
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); start(); }
+        });
+      });
+      container.querySelectorAll('[data-task-recur]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault(); e.stopPropagation(); // help text only, no logic change
+          const task = state.tasks.find(t => t.id === btn.getAttribute('data-task-recur'));
+          pbToast(task && task.recurring === 'weekly'
+            ? 'Resets weekly: when the ISO week turns over, this task returns unfinished.'
+            : 'Resets daily: after the day closes, this task returns unfinished.');
+        });
       });
     }
 
@@ -3378,15 +3724,11 @@ Key Insights:
 
     // Top-level Event Listeners
     document.getElementById('btn-morning').addEventListener('click', () => {
-      state.edition = 'morning';
-      if (state.selectedCategory === 'saved') state.selectedCategory = 'all';
-      renderApp();
+      pbEditionSwitch('morning'); // (48) 200ms cross-fade, then re-render
     });
 
     document.getElementById('btn-night').addEventListener('click', () => {
-      state.edition = 'night';
-      if (state.selectedCategory === 'saved') state.selectedCategory = 'all';
-      renderApp();
+      pbEditionSwitch('night'); // (48)
     });
 
     document.getElementById('btn-view-saved').addEventListener('click', () => {
@@ -3650,11 +3992,22 @@ Key Insights:
 
     // Offline honesty: a small badge when the network is gone (the service
     // worker serves the last cached edition, so the app keeps working).
-    const offlineBadge = document.createElement('div');
+    // (42) It's a button: tap → what "offline" actually means here, with the
+    // honest last-sync date from the feed stamp.
+    const offlineBadge = document.createElement('button');
+    offlineBadge.type = 'button';
     offlineBadge.id = 'offline-badge';
-    offlineBadge.className = 'hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full text-xs font-semibold bg-amber-500 text-slate-950 shadow-lg select-none pointer-events-none';
+    offlineBadge.setAttribute('aria-label', 'Offline — showing cached edition. Tap for details.');
+    offlineBadge.className = 'hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full text-xs font-semibold bg-amber-500 text-slate-950 shadow-lg select-none';
     offlineBadge.textContent = 'Offline — reading from your cache';
     document.body.appendChild(offlineBadge);
+    offlineBadge.addEventListener('click', () => {
+      pbHaptic(8);
+      const stamp = localStorage.getItem('pulseboard_feed_stamp');
+      const ts = stamp ? new Date(stamp).getTime() : NaN;
+      const when = isNaN(ts) ? null : new Date(ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      pbToast(when ? 'Offline — showing cached edition from ' + when : 'Offline — showing cached edition (no sync stamp yet)');
+    });
     const syncOfflineBadge = () => offlineBadge.classList.toggle('hidden', navigator.onLine);
     window.addEventListener('online', syncOfflineBadge);
     window.addEventListener('offline', syncOfflineBadge);
@@ -3724,6 +4077,9 @@ Key Insights:
             hideBadge();
             refreshing = false;
             updateFreshness();
+            // (41) success feedback: haptic + honest last-updated time
+            pbHaptic(10);
+            pbToast('Updated · ' + new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }));
           });
         } else {
           hideBadge();
@@ -3977,23 +4333,51 @@ Key Insights:
     // files (this_day.json / deadlines.json, fetched no-store).
     // ==================================================================
 
-    // ---- Bottom toasts: queued, themed, auto-dismiss 3s ----
+    // ---- Bottom toasts: queued, themed, auto-dismiss 3s (5s with action) ----
     const pbToastQueue = [];
     let pbToastBusy = false;
 
-    function pbToast(message) {
+    function pbToast(message, opts) {
       let host = document.getElementById('pb-toast-host');
       if (!host) {
         host = document.createElement('div');
         host.id = 'pb-toast-host';
         document.body.appendChild(host);
       }
+      // (30) the container itself announces politely
+      host.setAttribute('aria-live', 'polite');
+      host.setAttribute('role', 'status');
       const el = document.createElement('div');
       el.className = 'pb-toast ' + (state.edition === 'night' ? 'pb-toast-night' : 'pb-toast-morning');
       el.setAttribute('role', 'status');
       el.textContent = message; // in-app text only; textContent, never innerHTML
+      // (29) optional inline action button (e.g. Undo) — appended as a real
+      // <button>, so the message text stays textContent-only
+      if (opts && opts.actionLabel && typeof opts.onAction === 'function') {
+        el.classList.add('pb-toast-action');
+        el.pbDuration = opts.duration || 5000;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pb-toast-action-btn';
+        btn.textContent = opts.actionLabel;
+        btn.addEventListener('click', () => {
+          const qi = pbToastQueue.indexOf(el);
+          if (qi !== -1) pbToastQueue.splice(qi, 1);
+          if (el.parentNode) {
+            if (pbReducedMotion()) { el.remove(); }
+            else { el.classList.add('pb-toast-out'); setTimeout(() => { if (el.parentNode) el.remove(); }, 260); }
+          }
+          try { opts.onAction(); } catch (e) { /* action failures never break the toast loop */ }
+        });
+        el.appendChild(btn);
+      }
       host.appendChild(el);
       pbToastQueue.push(el);
+      // (30) cap: never more than 3 toasts alive — drop the oldest pending
+      while (pbToastQueue.length > 2) {
+        const old = pbToastQueue.shift();
+        if (old && old.parentNode) old.remove();
+      }
       pbToastPump();
     }
 
@@ -4006,7 +4390,7 @@ Key Insights:
         if (pbReducedMotion()) { remove(); return; }
         el.classList.add('pb-toast-out');
         setTimeout(remove, 260);
-      }, 3000);
+      }, el.pbDuration || 3000);
     }
 
     // ---- Reading streaks: a day counts when a story reader stays open >= 10s ----
@@ -4038,6 +4422,14 @@ Key Insights:
       days.push(today);
       try { localStorage.setItem(PB_READ_DAYS_KEY, JSON.stringify(days)); } catch (e) {}
       renderStreakChip(state.edition === 'night');
+      // (40) one-time scale-pop on increment (reduced-motion safe)
+      const popChip = document.getElementById('streak-chip');
+      if (popChip && !pbReducedMotion()) {
+        popChip.classList.add('pb-streak-pop');
+        const clearPop = () => { popChip.classList.remove('pb-streak-pop'); popChip.removeEventListener('animationend', clearPop); };
+        popChip.addEventListener('animationend', clearPop);
+        setTimeout(clearPop, 800); // fallback if animationend never fires
+      }
       const streak = pbCurrentStreak(days);
       if (streak === 3 || streak === 7 || streak === 30) {
         pbToast('🔥 ' + streak + '-day reading streak — keep it alive');
@@ -4221,7 +4613,7 @@ Key Insights:
     }
 
     function pbFocusTransition() {
-      playBell(0.7); // soft bell; AudioContext was primed inside the Start tap
+      if (pbPrefs.focusChime !== false) playBell(0.7); // (38) soft bell, muted via pb_prefs.focusChime; AudioContext was primed inside the Start tap
       try { if (navigator.vibrate) pbHaptic([200, 120, 200]); } catch (e) {}
       if (focusMode === 'work') {
         pbFocusLogSession();
@@ -4239,10 +4631,12 @@ Key Insights:
       if (focusRunning) {
         focusRunning = false;
         if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
+        pbReleaseWakeLock(); // (39) paused: give the screen back
       } else {
         primeAudio(); // AudioContext must be created inside the tap gesture
         focusRunning = true;
         focusInterval = setInterval(pbFocusTick, 1000);
+        pbRequestWakeLock(); // (39) keep the screen on during the session
       }
       pbFocusRender();
     }
@@ -4250,6 +4644,7 @@ Key Insights:
     function pbFocusReset() {
       focusRunning = false;
       if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
+      pbReleaseWakeLock(); // (39)
       focusMode = 'work';
       focusRemaining = FOCUS_WORK_MIN * 60;
       pbFocusRender();
@@ -4268,6 +4663,7 @@ Key Insights:
     function pbFocusOnClose() { // PB_PAGE_CLEANUPS hook
       if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
       focusRunning = false;
+      pbReleaseWakeLock(); // (39) the page closed: never hold the screen
       pbCloseGuard = null;
       if (focusTitleSaved) document.title = focusTitleSaved;
     }
