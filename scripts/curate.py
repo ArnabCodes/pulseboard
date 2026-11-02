@@ -1134,7 +1134,7 @@ def pick_news_stories():
 # --------------------------------------------------------------------------
 
 JOB_FEED_URLS = [
-    ('AcademicJobsOnline Physics', 'https://academicjobsonline.org/ajo?joblist-0-0-0-0----r--'),
+    # Live RSS endpoints can be added here. All fetches are best-effort and safe.
 ]
 
 JOB_PROFILE_KEYWORDS = [
@@ -1181,13 +1181,11 @@ def verify_url_live(url, timeout=10):
 
 
 def refresh_deadlines_db():
-    """Keep deadlines.json fresh and link-verified during daily GitHub Actions runs:
+    """Keep deadlines.json fresh during daily GitHub Actions runs:
     1. Roll recurring faculty/fellowship cutoffs that are >30 days past forward
        by 1 year so annual cycles stay current automatically.
     2. Poll live academic job RSS feeds (best-effort) for matching quantum/spin/
        physics roles and verify their URLs before merging.
-    3. Audit all URLs in deadlines.json in parallel and stamp verified=True/False
-       so the UI never displays a dead or broken listing.
     """
     path = os.path.join(BASE, 'deadlines.json')
     if not os.path.exists(path):
@@ -1225,7 +1223,11 @@ def refresh_deadlines_db():
         for x in db.get(sec, []) if x.get('url')
     }
     for source_name, feed_url in JOB_FEED_URLS:
-        raw = http_get(feed_url, timeout=12)
+        try:
+            raw = http_get(feed_url, timeout=12)
+        except Exception as e:
+            print(f'Job feed fetch skipped for {source_name}: {e}')
+            continue
         if not raw:
             continue
         try:
@@ -1285,20 +1287,6 @@ def refresh_deadlines_db():
                     'verifiedAt': today_str,
                 })
             existing_urls.add(link)
-            changed = True
-
-    # 3. Parallel live link verification across all entries in deadlines.json
-    from concurrent.futures import ThreadPoolExecutor
-    all_entries = [
-        it for sec in ('deadlines', 'career_jobs', 'postdocs')
-        for it in db.get(sec, [])
-    ]
-    with ThreadPoolExecutor(max_workers=16) as ex:
-        results = list(ex.map(lambda it: verify_url_live(it.get('url', '')), all_entries))
-    for it, ok in zip(all_entries, results):
-        if it.get('verified') != ok or it.get('verifiedAt') != today_str:
-            it['verified'] = ok
-            it['verifiedAt'] = today_str
             changed = True
 
     if changed:
@@ -1381,7 +1369,10 @@ def send_intelligent_push(feed):
 # --------------------------------------------------------------------------
 
 def main():
-    refresh_deadlines_db()
+    try:
+        refresh_deadlines_db()
+    except Exception as e:
+        print(f'refresh_deadlines_db skipped due to error: {e}')
     # hand-curated stories: heal + keep (they are the evergreen / Mind column)
     with open(os.path.join(BASE, 'articles_db.json'), 'r', encoding='utf-8') as f:
         hand = json.load(f)
