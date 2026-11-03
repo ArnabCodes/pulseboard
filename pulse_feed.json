@@ -1,107 +1,120 @@
 {
-  "generated_at": "2026-11-03T11:31:23Z",
+  "generated_at": "2026-11-03T23:50:38Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261103-41604b8e",
+      "id": "news-geopolitics-20261103-0917f456",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
-      "source": "The Guardian",
+      "source": "NPR World",
       "readMin": 2,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/us-news/live/2026/nov/03/midterm-elections-live-updates-voting",
-      "title": "US midterm elections 2026 live: Americans go to the polls in referendum on Trump’s agenda",
-      "dek": "Polls open across the US where key Senate and House races will decide which party controls Congress for remainder of Donald Trump’s second term Sign up for the Breaking News US email What are the race…",
-      "content": "The US Congress has two chambers: the House of Representatives and the Senate . Both must approve federal legislation before it can become law and both play important roles in overseeing the executive branch.\n\nThe House is elected every two years, meaning all 435 voting seats are contested at every congressional election. The Senate has 100 members serving staggered six-year terms, so roughly a third of its seats are up for election every two years.\n\nAll 435 seats in the House of Representatives. Republicans are defending a narrow majority, with Democrats needing a net gain of four seats to take control.\n\n35 seats in the Senate. Thirty-three seats are up in regular elections, along with two special elections in Florida and Ohio to fill the remainder of terms that were vacated early. Republicans currently hold 53 seats, against 47 held by Democrats and independents who caucus with them. Democrats need to gain four seats to secure a majority.\n\n39 governorships. Voters will choose governors in 36 states and three US territories.\n\nThousands of state legislative seats , as well as local offices, judicial contests and ballot measures on issues including taxes, abortion rights and voting rules.\n\nThe elections for Congress will determine which party controls Congress for the final two years of Trump’s second term . The governorships and state legislative contests will shape policymaking closer to home, from education and reproductive rights to taxation and the administration of elections.\n\nThe midterms have a long history of punishing the occupant of the White House. The president’s party has lost House seats in 18 of the past 20 midterm elections, a 90% rate of loss that stretches back to 1946.",
-      "image": "https://i.guim.co.uk/img/media/210edea69d6da127f4ca539fe823e9d3c0d5b1d9/98_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctbGl2ZS5wbmc&enable=upscale&s=1f5fbb6439aceb295ca90e86100e0a80",
-      "gallery": [],
+      "sourceUrl": "https://www.npr.org/2026/11/03/g-s1-151468/indian-navy-rescues-20-crew-from-iranian-fishing-boat-hijacked-off-somalia",
+      "title": "Indian navy rescues 20 crew from Iranian fishing boat hijacked off Somalia",
+      "dek": "he operation involved a warship, a maritime surveillance aircraft and marine commandos.",
+      "content": "FILE - Fishermen stand on the Indian Ocean beach at dusk in the former pirate village of Eyl, in Somalia's semiautonomous northeastern state of Puntland, Somalia, March 6, 2017. Ben Curtis/AP hide caption\n\nMOGADISHU, Somalia — Indian naval forces freed an Iranian fishing boat and its crew of 20 hijacked off Somalia after an operation lasting more than 48 hours, India's Defense Ministry said Tuesday.\n\nThe rescue of the Azini was completed Monday in the Arabian Sea, more than 3,000 kilometers (1,865 miles) from Mumbai, Indian Defense Minister Rajnath Singh said.\n\nAn official with the Puntland Maritime Police Force told The Associated Press that Indian forces disarmed 12 suspected Somali pirates, confiscated their mobile phones and released them. He spoke on condition of anonymity because he was not authorized to speak to the media.\n\nThe suspects and two Somali security guards later came ashore at Bandar Bayla in northeastern Somalia, the official said. Three of those who came ashore had minor injuries, but he did not specify whether they were suspects or guards, or how they were hurt.\n\nIndia's ministry said the operation ended without casualties or injuries. It did not specify whether that account covered everyone aboard or only the rescued crew. It was unclear whether the crew remained on the vessel or were moved elsewhere.\n\nThe operation involved a warship, a maritime surveillance aircraft and marine commandos. An Indian Air Force C-17 aircraft airdropped additional commandos, the ministry said.\n\nThe Azini was hijacked Oct. 29 between Bandar Bayla and Hafun. A Puntland maritime police officer said on Sunday that it carried 21 Iranian crew members and two Somali security guards. The difference between that crew count and India's rescue figure could not immediately be explained.\n\nIndian forces tracked the vessel by sea and air before securing it, the ministry said. It said there had been concern that pirates could use the boat as a floating base for attacks on commercial ships.\n\nThe Puntland official said regional authorities learned of the rescue only after it had taken place.\n\nThe hijacking followed a resurgence of Somali piracy across the Gulf of Aden and western Indian Ocean. By August, pirates had hijacked six commercial vessels since April, some far from Somalia's coast. They included the oil products tanker Sibu 1, seized about 252 kilometers (136 nautical miles) east of al-Mukalla, Yemen.",
+      "image": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/5374x3023+0+280/resize/1400/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fe2%2Fba%2F5cd335e14641858a2bac61820420%2Fap26305460227873.jpg",
+      "gallery": [
+        {
+          "url": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/5374x3583+0+0/resize/1100/quality/50/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fe2%2Fba%2F5cd335e14641858a2bac61820420%2Fap26305460227873.jpg",
+          "alt": "FILE - Fishermen stand on the Indian Ocean beach at dusk in the former pirate village of Eyl, in Somalia's semiautonomous northeastern state of Puntland, Somalia, March 6, 2017. (AP Photo/Ben Curtis, File)"
+        }
+      ],
       "saved": false,
-      "author": "Yohannes Lowe",
       "alsoCoveredBy": [
         {
-          "outlet": "The Guardian",
-          "url": "https://www.theguardian.com/us-news/2026/nov/03/midterm-elections-americans-vote"
+          "outlet": "NY Post",
+          "url": "https://nypost.com/2026/11/03/world-news/indian-navy-rescues-20-crew-from-iranian-fishing-boat-hijacked-off-somalia/"
         }
       ]
     },
     {
-      "id": "news-geopolitics-20261103-f037374f",
+      "id": "news-geopolitics-20261103-4ef50b34",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
-      "source": "The Hindu",
+      "source": "NY Post",
       "readMin": 2,
-      "spectrum": "left",
-      "sourceUrl": "https://www.thehindu.com/news/national/west-bengal/mamata-rahul-fighting-for-infiltrators-to-keep-them-in-india-bengal-cm/article71660098.ece",
-      "title": "Mamata, Rahul fighting for infiltrators to keep them in India: Bengal CM",
-      "dek": "\"The ECI and the Centre have taken up the task of driving out infiltrators from the country, whereas Mamata Banerjee and Rahul Gandhi are fighting together to keep them in India,\" says Mr.",
-      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nWest Bengal CM Suvendu Adhikari. File | Photo Credit: The Hindu\n\nWest Bengal Chief Minister Suvendu Adhikari on Tuesday (November 3, 2026) attacked the INDIA bloc for holding a rally in Delhi two days ago over alleged electoral irregularities, claiming that Congress leader Rahul Gandhi and his predecessor Mamata Banerjee joined hands to protect infiltrators.\n\nSpeaking to reporters at Bagdogra airport in Siliguri, Mr. Adhikari said the Centre and the Election Commission of India (ECI) were making efforts to drive out illegal immigrants from the country.\n\nHe also attacked Ms. Banerjee for participating in the INDIA bloc rally at Ramlila Maidan in Delhi on November 1, claiming that \"nobody had invited her to inaugurate even a single Durga Puja in West Bengal\".\n\n\"The ECI and the Centre have taken up the task of driving out infiltrators from the country, whereas Mamata Banerjee and Rahul Gandhi are fighting together to keep them in India,\" Mr. Adhikari said.\n\nThe Bengal CM is scheduled to participate in a party programme and a State government event in north Bengal on Tuesday (November 3).\n\nKolkata / All India Trinamool Congress / Bharatiya Janata Party / politics / West Bengal\n\nComments have to be in English, and in full sentences. They cannot be abusive or personal. Please abide by our community guidelines for posting your comments.\n\nWe have migrated to a new commenting platform. If you are already a registered user of The Hindu and logged in, you may continue to engage with our articles. If you do not have an account please register and login to post comments. Users can access their older comments by logging into their accounts on Vuukle.",
-      "image": "https://th-i.thgim.com/public/incoming/m8yikk/article71660187.ece/alternates/LANDSCAPE_1200/TH28-Shiv-SahayGTJGNP6IU.3.jpg.jpg",
+      "spectrum": "right",
+      "sourceUrl": "https://nypost.com/2026/11/03/world-news/israel-privately-warns-iran-is-considering-use-of-chemical-weapons-report/",
+      "title": "Israel privately warns US that Iran is considering use of chemical weapons: report",
+      "dek": "Not everyone in the US security establishment is convinced, according to the New York Times.",
+      "content": "Israeli intelligence has warned the US that it believes Iran is considering using chemical weapons against its enemies , according to a report — and American officials are divided on how to interpret the claim.\n\nThe report in The New York Times , which cites US and Middle East officials, says Iran is moving rapidly to develop the capability to put chemical agents on missiles to attack Israel or US allies in the Middle East.\n\nThe most recent warnings to the US have reportedly seen Israeli officials go as far as to suggest that the chemical weapons threat is far more urgent than the nuclear threat in Iran, the officials told the Times.\n\nNot everyone in the US security establishment is convinced, the sources reported.\n\nSome believe the threat is real and should be taken seriously.\n\nOthers see the warning as a part of a pressure campaign by Israeli Prime Minister Benjamin Netanyahu to entice the Trump administration to restart the war.\n\nNetanyahu is currently fighting for his political survival after failing to secure the majority in last week’s Israeli elections , with the prime minister reportedly urging President Trump to renew strikes in Iran.\n\nIsrael’s Home Front Command is not including chemical weapons preparations as part of its civilian safety drills this week.\n\nThe Israeli military has yet to respond to the Times’ report.\n\nIran has repeatedly denied that it has been developing chemical weapons after publicly announcing that it had dismantled such a program in 2003.\n\nIran has also maintained that its nuclear program is only for civilian energy purposes.\n\nIran remains one of the few countries that has been targeted by chemical weapons. During the Iran-Iraq War, dictator Saddam Hussein fired nerve gas over the border, killing up to 20,000 people and causing long-standing health problems for thousands of Iranians.\n\nThe Israeli intel is reminiscent of Netanyahu’s warnings before the war that Iran was just days away from developing a nuclear weapon.\n\nThe warning was part of the justification used to launch Operation Epic Fury , which included heavy bombardments at Iran’s nuclear facilities.\n\nTrump has so far rejected calls to strike Iran as negotiations continue with Tehran’s delegation, but the president has warned that he would “finish the job” if diplomacy fails.",
+      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/147450032.jpg?quality=75&strip=all&w=1200",
       "gallery": [
         {
-          "url": "https://www.thehindu.com/theme/images/th-online/1x1_spacer.png",
-          "alt": "The Hindu Logo"
-        }
-      ],
-      "saved": false
-    },
-    {
-      "id": "news-geopolitics-20261103-ce5e2911",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "BBC World",
-      "readMin": 3,
-      "spectrum": "center",
-      "sourceUrl": "https://www.bbc.co.uk/news/articles/cx240mrm3g8vo?at_medium=RSS&at_campaign=rss",
-      "title": "US strikes Iranian island ahead of midterm elections",
-      "dek": "US officials described the attacks on Qeshm Island as limited and defensive, according to CBS, the BBC's US partner.",
-      "content": "Image source, Reuters Image caption, Donald Trump has been facing falling polling numbers and pressure from within his party to end the war\n\nThe US has launched strikes on Iran's Qeshm Island in the Strait of Hormuz, US officials have told CBS, the BBC's US partner.\n\nThe officials described the strikes as limited and said they were in response to Iran's Islamic Revolutionary Guard Corps (IRGC) firing on a US aircraft.\n\nIranian state news agency Irna reported several explosions on Qeshm on Monday. The IRGC did not comment, but said its forces had shot down two US MQM-170 reconnaissance drones south of the island as well as a US MQ-9 drone over an area east of the Strait of Hormuz.\n\nThe BBC has contacted US Central Command (Centcom) for comment on the strikes, which came ahead of the US midterm elections.\n\nTrump has been facing falling polling numbers and pressure from within his Republican Party to end the war, which began when the US and Israel attacked Iran in February.\n\nEarlier on Monday, he told reporters that he was in \"no rush\" to ramp up strikes on Iran.\n\n\"One way or the other, we will do something, but there is no rush. We crippled them financially,\" he told news outlet Axios. \"They have no money, no gasoline and their people are getting very tired of it.\"\n\nHe also said the US \"might need to go after Pickaxe [Mountain]\", an underground site linked to Iran's nuclear programme, in an interview with Fox News on the eve of the midterms.\n\nThis was \"not a big deal\" and could be done in \"one hour\", Trump added.\n\nThere has been mounting speculation in the last few days that the US may resume significant strikes in Iran again after the midterms. But asked by a reporter on Monday if that was the case, Trump said \"no\".\n\nMeanwhile, the Associated Press cited two regional officials as saying that, during a weekend phone call, Israeli Prime Minister Benjamin Netanyahu had pushed Trump for another wave of strikes on Iran following the midterms.\n\nOn Tuesday, Iran's chief negotiator with the US, parliament speaker Mohammad Bagher Ghalibaf, stated: \"The ball is now in America's court to prevent war.\"\n\n\"Just as the Islamic Republic of Iran stands ready for battle with its finger on the trigger, it has also given the American side a powerful and rational response,\" he said in a televised speech.",
-      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/935d/live/479e54b0-d745-11f1-b441-2b33b063138f.jpg",
-      "gallery": [
-        {
-          "url": "https://ichef.bbci.co.uk/ace/standard/3840/cpsprodpb/9b14/live/7d50c580-d735-11f1-8523-e7796527683a.jpg",
-          "alt": "Image caption, Donald Trump has been facing falling polling numbers and pressure from within his party to end the war"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/president-donald-trump-listens-israels-145590023.jpg?w=1024",
+          "alt": "Israeli Prime Minister Benjamin Netanyahu has repeatedly warned President Trump that Iran has chemical weapons and would not hesitate to use them against Americans. AP Photo/Alex Brandon"
         },
-        "https://ichef.bbci.co.uk/ace/standard/1600/cpsprodpb/36d5/live/f5ce06a0-d733-11f1-93e1-3b657b665bcf.png",
         {
-          "url": "https://ichef.bbci.co.uk/ace/standard/3840/cpsprodpb/e7aa/live/f0f44f00-cf67-11f1-8bee-01389bd440f4.jpg",
-          "alt": "Jay Clayton gestures with his right hand"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/picture-provided-third-party-israel-147304572.jpg?w=1024",
+          "alt": "Iran’s military has long denied it has chemical weapons after such arms were used against its troops and civilans during the Iran-Iraq War. via REUTERS"
+        },
+        {
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/restricted-editorial-use-mandatory-credit-55851625.jpg?w=1024",
+          "alt": "The Iranian Army showed off its locally-made drones during a military drill last month. Iranian Army office/AFP via Getty Images"
         }
       ],
       "saved": false,
-      "author": "Sareen Habeshian"
+      "author": "Ronny Reyes"
     },
     {
-      "id": "news-tech-20261103-2b019f0e",
+      "id": "news-geopolitics-20261103-961932fc",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "The Guardian",
+      "readMin": 3,
+      "spectrum": "left",
+      "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/03/donald-trump-usa-end-military-aid-to-israel-end-year-midterms",
+      "title": "Trump claims US will end military aid to Israel by end of this year",
+      "dek": "US president makes surprise election day announcement, saying country does not ‘need’ $4bn annual payment Donald Trump has said that the US will end military aid to Israel at the end of this year in a…",
+      "content": "Donald Trump also spoke warmly about the Israeli prime minister Benjamin Netanyahu, left, during an interview with Fox News. Photograph: Jonathan Ernst/Reuters View image in fullscreen Donald Trump also spoke warmly about the Israeli prime minister Benjamin Netanyahu, left, during an interview with Fox News. Photograph: Jonathan Ernst/Reuters US news Trump claims US will end military aid to Israel by end of this year US president makes surprise election day announcement, saying country does not ‘need’ $4bn annual payment\n\nDonald Trump has said that the US will end military aid to Israel at the end of this year in a surprise election day announcement that appeared to be targeted at voters sceptical of US support for Israel and the war in Gaza .\n\nIn a phone interview with Fox News as voting began on Tuesday morning, the US president said the US would cut nearly $4bn (£2.96bn) in military aid to Israel because “they don’t need it”.\n\n“We were giving them $4bn … But it gets cut off at the end of the year,” he said.\n\nTrump also indicated that he had decided to end the aid – which he claimed would be replaced by arms sales to Israel instead – because it had become a popular criticism of US foreign policy led by outspoken candidates including the Michigan Democrat Abdul El-Sayed .\n\n“Why should we suffer the slings from lunatics like El-Sayed when they don’t need it?” Trump said. “It’s a bad talking point.”\n\nView image in fullscreen Abdul El-Sayed, pictured campaigning on Monday, would become the US’s first Muslim senator if elected. Photograph: Zach D Roberts/NurPhoto/Shutterstock During the interview, Trump claimed that the abrupt ending of aid was proposed by Israel’s prime minister, Benjamin Netanyahu. “We give them $4bn of things and money, and they don’t need it,” he said. “And I was approached by Bibi Netanyahu, and we’ve been talking about it for a couple of years because it’s a lot of money.”\n\nNetanyahu had previously suggested tapering off US military aid to Israel over the next decade, but Trump’s announcement on Tuesday would significantly accelerate that timeline.\n\nIsraeli officials appeared to be taken by surprise by the announcement, and leading members of the opposition said it showed the damage that Netanyahu had done to the US-Israel relationship. The announcement comes at a crucial moment after Netanyahu’s party lost its majority in the Knesset in last week’s elections and the opposition is trying to cobble together a coalition to replace him.",
+      "image": "https://i.guim.co.uk/img/media/60b8ee8c7578d9966d060062362646a8be71b3ad/225_0_2339_1872/master/2339.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=045b23841933642d5266d342d0be21a6",
+      "gallery": [
+        {
+          "url": "https://i.guim.co.uk/img/media/236a71127eeab6815b0598abc66fff2265d680ee/239_0_2825_2259/master/2825.jpg?width=445&dpr=1&s=none&crop=none",
+          "alt": "Abdul El-Sayed, pictured campaigning on Monday, would become the US’s first Muslim senator if elected. Photograph: Zach D Roberts/NurPhoto/Shutterstock"
+        }
+      ],
+      "saved": false,
+      "author": "Andrew Roth"
+    },
+    {
+      "id": "news-tech-20261103-cc24ad3d",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "The Verge",
+      "source": "Ars Technica",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://www.theverge.com/ai-artificial-intelligence/1024632/anthropic-claude-ai-video-game-clones",
-      "title": "Anthropic clamps down on Claude’s AI video game clones",
-      "dek": "Anthropic has updated Claude Code's system prompt to prevent the AI tool from being used to re-create existing video games, as reported by Tom's Hardware.",
-      "content": "Anthropic is steering Claude away from re-creating specific titles, but users can still use it to make their own games.\n\nAnthropic is steering Claude away from re-creating specific titles, but users can still use it to make their own games.\n\nAnthropic has updated Claude Code’s system prompt to prevent the AI tool from being used to re-create existing video games, as reported by Tom’s Hardware . Retro gaming is currently being overrun with AI-made decompilations, recompilations, and ports , but while Anthropic will still let people use Claude Code to make games, it doesn’t want people to use it for direct clones.\n\nLast week, a user on X posted a screenshot allegedly showing two new sentences added to Claude Code’s system prompt: “Do build original games, games in a genre, and games from the user’s own designs and assets. Don’t build a recreation of a specific existing game, even if it is named or called original.”\n\nAnthropic’s Addy Osmani, in a reply , didn’t confirm that specific language but did say that the company had updated the prompt in Claude Code on Opus 5.5:\n\nWe added two sentences to Claude Code’s prompt on Opus 5.5 to steer it away from recreating someone else’s specific game because using Claude to infringe IP is against our usage policy.\n\nOriginal games, genre games, and games built from your own designs and assets are meant to keep working.\n\nWe’ll continue to iterate to ensure we’re striking the right balance. In the meantime, if Claude turns down something that’s yours, send it my way.\n\nWe’ve asked Anthropic if it has or will be updating other Claude system prompts as well.",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200",
-      "gallery": [],
+      "sourceUrl": "https://arstechnica.com/ai/2026/11/google-will-let-schools-skip-ai-tools-but-they-have-to-give-up-search-too/",
+      "title": "Google will let schools skip AI tools, but they have to give up search, too",
+      "dek": "Google will offer schools AI tools that purportedly don't give away the answers.",
+      "content": "Google will offer schools AI tools that purportedly don’t give away the answers.\n\nWhile Google is trying to move beyond Chromebooks , the ubiquity of these devices has made the company’s education products huge in schools. Now, Google says it will let educators choose whether to allow its AI tools in the classroom. However, blocking AI tools also means giving up search, leaving schools with a difficult decision.\n\nGoogle’s new overarching approach to AI in K-12 classrooms sounds good on the surface. After consulting educators, researchers, and lawmakers, Google has decided that schools using its education products will be opted out of AI tools by default. It will be up to administrators to manually enable them when these changes roll out in the coming months.\n\nWhen you look at what Google considers to be an AI tool, the nature of the Faustian bargain becomes clear. The affected products are Gemini, Gemini Notebook, Gemini in Classroom, and Google Search . There’s no picking and choosing—you either allow all the AI or none of it.\n\nThis is actually consistent with Google’s approach in the consumer space. Google executives have said in no uncertain terms that Google Search is AI search . Most searches now provide an AI Overview at the top, and the company is constantly coming up with new ways to nudge people toward the conversational AI Mode chatbot function. Google sees this as the future.\n\nIn a statement to The New York Times , Google education VP Chris Phillips reiterated this approach to web search. “Search and AI are deeply integrated,” he said, adding that if a school chooses not to enable AI, the students “will not have access to search, and they’ll see a message from their school that indicates it’s not available.”\n\nGoogle could make a version of search for schools that doesn’t have AI tools, but it’s not doing that. Instead, it’s creating two different versions of AI in search. When schools enable AI for student accounts, they’ll have two options: the standard Gemini-based AI and the new “Guided Learning” version. The latter, available in Classroom as well as search, is supposed to provide one-on-one tutoring and assistance without giving away all the answers. Google notes all of its generative AI products can make “mistakes,” though, so it may not be difficult to talk the chatbot into doing your homework.",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/google-logo-big-g-grooves-1152x648.jpg",
+      "gallery": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2025/02/AV4.jpg",
+          "alt": "Photo of Ryan Whitwam"
+        }
+      ],
       "saved": false,
-      "author": "Jay Peters"
+      "author": "Ryan Whitwam"
     },
     {
-      "id": "news-quantum-20261103-c93a8726",
+      "id": "news-quantum-20261103-46a5e1a0",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
-      "readMin": 2,
+      "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261101010525.htm",
-      "title": "Scientists just found a loophole that could let black holes split in two",
-      "dek": "Scientists have discovered a possible loophole in the laws that normally prevent black holes from splitting apart, suggesting that extremely fast-spinning black holes might divide into two.",
-      "content": "Black holes are known for merging when two of them collide, but could the reverse ever happen? Could a single black hole somehow divide into two smaller ones? A new theoretical study suggests that this extraordinary possibility may not be entirely ruled out by physics, although the conditions required would be extreme.\n\nThe research, published in Physical Review D under the title \"When Black Holes Admit Pair-of-pants Topologies,\" examines the physical laws that keep black holes intact and whether certain circumstances could allow them to break apart.\n\n\"In our study, we investigate which physical laws normally prevent a black hole from splitting into two. We also investigate if certain circumstances may allow a split to happen,\" says Francesco Sannino, co-author of the study and a professor of physics at University of Naples Federico II in Italy and Quantum Field Theory Center at University of Southern Denmark.\n\nThe research team also included Giacomo Cacciapaglia, a researcher with the French National Centre for Scientific Research (CNRS) at the Laboratoire de Physique Th&eacute;orique et Hautes &Eacute;nergies, a joint CNRS and Sorbonne Universit&eacute; laboratory in Paris. Additional contributors were Manuel Del Piano and Vania Vellucci, both from the Quantum Field Theory Center at the University of Southern Denmark.\n\nOne of the biggest obstacles to a black hole splitting comes from thermodynamics, the branch of physics that governs how energy behaves and how physical systems change.\n\nA central concept is entropy, which describes how many different microscopic arrangements a system can have while appearing unchanged from the outside. Black holes have entropy, and this property places important limits on what can happen to them.\n\nFor a black hole that is not rotating, dividing into two smaller black holes would reduce the total entropy. Such a decrease makes the process thermodynamically unfavorable, helping explain why black holes do not ordinarily break apart.\n\nHowever, the researchers found that the situation could change dramatically when a black hole spins at an exceptionally high speed.\n\nThe team's calculations suggest that rapid rotation may create a narrow opening in the physical rules that normally prevent black holes from dividing. In principle, a sufficiently fast spinning black hole could overcome the usual thermodynamic restriction.\n\nBut there is another major obstacle. Even if a black hole could divide, the two resulting objects would need to move far enough apart to avoid immediately merging again.",
-      "image": "https://www.sciencedaily.com/images/1920/black-holes-split-apart-merger.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261101010533.htm",
+      "title": "IceCube detects ghost particles with 10 billion times the energy of solar neutrinos",
+      "dek": "Mysterious particles called neutrinos constantly stream through our bodies, and scientists are now detecting incredibly powerful versions arriving from distant cosmic sources using a massive observato…",
+      "content": "An enormous number of invisible particles are constantly traveling through Earth, passing through our bodies and continuing into space as though almost nothing stands in their way. Known as neutrinos, these mysterious particles are among the most difficult objects in the universe to detect. Yet scientists are finding ways to capture evidence of their passage, opening new opportunities to investigate the cosmos and its most extreme environments.\n\nNeutrino research has played a remarkable role in modern physics. Discoveries involving these particles have contributed to five Nobel Prizes in Physics. This year, physicist Francis Halzen received the prestigious award \"for decisive contributions to the IceCube Neutrino Observatory and the discovery of high-energy neutrinos of astrophysical origin.\"\n\nGeorge Fuller, a Distinguished Professor of Physics at the University of California San Diego, has studied nuclear physics, particle astrophysics, and cosmology for decades. He also collaborated with Halzen on an early scientific paper about IceCube . His expertise helps explain what makes neutrinos so unusual and why scientists built an enormous observatory deep within the Antarctic ice to study them.\n\nNeutrinos belong to a group known as elementary particles, which scientists believe have no smaller components. They come in three varieties, called electron, muon, and tau neutrinos. Unlike electrically charged particles, neutrinos have no electric charge. They do have mass, but it is extraordinarily small, potentially around 10 million times less than the mass of an electron. Their exact masses remain unknown, as does the mechanism responsible for producing them.\n\nAnother remarkable characteristic is their ability to travel through matter with almost no resistance. Because neutrinos interact so rarely with other particles, they can cross vast distances at speeds approaching the speed of light.\n\nNeutrinos originate from many different places, including the Sun, distant regions of space, and sources scientists have yet to identify. They are also astonishingly abundant. Estimates suggest the universe contains roughly 10 89 neutrinos, equivalent to approximately one billion for every atom in existence.\n\n\"Neutrinos are truly ghost-like particles,\" stated Fuller. \"It's hard to stop them. It's hard to catch them. How do we even know they exist or where they are?\"\n\nDespite their elusive nature, neutrinos occasionally interact with matter through a fundamental force known as the weak interaction. This force is approximately 20 orders of magnitude weaker than electromagnetism. Such interactions can cause neutrinos to scatter or be absorbed, providing scientists with a way to detect them. However, these events are so uncommon that observing them requires exceptionally sensitive equipment.",
+      "image": "https://www.sciencedaily.com/images/1920/icecube-neutrino-interactions-blue-light.webp",
       "gallery": [],
       "saved": false
     },
