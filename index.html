@@ -239,6 +239,94 @@
     .pb-drag-handle:active { cursor: grabbing; }
     .pb-dragging { z-index: 20; }
     .pb-dragging .pb-item-card { box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.28); transform: scale(1.02); }
+  
+    /* ---- Slide-Over Reader & Drawer Polish (Desktop Sheet, Mobile Fullscreen) ---- */
+    @media (min-width: 768px) {
+      #page-layer {
+        background-color: rgba(9, 11, 17, 0.52);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      #page-surface {
+        left: auto !important;
+        right: 0 !important;
+        width: min(740px, 90vw) !important;
+        border-left: 1px solid rgba(148, 163, 184, 0.22);
+        box-shadow: -24px 0 64px -12px rgba(2, 6, 23, 0.45);
+        transition: opacity 240ms ease, transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #page-surface.pb-enter-from {
+        opacity: 0;
+        transform: translateX(48px) !important;
+      }
+      #page-surface.pb-exit-to {
+        opacity: 0;
+        transform: translateX(36px) !important;
+        pointer-events: none;
+      }
+      #page-progress-wrap {
+        left: auto !important;
+        right: 0 !important;
+        width: min(740px, 90vw) !important;
+      }
+    }
+
+    /* Night Theme Overrides for Quantum Lab & Command Palette */
+    body.bg-slate-950 #quantum-lab-card {
+      background-color: rgba(15, 23, 42, 0.92);
+      border-color: rgba(51, 65, 85, 0.85);
+      color: #f1f5f9;
+    }
+    body.bg-slate-950 #quantum-lab-card .border-stone-200\/80,
+    body.bg-slate-950 #quantum-lab-card .border-stone-200\/70,
+    body.bg-slate-950 #quantum-lab-card .border-stone-200\/60,
+    body.bg-slate-950 #quantum-lab-card .border-stone-200 {
+      border-color: rgba(51, 65, 85, 0.8) !important;
+    }
+    body.bg-slate-950 #quantum-lab-card .bg-stone-50\/70,
+    body.bg-slate-950 #quantum-lab-card .bg-stone-50 {
+      background-color: rgba(2, 6, 23, 0.65) !important;
+    }
+    body.bg-slate-950 #quantum-lab-card .text-stone-800,
+    body.bg-slate-950 #quantum-lab-card .text-stone-700 {
+      color: #e2e8f0 !important;
+    }
+    body.bg-slate-950 #quantum-lab-card .text-stone-500,
+    body.bg-slate-950 #quantum-lab-card .text-stone-400 {
+      color: #94a3b8 !important;
+    }
+    body.bg-slate-950 #btn-pulse-pi2,
+    body.bg-slate-950 #btn-pulse-pi,
+    body.bg-slate-950 .btn-quantum-action {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f1f5f9 !important;
+    }
+    body.bg-slate-950 #btn-pulse-pi2:hover,
+    body.bg-slate-950 #btn-pulse-pi:hover,
+    body.bg-slate-950 .btn-quantum-action:hover {
+      background-color: #334155 !important;
+    }
+    body.bg-slate-950 #cmd-palette-modal {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+      color: #f1f5f9 !important;
+    }
+    body.bg-slate-950 #cmd-palette-input {
+      color: #f8fafc !important;
+    }
+    body.bg-slate-950 .cmd-item {
+      color: #e2e8f0 !important;
+    }
+    body.bg-slate-950 .cmd-item:hover,
+    body.bg-slate-950 .cmd-item.cmd-active {
+      background-color: rgba(51, 65, 85, 0.65) !important;
+    }
+    .cmd-item.cmd-active {
+      background-color: #f5f5f4;
+      outline: 1px solid rgba(217, 119, 6, 0.35);
+    }
+
   </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
@@ -507,57 +595,98 @@
     <section id="quantum-lab-card" class="mb-6 rounded-2xl border border-stone-200/90 bg-white p-5 sm:p-6 shadow-[0_1px_3px_rgba(15,23,42,0.03)] transition-all overflow-hidden relative">
       <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4 border-b border-stone-200/80">
         <div class="flex items-center gap-2.5">
-          <span class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-700 flex items-center justify-center text-sm font-semibold">⚛</span>
+          <span class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-600 flex items-center justify-center text-base font-bold">⚛</span>
           <div>
-            <h3 class="font-serif-editorial text-base sm:text-lg font-semibold tracking-tight">Quantum Spin Dynamics Lab</h3>
-            <p class="font-mono-tabular text-[10px] text-stone-500 uppercase tracking-widest">Floquet NV Drive &bull; Bloch Sphere Simulation</p>
+            <div class="flex items-center gap-2">
+              <h3 class="font-serif-editorial text-base sm:text-lg font-semibold tracking-tight">Quantum Spin Dynamics &amp; NV Control Lab</h3>
+              <span class="font-mono-tabular text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-600 border border-indigo-500/20">Interactive 3D</span>
+            </div>
+            <p class="font-mono-tabular text-[10px] text-stone-500 uppercase tracking-widest mt-0.5">Diamond NV Center &bull; Lindblad Decoherence ($T_1, T_2^*$) &bull; Floquet Drive</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <span id="bloch-fidelity-badge" class="font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">Fidelity &gt;99.98%</span>
-          <button type="button" id="btn-toggle-bloch" class="w-8 h-8 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-100 flex items-center justify-center transition-colors" title="Toggle Bloch sphere">
+          <span id="bloch-fidelity-badge" class="font-mono-tabular text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 border border-emerald-500/25">Purity Tr(&rho;&sup2;) = 1.000</span>
+          <button type="button" id="btn-toggle-bloch" class="w-8 h-8 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-100 flex items-center justify-center transition-colors" title="Collapse / expand Quantum Lab">
             <span id="bloch-chevron">▾</span>
           </button>
         </div>
       </div>
+
       <div id="bloch-body" class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
-        <div class="md:col-span-5 flex flex-col items-center justify-center p-2 rounded-xl bg-stone-50/70 border border-stone-200/60 relative">
-          <canvas id="bloch-canvas" width="240" height="240" class="w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] cursor-grab active:cursor-grabbing"></canvas>
-          <div class="absolute bottom-2 text-center">
-            <span id="bloch-state-str" class="font-mono-tabular text-[11px] font-semibold text-stone-700">&lang;&psi;&rang; = |0&rang;</span>
+        <!-- 3D Interactive Bloch Sphere Canvas -->
+        <div class="md:col-span-5 flex flex-col items-center justify-center p-3 rounded-xl bg-stone-50/70 border border-stone-200/60 relative">
+          <canvas id="bloch-canvas" width="260" height="260" class="w-[220px] h-[220px] sm:w-[240px] sm:h-[240px] cursor-grab active:cursor-grabbing"></canvas>
+          <div class="mt-1 flex items-center justify-between w-full px-2">
+            <span id="bloch-state-str" class="font-mono-tabular text-[10px] font-semibold text-stone-700">|&psi;&rang; = 1.00|0&rang; + 0.00|1&rang;</span>
+            <span class="font-mono-tabular text-[9px] text-stone-400">Drag to orbit 3D</span>
           </div>
         </div>
+
+        <!-- Telemetry & Microwave Pulse Sequence Console -->
         <div class="md:col-span-7 flex flex-col justify-between space-y-3.5">
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="p-2 rounded-lg bg-stone-50 border border-stone-200/70">
-              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">&lang;&sigma;z&rang;</p>
-              <p id="bloch-sz" class="font-mono-tabular text-xs font-semibold text-stone-800 mt-0.5">+1.000</p>
+          <!-- 4-Channel Telemetry Readout -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+            <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Inversion &lang;&sigma;z&rang;</p>
+              <p id="bloch-sz" class="font-mono-tabular text-xs sm:text-sm font-semibold text-stone-800 mt-0.5">+1.000</p>
             </div>
-            <div class="p-2 rounded-lg bg-stone-50 border border-stone-200/70">
-              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Rabi &Omega;R</p>
-              <p id="bloch-rabi" class="font-mono-tabular text-xs font-semibold text-stone-800 mt-0.5">12.5 MHz</p>
+            <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Coherence |&lang;&sigma;+&rang;|</p>
+              <p id="bloch-coherence" class="font-mono-tabular text-xs sm:text-sm font-semibold text-amber-600 mt-0.5">0.000</p>
             </div>
-            <div class="p-2 rounded-lg bg-stone-50 border border-stone-200/70">
-              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Drive Mode</p>
-              <p id="bloch-mode" class="font-mono-tabular text-xs font-semibold text-amber-700 mt-0.5">Precession</p>
+            <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Rabi &Omega;R / 2&pi;</p>
+              <p id="bloch-rabi" class="font-mono-tabular text-xs sm:text-sm font-semibold text-stone-800 mt-0.5">12.5 MHz</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Active Regime</p>
+              <p id="bloch-mode" class="font-mono-tabular text-xs sm:text-sm font-semibold text-indigo-600 mt-0.5">Static</p>
             </div>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" id="btn-pulse-pi2" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
+
+          <!-- Interactive Rabi & Detuning Sliders -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-xl bg-stone-50/70 border border-stone-200/60">
+            <div>
+              <div class="flex justify-between font-mono-tabular text-[10px] mb-1">
+                <span class="text-stone-500">Rabi Drive &Omega;R</span>
+                <span id="bloch-rabi-val" class="font-semibold text-stone-700">12.5 MHz</span>
+              </div>
+              <input id="bloch-rabi-slider" type="range" min="1" max="50" step="0.5" value="12.5" class="w-full accent-amber-600 h-1.5 bg-stone-200 rounded-lg cursor-pointer" />
+            </div>
+            <div>
+              <div class="flex justify-between font-mono-tabular text-[10px] mb-1">
+                <span class="text-stone-500">Bath Dephasing &Gamma;2*</span>
+                <span id="bloch-gamma-val" class="font-semibold text-stone-700">0.02 MHz</span>
+              </div>
+              <input id="bloch-gamma-slider" type="range" min="0" max="0.25" step="0.01" value="0.02" class="w-full accent-indigo-600 h-1.5 bg-stone-200 rounded-lg cursor-pointer" />
+            </div>
+          </div>
+
+          <!-- Pulse Gate Sequence Buttons -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" id="btn-pulse-pi2" class="btn-quantum-action px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
               &pi;/2 Pulse (X)
             </button>
-            <button type="button" id="btn-pulse-pi" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
-              &pi; Pulse (Echo)
+            <button type="button" id="btn-pulse-hadamard" class="btn-quantum-action px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
+              Hadamard (H)
+            </button>
+            <button type="button" id="btn-pulse-pi" class="btn-quantum-action px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
+              &pi; Echo (Hahn)
             </button>
             <button type="button" id="btn-toggle-floquet" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-900 text-white hover:bg-stone-800 active:scale-95 transition-all">
-              Toggle Floquet Drive
+              ▶ Start Floquet Drive
+            </button>
+            <button type="button" id="btn-clear-trail" class="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-stone-200 text-stone-500 hover:text-stone-800 transition-colors">
+              Clear Trail
             </button>
             <button type="button" id="btn-reset-bloch" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-stone-500 hover:text-stone-800 transition-colors">
               &circlearrowleft; |0&rang;
             </button>
           </div>
+
+          <!-- Fixed Physics Hamiltonian Formula -->
           <p class="font-mono-tabular text-[10px] text-stone-500 leading-relaxed">
-            Simulating time-periodic microwave driving Hamiltonian (t) = rac{\omega_0}{2}\sigma_z + \Omega\cos(\omega t)\sigma_x$ on diamond NV spin register.
+            Hamiltonian: $H(t) = \frac{\Delta}{2}\sigma_z + \Omega_R \cos(\omega t)\sigma_x$ with Lindblad bath dissipator $\mathcal{D}[\sigma_z](\rho)$ on $^{13}\text{C}$-coupled diamond NV spin.
           </p>
         </div>
       </div>
@@ -584,10 +713,10 @@
     <div id="smart-radar-strip" class="hidden mb-8 rounded-xl border border-stone-200/90 bg-[#faf7f2] px-4 py-2.5 flex flex-wrap items-center gap-2"></div>
 
     <!-- 12-Column Editorial & Personal Command Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+    <div id="deck-grid-wrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
 
       <!-- Left Column: Visual Newsboard + Vault + Papers (8 cols) -->
-      <div class="lg:col-span-8 space-y-12">
+      <div id="deck-left-col" class="lg:col-span-8 space-y-12">
 
         <!-- Newsboard -->
         <section id="newsboard-section" aria-labelledby="newsboard-heading">
@@ -765,7 +894,7 @@
       </div>
 
       <!-- Right Column: Routines, Schedule & Priorities Command Column (4 cols) -->
-      <aside class="lg:col-span-4 space-y-6">
+      <aside id="deck-right-aside" class="lg:col-span-4 space-y-6">
 
         <!-- Dedicated Routine Checklist -->
         <div id="routine-card" class="rounded-xl p-5 border border-stone-200/90 bg-white shadow-sm transition-all">
@@ -3642,7 +3771,7 @@ Key Insights:
         editionPill.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-indigo-950/90 text-indigo-300 border border-indigo-800/80';
         editionPill.textContent = 'Night Edition';
 
-        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-lg border border-slate-700/90 bg-slate-800/90 text-slate-300 hover:bg-slate-700 transition-colors';
+        document.getElementById('btn-open-search').className = 'inline-flex items-center gap-1.5 px-2.5 h-8 sm:h-9 shrink-0 rounded-lg border border-slate-700/90 bg-slate-800/90 text-slate-200 hover:bg-slate-700 text-xs font-medium transition-colors';
         btnMorning.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium text-slate-400 hover:text-white transition-all';
         btnNight.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-indigo-600 text-white shadow-sm transition-all';
         document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-lg p-0.5 bg-slate-800/90 border border-slate-700/90';
@@ -3686,7 +3815,7 @@ Key Insights:
         editionPill.className = 'font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded border border-amber-800/25 bg-amber-50 text-amber-900';
         editionPill.textContent = 'Morning Edition';
 
-        document.getElementById('btn-open-search').className = 'inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors';
+        document.getElementById('btn-open-search').className = 'inline-flex items-center gap-1.5 px-2.5 h-8 sm:h-9 shrink-0 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-700 text-xs font-medium transition-colors';
         btnMorning.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-white text-stone-900 shadow-sm transition-all';
         btnNight.className = 'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium text-stone-600 hover:text-stone-900 transition-all';
         document.getElementById('edition-switcher').className = 'inline-flex shrink-0 rounded-lg p-0.5 bg-stone-200/70 border border-stone-300/60';
@@ -3774,6 +3903,8 @@ Key Insights:
       pbEnsureVaultStories();
       renderVault(isNight);
       if (typeof renderWorkspaceLens === 'function') renderWorkspaceLens(isNight);
+      if (typeof pbApplyCurrentDeck === 'function') pbApplyCurrentDeck(false);
+      if (typeof window.pbSyncBlochTheme === 'function') window.pbSyncBlochTheme();
     }
 
     // ---- Deep-Reading Vault: evergreen deep dives (EXTRA_STORIES) ----
@@ -7036,6 +7167,7 @@ Key Insights:
         renderCareerBoard(isNight);
         renderPostdocBoard(isNight);
         renderWorkspaceLens(isNight);
+        if (typeof pbApplyCurrentDeck === 'function') pbApplyCurrentDeck(false);
         if (typeof pbEvaluateDeadlineNotifications === 'function') pbEvaluateDeadlineNotifications();
       } catch (e) { /* offline: widget stays hidden */ }
     }
@@ -8472,7 +8604,7 @@ Key Insights:
     }
 
     // ---- Feature wiring ----
-    document.getElementById('btn-open-search').addEventListener('click', () => pbOpenSearch());
+    /* btn-open-search is bound to Command Palette (Cmd+K) with instant search fallback */
     document.getElementById('search-back').addEventListener('click', pbSearchClose);
     document.getElementById('search-clear').addEventListener('click', () => {
       const input = document.getElementById('search-input');
@@ -8727,7 +8859,7 @@ Key Insights:
   
     // =========================================================================
     // =========================================================================
-    // SIGNATURE PERSONALITY ENGINE: Quantum Bloch Simulator, Cmd+K, Audio, Confetti
+    // SIGNATURE PERSONALITY ENGINE: Quantum Bloch Simulator, Cmd+K, Deck Sync
     // =========================================================================
 
     // 1. Synthesized Audio Haptics (Web Audio API)
@@ -8743,7 +8875,7 @@ Key Insights:
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, t);
         osc.frequency.exponentialRampToValueAtTime(300, t + dur);
-        gain.gain.setValueAtTime(0.04, t);
+        gain.gain.setValueAtTime(0.035, t);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
         osc.connect(gain);
         gain.connect(pbAudioCtx.destination);
@@ -8757,8 +8889,8 @@ Key Insights:
       if (typeof confetti === 'function') {
         try {
           confetti({
-            particleCount: 50,
-            spread: 60,
+            particleCount: 55,
+            spread: 65,
             origin: { y: 0.8 },
             colors: ['#f59e0b', '#6366f1', '#10b981', '#3b82f6', '#f43f5e']
           });
@@ -8766,73 +8898,106 @@ Key Insights:
       }
     }
 
-    // Global hooks for pulse actions (used by buttons & command palette)
+    // Global hooks for Quantum Lab actions
     let pbApplyPulse = null;
     let pbToggleFloquetDrive = null;
     let pbResetBlochState = null;
 
-    // 3. Interactive Quantum Bloch Sphere & Floquet Simulation Engine
+    // 3. Interactive 3D Quantum Bloch Sphere & Lindblad/Floquet Simulation Engine
     (function initQuantumLab() {
       const canvas = document.getElementById('bloch-canvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Spin state angles: theta in [0, pi], phi in [0, 2*pi]
-      let theta = 0.0;
-      let phi = 0.0;
+      // Bloch vector (bx, by, bz) inside unit sphere (|b| <= 1 allows mixed states / decoherence)
+      let bx = 0.0, by = 0.0, bz = 1.0;
+      let trail = [{ x: 0, y: 0, z: 1 }];
       let isFloquetActive = false;
       let floquetTimer = null;
-      let userRotX = 0.35;
-      let userRotY = -0.45;
+      let rabiFreq = 12.5; // MHz
+      let gamma2 = 0.02;   // MHz dephasing
+      let userRotX = 0.32;
+      let userRotY = -0.48;
       let isDragging = false;
       let lastMouseX = 0, lastMouseY = 0;
+
+      function pushTrail(x, y, z) {
+        trail.push({ x, y, z });
+        if (trail.length > 90) trail.shift();
+      }
 
       function renderBloch() {
         const w = canvas.width, h = canvas.height;
         const cx = w / 2, cy = h / 2;
-        const R = Math.min(w, h) * 0.38;
+        const R = Math.min(w, h) * 0.39;
         const isNight = state && state.edition === 'night';
 
         ctx.clearRect(0, 0, w, h);
 
         function project(x, y, z) {
+          // In physics coords: Z is vertical, X is right, Y is out-of-page
+          // Map to screen: X -> x, Z -> y (up), Y -> z (depth)
           const cosX = Math.cos(userRotX), sinX = Math.sin(userRotX);
-          const y1 = y * cosX - z * sinX;
-          const z1 = y * sinX + z * cosX;
+          const y1 = z * cosX - y * sinX;
+          const z1 = z * sinX + y * cosX;
           const cosY = Math.cos(userRotY), sinY = Math.sin(userRotY);
           const x2 = x * cosY + z1 * sinY;
           const z2 = -x * sinY + z1 * cosY;
           return { px: cx + x2 * R, py: cy - y1 * R, zDepth: z2 };
         }
 
+        // Sphere halo & surface
         ctx.save();
         ctx.beginPath();
         ctx.arc(cx, cy, R, 0, Math.PI * 2);
-        ctx.fillStyle = isNight ? 'rgba(15, 23, 42, 0.45)' : 'rgba(245, 245, 240, 0.65)';
+        const grad = ctx.createRadialGradient(cx - R * 0.25, cy - R * 0.25, R * 0.1, cx, cy, R);
+        if (isNight) {
+          grad.addColorStop(0, 'rgba(30, 41, 59, 0.75)');
+          grad.addColorStop(1, 'rgba(2, 6, 23, 0.85)');
+        } else {
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+          grad.addColorStop(1, 'rgba(231, 229, 228, 0.55)');
+        }
+        ctx.fillStyle = grad;
         ctx.fill();
-        ctx.strokeStyle = isNight ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12)';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = isNight ? 'rgba(148, 163, 184, 0.22)' : 'rgba(120, 113, 108, 0.22)';
+        ctx.lineWidth = 1.25;
         ctx.stroke();
         ctx.restore();
 
+        // Equatorial circle (XY plane, z=0)
         ctx.save();
         ctx.beginPath();
-        const steps = 40;
+        const steps = 48;
         for (let i = 0; i <= steps; i++) {
           const ang = (i / steps) * Math.PI * 2;
-          const pt = project(Math.cos(ang), 0, Math.sin(ang));
+          const pt = project(Math.cos(ang), Math.sin(ang), 0);
           if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
         }
-        ctx.strokeStyle = isNight ? 'rgba(99, 102, 241, 0.28)' : 'rgba(217, 119, 6, 0.3)';
+        ctx.strokeStyle = isNight ? 'rgba(99, 102, 241, 0.32)' : 'rgba(217, 119, 6, 0.28)';
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 4]);
         ctx.stroke();
         ctx.restore();
 
-        function drawAxis(x2, y2, z2, label, color) {
+        // Meridian circle (XZ plane, y=0)
+        ctx.save();
+        ctx.beginPath();
+        for (let i = 0; i <= steps; i++) {
+          const ang = (i / steps) * Math.PI * 2;
+          const pt = project(Math.cos(ang), 0, Math.sin(ang));
+          if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
+        }
+        ctx.strokeStyle = isNight ? 'rgba(148, 163, 184, 0.14)' : 'rgba(120, 113, 108, 0.14)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+
+        // Axes
+        function drawAxis(ax, ay, az, label, color) {
           const o = project(0, 0, 0);
-          const p = project(x2 * 1.2, y2 * 1.2, z2 * 1.2);
+          const p = project(ax * 1.18, ay * 1.18, az * 1.18);
           ctx.save();
           ctx.beginPath();
           ctx.moveTo(o.px, o.py);
@@ -8841,21 +9006,33 @@ Key Insights:
           ctx.lineWidth = 1;
           ctx.stroke();
           ctx.fillStyle = color;
-          ctx.font = '10px JetBrains Mono, monospace';
-          ctx.fillText(label, p.px + 4, p.py + 3);
+          ctx.font = '600 10px JetBrains Mono, monospace';
+          ctx.fillText(label, p.px + 3, p.py + 3);
           ctx.restore();
         }
 
-        const axisColor = isNight ? 'rgba(148, 163, 184, 0.45)' : 'rgba(120, 113, 108, 0.45)';
-        drawAxis(1, 0, 0, 'x', axisColor);
-        drawAxis(0, 1, 0, 'z', isNight ? '#818cf8' : '#d97706');
-        drawAxis(0, 0, 1, 'y', axisColor);
+        const axisColor = isNight ? 'rgba(148, 163, 184, 0.55)' : 'rgba(120, 113, 108, 0.6)';
+        drawAxis(1, 0, 0, '+x', axisColor);
+        drawAxis(0, 1, 0, '+y', axisColor);
+        drawAxis(0, 0, 1, '|0⟩', isNight ? '#818cf8' : '#d97706');
+        drawAxis(0, 0, -1, '|1⟩', axisColor);
 
-        const sx = Math.sin(theta) * Math.cos(phi);
-        const sz = Math.cos(theta);
-        const sy = Math.sin(theta) * Math.sin(phi);
+        // Trajectory Trail on Bloch Sphere
+        if (trail.length > 1) {
+          ctx.save();
+          ctx.beginPath();
+          for (let i = 0; i < trail.length; i++) {
+            const pt = project(trail[i].x, trail[i].y, trail[i].z);
+            if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
+          }
+          ctx.strokeStyle = isNight ? 'rgba(56, 189, 248, 0.45)' : 'rgba(217, 119, 6, 0.45)';
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+          ctx.restore();
+        }
 
-        const tip = project(sx, sz, sy);
+        // Current Bloch state vector (bx, by, bz)
+        const tip = project(bx, by, bz);
         const center = project(0, 0, 0);
 
         ctx.save();
@@ -8863,25 +9040,41 @@ Key Insights:
         ctx.moveTo(center.px, center.py);
         ctx.lineTo(tip.px, tip.py);
         ctx.strokeStyle = isNight ? '#38bdf8' : '#b45309';
-        ctx.lineWidth = 2.6;
+        ctx.lineWidth = 2.8;
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(tip.px, tip.py, 4.5, 0, Math.PI * 2);
-        ctx.fillStyle = isNight ? '#38bdf8' : '#b45309';
+        ctx.arc(tip.px, tip.py, 5, 0, Math.PI * 2);
+        ctx.fillStyle = isNight ? '#38bdf8' : '#d97706';
         ctx.fill();
+        ctx.strokeStyle = isNight ? '#0f172a' : '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
         ctx.restore();
 
+        // Telemetry HUD updates
+        const rLen = Math.min(1, Math.sqrt(bx * bx + by * by + bz * bz));
+        const purity = Math.min(1, 0.5 * (1 + rLen * rLen));
+        const coh = Math.sqrt(bx * bx + by * by);
+
         const szEl = document.getElementById('bloch-sz');
+        const cohEl = document.getElementById('bloch-coherence');
+        const fidEl = document.getElementById('bloch-fidelity-badge');
         const stateStrEl = document.getElementById('bloch-state-str');
-        if (szEl) szEl.textContent = (sz >= 0 ? '+' : '') + sz.toFixed(3);
+
+        if (szEl) szEl.textContent = (bz >= 0 ? '+' : '') + bz.toFixed(3);
+        if (cohEl) cohEl.textContent = coh.toFixed(3);
+        if (fidEl) fidEl.textContent = 'Purity Tr(ρ²) = ' + purity.toFixed(3);
         if (stateStrEl) {
-          stateStrEl.textContent = '|ψ⟩ = ' + Math.cos(theta/2).toFixed(2) + '|0⟩ + ' + Math.sin(theta/2).toFixed(2) + 'e^{iφ}|1⟩';
+          const c0 = Math.sqrt(Math.max(0, (1 + bz) / 2));
+          const c1 = Math.sqrt(Math.max(0, (1 - bz) / 2));
+          stateStrEl.textContent = '|ψ⟩ = ' + c0.toFixed(2) + '|0⟩ + ' + c1.toFixed(2) + 'e^{iφ}|1⟩';
         }
       }
 
       window.pbSyncBlochTheme = renderBloch;
 
+      // Orbit drag controls
       canvas.addEventListener('mousedown', (e) => {
         isDragging = true;
         lastMouseX = e.clientX;
@@ -8894,7 +9087,7 @@ Key Insights:
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
         userRotY += dx * 0.01;
-        userRotX += dy * 0.01;
+        userRotX = Math.max(-1.2, Math.min(1.2, userRotX + dy * 0.01));
         renderBloch();
       });
       window.addEventListener('mouseup', () => { isDragging = false; });
@@ -8913,45 +9106,89 @@ Key Insights:
         lastMouseX = e.touches[0].clientX;
         lastMouseY = e.touches[0].clientY;
         userRotY += dx * 0.01;
-        userRotX += dy * 0.01;
+        userRotX = Math.max(-1.2, Math.min(1.2, userRotX + dy * 0.01));
         renderBloch();
       }, { passive: true });
       canvas.addEventListener('touchend', () => { isDragging = false; });
 
-      function applyPulse(targetTheta, targetPhi, steps = 18, onDone) {
+      // Smooth SO(3) rotation around axis (ux, uy, uz) by angle dAngle
+      function rotateVector(vx, vy, vz, ux, uy, uz, ang) {
+        const c = Math.cos(ang), s = Math.sin(ang);
+        const dot = vx * ux + vy * uy + vz * uz;
+        const cx = uy * vz - uz * vy;
+        const cy = uz * vx - ux * vz;
+        const cz = ux * vy - uy * vx;
+        return {
+          x: vx * c + cx * s + ux * dot * (1 - c),
+          y: vy * c + cy * s + uy * dot * (1 - c),
+          z: vz * c + cz * s + uz * dot * (1 - c)
+        };
+      }
+
+      function animateGate(ux, uy, uz, totalAngle, label, steps = 20) {
         pbPlayClick(880, 0.015);
-        let curStep = 0;
-        const dTheta = (targetTheta - theta) / steps;
-        const dPhi = (targetPhi - phi) / steps;
+        const modeEl = document.getElementById('bloch-mode');
+        if (modeEl) modeEl.textContent = label;
+        let step = 0;
+        const dAng = totalAngle / steps;
         const iv = setInterval(() => {
-          curStep++;
-          theta += dTheta;
-          phi += dPhi;
+          step++;
+          const next = rotateVector(bx, by, bz, ux, uy, uz, dAng);
+          bx = next.x; by = next.y; bz = next.z;
+          pushTrail(bx, by, bz);
           renderBloch();
-          if (curStep >= steps) {
-            clearInterval(iv);
-            theta = targetTheta;
-            phi = targetPhi;
-            renderBloch();
-            if (onDone) onDone();
-          }
+          if (step >= steps) clearInterval(iv);
         }, 16);
       }
 
-      pbApplyPulse = applyPulse;
-      pbResetBlochState = () => applyPulse(0, 0);
+      pbApplyPulse = (type) => {
+        if (type === 'pi2') animateGate(1, 0, 0, Math.PI / 2, 'π/2_x Gate');
+        else if (type === 'pi') animateGate(1, 0, 0, Math.PI, 'π Hahn Echo');
+        else if (type === 'hadamard') {
+          const invSqrt2 = 1 / Math.sqrt(2);
+          animateGate(invSqrt2, 0, invSqrt2, Math.PI, 'Hadamard');
+        }
+      };
 
-      document.getElementById('btn-pulse-pi2')?.addEventListener('click', () => {
-        applyPulse(Math.PI / 2, 0);
+      pbResetBlochState = () => {
+        pbPlayClick(660, 0.015);
+        bx = 0; by = 0; bz = 1;
+        trail = [{ x: 0, y: 0, z: 1 }];
+        const modeEl = document.getElementById('bloch-mode');
+        if (modeEl && !isFloquetActive) modeEl.textContent = 'Polarized |0⟩';
+        renderBloch();
+      };
+
+      document.getElementById('btn-pulse-pi2')?.addEventListener('click', () => pbApplyPulse('pi2'));
+      document.getElementById('btn-pulse-pi')?.addEventListener('click', () => pbApplyPulse('pi'));
+      document.getElementById('btn-pulse-hadamard')?.addEventListener('click', () => pbApplyPulse('hadamard'));
+      document.getElementById('btn-reset-bloch')?.addEventListener('click', pbResetBlochState);
+      document.getElementById('btn-clear-trail')?.addEventListener('click', () => {
+        pbPlayClick(600, 0.01);
+        trail = [{ x: bx, y: by, z: bz }];
+        renderBloch();
       });
 
-      document.getElementById('btn-pulse-pi')?.addEventListener('click', () => {
-        applyPulse(Math.PI - theta, phi + Math.PI);
-      });
+      // Sliders for Rabi & Dephasing
+      const rabiSlider = document.getElementById('bloch-rabi-slider');
+      const rabiVal = document.getElementById('bloch-rabi-val');
+      const rabiHud = document.getElementById('bloch-rabi');
+      if (rabiSlider) {
+        rabiSlider.addEventListener('input', (e) => {
+          rabiFreq = parseFloat(e.target.value) || 12.5;
+          if (rabiVal) rabiVal.textContent = rabiFreq.toFixed(1) + ' MHz';
+          if (rabiHud) rabiHud.textContent = rabiFreq.toFixed(1) + ' MHz';
+        });
+      }
 
-      document.getElementById('btn-reset-bloch')?.addEventListener('click', () => {
-        applyPulse(0, 0);
-      });
+      const gammaSlider = document.getElementById('bloch-gamma-slider');
+      const gammaVal = document.getElementById('bloch-gamma-val');
+      if (gammaSlider) {
+        gammaSlider.addEventListener('input', (e) => {
+          gamma2 = parseFloat(e.target.value) || 0;
+          if (gammaVal) gammaVal.textContent = gamma2.toFixed(2) + ' MHz';
+        });
+      }
 
       const floquetBtn = document.getElementById('btn-toggle-floquet');
       const modeEl = document.getElementById('bloch-mode');
@@ -8959,9 +9196,9 @@ Key Insights:
       function toggleFloquet() {
         pbPlayClick(1400, 0.02);
         isFloquetActive = !isFloquetActive;
-        if (modeEl) modeEl.textContent = isFloquetActive ? 'Floquet Ω(t)' : 'Precession';
+        if (modeEl) modeEl.textContent = isFloquetActive ? 'Floquet Ω(t)' : 'Idle';
         if (floquetBtn) {
-          floquetBtn.textContent = isFloquetActive ? 'Stop Floquet Drive' : 'Toggle Floquet Drive';
+          floquetBtn.textContent = isFloquetActive ? '⏹ Stop Floquet Drive' : '▶ Start Floquet Drive';
           floquetBtn.className = isFloquetActive
             ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-500 transition-all'
             : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-900 text-white hover:bg-stone-800 transition-all';
@@ -8969,9 +9206,17 @@ Key Insights:
         if (isFloquetActive) {
           let t = 0;
           floquetTimer = setInterval(() => {
-            t += 0.05;
-            phi += 0.04;
-            theta = Math.PI / 3 + 0.25 * Math.sin(t * 3.5);
+            t += 0.04;
+            const omegaX = (rabiFreq / 25.0) * Math.cos(t * 2.2) * 0.12;
+            const omegaZ = 0.05;
+            const norm = Math.sqrt(omegaX * omegaX + omegaZ * omegaZ) || 1;
+            const rot = rotateVector(bx, by, bz, omegaX / norm, 0, omegaZ / norm, norm);
+            // Apply transverse T2* dephasing damping
+            const damp = Math.max(0, 1 - gamma2 * 0.12);
+            bx = rot.x * damp;
+            by = rot.y * damp;
+            bz = rot.z;
+            pushTrail(bx, by, bz);
             renderBloch();
           }, 30);
         } else {
@@ -8998,7 +9243,21 @@ Key Insights:
       renderBloch();
     })();
 
-    // 4. Floating Command Palette (Cmd+K / Ctrl+K)
+    // 4. Floating Command Palette (Cmd+K / Ctrl+K) with Arrow-Key Navigation & Instant Search
+    let cmdSelectedIndex = 0;
+
+    function updateCmdHighlight() {
+      const itemsContainer = document.getElementById('cmd-palette-items');
+      if (!itemsContainer) return;
+      const visible = Array.from(itemsContainer.querySelectorAll('.cmd-item:not(.hidden)'));
+      visible.forEach((el, idx) => {
+        el.classList.toggle('cmd-active', idx === cmdSelectedIndex);
+        if (idx === cmdSelectedIndex) {
+          try { el.scrollIntoView({ block: 'nearest' }); } catch (e) {}
+        }
+      });
+    }
+
     function openCommandPalette() {
       const backdrop = document.getElementById('cmd-palette-backdrop');
       const input = document.getElementById('cmd-palette-input');
@@ -9006,8 +9265,9 @@ Key Insights:
       pbPlayClick(900, 0.015);
       backdrop.classList.remove('hidden');
       input.value = '';
+      cmdSelectedIndex = 0;
       filterCommandPaletteItems('');
-      setTimeout(() => input.focus(), 60);
+      setTimeout(() => input.focus(), 40);
     }
 
     function closeCommandPalette() {
@@ -9024,11 +9284,23 @@ Key Insights:
         const txt = it.textContent.toLowerCase();
         it.classList.toggle('hidden', q ? !txt.includes(q) : false);
       });
+      cmdSelectedIndex = 0;
+      updateCmdHighlight();
     }
 
-    function executeCommandAction(cmd) {
+    function executeCommandAction(cmd, rawQuery) {
       pbPlayClick(1100, 0.01);
       closeCommandPalette();
+      if (!cmd && rawQuery) {
+        // Fallback: open full-text search with the typed query
+        pbOpenSearch();
+        const sInput = document.getElementById('search-input');
+        if (sInput) {
+          sInput.value = rawQuery;
+          sInput.dispatchEvent(new Event('input'));
+        }
+        return;
+      }
       switch (cmd) {
         case 'deck-briefing':
           pbSwitchDeck('briefing');
@@ -9050,11 +9322,11 @@ Key Insights:
           break;
         case 'pulse-pi2':
           pbSwitchDeck('quantum');
-          if (pbApplyPulse) pbApplyPulse(Math.PI / 2, 0);
+          if (pbApplyPulse) pbApplyPulse('pi2');
           break;
         case 'pulse-pi':
           pbSwitchDeck('quantum');
-          if (pbApplyPulse) pbApplyPulse(Math.PI, 0);
+          if (pbApplyPulse) pbApplyPulse('pi');
           break;
         case 'toggle-floquet':
           pbSwitchDeck('quantum');
@@ -9088,11 +9360,26 @@ Key Insights:
       input.addEventListener('input', (e) => filterCommandPaletteItems(e.target.value));
 
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
+        const visible = Array.from(itemsContainer.querySelectorAll('.cmd-item:not(.hidden)'));
+        if (e.key === 'ArrowDown') {
           e.preventDefault();
-          const firstVis = itemsContainer.querySelector('.cmd-item:not(.hidden)');
-          if (firstVis) {
-            executeCommandAction(firstVis.getAttribute('data-cmd'));
+          if (visible.length) {
+            cmdSelectedIndex = (cmdSelectedIndex + 1) % visible.length;
+            updateCmdHighlight();
+          }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (visible.length) {
+            cmdSelectedIndex = (cmdSelectedIndex - 1 + visible.length) % visible.length;
+            updateCmdHighlight();
+          }
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const chosen = visible[cmdSelectedIndex] || visible[0];
+          if (chosen) {
+            executeCommandAction(chosen.getAttribute('data-cmd'), input.value.trim());
+          } else if (input.value.trim()) {
+            executeCommandAction(null, input.value.trim());
           }
         }
       });
@@ -9107,7 +9394,6 @@ Key Insights:
         });
       });
 
-      // Global hotkey Cmd+K / Ctrl+K
       document.addEventListener('keydown', (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
           e.preventDefault();
@@ -9118,7 +9404,6 @@ Key Insights:
         }
       });
 
-      // Hook up top search button with Cmd+K to open palette
       const searchBtn = document.getElementById('btn-open-search');
       if (searchBtn) {
         searchBtn.onclick = (e) => {
@@ -9127,22 +9412,31 @@ Key Insights:
           openCommandPalette();
         };
       }
+
+      // Click outside slide-over drawer (#page-layer backdrop) on desktop closes the drawer
+      const pageLayer = document.getElementById('page-layer');
+      if (pageLayer) {
+        pageLayer.addEventListener('click', (e) => {
+          if (e.target === pageLayer && pbActivePage) {
+            pbRequestClose();
+          }
+        });
+      }
     })();
 
-    // 5. Deck Navigation Controller
+    // 5. Unified Deck & Workspace Lens Navigation Controller
     let pbCurrentDeck = 'briefing';
 
-    function pbSwitchDeck(deckName) {
-      if (!deckName) return;
-      pbCurrentDeck = deckName;
+    function pbApplyCurrentDeck(shouldScroll = false) {
+      const deckName = pbCurrentDeck || 'briefing';
 
-      // Update desktop tab buttons
+      // Sync desktop masthead tabs
       document.querySelectorAll('.deck-tab').forEach(t => {
         const active = t.getAttribute('data-target-deck') === deckName;
         t.classList.toggle('active', active);
       });
 
-      // Update mobile bottom bar buttons
+      // Sync mobile bottom bar tabs
       document.querySelectorAll('.mobile-deck-btn').forEach(t => {
         const active = t.getAttribute('data-target-deck') === deckName;
         t.classList.toggle('active', active);
@@ -9156,6 +9450,7 @@ Key Insights:
       const secHero = document.getElementById('hero-banner');
       const secWisdom = document.getElementById('wisdom-card');
       const secQuantumLab = document.getElementById('quantum-lab-card');
+      const secLensBar = document.getElementById('workspace-lens-bar');
       const secNews = document.getElementById('newsboard-section');
       const secVault = document.getElementById('backup-articles-section');
       const secPapers = document.getElementById('papers-section');
@@ -9163,24 +9458,37 @@ Key Insights:
       const secPostdoc = document.getElementById('postdoc-board-section');
       const secRadar = document.getElementById('smart-radar-strip');
       const secDossiers = document.getElementById('smart-dossiers-summary');
-      const asideCol = document.querySelector('aside');
+      const leftCol = document.getElementById('deck-left-col');
+      const asideCol = document.getElementById('deck-right-aside') || document.querySelector('aside');
+
+      // Reset column widths before applying deck-specific layout
+      if (leftCol) {
+        leftCol.classList.remove('hidden', 'lg:col-span-12');
+        leftCol.classList.add('lg:col-span-8');
+      }
+      if (asideCol) {
+        asideCol.classList.remove('hidden', 'lg:col-span-12');
+        asideCol.classList.add('lg:col-span-4');
+      }
 
       if (deckName === 'briefing') {
         if (secHero) secHero.classList.remove('hidden');
         if (secWisdom) secWisdom.classList.remove('hidden');
-        if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secQuantumLab) secQuantumLab.classList.remove('hidden');
+        if (secLensBar) secLensBar.classList.remove('hidden');
         if (secNews) secNews.classList.remove('hidden');
-        if (secVault) secVault.classList.add('hidden');
-        if (secPapers) secPapers.classList.add('hidden');
-        if (secCareer) secCareer.classList.add('hidden');
-        if (secPostdoc) secPostdoc.classList.add('hidden');
-        if (secRadar) secRadar.classList.remove('hidden');
-        if (secDossiers) secDossiers.classList.add('hidden');
-        if (asideCol) asideCol.classList.remove('hidden');
+        if (secPapers) secPapers.classList.remove('hidden');
+        // Respect workspace lens for Vault/Career/Postdoc when in Briefing overview
+        const lens = typeof pbActiveLens === 'function' ? pbActiveLens() : 'smart';
+        if (secVault) secVault.classList.toggle('hidden', !(lens === 'briefing' || lens === 'all'));
+        if (secCareer) secCareer.classList.toggle('hidden', !(lens === 'career' || lens === 'all'));
+        if (secPostdoc) secPostdoc.classList.toggle('hidden', !(lens === 'postdocs' || lens === 'all'));
+        if (secDossiers) secDossiers.classList.toggle('hidden', lens !== 'smart');
       } else if (deckName === 'quantum') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.remove('hidden');
+        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.remove('hidden');
@@ -9188,24 +9496,36 @@ Key Insights:
         if (secPostdoc) secPostdoc.classList.add('hidden');
         if (secRadar) secRadar.classList.add('hidden');
         if (secDossiers) secDossiers.classList.add('hidden');
-        if (asideCol) asideCol.classList.remove('hidden');
+        if (asideCol) asideCol.classList.add('hidden');
+        if (leftCol) {
+          leftCol.classList.remove('lg:col-span-8');
+          leftCol.classList.add('lg:col-span-12');
+        }
+        const blochBody = document.getElementById('bloch-body');
+        if (blochBody) blochBody.classList.remove('hidden');
         if (typeof window.pbSyncBlochTheme === 'function') window.pbSyncBlochTheme();
       } else if (deckName === 'rituals') {
         if (secHero) secHero.classList.remove('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
         if (secCareer) secCareer.classList.add('hidden');
         if (secPostdoc) secPostdoc.classList.add('hidden');
-        if (secRadar) secRadar.classList.add('hidden');
+        if (secRadar) secRadar.classList.remove('hidden');
         if (secDossiers) secDossiers.classList.add('hidden');
-        if (asideCol) asideCol.classList.remove('hidden');
+        if (leftCol) leftCol.classList.add('hidden');
+        if (asideCol) {
+          asideCol.classList.remove('lg:col-span-4');
+          asideCol.classList.add('lg:col-span-12');
+        }
       } else if (deckName === 'stillness') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.remove('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
@@ -9213,26 +9533,73 @@ Key Insights:
         if (secPostdoc) secPostdoc.classList.add('hidden');
         if (secRadar) secRadar.classList.add('hidden');
         if (secDossiers) secDossiers.classList.add('hidden');
-        if (asideCol) asideCol.classList.remove('hidden');
+        if (leftCol) leftCol.classList.add('hidden');
+        if (asideCol) {
+          asideCol.classList.remove('lg:col-span-4');
+          asideCol.classList.add('lg:col-span-12');
+        }
       } else if (deckName === 'vault') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.remove('hidden');
         if (secPapers) secPapers.classList.add('hidden');
-        if (secCareer) secCareer.classList.remove('hidden');
-        if (secPostdoc) secPostdoc.classList.remove('hidden');
-        if (secRadar) secRadar.classList.add('hidden');
-        if (secDossiers) secDossiers.classList.remove('hidden');
+        if (secCareer) {
+          secCareer.classList.remove('hidden');
+          const cBody = document.getElementById('career-board-body');
+          if (cBody) cBody.classList.remove('hidden');
+        }
+        if (secPostdoc) {
+          secPostdoc.classList.remove('hidden');
+          const pBody = document.getElementById('postdoc-board-body');
+          if (pBody) pBody.classList.remove('hidden');
+        }
+        if (secRadar) secRadar.classList.remove('hidden');
+        if (secDossiers) secDossiers.classList.add('hidden');
         if (asideCol) asideCol.classList.add('hidden');
+        if (leftCol) {
+          leftCol.classList.remove('lg:col-span-8');
+          leftCol.classList.add('lg:col-span-12');
+        }
       }
 
-      pbPlayClick(880, 0.015);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (shouldScroll) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
-    // Attach click listeners to all deck buttons (desktop & mobile)
+    function pbSwitchDeck(deckName) {
+      if (!deckName) return;
+      pbCurrentDeck = deckName;
+      pbPlayClick(880, 0.015);
+
+      // Show all papers when in Quantum Lab deck, or all Vault items when in Vault deck
+      if (deckName === 'quantum') {
+        window.pbPapersShowAll = true;
+        renderPapers(state.edition === 'night');
+      } else if (deckName === 'vault') {
+        pbPrefs.vaultCollapsed = false;
+        pbApplyVaultCollapse();
+        renderCareerBoard(state.edition === 'night');
+        renderPostdocBoard(state.edition === 'night');
+      }
+
+      pbApplyCurrentDeck(true);
+    }
+
+    // Connect Lens bar buttons with Deck state
+    document.querySelectorAll('.lens-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const l = btn.getAttribute('data-lens');
+        if (l === 'papers') pbCurrentDeck = 'quantum';
+        else if (l === 'career' || l === 'postdocs') pbCurrentDeck = 'vault';
+        else pbCurrentDeck = 'briefing';
+        pbApplyCurrentDeck(false);
+      });
+    });
+
     document.querySelectorAll('[data-target-deck]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -9240,10 +9607,16 @@ Key Insights:
       });
     });
 
-    // Keyboard 1-5 deck shortcuts
+    // Keyboard 1-5 deck shortcuts (only when no overlay page or input is active)
     document.addEventListener('keydown', (e) => {
-      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const gate = document.getElementById('pin-gate-screen');
+      if (gate && !gate.classList.contains('hidden')) return;
+      const palette = document.getElementById('cmd-palette-backdrop');
+      if (palette && !palette.classList.contains('hidden')) return;
+      if (pbActivePage) return;
+
       if (e.key === '1') pbSwitchDeck('briefing');
       else if (e.key === '2') pbSwitchDeck('quantum');
       else if (e.key === '3') pbSwitchDeck('rituals');
