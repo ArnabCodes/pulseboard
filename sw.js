@@ -31,7 +31,7 @@
 //                                this; the message is the on-demand path)
 //   { type: 'PURGE_CACHES' }  -> deletes EVERY cache (settings "reset cached
 //                                data"); the worker re-populates lazily
-const CACHE_NAME = 'pulseboard-v19';
+const CACHE_NAME = 'pulseboard-v20';
 const IMAGE_CACHE_NAME = CACHE_NAME + '-img'; // runtime article-image cache
 const IMAGE_CACHE_MAX = 60;                   // soft cap, LRU-ish trim
 const ASSETS = [

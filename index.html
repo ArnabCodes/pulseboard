@@ -693,7 +693,7 @@
     </section>
 
     <!-- INTELLIGENT WORKSPACE LENS BAR & URGENT RADAR (Progressive Disclosure) -->
-    <nav id="workspace-lens-bar" aria-label="Workspace view lenses" class="mb-6 rounded-xl border border-stone-200/90 bg-white px-3.5 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] flex flex-wrap items-center justify-between gap-2.5 transition-colors">
+    <nav id="workspace-lens-bar" aria-label="Workspace view lenses" class="hidden mb-6 rounded-xl border border-stone-200/90 bg-white px-3.5 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] flex flex-wrap items-center justify-between gap-2.5 transition-colors">
       <div class="flex flex-wrap items-center gap-1.5">
         <span id="lens-label" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-800 mr-1 hidden sm:inline">View Lens:</span>
         <button type="button" data-lens="smart" aria-pressed="true" class="lens-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-900 text-white transition-all">✦ Smart Focus</button>
@@ -7117,6 +7117,12 @@ Key Insights:
       if (lens === 'briefing') pbPrefs.vaultCollapsed = false;
       pbSavePrefs();
       pbHaptic(6);
+      if (typeof pbSwitchDeck === 'function') {
+        if (lens === 'papers') { pbSwitchDeck('quantum'); return; }
+        if (lens === 'career' || lens === 'postdocs') { pbSwitchDeck('vault'); return; }
+        pbSwitchDeck('briefing');
+        return;
+      }
       renderApp();
     }
 
@@ -8715,7 +8721,10 @@ Key Insights:
       // taken control — the settings UI should show a Reload button.
       // (No alert/toast here on purpose; the SW no longer force-reloads.)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (__pbSawUpdate) window.__pbUpdateReady = true;
+        if (__pbSawUpdate) {
+          window.__pbUpdateReady = true;
+          try { window.location.reload(); } catch (e) {}
+        }
       });
 
       // When sw.js finishes its background stale-while-revalidate fetch of
@@ -9424,16 +9433,18 @@ Key Insights:
       }
     })();
 
-    // 5. Unified Deck & Workspace Lens Navigation Controller
+    // 5. Unified Deck Navigation Controller (Single Source of Truth)
     let pbCurrentDeck = 'briefing';
 
     function pbApplyCurrentDeck(shouldScroll = false) {
       const deckName = pbCurrentDeck || 'briefing';
+      const isNight = state && state.edition === 'night';
 
       // Sync desktop masthead tabs
       document.querySelectorAll('.deck-tab').forEach(t => {
         const active = t.getAttribute('data-target-deck') === deckName;
         t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
       });
 
       // Sync mobile bottom bar tabs
@@ -9441,10 +9452,9 @@ Key Insights:
         const active = t.getAttribute('data-target-deck') === deckName;
         t.classList.toggle('active', active);
         t.classList.toggle('font-semibold', active);
-        t.classList.toggle('text-stone-900', active);
-        t.classList.toggle('dark:text-white', active);
+        t.classList.toggle('text-stone-900', active && !isNight);
+        t.classList.toggle('text-white', active && isNight);
         t.classList.toggle('text-stone-500', !active);
-        t.classList.toggle('dark:text-stone-400', !active);
       });
 
       const secHero = document.getElementById('hero-banner');
@@ -9461,7 +9471,10 @@ Key Insights:
       const leftCol = document.getElementById('deck-left-col');
       const asideCol = document.getElementById('deck-right-aside') || document.querySelector('aside');
 
-      // Reset column widths before applying deck-specific layout
+      // Always keep the legacy secondary lens bar hidden so there is only one clean tab bar
+      if (secLensBar) secLensBar.classList.add('hidden');
+
+      // Reset column spans
       if (leftCol) {
         leftCol.classList.remove('hidden', 'lg:col-span-12');
         leftCol.classList.add('lg:col-span-8');
@@ -9473,22 +9486,18 @@ Key Insights:
 
       if (deckName === 'briefing') {
         if (secHero) secHero.classList.remove('hidden');
-        if (secWisdom) secWisdom.classList.remove('hidden');
-        if (secQuantumLab) secQuantumLab.classList.remove('hidden');
-        if (secLensBar) secLensBar.classList.remove('hidden');
+        if (secWisdom) secWisdom.classList.add('hidden');
+        if (secQuantumLab) secQuantumLab.classList.add('hidden');
         if (secNews) secNews.classList.remove('hidden');
-        if (secPapers) secPapers.classList.remove('hidden');
-        // Respect workspace lens for Vault/Career/Postdoc when in Briefing overview
-        const lens = typeof pbActiveLens === 'function' ? pbActiveLens() : 'smart';
-        if (secVault) secVault.classList.toggle('hidden', !(lens === 'briefing' || lens === 'all'));
-        if (secCareer) secCareer.classList.toggle('hidden', !(lens === 'career' || lens === 'all'));
-        if (secPostdoc) secPostdoc.classList.toggle('hidden', !(lens === 'postdocs' || lens === 'all'));
-        if (secDossiers) secDossiers.classList.toggle('hidden', lens !== 'smart');
+        if (secPapers) secPapers.classList.add('hidden');
+        if (secVault) secVault.classList.add('hidden');
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (secDossiers) secDossiers.classList.remove('hidden');
       } else if (deckName === 'quantum') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.remove('hidden');
-        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.remove('hidden');
@@ -9508,13 +9517,11 @@ Key Insights:
         if (secHero) secHero.classList.remove('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
-        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
         if (secCareer) secCareer.classList.add('hidden');
         if (secPostdoc) secPostdoc.classList.add('hidden');
-        if (secRadar) secRadar.classList.remove('hidden');
         if (secDossiers) secDossiers.classList.add('hidden');
         if (leftCol) leftCol.classList.add('hidden');
         if (asideCol) {
@@ -9525,7 +9532,6 @@ Key Insights:
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.remove('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
-        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
@@ -9542,7 +9548,6 @@ Key Insights:
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
-        if (secLensBar) secLensBar.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
         if (secVault) secVault.classList.remove('hidden');
         if (secPapers) secPapers.classList.add('hidden');
@@ -9556,7 +9561,6 @@ Key Insights:
           const pBody = document.getElementById('postdoc-board-body');
           if (pBody) pBody.classList.remove('hidden');
         }
-        if (secRadar) secRadar.classList.remove('hidden');
         if (secDossiers) secDossiers.classList.add('hidden');
         if (asideCol) asideCol.classList.add('hidden');
         if (leftCol) {
@@ -9575,13 +9579,27 @@ Key Insights:
       pbCurrentDeck = deckName;
       pbPlayClick(880, 0.015);
 
-      // Show all papers when in Quantum Lab deck, or all Vault items when in Vault deck
-      if (deckName === 'quantum') {
+      // Close any open full-screen/slide-over page if the user clicks a top-level deck tab
+      if (typeof pbActivePage !== 'undefined' && pbActivePage) {
+        pbRequestClose();
+      }
+
+      // Sync internal lens variable so renderNewsGrid / renderPapers don't artificially truncate items
+      if (deckName === 'briefing') {
+        window.pbNewsShowAll = true;
+        pbPrefs.workspaceLens = 'briefing';
+        renderNewsGrid(state.edition === 'night');
+      } else if (deckName === 'quantum') {
         window.pbPapersShowAll = true;
+        pbPrefs.workspaceLens = 'papers';
         renderPapers(state.edition === 'night');
       } else if (deckName === 'vault') {
+        pbPrefs.workspaceLens = 'all';
         pbPrefs.vaultCollapsed = false;
+        pbPrefs.careerCollapsed = false;
+        pbPrefs.postdocCollapsed = false;
         pbApplyVaultCollapse();
+        renderVault(state.edition === 'night');
         renderCareerBoard(state.edition === 'night');
         renderPostdocBoard(state.edition === 'night');
       }
@@ -9589,22 +9607,21 @@ Key Insights:
       pbApplyCurrentDeck(true);
     }
 
-    // Connect Lens bar buttons with Deck state
-    document.querySelectorAll('.lens-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const l = btn.getAttribute('data-lens');
-        if (l === 'papers') pbCurrentDeck = 'quantum';
-        else if (l === 'career' || l === 'postdocs') pbCurrentDeck = 'vault';
-        else pbCurrentDeck = 'briefing';
-        pbApplyCurrentDeck(false);
-      });
-    });
+    window.pbSwitchDeck = pbSwitchDeck;
 
-    document.querySelectorAll('[data-target-deck]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    // Document-level event delegation for [data-target-deck] — rock-solid even if DOM nodes re-render
+    document.addEventListener('click', (e) => {
+      const deckBtn = e.target.closest('[data-target-deck]');
+      if (deckBtn) {
         e.preventDefault();
-        pbSwitchDeck(btn.getAttribute('data-target-deck'));
-      });
+        e.stopPropagation();
+        pbSwitchDeck(deckBtn.getAttribute('data-target-deck'));
+        return;
+      }
+      const btn = e.target.closest('button, .pin-key');
+      if (btn && !btn.id?.includes('bloch')) {
+        pbPlayClick(750, 0.01);
+      }
     });
 
     // Keyboard 1-5 deck shortcuts (only when no overlay page or input is active)
@@ -9624,15 +9641,8 @@ Key Insights:
       else if (e.key === '5') pbSwitchDeck('vault');
     });
 
-    // Hook Audio Clicks and Celebration into existing UI actions
-    (function hookInteractions() {
-      document.addEventListener('click', (e) => {
-        const btn = e.target.closest('button, .pin-key');
-        if (btn && !btn.id?.includes('bloch')) {
-          pbPlayClick(750, 0.01);
-        }
-      }, { passive: true });
-
+    // Celebration hook when habits are completed
+    (function hookCelebration() {
       const origPersist = persistEncryptedState;
       persistEncryptedState = async function() {
         await origPersist();
@@ -9644,6 +9654,9 @@ Key Insights:
         } catch (e) {}
       };
     })();
+
+    // Initialize default deck immediately
+    pbApplyCurrentDeck(false);
 
   </script>
 
