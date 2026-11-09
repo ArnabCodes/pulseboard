@@ -9,7 +9,7 @@
        arbitrary outlet-CDN cover images, and open-meteo/JSON fetches.
        Deliberately permissive (unsafe-inline/unsafe-eval) because the Play
        CDN requires both; tighten only if Tailwind moves to a build step. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; img-src * data: blob: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src * data: blob:; frame-src 'self' https:; object-src 'none'; base-uri 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; img-src * data: blob: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src * data: blob:; frame-src 'self' https:; object-src 'none'; base-uri 'self'" />
   <title>PulseBoard — Morning &amp; Night Custom News Dashboard</title>
   
   <!-- PWA & Mobile Web App Meta Tags -->
@@ -61,10 +61,10 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       transition: background-color 0.35s ease, color 0.35s ease;
       font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     }
@@ -331,6 +331,7 @@
     #vault-chevron { transition: none; }
   }
   </style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body id="app-body" class="min-h-screen bg-amber-50/40 text-slate-900 antialiased">
 
@@ -565,6 +566,67 @@
           >
             <span>↻ Next</span>
           </button>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- SIGNATURE INTERACTIVE FEATURE: Quantum Spin Dynamics & Bloch Sphere Lab -->
+    <section id="quantum-lab-card" class="mb-6 rounded-2xl border border-stone-200/90 bg-white p-5 sm:p-6 shadow-[0_1px_3px_rgba(15,23,42,0.03)] transition-all overflow-hidden relative">
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4 border-b border-stone-200/80">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-700 flex items-center justify-center text-sm font-semibold">⚛</span>
+          <div>
+            <h3 class="font-serif-editorial text-base sm:text-lg font-semibold tracking-tight">Quantum Spin Dynamics Lab</h3>
+            <p class="font-mono-tabular text-[10px] text-stone-500 uppercase tracking-widest">Floquet NV Drive &bull; Bloch Sphere Simulation</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="bloch-fidelity-badge" class="font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">Fidelity &gt;99.98%</span>
+          <button type="button" id="btn-toggle-bloch" class="w-8 h-8 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-100 flex items-center justify-center transition-colors" title="Toggle Bloch sphere">
+            <span id="bloch-chevron">▾</span>
+          </button>
+        </div>
+      </div>
+      <div id="bloch-body" class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+        <div class="md:col-span-5 flex flex-col items-center justify-center p-2 rounded-xl bg-stone-50/70 border border-stone-200/60 relative">
+          <canvas id="bloch-canvas" width="240" height="240" class="w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] cursor-grab active:cursor-grabbing"></canvas>
+          <div class="absolute bottom-2 text-center">
+            <span id="bloch-state-str" class="font-mono-tabular text-[11px] font-semibold text-stone-700">&lang;&psi;&rang; = |0&rang;</span>
+          </div>
+        </div>
+        <div class="md:col-span-7 flex flex-col justify-between space-y-3.5">
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 rounded-lg bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">&lang;&sigma;z&rang;</p>
+              <p id="bloch-sz" class="font-mono-tabular text-xs font-semibold text-stone-800 mt-0.5">+1.000</p>
+            </div>
+            <div class="p-2 rounded-lg bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Rabi &Omega;R</p>
+              <p id="bloch-rabi" class="font-mono-tabular text-xs font-semibold text-stone-800 mt-0.5">12.5 MHz</p>
+            </div>
+            <div class="p-2 rounded-lg bg-stone-50 border border-stone-200/70">
+              <p class="font-mono-tabular text-[9px] uppercase tracking-wider text-stone-400">Drive Mode</p>
+              <p id="bloch-mode" class="font-mono-tabular text-xs font-semibold text-amber-700 mt-0.5">Precession</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" id="btn-pulse-pi2" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
+              &pi;/2 Pulse (X)
+            </button>
+            <button type="button" id="btn-pulse-pi" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-stone-300 bg-white hover:bg-stone-50 text-stone-800 active:scale-95 transition-all">
+              &pi; Pulse (Echo)
+            </button>
+            <button type="button" id="btn-toggle-floquet" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-900 text-white hover:bg-stone-800 active:scale-95 transition-all">
+              Toggle Floquet Drive
+            </button>
+            <button type="button" id="btn-reset-bloch" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-stone-500 hover:text-stone-800 transition-colors">
+              &circlearrowleft; |0&rang;
+            </button>
+          </div>
+          <p class="font-mono-tabular text-[10px] text-stone-500 leading-relaxed">
+            Simulating time-periodic microwave driving Hamiltonian (t) = rac{\omega_0}{2}\sigma_z + \Omega\cos(\omega t)\sigma_x$ on diamond NV spin register.
+          </p>
         </div>
       </div>
     </section>
@@ -8635,6 +8697,424 @@ Key Insights:
       });
       mo.observe(document.documentElement, { childList: true, subtree: true });
     })();
+  
+    // =========================================================================
+    // SIGNATURE PERSONALITY ENGINE: Quantum Bloch Simulator, Cmd+K, Audio, Confetti
+    // =========================================================================
+
+    // 1. Synthesized Audio Haptics (Web Audio API)
+    let pbAudioCtx = null;
+    function pbPlayClick(freq = 1200, dur = 0.012) {
+      if (pbPrefs && pbPrefs.haptics === false) return;
+      try {
+        pbAudioCtx = pbAudioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        if (pbAudioCtx.state === 'suspended') pbAudioCtx.resume();
+        const t = pbAudioCtx.currentTime;
+        const osc = pbAudioCtx.createOscillator();
+        const gain = pbAudioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t);
+        osc.frequency.exponentialRampToValueAtTime(300, t + dur);
+        gain.gain.setValueAtTime(0.04, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        osc.connect(gain);
+        gain.connect(pbAudioCtx.destination);
+        osc.start(t);
+        osc.stop(t + dur + 0.005);
+      } catch (e) {}
+    }
+
+    // 2. Confetti Celebrations for Task & Habit Milestones
+    function pbTriggerConfetti() {
+      if (typeof confetti === 'function') {
+        try {
+          confetti({
+            particleCount: 50,
+            spread: 60,
+            origin: { y: 0.8 },
+            colors: ['#f59e0b', '#6366f1', '#10b981', '#3b82f6', '#f43f5e']
+          });
+        } catch (e) {}
+      }
+    }
+
+    // 3. Interactive Quantum Bloch Sphere & Floquet Simulation Engine
+    (function initQuantumLab() {
+      const canvas = document.getElementById('bloch-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Spin state angles: theta in [0, pi], phi in [0, 2*pi]
+      let theta = 0.0;
+      let phi = 0.0;
+      let isFloquetActive = false;
+      let floquetTimer = null;
+      let userRotX = 0.35;
+      let userRotY = -0.45;
+      let isDragging = false;
+      let lastMouseX = 0, lastMouseY = 0;
+
+      function renderBloch() {
+        const w = canvas.width, h = canvas.height;
+        const cx = w / 2, cy = h / 2;
+        const R = Math.min(w, h) * 0.38;
+        const isNight = state && state.edition === 'night';
+
+        ctx.clearRect(0, 0, w, h);
+
+        // 3D rotation projection helper
+        function project(x, y, z) {
+          // Rotate around X (userRotX)
+          const cosX = Math.cos(userRotX), sinX = Math.sin(userRotX);
+          const y1 = y * cosX - z * sinX;
+          const z1 = y * sinX + z * cosX;
+          // Rotate around Y (userRotY)
+          const cosY = Math.cos(userRotY), sinY = Math.sin(userRotY);
+          const x2 = x * cosY + z1 * sinY;
+          const z2 = -x * sinY + z1 * cosY;
+          return { px: cx + x2 * R, py: cy - y1 * R, zDepth: z2 };
+        }
+
+        // Draw outer translucent sphere outline & background gradient
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.fillStyle = isNight ? 'rgba(15, 23, 42, 0.45)' : 'rgba(245, 245, 240, 0.65)';
+        ctx.fill();
+        ctx.strokeStyle = isNight ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        ctx.restore();
+
+        // Draw equatorial circle (XY plane)
+        ctx.save();
+        ctx.beginPath();
+        const steps = 40;
+        for (let i = 0; i <= steps; i++) {
+          const ang = (i / steps) * Math.PI * 2;
+          const pt = project(Math.cos(ang), 0, Math.sin(ang));
+          if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
+        }
+        ctx.strokeStyle = isNight ? 'rgba(99, 102, 241, 0.28)' : 'rgba(217, 119, 6, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 4]);
+        ctx.stroke();
+        ctx.restore();
+
+        // Draw coordinate axes
+        function drawAxis(x2, y2, z2, label, color) {
+          const o = project(0, 0, 0);
+          const p = project(x2 * 1.2, y2 * 1.2, z2 * 1.2);
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(o.px, o.py);
+          ctx.lineTo(p.px, p.py);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.fillStyle = color;
+          ctx.font = '10px JetBrains Mono, monospace';
+          ctx.fillText(label, p.px + 4, p.py + 3);
+          ctx.restore();
+        }
+
+        const axisColor = isNight ? 'rgba(148, 163, 184, 0.45)' : 'rgba(120, 113, 108, 0.45)';
+        drawAxis(1, 0, 0, 'x', axisColor);
+        drawAxis(0, 1, 0, 'z', isNight ? '#818cf8' : '#d97706'); // Z is quantization axis (|0> at top)
+        drawAxis(0, 0, 1, 'y', axisColor);
+
+        // State vector components (in physics: Z is vertical, X is right, Y is out of screen)
+        // x = sin(theta)*cos(phi), y = sin(theta)*sin(phi), z = cos(theta)
+        const sx = Math.sin(theta) * Math.cos(phi);
+        const sz = Math.cos(theta);
+        const sy = Math.sin(theta) * Math.sin(phi);
+
+        const tip = project(sx, sz, sy);
+        const center = project(0, 0, 0);
+
+        // Draw state vector arrow
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(center.px, center.py);
+        ctx.lineTo(tip.px, tip.py);
+        ctx.strokeStyle = isNight ? '#38bdf8' : '#b45309';
+        ctx.lineWidth = 2.6;
+        ctx.stroke();
+
+        // Arrowhead tip dot with glow
+        ctx.beginPath();
+        ctx.arc(tip.px, tip.py, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = isNight ? '#38bdf8' : '#b45309';
+        ctx.fill();
+        ctx.restore();
+
+        // Update telemetry numbers in HUD
+        const szEl = document.getElementById('bloch-sz');
+        const stateStrEl = document.getElementById('bloch-state-str');
+        if (szEl) szEl.textContent = (sz >= 0 ? '+' : '') + sz.toFixed(3);
+        if (stateStrEl) {
+          const zPct = ((sz + 1) / 2 * 100).toFixed(0);
+          stateStrEl.textContent = '|ψ⟩ = ' + Math.cos(theta/2).toFixed(2) + '|0⟩ + ' + Math.sin(theta/2).toFixed(2) + 'e^{iφ}|1⟩';
+        }
+      }
+
+      // Drag controls for rotating sphere view
+      canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        userRotY += dx * 0.01;
+        userRotX += dy * 0.01;
+        renderBloch();
+      });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+
+      // Touch drag for mobile
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          lastMouseX = e.touches[0].clientX;
+          lastMouseY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+      canvas.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - lastMouseX;
+        const dy = e.touches[0].clientY - lastMouseY;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+        userRotY += dx * 0.01;
+        userRotX += dy * 0.01;
+        renderBloch();
+      }, { passive: true });
+      canvas.addEventListener('touchend', () => { isDragging = false; });
+
+      // Pulse sequence animations
+      function applyPulse(targetTheta, targetPhi, steps = 18, onDone) {
+        pbPlayClick(880, 0.015);
+        let curStep = 0;
+        const dTheta = (targetTheta - theta) / steps;
+        const dPhi = (targetPhi - phi) / steps;
+        const iv = setInterval(() => {
+          curStep++;
+          theta += dTheta;
+          phi += dPhi;
+          renderBloch();
+          if (curStep >= steps) {
+            clearInterval(iv);
+            theta = targetTheta;
+            phi = targetPhi;
+            renderBloch();
+            if (onDone) onDone();
+          }
+        }, 16);
+      }
+
+      document.getElementById('btn-pulse-pi2')?.addEventListener('click', () => {
+        // pi/2 pulse along X: rotates |0> (theta=0) to |+> (theta=pi/2, phi=0)
+        applyPulse(Math.PI / 2, 0);
+      });
+
+      document.getElementById('btn-pulse-pi')?.addEventListener('click', () => {
+        // pi pulse (Hahn echo): inverts Z component
+        applyPulse(Math.PI - theta, phi + Math.PI);
+      });
+
+      document.getElementById('btn-reset-bloch')?.addEventListener('click', () => {
+        applyPulse(0, 0);
+      });
+
+      const floquetBtn = document.getElementById('btn-toggle-floquet');
+      const modeEl = document.getElementById('bloch-mode');
+      if (floquetBtn) {
+        floquetBtn.addEventListener('click', () => {
+          pbPlayClick(1400, 0.02);
+          isFloquetActive = !isFloquetActive;
+          if (modeEl) modeEl.textContent = isFloquetActive ? 'Floquet Ω(t)' : 'Precession';
+          floquetBtn.textContent = isFloquetActive ? 'Stop Floquet Drive' : 'Toggle Floquet Drive';
+          floquetBtn.className = isFloquetActive
+            ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-500 transition-all'
+            : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-900 text-white hover:bg-stone-800 transition-all';
+          if (isFloquetActive) {
+            let t = 0;
+            floquetTimer = setInterval(() => {
+              t += 0.05;
+              phi += 0.04; // precession
+              theta = Math.PI / 3 + 0.25 * Math.sin(t * 3.5); // Floquet micro-motion
+              renderBloch();
+            }, 30);
+          } else {
+            clearInterval(floquetTimer);
+            floquetTimer = null;
+          }
+        });
+      }
+
+      // Collapsible toggle
+      const toggleBtn = document.getElementById('btn-toggle-bloch');
+      const blochBody = document.getElementById('bloch-body');
+      const chevron = document.getElementById('bloch-chevron');
+      if (toggleBtn && blochBody) {
+        toggleBtn.addEventListener('click', () => {
+          pbPlayClick(600, 0.01);
+          const isHidden = blochBody.classList.contains('hidden');
+          blochBody.classList.toggle('hidden', !isHidden);
+          if (chevron) chevron.textContent = isHidden ? '▾' : '▸';
+        });
+      }
+
+      // Initial render & sync with edition switches
+      renderBloch();
+      window.pbSyncBlochTheme = renderBloch;
+    })();
+
+    // 4. Floating Command Palette (Cmd+K / Ctrl+K)
+    (function initCommandPalette() {
+      const backdrop = document.getElementById('cmd-palette-backdrop');
+      const input = document.getElementById('cmd-palette-input');
+      const itemsContainer = document.getElementById('cmd-palette-items');
+      if (!backdrop || !input) return;
+
+      function openPalette() {
+        pbPlayClick(900, 0.015);
+        backdrop.classList.remove('hidden');
+        input.value = '';
+        filterItems('');
+        setTimeout(() => input.focus(), 50);
+      }
+
+      function closePalette() {
+        backdrop.classList.add('hidden');
+      }
+
+      function filterItems(query) {
+        const q = query.toLowerCase().trim();
+        const items = itemsContainer.querySelectorAll('.cmd-item');
+        items.forEach(it => {
+          const txt = it.textContent.toLowerCase();
+          it.classList.toggle('hidden', q ? !txt.includes(q) : false);
+        });
+      }
+
+      input.addEventListener('input', (e) => filterItems(e.target.value));
+
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) closePalette();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (backdrop.classList.contains('hidden')) openPalette(); else closePalette();
+        } else if (e.key === 'Escape' && !backdrop.classList.contains('hidden')) {
+          closePalette();
+        }
+      });
+
+      itemsContainer.querySelectorAll('.cmd-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const cmd = item.getAttribute('data-cmd');
+          closePalette();
+          executeCommand(cmd);
+        });
+      });
+
+      function executeCommand(cmd) {
+        pbPlayClick(1100, 0.01);
+        switch (cmd) {
+          case 'lens-briefing':
+            document.querySelector('[data-lens="briefing"]')?.click();
+            document.getElementById('newsboard-section')?.scrollIntoView({ behavior: 'smooth' });
+            break;
+          case 'lens-papers':
+            document.querySelector('[data-lens="papers"]')?.click();
+            document.getElementById('papers-section')?.scrollIntoView({ behavior: 'smooth' });
+            break;
+          case 'scroll-routine':
+            document.getElementById('routine-card')?.scrollIntoView({ behavior: 'smooth' });
+            break;
+          case 'open-teaching':
+            document.getElementById('btn-open-teaching')?.click();
+            break;
+          case 'toggle-edition':
+            const nextEd = (state && state.edition === 'night') ? 'morning' : 'night';
+            pbEditionSwitch(nextEd);
+            break;
+          case 'lock-dash':
+            document.getElementById('btn-lock-now')?.click();
+            break;
+        }
+      }
+    })();
+
+    // 5. Hook Audio Clicks and Celebration into existing UI actions
+    (function hookInteractions() {
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('button, .pin-key');
+        if (btn && !btn.id?.includes('bloch')) {
+          pbPlayClick(750, 0.01);
+        }
+      }, { passive: true });
+
+      // Celebration hook when habits are completed
+      const origPersist = persistEncryptedState;
+      persistEncryptedState = async function() {
+        await origPersist();
+        try {
+          const routines = state.routines[state.edition] || [];
+          if (routines.length > 0 && routines.every(r => r.done)) {
+            pbTriggerConfetti();
+          }
+        } catch (e) {}
+      };
+    })();
+
   </script>
+
+  <!-- FLOATING COMMAND PALETTE (Cmd+K / Ctrl+K) -->
+  <div id="cmd-palette-backdrop" class="fixed inset-0 z-50 bg-stone-950/60 backdrop-blur-sm hidden flex items-start justify-center pt-[15vh] px-4 transition-opacity" role="dialog" aria-modal="true">
+    <div id="cmd-palette-modal" class="w-full max-w-lg rounded-2xl border border-stone-200/90 bg-white shadow-2xl overflow-hidden transition-all">
+      <div class="flex items-center gap-3 px-4 py-3.5 border-b border-stone-200/80">
+        <span class="text-stone-400 text-sm">⌘</span>
+        <input type="search" id="cmd-palette-input" placeholder="Type a command, section, or search term..." class="w-full bg-transparent text-sm font-medium text-stone-900 placeholder-stone-400 outline-none" autocomplete="off" />
+        <span class="font-mono-tabular text-[10px] font-semibold px-1.5 py-0.5 rounded bg-stone-100 text-stone-500">ESC</span>
+      </div>
+      <div id="cmd-palette-items" class="max-h-80 overflow-y-auto p-2 space-y-1 text-xs">
+        <div class="cmd-item flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-stone-100 transition-colors" data-cmd="lens-briefing">
+          <span class="flex items-center gap-2 font-medium">📰 Jump to Visual Newsboard &amp; Vault</span>
+          <span class="font-mono-tabular text-[10px] text-stone-400">1</span>
+        </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-stone-100 transition-colors" data-cmd="lens-papers">
+          <span class="flex items-center gap-2 font-medium">⚛ Jump to arXiv Preprints &amp; Deadlines</span>
+          <span class="font-mono-tabular text-[10px] text-stone-400">2</span>
+        </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-stone-100 transition-colors" data-cmd="scroll-routine">
+          <span class="flex items-center gap-2 font-medium">✓ Check Daily Ritual Habits</span>
+          <span class="font-mono-tabular text-[10px] text-stone-400">3</span>
+        </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-stone-100 transition-colors" data-cmd="open-teaching">
+          <span class="flex items-center gap-2 font-medium">🧘 Sit with It · Guided Meditation &amp; Wisdom</span>
+          <span class="font-mono-tabular text-[10px] text-stone-400">4</span>
+        </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-stone-100 transition-colors" data-cmd="toggle-edition">
+          <span class="flex items-center gap-2 font-medium">🌓 Toggle Morning / Night Edition</span>
+          <span class="font-mono-tabular text-[10px] text-stone-400">M/N</span>
+        </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-stone-100 transition-colors" data-cmd="lock-dash">
+          <span class="flex items-center gap-2 font-medium">🔒 Lock Dashboard Immediately</span>
+          <span class="font-mono-tabular text-[10px] text-stone-400">L</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
