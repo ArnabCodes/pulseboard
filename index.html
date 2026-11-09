@@ -63,34 +63,70 @@
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    }
     body {
-      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      transition: background-color 0.35s ease, color 0.35s ease;
+      font-family: var(--font-ui);
+      transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .font-serif-editorial {
-      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    .font-serif-editorial { font-family: var(--font-serif); }
+    .font-mono-tabular { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    
+    /* Modern Glassmorphic & Deck Styling */
+    .deck-tab {
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .font-mono-tabular {
-      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-variant-numeric: tabular-nums;
+    .deck-tab.active {
+      background: #18181b;
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    }
+    body.bg-slate-950 .deck-tab.active {
+      background: #4f46e5;
+      color: #ffffff;
+      box-shadow: 0 0 16px -2px rgba(99, 102, 241, 0.5);
     }
     .card-hover {
-      transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.22s cubic-bezier(0.2, 0.7, 0.3, 1), border-color 0.2s ease;
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
     }
     .card-hover:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.08), 0 4px 10px -3px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.07), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
     }
     body.bg-slate-950 .card-hover:hover {
-      box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.1);
     }
-    /* Touch feedback (Material motion guidance): instant, subtle */
     .card-hover:active { transform: scale(0.985); }
-    button:active { opacity: 0.85; }
-    :focus-visible { outline: 2px solid rgba(99, 102, 241, 0.8); outline-offset: 2px; }
+    button:active { transform: scale(0.98); }
+    :focus-visible { outline: 2px solid rgba(99, 102, 241, 0.85); outline-offset: 2px; }
+
+    /* Deck View Container Transitions */
+    .deck-view {
+      display: none;
+      animation: deckFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .deck-view.active-deck {
+      display: block;
+    }
+    @keyframes deckFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .skeleton {
-      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+    }
+    body.bg-slate-950 .skeleton {
+      background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%);
       background-size: 200% 100%;
       animation: skeleton-loading 1.5s infinite;
     }
@@ -99,11 +135,11 @@
       100% { background-position: -200% 0; }
     }
 
-    /* ---- Security gate ---- */
+    /* Security gate */
     #pin-gate-screen { --gate-sensor-top: 71%; }
     .gate-sensor { position: absolute; left: 50%; transform: translateX(-50%); top: var(--gate-sensor-top); padding-bottom: env(safe-area-inset-bottom); display: flex; flex-direction: column; align-items: center; }
     @media (min-width: 768px) { .gate-sensor { top: auto; bottom: max(48px, calc(24px + env(safe-area-inset-bottom))); } }
-    .gate-sensor-btn { display: flex; flex-direction: column; align-items: center; padding: 15px 24px 13px; border-radius: 9999px; color: #94a3b8; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); transition: transform 0.15s ease, color 0.2s ease, background 0.2s ease; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    .gate-sensor-btn { display: flex; flex-direction: column; align-items: center; padding: 15px 24px 13px; border-radius: 9999px; color: #94a3b8; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); transition: transform 0.15s ease, color 0.2s ease, background 0.2s ease; touch-action: manipulation; }
     .gate-sensor-btn:active { transform: scale(0.92); color: #e2e8f0; background: rgba(255,255,255,0.07); }
     .gate-sensor-btn.gate-sensing { animation: gate-breathe 1.8s ease-in-out infinite; color: #cbd5e1; }
     @keyframes gate-breathe { 0%, 100% { box-shadow: 0 0 0 0 rgba(148,163,184,0); } 50% { box-shadow: 0 0 0 12px rgba(148,163,184,0.05); } }
@@ -111,225 +147,98 @@
     @keyframes gate-shake { 10%, 90% { transform: translateX(calc(-50% - 2px)); } 20%, 80% { transform: translateX(calc(-50% + 4px)); } 30%, 50%, 70% { transform: translateX(calc(-50% - 7px)); } 40%, 60% { transform: translateX(calc(-50% + 7px)); } }
     .gate-clock-dim { margin-top: 3.5vh !important; }
     .gate-clock-dim #gate-clock, .gate-clock-dim #gate-date { display: none; }
-    .pin-key { touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
-    /* ---- Global touch polish ---- */
-    body { -webkit-tap-highlight-color: transparent; }
-    button, a, input { touch-action: manipulation; }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
-  /* Fullscreen display: keep content clear of cutout + gesture bar */
-  #app-header, #story-header, #search-header { padding-top: env(safe-area-inset-top); }
-  #app-body { padding-bottom: env(safe-area-inset-bottom); }
-  #page-surface > section > div { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
-  #pb-lightbox { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
-  #pb-lightbox-close { top: max(12px, calc(env(safe-area-inset-top) + 8px)); }
-  #offline-badge { bottom: max(20px, calc(16px + env(safe-area-inset-bottom))); }
-  #ptr-indicator { top: max(12px, calc(env(safe-area-inset-top) + 8px)); }
-  .pb-skip-link { top: max(10px, calc(env(safe-area-inset-top) + 6px)); }
+    .pin-key { touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; }
 
-  /* --- Teaching page: breathing orb --- */
-  .breath-orb {
-    width: 132px; height: 132px; border-radius: 9999px;
-    background: radial-gradient(circle at 50% 38%, rgba(251,191,36,0.32), rgba(251,191,36,0.07) 58%, transparent 72%);
-    border: 1px solid rgba(251,191,36,0.4);
-    box-shadow: 0 0 70px rgba(251,191,36,0.14), inset 0 0 30px rgba(251,191,36,0.06);
-    transition: transform 4s cubic-bezier(0.45, 0, 0.4, 1), box-shadow 4s ease;
-    transform: scale(1);
-  }
-  .breath-orb.breath-in { transform: scale(1.5); box-shadow: 0 0 110px rgba(251,191,36,0.22), inset 0 0 40px rgba(251,191,36,0.1); }
-  .med-preset {
-    padding: 0.45rem 0.9rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
-    border: 1px solid rgba(148,163,184,0.35); color: rgb(203,213,225); background: transparent;
-    transition: background-color 0.2s, color 0.2s;
-  }
-  .med-preset:hover { background: rgba(148,163,184,0.15); }
-  .med-preset.active { background: rgb(251,191,36); color: rgb(2,6,23); border-color: rgb(251,191,36); }
+    #app-header, #story-header, #search-header { padding-top: env(safe-area-inset-top); }
+    #app-body { padding-bottom: env(safe-area-inset-bottom); }
+    #page-surface > section > div { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+    #pb-lightbox { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+    #pb-lightbox-close { top: max(12px, calc(env(safe-area-inset-top) + 8px)); }
+    #offline-badge { bottom: max(20px, calc(16px + env(safe-area-inset-bottom))); }
+    #ptr-indicator { top: max(12px, calc(env(safe-area-inset-top) + 8px)); }
+    .pb-skip-link { top: max(10px, calc(env(safe-area-inset-top) + 6px)); }
 
-  /* --- Full-screen page layer (replaces the old overlay modals) ---
-     Enter: slide-up + fade; exit: fade + slight slide-down. The global
-     prefers-reduced-motion rule above collapses all transitions to 0.01ms,
-     and pbReducedMotion() in JS skips the timed hide entirely. */
-  #page-surface {
-    transition: opacity 250ms ease, transform 250ms cubic-bezier(0.2, 0.7, 0.3, 1);
-  }
-  #page-surface.pb-enter-from { opacity: 0; transform: translateY(26px); }
-  #page-surface.pb-exit-to { opacity: 0; transform: translateY(16px); pointer-events: none; }
-  @media (prefers-reduced-motion: reduce) {
-    #page-surface { transition: none; }
-  }
+    .breath-orb {
+      width: 132px; height: 132px; border-radius: 9999px;
+      background: radial-gradient(circle at 50% 38%, rgba(251,191,36,0.32), rgba(251,191,36,0.07) 58%, transparent 72%);
+      border: 1px solid rgba(251,191,36,0.4);
+      box-shadow: 0 0 70px rgba(251,191,36,0.14), inset 0 0 30px rgba(251,191,36,0.06);
+      transition: transform 4s cubic-bezier(0.45, 0, 0.4, 1), box-shadow 4s ease;
+      transform: scale(1);
+    }
+    .breath-orb.breath-in { transform: scale(1.5); box-shadow: 0 0 110px rgba(251,191,36,0.22), inset 0 0 40px rgba(251,191,36,0.1); }
+    .med-preset {
+      padding: 0.45rem 0.9rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+      border: 1px solid rgba(148,163,184,0.35); color: rgb(203,213,225); background: transparent;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .med-preset:hover { background: rgba(148,163,184,0.15); }
+    .med-preset.active { background: rgb(251,191,36); color: rgb(2,6,23); border-color: rgb(251,191,36); }
 
-  /* --- Card entrance: staggered, reduced-motion safe (global rule above) --- */
-  @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  .card-enter { animation: card-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+    #page-surface { transition: opacity 250ms ease, transform 250ms cubic-bezier(0.2, 0.7, 0.3, 1); }
+    #page-surface.pb-enter-from { opacity: 0; transform: translateY(26px); }
+    #page-surface.pb-exit-to { opacity: 0; transform: translateY(16px); pointer-events: none; }
 
-  /* Save-star micro-interaction: a small pop when bookmarking */
-  @keyframes star-pop { 0% { transform: scale(1); } 45% { transform: scale(1.28); } 100% { transform: scale(1); } }
-  .star-pop { animation: star-pop 0.32s cubic-bezier(0.3, 1.4, 0.5, 1); }
+    @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .card-enter { animation: card-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-  /* ============ UX pass: chip bar, pull-to-refresh, FAB, dim mode, a11y ============ */
+    #category-filters {
+      flex-wrap: nowrap !important;
+      overflow-x: auto;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    }
+    #category-filters::-webkit-scrollbar { display: none; }
 
-  /* Category chips: single-line horizontal scroll with fade edges (mobile overflow fix) */
-  #category-filters {
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    max-width: 100%;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
-  }
-  #category-filters::-webkit-scrollbar { display: none; }
-  #category-filters .cat-btn, #btn-unread-first { white-space: nowrap; }
+    #btn-scroll-top {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgb(203, 213, 225);
+      color: rgb(71, 85, 105);
+      backdrop-filter: blur(8px);
+    }
+    body.bg-slate-950 #btn-scroll-top {
+      background: rgba(15, 23, 42, 0.92);
+      border-color: rgb(51, 65, 85);
+      color: rgb(226, 232, 240);
+    }
 
-  /* 44px-class hit areas via padding + halo, without changing visual sizes */
-  .cat-btn { padding-top: 0.55rem !important; padding-bottom: 0.55rem !important; }
-  .cat-btn, #btn-unread-first, [data-save-story], [data-save-paper] { position: relative; }
-  .cat-btn::after, #btn-unread-first::after, [data-save-story]::after, [data-save-paper]::after {
-    content: ''; position: absolute; inset: -7px; border-radius: 9999px;
-  }
+    body.bg-slate-950:not(.pb-dim) { background-color: #07090e; }
+    body.pb-dim { background-color: #120e06; }
+    .pb-read-img { opacity: 0.75; }
 
-  /* Pull-to-refresh indicator (dashboard, scroll-top only) */
-  .ptr-spin svg { animation: pb-ptr-spin 0.75s linear infinite; }
-  @keyframes pb-ptr-spin { to { transform: rotate(360deg); } }
+    #pb-toast-host { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+    .pb-toast { max-width: 88vw; padding: 10px 18px; border-radius: 9999px; font-size: 12px; font-weight: 600; box-shadow: 0 10px 34px rgba(2,6,23,0.4); animation: pb-toast-in 0.28s cubic-bezier(0.2,0.7,0.3,1) both; }
+    .pb-toast-morning { background: #18181b; color: #fef3c7; border: 1px solid rgba(252,211,77,0.4); }
+    .pb-toast-night { background: #0f172a; color: #c7d2fe; border: 1px solid rgba(129,140,248,0.45); }
+    .pb-toast-out { animation: pb-toast-out 0.26s ease both; }
+    @keyframes pb-toast-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes pb-toast-out { from { opacity: 1; } to { opacity: 0; transform: translateY(8px); } }
 
-  /* Scroll-to-top FAB (themed via body class, below) */
-  #btn-scroll-top {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgb(203, 213, 225);
-    color: rgb(71, 85, 105);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  body.bg-slate-950 #btn-scroll-top {
-    background: rgba(30, 41, 59, 0.95);
-    border-color: rgb(51, 65, 85);
-    color: rgb(226, 232, 240);
-  }
-
-  /* Night dim mode: warm late-night layer on top of the night edition (AA kept) */
-  body.bg-slate-950:not(.pb-dim) { background-color: #04060b; }
-  body.pb-dim { background-color: #141008; }
-  body.pb-dim #app-header { background-color: rgba(23, 18, 8, 0.92); border-bottom-color: #2c2312; }
-  #page-story.pb-dim, #page-settings.pb-dim { background-color: #0f0b05; }
-  #page-story.pb-dim #story-header { background-color: rgba(15, 11, 5, 0.92); border-bottom-color: #2c2312; }
-  body.pb-dim #page-progress { background-color: #d97706; }
-  body.pb-dim #brand-badge { background-color: #a16207; }
-
-  /* Read-tracking: dim the cover image only — text stays fully readable */
-  .pb-read-img { opacity: 0.75; }
-
-  /* prefers-contrast: bump borders and muted text */
-  @media (prefers-contrast: more) {
-    .cat-btn { border-width: 2px !important; }
-    #news-grid article, #papers-list > div, #routine-card, #tasks-card, #schedule-card, #weather-card, #hero-banner { border-width: 2px !important; }
-    body.bg-slate-950 .text-slate-400 { color: #cbd5e1 !important; }
-    body.bg-slate-950 .text-slate-500 { color: #cbd5e1 !important; }
-    body:not(.bg-slate-950) .text-slate-400 { color: #475569 !important; }
-    body:not(.bg-slate-950) .text-slate-500 { color: #475569 !important; }
-    body:not(.bg-slate-950) .text-slate-600 { color: #334155 !important; }
-    .border-slate-200 { border-color: #64748b !important; }
-    .border-slate-800 { border-color: #64748b !important; }
-    .border-amber-200 { border-color: #b45309 !important; }
-  }
-
-  /* ---- FEATURE PACK ---- */
-  /* Bottom toasts: queued, themed, auto-dismiss 3s; never block taps. */
-  #pb-toast-host { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
-  .pb-toast { max-width: 88vw; padding: 10px 18px; border-radius: 9999px; font-size: 12px; font-weight: 600; box-shadow: 0 10px 34px rgba(2,6,23,0.4); animation: pb-toast-in 0.28s cubic-bezier(0.2,0.7,0.3,1) both; }
-  .pb-toast-morning { background: #0f172a; color: #fcd34d; border: 1px solid rgba(252,211,77,0.4); }
-  .pb-toast-night { background: #1e1b4b; color: #c7d2fe; border: 1px solid rgba(129,140,248,0.45); }
-  .pb-toast-out { animation: pb-toast-out 0.26s ease both; }
-  @keyframes pb-toast-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  @keyframes pb-toast-out { from { opacity: 1; } to { opacity: 0; transform: translateY(8px); } }
-  /* Search match highlight (marks built from textContent, never innerHTML) */
-  mark.pb-mark { background: transparent; color: inherit; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(245,158,11,0.85); text-decoration-thickness: 2px; text-underline-offset: 2px; }
-  /* Focus ring: progress driven by JS stroke-dashoffset */
-  #focus-ring-fg { transition: stroke-dashoffset 0.9s linear, stroke 0.4s ease; }
-  @media (prefers-reduced-motion: reduce) {
-    .pb-toast, .pb-toast-out { animation: none; }
-    #focus-ring-fg { transition: none; }
-  }
-  /* Meditation week strip: dots sized by minutes */
-  .pb-med-dot { border-radius: 9999px; }
-
-  /* ============ UX wave 2 (items 26-50) ============ */
-
-  /* (31) Chip bar: scroll-snap so flicks settle on a chip. The edge fade
-     masks and active-chip scrollIntoView already exist above/below. */
-  #category-filters { scroll-snap-type: x proximity; }
-  #category-filters .cat-btn, #category-filters #btn-unread-first { scroll-snap-align: center; }
-
-  /* (34) News cards: skip offscreen rendering. contain-intrinsic-size keeps
-     the grid reserve space (auto = remember real height once rendered).
-     The .card-enter stagger animates the <article> element itself
-     (opacity/transform), which content-visibility does not skip — the
-     entrance animation still plays. */
-  #news-grid article { content-visibility: auto; contain-intrinsic-size: auto 460px; }
-
-  /* (40) Streak chip: one-time scale-pop when the streak increments */
-  @keyframes pb-streak-pop { 0% { transform: scale(1); } 40% { transform: scale(1.28); } 100% { transform: scale(1); } }
-  .pb-streak-pop { animation: pb-streak-pop 0.45s cubic-bezier(0.3, 1.4, 0.5, 1); }
-
-  /* (43) Skip-to-content: off-screen until keyboard-focused, then slides in */
-  .pb-skip-link {
-    position: fixed; top: 10px; left: 10px; z-index: 60;
-    padding: 10px 16px; border-radius: 9999px;
-    background: #0f172a; color: #fcd34d; border: 1px solid rgba(252,211,77,0.5);
-    font-size: 13px; font-weight: 600; text-decoration: none;
-    transform: translateY(-160px); transition: transform 0.15s ease;
-  }
-  .pb-skip-link:focus { transform: translateY(0); }
-
-  /* (46) Vault collapse: chevron rotates with the section state */
-  #vault-chevron { display: inline-block; transition: transform 0.2s ease; }
-  #backup-articles-section[data-collapsed="true"] #vault-chevron { transform: rotate(-90deg); }
-
-  /* (48) Edition switch: cross-fade the dashboard container (200ms) */
-  #main-content { transition: opacity 200ms ease; }
-  #main-content.pb-fading { opacity: 0; }
-
-  /* (42) Offline badge is now a button */
-  #offline-badge { cursor: pointer; }
-  #offline-badge:active { transform: translateX(-50%) scale(0.96); }
-
-  /* (29) Action toasts (Undo): pill grows an inline action button */
-  .pb-toast-action { display: inline-flex; align-items: center; gap: 10px; pointer-events: auto; }
-  .pb-toast-action-btn {
-    pointer-events: auto; cursor: pointer; font-size: 10px; font-weight: 700;
-    padding: 4px 10px; border-radius: 9999px; border: 1px solid currentColor;
-    background: transparent; color: inherit; text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .pb-toast-action-btn:active { transform: scale(0.95); }
-
-  /* (27/28) Inline task/routine edit input */
-  .pb-inline-edit-input {
-    flex: 1; min-width: 0; font-size: 12px; padding: 3px 8px; border-radius: 8px;
-    border: 1px solid #f59e0b; outline: none; background: #ffffff; color: #0f172a;
-  }
-  body.bg-slate-950 .pb-inline-edit-input { background: #0f172a; color: #f1f5f9; border-color: #818cf8; }
-
-  /* (47) Recurring chip is tappable help */
-  .pb-recur-chip { cursor: help; }
-
-  /* Card drag & swipe-to-delete for Todo & Routine lists */
-  .pb-drag-handle { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
-  .pb-drag-handle:active { cursor: grabbing; }
-  .pb-dragging { z-index: 20; }
-  .pb-dragging .pb-item-card { box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.28); transform: scale(1.02); opacity: 0.96; }
-  @media (hover: hover) and (pointer: fine) {
-    .pb-item-del { opacity: 0; transition: opacity 0.15s ease; }
-    .pb-item-card:hover .pb-item-del, .pb-item-del:focus-visible { opacity: 1; }
-  }
-  @media (hover: none), (pointer: coarse) {
-    .pb-item-del { display: none; }
-    .pb-item-del:focus-visible { display: inline-flex; opacity: 1; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pb-streak-pop { animation: none; }
-    #main-content { transition: none; }
-    #vault-chevron { transition: none; }
-  }
+    .pb-skip-link {
+      position: fixed; top: 10px; left: 10px; z-index: 60;
+      padding: 10px 16px; border-radius: 9999px;
+      background: #0f172a; color: #fcd34d; border: 1px solid rgba(252,211,77,0.5);
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      transform: translateY(-160px); transition: transform 0.15s ease;
+    }
+    .pb-skip-link:focus { transform: translateY(0); }
+    #vault-chevron { display: inline-block; transition: transform 0.2s ease; }
+    #backup-articles-section[data-collapsed="true"] #vault-chevron { transform: rotate(-90deg); }
+    #main-content { transition: opacity 180ms ease; }
+    #main-content.pb-fading { opacity: 0; }
+    .pb-inline-edit-input {
+      flex: 1; min-width: 0; font-size: 12px; padding: 3px 8px; border-radius: 8px;
+      border: 1px solid #f59e0b; outline: none; background: #ffffff; color: #0f172a;
+    }
+    body.bg-slate-950 .pb-inline-edit-input { background: #0f172a; color: #f1f5f9; border-color: #818cf8; }
+    .pb-drag-handle { touch-action: none; cursor: grab; }
+    .pb-drag-handle:active { cursor: grabbing; }
+    .pb-dragging { z-index: 20; }
+    .pb-dragging .pb-item-card { box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.28); transform: scale(1.02); }
   </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
@@ -394,10 +303,11 @@
   </div>
 
   <!-- Top Navigation & Editorial Masthead -->
-  <header id="app-header" class="sticky top-0 z-30 border-b border-stone-200/90 bg-[#fbf9f5]/95 backdrop-blur-md transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+  <header id="app-header" class="sticky top-0 z-30 border-b border-stone-200/90 bg-[#faf8f5]/95 backdrop-blur-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand & Codex Identity -->
       <div class="flex items-center gap-3">
-        <div id="brand-badge" class="w-9 h-9 rounded-lg bg-stone-900 text-amber-400 border border-stone-800 flex items-center justify-center shadow-sm transition-colors">
+        <div id="brand-badge" class="w-9 h-9 rounded-xl bg-stone-900 text-amber-400 border border-stone-800 flex items-center justify-center shadow-sm transition-colors">
           <svg id="edition-icon-sun" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="4"></circle>
             <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
@@ -407,58 +317,80 @@
           </svg>
         </div>
         <div>
-          <div class="flex items-center gap-2.5">
-            <h1 class="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight leading-none">PulseBoard</h1>
-            <span id="edition-pill" class="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded border border-amber-800/25 bg-amber-50 text-amber-900">
+          <div class="flex items-center gap-2">
+            <h1 class="font-serif-editorial text-lg sm:text-xl font-bold tracking-tight leading-none text-stone-900 dark:text-white">PulseBoard</h1>
+            <span class="inline-flex items-center gap-1 font-mono-tabular text-[9px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Codex // Weizmann
+            </span>
+            <span id="edition-pill" class="font-mono-tabular text-[9px] font-semibold uppercase tracking-[0.12em] px-1.5 py-0.5 rounded border border-amber-800/25 bg-amber-50 text-amber-900">
               Morning Edition
             </span>
           </div>
-          <p id="header-date" class="font-mono-tabular text-[11px] text-stone-500 mt-0.5 tracking-tight">Encrypted Personal Briefing</p>
+          <p id="header-date" class="font-mono-tabular text-[10px] text-stone-500 mt-0.5 tracking-tight">Rehovot, Israel • Encrypted Personal Briefing</p>
         </div>
       </div>
 
-      <!-- Edition Toggle + Saved Counter + Lock Button -->
-      <div class="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-between sm:justify-end">
-        <button type="button" id="btn-open-search" class="inline-flex items-center justify-center w-9 h-9 shrink-0 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors" title="Search stories, papers &amp; teachings" aria-label="Search">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <!-- Modern Segmented Deck Bar -->
+      <nav id="deck-nav-bar" class="hidden md:flex items-center p-1 rounded-xl bg-stone-200/60 dark:bg-stone-800/70 border border-stone-300/50 dark:border-stone-700/60 text-xs font-medium">
+        <button type="button" class="deck-tab active px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition-all" data-target-deck="briefing">
+          <span>📰</span> Briefing
+        </button>
+        <button type="button" class="deck-tab px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all" data-target-deck="quantum">
+          <span>⚛</span> Quantum Lab
+        </button>
+        <button type="button" class="deck-tab px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all" data-target-deck="rituals">
+          <span>🎯</span> Focus &amp; Rituals
+        </button>
+        <button type="button" class="deck-tab px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all" data-target-deck="stillness">
+          <span>🧘</span> Stillness
+        </button>
+        <button type="button" class="deck-tab px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all" data-target-deck="vault">
+          <span>🏛</span> Deep Vault
+        </button>
+      </nav>
+
+      <!-- Utilities: Palette (Cmd+K), Edition Toggle, Saved, Lock, Settings -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button type="button" id="btn-open-search" class="inline-flex items-center gap-1.5 px-2.5 h-8 sm:h-9 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 text-xs font-medium transition-colors" title="Command Palette &amp; Search (Cmd+K)" aria-label="Search">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="7"></circle>
             <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
           </svg>
+          <span class="font-mono-tabular text-[10px] text-stone-400 dark:text-slate-500 font-semibold px-1 py-0.5 rounded bg-stone-100 dark:bg-slate-700">⌘K</span>
         </button>
-        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 rounded-lg p-0.5 bg-stone-200/70 border border-stone-300/60">
-          <button type="button" id="btn-morning" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-white text-stone-900 shadow-sm transition-all">
-            <svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+
+        <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 rounded-lg p-0.5 bg-stone-200/70 border border-stone-300/60 dark:bg-slate-800 dark:border-slate-700">
+          <button type="button" id="btn-morning" class="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium bg-white text-stone-900 shadow-sm transition-all" title="Morning Edition">
+            <svg class="w-3 h-3 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="4"></circle>
               <path stroke-linecap="round" d="M12 2.5v2m0 15v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2.5 12h2m15 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
             </svg>
-            <span>Morning</span>
+            <span class="hidden sm:inline">AM</span>
           </button>
-          <button type="button" id="btn-night" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium text-stone-600 hover:text-stone-900 transition-all">
-            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <button type="button" id="btn-night" class="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-stone-600 hover:text-stone-900 dark:text-slate-400 dark:hover:text-white transition-all" title="Night Edition">
+            <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
             </svg>
-            <span>Night</span>
+            <span class="hidden sm:inline">PM</span>
           </button>
         </div>
 
-        <button type="button" id="btn-view-saved" class="relative inline-flex shrink-0 items-center gap-1.5 px-2.5 sm:px-3 py-1.5 h-9 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 transition-colors">
-          <svg class="w-3.5 h-3.5 text-amber-700 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-          </svg>
-          <span>Saved</span>
-          <span id="saved-count-badge" class="font-mono-tabular px-1.5 py-0.5 rounded text-[11px] font-semibold bg-stone-100 text-stone-800">0</span>
+        <button type="button" id="btn-view-saved" class="relative inline-flex shrink-0 items-center gap-1.5 px-2.5 h-8 sm:h-9 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 transition-colors">
+          <span class="text-amber-600">★</span>
+          <span class="hidden sm:inline">Saved</span>
+          <span id="saved-count-badge" class="font-mono-tabular px-1.5 py-0.2 rounded text-[10px] font-semibold bg-stone-100 dark:bg-slate-900 text-stone-800 dark:text-slate-200">0</span>
         </button>
 
-        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex shrink-0 items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:px-2.5 rounded-lg text-xs font-medium border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors" title="Lock Dashboard">
-          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+        <button type="button" id="btn-lock-now" aria-label="Lock dashboard" class="inline-flex shrink-0 items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors" title="Lock Dashboard (L)">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
             <rect x="4" y="11" width="16" height="10" rx="2"></rect>
             <path stroke-linecap="round" d="M8 11V7a4 4 0 018 0v4"></path>
           </svg>
-          <span class="hidden sm:inline">Lock</span>
         </button>
 
-        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+        <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="inline-flex shrink-0 items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-200/90 bg-white hover:bg-stone-50 text-stone-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="3.2"></circle>
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path>
           </svg>
@@ -9077,7 +9009,110 @@ Key Insights:
       };
     })();
 
-  </script>
+  
+
+    // Deck Navigation Controller
+    function pbSwitchDeck(deckName) {
+      if (!deckName) return;
+      document.querySelectorAll('.deck-tab').forEach(t => {
+        const active = t.getAttribute('data-target-deck') === deckName;
+        t.classList.toggle('active', active);
+      });
+      document.querySelectorAll('.mobile-deck-btn').forEach(t => {
+        const active = t.getAttribute('data-target-deck') === deckName;
+        t.classList.toggle('active', active);
+        t.classList.toggle('font-semibold', active);
+        t.classList.toggle('text-stone-900', active);
+        t.classList.toggle('dark:text-white', active);
+        t.classList.toggle('text-stone-500', !active);
+      });
+
+      // Map deckName to sections
+      const secNews = document.getElementById('newsboard-section');
+      const secVault = document.getElementById('backup-articles-section');
+      const secPapers = document.getElementById('papers-section');
+      const secCareer = document.getElementById('career-board-section');
+      const secPostdoc = document.getElementById('postdoc-board-section');
+      const secHero = document.getElementById('hero-banner');
+      const secWisdom = document.getElementById('wisdom-card');
+      const secQuantumLab = document.getElementById('quantum-lab-card');
+      const secRadar = document.getElementById('smart-radar-strip');
+      const asideCol = document.querySelector('aside.lg\:col-span-4');
+
+      if (deckName === 'briefing') {
+        if (secHero) secHero.classList.remove('hidden');
+        if (secWisdom) secWisdom.classList.remove('hidden');
+        if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secNews) secNews.classList.remove('hidden');
+        if (secVault) secVault.classList.add('hidden');
+        if (secPapers) secPapers.classList.add('hidden');
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (asideCol) asideCol.classList.remove('hidden');
+      } else if (deckName === 'quantum') {
+        if (secHero) secHero.classList.add('hidden');
+        if (secWisdom) secWisdom.classList.add('hidden');
+        if (secQuantumLab) secQuantumLab.classList.remove('hidden');
+        if (secNews) secNews.classList.add('hidden');
+        if (secVault) secVault.classList.add('hidden');
+        if (secPapers) secPapers.classList.remove('hidden');
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (asideCol) asideCol.classList.remove('hidden');
+      } else if (deckName === 'rituals') {
+        if (secHero) secHero.classList.add('hidden');
+        if (secWisdom) secWisdom.classList.add('hidden');
+        if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secNews) secNews.classList.add('hidden');
+        if (secVault) secVault.classList.add('hidden');
+        if (secPapers) secPapers.classList.add('hidden');
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (asideCol) asideCol.classList.remove('hidden');
+      } else if (deckName === 'stillness') {
+        if (secHero) secHero.classList.add('hidden');
+        if (secWisdom) secWisdom.classList.remove('hidden');
+        if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secNews) secNews.classList.add('hidden');
+        if (secVault) secVault.classList.add('hidden');
+        if (secPapers) secPapers.classList.add('hidden');
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (asideCol) asideCol.classList.remove('hidden');
+      } else if (deckName === 'vault') {
+        if (secHero) secHero.classList.add('hidden');
+        if (secWisdom) secWisdom.classList.add('hidden');
+        if (secQuantumLab) secQuantumLab.classList.add('hidden');
+        if (secNews) secNews.classList.add('hidden');
+        if (secVault) secVault.classList.remove('hidden');
+        if (secPapers) secPapers.classList.add('hidden');
+        if (secCareer) secCareer.classList.remove('hidden');
+        if (secPostdoc) secPostdoc.classList.remove('hidden');
+        if (asideCol) asideCol.classList.add('hidden');
+      }
+
+      pbPlayClick(880, 0.015);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('[data-target-deck]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        pbSwitchDeck(btn.getAttribute('data-target-deck'));
+      });
+    });
+
+    // Keyboard 1-5 deck shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === '1') pbSwitchDeck('briefing');
+      else if (e.key === '2') pbSwitchDeck('quantum');
+      else if (e.key === '3') pbSwitchDeck('rituals');
+      else if (e.key === '4') pbSwitchDeck('stillness');
+      else if (e.key === '5') pbSwitchDeck('vault');
+    });
+
+</script>
 
   <!-- FLOATING COMMAND PALETTE (Cmd+K / Ctrl+K) -->
   <div id="cmd-palette-backdrop" class="fixed inset-0 z-50 bg-stone-950/60 backdrop-blur-sm hidden flex items-start justify-center pt-[15vh] px-4 transition-opacity" role="dialog" aria-modal="true">
@@ -9116,5 +9151,29 @@ Key Insights:
     </div>
   </div>
 
+
+  <!-- Mobile Bottom Deck Bar -->
+  <div id="mobile-deck-bar" class="md:hidden fixed bottom-0 left-0 right-0 z-30 border-t border-stone-200/90 bg-[#faf8f5]/95 dark:border-stone-800 dark:bg-[#07090e]/95 backdrop-blur-md px-3 py-2 flex items-center justify-around text-xs">
+    <button type="button" class="mobile-deck-btn active flex flex-col items-center gap-0.5 text-stone-900 dark:text-white font-semibold" data-target-deck="briefing">
+      <span class="text-base leading-none">📰</span>
+      <span class="text-[10px]">News</span>
+    </button>
+    <button type="button" class="mobile-deck-btn flex flex-col items-center gap-0.5 text-stone-500 dark:text-stone-400" data-target-deck="quantum">
+      <span class="text-base leading-none">⚛</span>
+      <span class="text-[10px]">Quantum</span>
+    </button>
+    <button type="button" class="mobile-deck-btn flex flex-col items-center gap-0.5 text-stone-500 dark:text-stone-400" data-target-deck="rituals">
+      <span class="text-base leading-none">🎯</span>
+      <span class="text-[10px]">Focus</span>
+    </button>
+    <button type="button" class="mobile-deck-btn flex flex-col items-center gap-0.5 text-stone-500 dark:text-stone-400" data-target-deck="stillness">
+      <span class="text-base leading-none">🧘</span>
+      <span class="text-[10px]">Zen</span>
+    </button>
+    <button type="button" class="mobile-deck-btn flex flex-col items-center gap-0.5 text-stone-500 dark:text-stone-400" data-target-deck="vault">
+      <span class="text-base leading-none">🏛</span>
+      <span class="text-[10px]">Vault</span>
+    </button>
+  </div>
 </body>
 </html>
