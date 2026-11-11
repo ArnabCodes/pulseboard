@@ -24,25 +24,35 @@ import urllib.request
 
 HEAD_TIMEOUT = 10
 UA = 'PulseBoard-FeedValidator/1.0'
+BROWSER_UA = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+              'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36')
 
 
 def http_status(url, timeout=HEAD_TIMEOUT):
     """200/206/... for the URL, or None if unreachable. Falls back to a
-    1-byte ranged GET when a CDN rejects HEAD (405/501)."""
-    for method, extra in (('HEAD', {}), ('GET', {'Range': 'bytes=0-1'})):
-        req = urllib.request.Request(
-            url, method=method,
-            headers={'User-Agent': UA, **extra})
-        try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                return r.status
-        except urllib.error.HTTPError as e:
-            if method == 'HEAD' and e.code in (405, 501):
+    1-byte ranged GET when a CDN rejects HEAD (405/501) and retries with a
+    standard browser User-Agent / curl when bot walls return 403."""
+    if not isinstance(url, str) or not url.strip():
+        return None
+    last_code = None
+    for ua in (UA, BROWSER_UA):
+        for method, extra in (('HEAD', {}), ('GET', {'Range': 'bytes=0-1'})):
+            req = urllib.request.Request(
+                url, method=method,
+                headers={'User-Agent': ua, 'Accept': '*/*', **extra})
+            try:
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    return r.status
+            except urllib.error.HTTPError as e:
+                last_code = e.code
+                if method == 'HEAD' and e.code in (403, 405, 501):
+                    continue
+                if e.code == 403 and ua == UA:
+                    break  # retry with BROWSER_UA
+                return e.code
+            except Exception:
                 continue
-            return e.code
-        except Exception:
-            continue
-    return None
+    return last_code
 
 
 def check_feed(feed, check_images=False):

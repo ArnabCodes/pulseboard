@@ -70,7 +70,9 @@ def check_feed_images():
         if st.get('image'):
             out.append((f'cover of story "{st.get("id")}"', st['image'], http_status(st['image'])))
         for g in st.get('gallery') or []:
-            out.append((f'gallery image of story "{st.get("id")}"', g, http_status(g)))
+            g_url = g if isinstance(g, str) else (g or {}).get('url')
+            if g_url:
+                out.append((f'gallery image of story "{st.get("id")}"', g_url, http_status(g_url)))
     return out
 
 

@@ -436,3 +436,18 @@ def test_merge_stories_passes_hand_fields_through_untouched():
     assert out[1]['author'] == 'Anne Author'
     assert out[1]['alsoCoveredBy'][0]['outlet'] == 'BBC World'
     assert out[0]['author'] == 'Wire Name'                  # auto fields kept too
+
+
+def test_gallery_filters_spacer_logo_alt_and_author_profile_paths():
+    scope = (
+        '<img src="https://www.thehindu.com/theme/images/th-online/1x1_spacer.png" alt="The Hindu Logo">'
+        '<img src="https://platform.theverge.com/wp-content/uploads/sites/2/chorus/author_profile_images/195820/JESSICA_WEATHERBED.0.jpg" alt="Jess Weatherbed">'
+        '<img src="https://cdn.example.com/brand-mark.jpg" alt="Site Logo">'
+        '<img src="https://cdn.example.com/genuine-scene.jpg" alt="Protesters gather outside parliament at dusk">'
+    )
+    out = curate._gallery_images(scope, BASE, '')
+    assert out == [{
+        'url': 'https://cdn.example.com/genuine-scene.jpg',
+        'alt': 'Protesters gather outside parliament at dusk',
+    }]
+

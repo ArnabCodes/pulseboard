@@ -9,16 +9,96 @@ Validates:
 6. All clickable elements, inputs, buttons, and drawers remain interactive without interception.
 """
 
+from html.parser import HTMLParser
 import json
+import os
 import re
+import shutil
 import subprocess
 from pathlib import Path
-import bs4
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 JSC_PATH = "/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc"
+
+VOID_TAGS = {
+    "area", "base", "br", "col", "embed", "hr", "img", "input",
+    "link", "meta", "param", "source", "track", "wbr",
+}
+
+
+class _DomNode:
+    def __init__(self, name, attrs=None, parent=None):
+        self.name = name
+        self.attrs = dict(attrs or [])
+        self.parent = parent
+        self.children = []
+
+    def get(self, key, default=None):
+        if key == "class":
+            raw = self.attrs.get("class")
+            return raw.split() if raw else (default if default is not None else [])
+        return self.attrs.get(key, default)
+
+    def find(self, id=None):
+        for n in self._walk():
+            if id is not None and n.attrs.get("id") == id:
+                return n
+        return None
+
+    def find_all(self, tags=None, recursive=True):
+        tag_set = set(tags) if isinstance(tags, (list, tuple, set)) else ({tags} if tags else None)
+        it = self._walk() if recursive else self.children
+        return [n for n in it if tag_set is None or n.name in tag_set]
+
+    def _walk(self):
+        for ch in self.children:
+            yield ch
+            yield from ch._walk()
+
+
+class _MiniDOMParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.root = _DomNode("[document]")
+        self._stack = [self.root]
+        self._raw_tag = None
+
+    def handle_starttag(self, tag, attrs):
+        t = tag.lower()
+        if self._raw_tag:
+            return
+        node = _DomNode(t, attrs, parent=self._stack[-1])
+        self._stack[-1].children.append(node)
+        if t in ("script", "style"):
+            self._raw_tag = t
+        elif t not in VOID_TAGS:
+            self._stack.append(node)
+
+    def handle_startendtag(self, tag, attrs):
+        t = tag.lower()
+        if self._raw_tag:
+            return
+        node = _DomNode(t, attrs, parent=self._stack[-1])
+        self._stack[-1].children.append(node)
+
+    def handle_endtag(self, tag):
+        t = tag.lower()
+        if self._raw_tag:
+            if t == self._raw_tag:
+                self._raw_tag = None
+            return
+        for i in range(len(self._stack) - 1, 0, -1):
+            if self._stack[i].name == t:
+                del self._stack[i:]
+                break
+
+
+def _parse_dom(html):
+    p = _MiniDOMParser()
+    p.feed(html)
+    return p.root
 
 
 def _read_html():
@@ -38,13 +118,22 @@ def _extract_style(html):
 
 
 def _run_jsc(js_code):
+    node_bin = shutil.which("node")
+    if node_bin:
+        shim = "const print = (...args) => console.log(args.join(' '));\n"
+        cmd = [node_bin, "-e", shim + js_code]
+    elif os.path.exists(JSC_PATH):
+        cmd = [JSC_PATH, "-e", js_code]
+    else:
+        pytest.skip("Neither node nor macOS JavaScriptCore (jsc) is available")
+
     proc = subprocess.run(
-        [JSC_PATH, "-e", js_code],
+        cmd,
         capture_output=True,
         text=True,
         timeout=15,
     )
-    assert proc.returncode == 0, f"JSC execution failed (exit code {proc.returncode}):\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
+    assert proc.returncode == 0, f"JS execution failed (exit code {proc.returncode}):\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
     return proc.stdout.strip()
 
 
@@ -81,7 +170,7 @@ def test_pb_init_liquidgl_guards_missing_and_offline():
 def test_pb_init_liquidgl_removes_wallpaper_data_liquid_ignore():
     """Verify #apple-wallpaper data-liquid-ignore is present statically and removed dynamically."""
     html = _read_html()
-    soup = bs4.BeautifulSoup(html, "html.parser")
+    soup = _parse_dom(html)
     wallpaper = soup.find(id="apple-wallpaper")
     assert wallpaper is not None, "#apple-wallpaper element not found"
     assert wallpaper.get("data-liquid-ignore") == "true", (
@@ -258,7 +347,7 @@ def test_interactive_children_stacking_order():
     )
 
     # Inspect #app-header-glass direct interactive children in DOM
-    soup = bs4.BeautifulSoup(html, "html.parser")
+    soup = _parse_dom(html)
     header_glass = soup.find(id="app-header-glass")
     assert header_glass is not None, "#app-header-glass not found"
     for child in header_glass.find_all(recursive=False):
@@ -366,7 +455,7 @@ def test_specular_highlights_passive_raf_and_hover_isolation():
 def test_all_interactive_elements_non_intercepted():
     """Verify that all clickable elements, inputs, buttons, and drawers remain interactive."""
     html = _read_html()
-    soup = bs4.BeautifulSoup(html, "html.parser")
+    soup = _parse_dom(html)
 
     interactive_tags = ["button", "a", "input", "select", "textarea"]
     elements = soup.find_all(interactive_tags)
@@ -385,7 +474,7 @@ def test_all_interactive_elements_non_intercepted():
 def test_overlays_and_drawers_hidden_by_default():
     """Verify that modal layers and drawer pages are hidden by default to prevent click blocking."""
     html = _read_html()
-    soup = bs4.BeautifulSoup(html, "html.parser")
+    soup = _parse_dom(html)
 
     overlays = [
         "page-layer",

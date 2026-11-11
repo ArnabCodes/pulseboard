@@ -30,6 +30,7 @@ import math
 import os
 import re
 import time
+import urllib.error
 import urllib.request
 from urllib.parse import urljoin
 import xml.etree.ElementTree as ET
@@ -90,8 +91,8 @@ NEWS_SOURCES = {
         ('NPR World', 'https://feeds.npr.org/1004/rss.xml'),                  # center-left
         ('CBC World', 'https://www.cbc.ca/webfeed/rss/rss-world'),            # center-left
         ('The Hindu', 'https://www.thehindu.com/news/national/feeder/default.rss'),  # center-left (India)
-        ('Times of Israel', 'https://www.timesofisrael.com/feed/'),           # center-right (Israel)
-        ('Israel Hayom', 'https://www.israelhayom.com/feed/'),                # right (Israel)
+        ('Times of Israel', 'https://news.google.com/rss/search?q=site:timesofisrael.com+when:2d&hl=en-US&gl=US&ceid=US:en'),  # center-right (Israel; Google News RSS avoids Cloudflare datacenter 403)
+        ('Israel Hayom', 'https://news.google.com/rss/search?q=site:israelhayom.com+when:2d&hl=en-US&gl=US&ceid=US:en'),        # right (Israel; Google News RSS avoids Cloudflare datacenter 403)
         ('NY Post', 'https://nypost.com/world-news/feed/'),                   # right
     ],
     'Tech & AI': [
@@ -181,9 +182,16 @@ BROWSER_UA = ('Mozilla/5.0 (Linux; Android 13; Pixel 6a) AppleWebKit/537.36 '
 # --------------------------------------------------------------------------
 
 def http_get(url, timeout=20, ua=None):
-    req = urllib.request.Request(url, headers={'User-Agent': ua or UA})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return resp.read()
+    req = urllib.request.Request(url, headers={'User-Agent': ua or UA, 'Accept': '*/*'})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read()
+    except urllib.error.HTTPError as e:
+        if e.code == 403 and ua != BROWSER_UA:
+            req2 = urllib.request.Request(url, headers={'User-Agent': BROWSER_UA, 'Accept': '*/*'})
+            with urllib.request.urlopen(req2, timeout=timeout) as resp:
+                return resp.read()
+        raise
 
 
 # Inline-article-image junk filter: logos, icons, avatars, badges, sprites,
@@ -191,11 +199,15 @@ def http_get(url, timeout=20, ua=None):
 # 'download' or 'road' in a filename are not mistaken for an ad.
 GALLERY_JUNK_RE = re.compile(
     r'logo|icon|avatar|sprite|emoji|gravatar|badge|placeholder|tracking'
+    r'|spacer|1x1|blank|transparent'
     r'|pixel|advert|doubleclick|(?<![a-z])ad[sv]?(?![a-z])'
     # people-shots are author headshots, not article figures
     r'|headshot|profile[-_]?pic|portrait|author'
     # The Verge's default author avatar (Firstname_BLURPLE.jpg)
     r'|_blurple', re.I)
+
+GALLERY_PATH_JUNK_RE = re.compile(
+    r'/(?:author[_-]?profile[_-]?images|avatars?|headshots?|theme/images)/', re.I)
 
 # Dimension suffixes CDNs append ("-2560x1440", "_640x427") — the same
 # picture as the lead image often appears under a suffixed URL, so gallery
@@ -314,6 +326,10 @@ def _gallery_images(scope, base, lead):
         if path.lower().endswith('.svg'):
             return False
         if GALLERY_JUNK_RE.search(path.rsplit('/', 1)[-1].lower()):
+            return False
+        if GALLERY_PATH_JUNK_RE.search(path):
+            return False
+        if caption and len(caption) < 40 and re.search(r'\blogo\b', caption, re.I):
             return False
         m_w = re.search(r'[?&](?:width|w)=(\d{1,4})\b', u)
         if m_w and int(m_w.group(1)) < 400:
@@ -787,8 +803,14 @@ def parse_feed_items(xml_bytes):
     except Exception:
         return items
     for item in root.iter('item'):  # RSS 2.0
+        raw_title = strip_html(item.findtext('title') or '')
+        src_el = item.find('source')
+        if src_el is not None and src_el.text:
+            suffix = ' - ' + src_el.text.strip()
+            if raw_title.endswith(suffix):
+                raw_title = raw_title[:-len(suffix)].strip()
         items.append({
-            'title': strip_html(item.findtext('title') or ''),
+            'title': raw_title,
             'link': (item.findtext('link') or '').strip(),
             'description': strip_html(item.findtext('description') or ''),
             'pubDate': item.findtext('pubDate') or '',
