@@ -525,3 +525,103 @@ def test_cascade_analysis_liquidgl_lens_and_card_children():
     # .lg-card > * specifies tier 2 content properties
     assert "z-index: 2" in card_children_rule
     assert "position: relative" in card_children_rule
+
+
+def test_no_fake_macos_window_chrome():
+    """Verify fake desktop OS window traffic lights and desktop sidebar chrome are removed."""
+    html = _read_html()
+    soup = _parse_dom(html)
+    for banned_id in (
+        "macos-sidebar",
+        "btn-traffic-close",
+        "btn-traffic-min",
+        "btn-traffic-zoom",
+    ):
+        assert soup.find(id=banned_id) is None, f"Fake OS chrome #{banned_id} should not exist in webapp"
+    assert soup.find(id="webapp-shell") is not None
+
+
+def test_svg_snells_law_chromatic_refraction_filters():
+    """Verify SVG optical displacement filters and 20-element 4x5 RGB dispersion matrices."""
+    html = _read_html()
+    for fid in ("pb-liquid-bar-filter", "pb-liquid-droplet-filter", "pb-bar-refract-map", "pb-droplet-refract-map"):
+        assert f'id="{fid}"' in html, f"Missing optical refraction SVG element #{fid}"
+
+    matrices = re.findall(r'<feColorMatrix\s+[^>]*type="matrix"[^>]*values="([^"]+)"', html)
+    assert len(matrices) >= 6, f"Expected >=6 RGB chromatic dispersion matrices, found {len(matrices)}"
+    for vals in matrices:
+        nums = [float(x) for x in vals.split()]
+        assert len(nums) == 20, f"SVG feColorMatrix requires exactly 20 values (4x5), got {len(nums)}: {vals}"
+
+
+def test_liquid_glass_tabs_toggles_and_quantum_sliders():
+    """Verify sliding droplet tabs, swelling switches, Quantum Liquid Glass drag bars, and new UX features."""
+    html = _read_html()
+    soup = _parse_dom(html)
+
+    # Sliding Liquid Glass droplet nav containers
+    for nav_id in ("deck-nav-bar", "edition-switcher", "category-filters", "inspector-mode-bar", "mobile-deck-bar"):
+        nav = soup.find(id=nav_id)
+        assert nav is not None, f"Missing sliding nav #{nav_id}"
+        assert "has-sliding-thumb" in nav.get("class", []), f"#{nav_id} must include has-sliding-thumb"
+
+    # Liquid Glass toggle switches
+    for sw_id in ("btn-unread-first", "bloch-vec-toggle", "set-notifications", "set-haptics"):
+        sw = soup.find(id=sw_id)
+        assert sw is not None, f"Missing Liquid Glass switch #{sw_id}"
+        assert "lg-switch" in sw.get("class", []), f"#{sw_id} must use .lg-switch"
+
+    # Quantum Liquid Glass drag bars (Rabi, Detuning, Dephasing)
+    for slider_id in ("bloch-rabi-slider", "bloch-detuning-slider", "bloch-gamma-slider"):
+        sl = soup.find(id=slider_id)
+        assert sl is not None, f"Missing Quantum slider #{slider_id}"
+        assert "lg-range-native" in sl.get("class", []), f"#{slider_id} must use .lg-range-native"
+        assert sl.parent is not None and "lg-range-wrap" in sl.parent.get("class", []), (
+            f"#{slider_id} must be wrapped in .lg-range-wrap"
+        )
+
+    # High-value new WebApp UX features
+    for feat_id in ("btn-audio-briefing", "today-arxiv-spotlight", "vault-subnav-bar", "inline-focus-bar", "btn-pulse-ramsey"):
+        assert soup.find(id=feat_id) is not None, f"Missing redesigned UX feature #{feat_id}"
+
+
+def test_direct_webgl_wallpaper_texture_sync():
+    """Verify pbSyncLiquidGLWallpaper uploads #macos-wallpaper-canvas directly to WebGL and sets chromatic aberration."""
+    html = _read_html()
+    script = _extract_script(html)
+    m_sync = re.search(r"function pbSyncLiquidGLWallpaper\(\)\s*\{[\s\S]*?\n    \}", script)
+    m_enh = re.search(r"function pbEnhanceLiquidGL\(\)\s*\{[\s\S]*?\n    \}", script)
+    assert m_sync and m_enh, "pbSyncLiquidGLWallpaper / pbEnhanceLiquidGL not found"
+
+    sync_json = json.dumps(m_sync.group(0))
+    enh_json = json.dumps(m_enh.group(0))
+    js = f"""
+    const syncCode = {sync_json};
+    const enhCode = {enh_json};
+    let uploaded = null;
+    let bodyClasses = new Set();
+    let lensOpts = {{ frost: 2.0 }};
+    let metricsUpdated = false;
+    const fakeCanvas = {{ width: 1440, height: 900 }};
+    const win = {{
+      innerWidth: 1440,
+      innerHeight: 900,
+      __liquidGLRenderer__: {{
+        _uploadTexture: (c) => {{ uploaded = c; }},
+        lenses: [{{ options: lensOpts, updateMetrics: () => {{ metricsUpdated = true; }} }}]
+      }}
+    }};
+    const doc = {{
+      body: {{ classList: {{ add: (c) => bodyClasses.add(c) }} }},
+      getElementById: (id) => (id === 'macos-wallpaper-canvas' ? fakeCanvas : null)
+    }};
+    const fn = new Function('window', 'document', syncCode + '\\n' + enhCode + '\\npbEnhanceLiquidGL();');
+    fn(win, doc);
+    if (uploaded !== fakeCanvas) throw new Error('Canvas was not uploaded directly to WebGL renderer');
+    if (!bodyClasses.has('liquidgl-ready')) throw new Error('body.liquidgl-ready not set');
+    if (lensOpts.aberration !== 2.8) throw new Error('Expected chromatic aberration 2.8');
+    if (!metricsUpdated) throw new Error('Expected lens.updateMetrics() to run');
+    print('OK');
+    """
+    assert _run_jsc(js) == "OK"
+

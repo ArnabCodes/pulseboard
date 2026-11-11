@@ -82,88 +82,101 @@
       --spring-fluid: cubic-bezier(0.22, 1, 0.36, 1);
       --spring-snappy: cubic-bezier(0.32, 0.72, 0, 1);
 
-      /* Daylight / Morning macOS Tahoe Liquid Glass Tokens */
-      --apple-canvas: #e8eef7;
-      --apple-ink: #1d1d1f;
-      --apple-ink-secondary: rgba(60, 60, 67, 0.68);
-      --apple-ink-tertiary: rgba(60, 60, 67, 0.46);
-      --apple-tint: #007aff;
-      --apple-tint-soft: rgba(0, 122, 255, 0.13);
+      /* Daylight / Morning macOS 26 & iOS 26 Optical Liquid Glass Tokens */
+      --apple-canvas: #e5edf8;
+      --apple-ink: #14161f;
+      --apple-ink-secondary: rgba(42, 47, 61, 0.72);
+      --apple-ink-tertiary: rgba(42, 47, 61, 0.48);
+      --apple-tint: #0071e3;
+      --apple-tint-soft: rgba(0, 113, 227, 0.13);
       --apple-warm: #ff9500;
-      --apple-green: #34c759;
+      --apple-green: #28cd41;
 
-      --lg-bar-bg: linear-gradient(140deg, rgba(255, 255, 255, 0.62) 0%, rgba(246, 250, 255, 0.44) 52%, rgba(255, 255, 255, 0.56) 100%);
-      --lg-bar-border: rgba(255, 255, 255, 0.82);
+      --lg-bar-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.34) 0%, rgba(244, 249, 255, 0.18) 50%, rgba(255, 255, 255, 0.30) 100%);
+      --lg-bar-border: rgba(255, 255, 255, 0.78);
       --lg-bar-shadow:
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.96),
-        inset 0 -1px 0 0 rgba(255, 255, 255, 0.50),
-        inset 1px 0 0 0 rgba(255, 255, 255, 0.55),
-        0 14px 36px -10px rgba(15, 23, 42, 0.10),
-        0 2px 8px -2px rgba(15, 23, 42, 0.05);
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.98),
+        inset 0 -1.5px 1px 0 rgba(0, 113, 227, 0.16),
+        inset 1.5px 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset -1.5px 0 1px 0 rgba(255, 255, 255, 0.55),
+        0 16px 38px -10px rgba(15, 23, 42, 0.13),
+        0 2px 10px -2px rgba(0, 113, 227, 0.08);
 
-      --lg-card-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.60) 0%, rgba(250, 252, 255, 0.42) 55%, rgba(246, 250, 255, 0.54) 100%);
-      --lg-card-border: rgba(255, 255, 255, 0.82);
+      --lg-card-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.46) 0%, rgba(248, 251, 255, 0.28) 54%, rgba(242, 248, 255, 0.40) 100%);
+      --lg-card-border: rgba(255, 255, 255, 0.80);
       --lg-card-shadow:
-        inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.95),
-        inset 0 -1px 0 0 rgba(255, 255, 255, 0.46),
-        inset 1px 0 0 0 rgba(255, 255, 255, 0.58),
-        0 10px 30px -10px rgba(15, 23, 42, 0.08),
-        0 1px 4px rgba(15, 23, 42, 0.04);
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.96),
+        inset 0 -1px 0.5px 0 rgba(0, 113, 227, 0.12),
+        inset 1px 0 0.5px 0 rgba(255, 255, 255, 0.68),
+        0 12px 32px -10px rgba(15, 23, 42, 0.09),
+        0 2px 6px rgba(15, 23, 42, 0.04);
       --lg-card-hover-shadow:
         inset 0 1.5px 1px 0 rgba(255, 255, 255, 1),
-        inset 0 -1px 0 0 rgba(0, 122, 255, 0.18),
-        0 18px 40px -12px rgba(15, 23, 42, 0.13),
-        0 4px 12px -2px rgba(0, 122, 255, 0.07);
+        inset 0 -1.5px 1px 0 rgba(0, 113, 227, 0.22),
+        0 20px 44px -12px rgba(15, 23, 42, 0.14),
+        0 4px 14px -2px rgba(0, 113, 227, 0.10);
 
-      --lg-subcard-bg: rgba(255, 255, 255, 0.50);
-      --lg-subcard-border: rgba(255, 255, 255, 0.74);
-      --lg-glint: rgba(255, 255, 255, 0.68);
-      --lg-glint-edge: rgba(0, 122, 255, 0.14);
-      --lg-seg-track: rgba(118, 118, 128, 0.12);
-      --lg-seg-thumb: rgba(255, 255, 255, 0.95);
-      --lg-seg-thumb-shadow: 0 2px 7px rgba(0, 0, 0, 0.09), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
+      --lg-subcard-bg: linear-gradient(150deg, rgba(255, 255, 255, 0.52) 0%, rgba(246, 250, 255, 0.34) 100%);
+      --lg-subcard-border: rgba(255, 255, 255, 0.78);
+      --lg-glint: rgba(255, 255, 255, 0.76);
+      --lg-glint-edge: rgba(0, 113, 227, 0.18);
+      --lg-seg-track: rgba(15, 23, 42, 0.065);
+      --lg-seg-thumb: linear-gradient(165deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.38) 55%, rgba(235, 246, 255, 0.62) 100%);
+      --lg-seg-thumb-shadow:
+        inset 0 1.5px 0.5px rgba(255, 255, 255, 1),
+        inset 0 -1px 1px rgba(0, 113, 227, 0.22),
+        inset 1px 0 1px rgba(56, 189, 248, 0.28),
+        inset -1px 0 1px rgba(244, 114, 182, 0.20),
+        0 4px 14px -2px rgba(15, 23, 42, 0.14),
+        0 1px 3px rgba(0, 113, 227, 0.10);
     }
 
     body.bg-slate-950 {
-      --apple-canvas: #050814;
-      --apple-ink: #f5f5f7;
-      --apple-ink-secondary: rgba(235, 235, 245, 0.66);
-      --apple-ink-tertiary: rgba(235, 235, 245, 0.44);
-      --apple-tint: #0a84ff;
-      --apple-tint-soft: rgba(10, 132, 255, 0.22);
+      --apple-canvas: #040712;
+      --apple-ink: #f5f7fb;
+      --apple-ink-secondary: rgba(226, 232, 248, 0.70);
+      --apple-ink-tertiary: rgba(226, 232, 248, 0.46);
+      --apple-tint: #3898ff;
+      --apple-tint-soft: rgba(56, 152, 255, 0.22);
       --apple-warm: #ff9f0a;
       --apple-green: #30d158;
 
-      --lg-bar-bg: linear-gradient(140deg, rgba(28, 36, 62, 0.52) 0%, rgba(15, 20, 38, 0.38) 52%, rgba(24, 32, 56, 0.46) 100%);
-      --lg-bar-border: rgba(255, 255, 255, 0.16);
+      --lg-bar-bg: linear-gradient(135deg, rgba(26, 36, 66, 0.38) 0%, rgba(12, 18, 36, 0.22) 50%, rgba(24, 34, 62, 0.34) 100%);
+      --lg-bar-border: rgba(255, 255, 255, 0.22);
       --lg-bar-shadow:
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.24),
-        inset 0 -1px 0 0 rgba(10, 132, 255, 0.14),
-        inset 1px 0 0 0 rgba(255, 255, 255, 0.10),
-        0 18px 44px -10px rgba(0, 0, 0, 0.72),
-        0 2px 10px rgba(0, 0, 0, 0.45);
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.34),
+        inset 0 -1.5px 1px 0 rgba(56, 189, 248, 0.22),
+        inset 1px 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset -1px 0 1px 0 rgba(168, 85, 247, 0.16),
+        0 20px 46px -10px rgba(0, 0, 0, 0.74),
+        0 2px 12px rgba(0, 0, 0, 0.48);
 
-      --lg-card-bg: linear-gradient(155deg, rgba(28, 36, 60, 0.48) 0%, rgba(14, 19, 34, 0.36) 55%, rgba(22, 29, 50, 0.44) 100%);
-      --lg-card-border: rgba(255, 255, 255, 0.13);
+      --lg-card-bg: linear-gradient(155deg, rgba(24, 34, 60, 0.42) 0%, rgba(11, 16, 32, 0.28) 54%, rgba(20, 28, 52, 0.38) 100%);
+      --lg-card-border: rgba(255, 255, 255, 0.17);
       --lg-card-shadow:
-        inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.22),
-        inset 0 -1px 0 0 rgba(94, 92, 230, 0.12),
-        inset 1px 0 0 0 rgba(255, 255, 255, 0.09),
-        0 16px 38px -12px rgba(0, 0, 0, 0.68),
-        0 2px 8px rgba(0, 0, 0, 0.42);
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0.5px 0 rgba(99, 102, 241, 0.18),
+        inset 1px 0 0.5px 0 rgba(255, 255, 255, 0.12),
+        0 16px 38px -12px rgba(0, 0, 0, 0.70),
+        0 2px 8px rgba(0, 0, 0, 0.44);
       --lg-card-hover-shadow:
-        inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.32),
-        inset 0 -1px 0 0 rgba(10, 132, 255, 0.28),
-        0 22px 48px -12px rgba(0, 0, 0, 0.82),
-        0 0 24px -6px rgba(10, 132, 255, 0.22);
+        inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.40),
+        inset 0 -1.5px 1px 0 rgba(56, 152, 255, 0.32),
+        0 22px 50px -12px rgba(0, 0, 0, 0.84),
+        0 0 26px -6px rgba(56, 152, 255, 0.26);
 
-      --lg-subcard-bg: rgba(255, 255, 255, 0.055);
-      --lg-subcard-border: rgba(255, 255, 255, 0.10);
-      --lg-glint: rgba(255, 255, 255, 0.15);
-      --lg-glint-edge: rgba(10, 132, 255, 0.22);
-      --lg-seg-track: rgba(118, 118, 128, 0.26);
-      --lg-seg-thumb: rgba(255, 255, 255, 0.18);
-      --lg-seg-thumb-shadow: 0 3px 10px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+      --lg-subcard-bg: linear-gradient(150deg, rgba(255, 255, 255, 0.085) 0%, rgba(255, 255, 255, 0.035) 100%);
+      --lg-subcard-border: rgba(255, 255, 255, 0.13);
+      --lg-glint: rgba(255, 255, 255, 0.18);
+      --lg-glint-edge: rgba(56, 152, 255, 0.26);
+      --lg-seg-track: rgba(255, 255, 255, 0.075);
+      --lg-seg-thumb: linear-gradient(165deg, rgba(255, 255, 255, 0.26) 0%, rgba(56, 152, 255, 0.14) 55%, rgba(168, 85, 247, 0.16) 100%);
+      --lg-seg-thumb-shadow:
+        inset 0 1.5px 0.5px rgba(255, 255, 255, 0.48),
+        inset 0 -1px 1px rgba(56, 189, 248, 0.32),
+        inset 1px 0 1px rgba(56, 189, 248, 0.28),
+        inset -1px 0 1px rgba(217, 70, 239, 0.24),
+        0 4px 14px rgba(0, 0, 0, 0.48);
     }
 
     html {
@@ -293,15 +306,25 @@
       overflow: hidden;
     }
 
-    /* Floating Navigation Capsule (macOS Tahoe / visionOS Glass Bar) */
+    /* Floating Navigation Capsule (Apple iOS 26 / macOS 26 Refractive Liquid Glass Bar) */
     .lg-bar-shell {
       position: relative;
       background: var(--lg-bar-bg);
       border: 1px solid var(--lg-bar-border);
       box-shadow: var(--lg-bar-shadow);
-      backdrop-filter: blur(34px) saturate(200%);
-      -webkit-backdrop-filter: blur(34px) saturate(200%);
+      backdrop-filter: blur(11px) saturate(195%) brightness(1.03);
+      -webkit-backdrop-filter: blur(11px) saturate(195%) brightness(1.03);
       transition: background 0.4s var(--spring-fluid), box-shadow 0.4s var(--spring-fluid), border-color 0.35s ease, transform 0.35s var(--spring-fluid);
+    }
+    body.pb-svg-refract .lg-bar-shell {
+      backdrop-filter: url(#pb-liquid-bar-filter) blur(5px) saturate(205%) brightness(1.04);
+      -webkit-backdrop-filter: blur(10px) saturate(200%) brightness(1.04);
+    }
+    body.liquidgl-ready .lg-bar-shell {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(244, 249, 255, 0.12) 50%, rgba(255, 255, 255, 0.22) 100%);
+    }
+    body.bg-slate-950.liquidgl-ready .lg-bar-shell {
+      background: linear-gradient(135deg, rgba(20, 30, 58, 0.28) 0%, rgba(10, 15, 32, 0.16) 50%, rgba(20, 28, 54, 0.24) 100%);
     }
     .lg-bar-shell::after {
       content: "";
@@ -309,27 +332,33 @@
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-      background: radial-gradient(340px circle at var(--lg-mx, 50%) var(--lg-my, 0%), var(--lg-glint), transparent 68%);
-      opacity: 0;
-      transition: opacity 0.35s ease;
+      background:
+        radial-gradient(320px circle at var(--lg-mx, 50%) var(--lg-my, 0%), var(--lg-glint), transparent 66%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, transparent 26%, transparent 82%, rgba(56, 189, 248, 0.12) 100%);
+      opacity: 0.55;
+      transition: opacity 0.32s ease;
       z-index: 1;
     }
-    .lg-bar-shell:hover::after { opacity: 0.72; }
+    .lg-bar-shell:hover::after { opacity: 0.92; }
 
-    /* Primary Squircle Liquid Glass Card */
+    /* Primary Squircle Liquid Glass Card — Crystal Bevel + WebGL Lens Transparency */
     .lg-card {
       position: relative;
       border-radius: 24px;
       background: var(--lg-card-bg);
       border: 1px solid var(--lg-card-border);
       box-shadow: var(--lg-card-shadow);
-      backdrop-filter: blur(30px) saturate(190%);
-      -webkit-backdrop-filter: blur(30px) saturate(190%);
+      backdrop-filter: blur(12px) saturate(185%);
+      -webkit-backdrop-filter: blur(12px) saturate(185%);
       transition:
         transform 0.44s var(--spring-fluid),
         box-shadow 0.44s var(--spring-fluid),
         border-color 0.3s ease,
         background 0.35s ease;
+    }
+    body.liquidgl-ready .lg-card {
+      backdrop-filter: blur(6px) saturate(180%);
+      -webkit-backdrop-filter: blur(6px) saturate(180%);
     }
     .lg-card::before {
       content: "";
@@ -337,12 +366,14 @@
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-      background: radial-gradient(420px circle at var(--lg-mx, 50%) var(--lg-my, 0%), var(--lg-glint), transparent 64%);
-      opacity: 0;
-      transition: opacity 0.38s ease;
+      background:
+        radial-gradient(400px circle at var(--lg-mx, 50%) var(--lg-my, 0%), var(--lg-glint), transparent 62%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.34) 0%, transparent 32%, transparent 78%, rgba(0, 113, 227, 0.10) 100%);
+      opacity: 0.42;
+      transition: opacity 0.36s ease;
       z-index: 1;
     }
-    .lg-card:hover::before { opacity: 0.78; }
+    .lg-card:hover::before { opacity: 0.88; }
     .lg-card > * { position: relative; z-index: 2; }
 
     /* Nested Concentric Glass Sub-tile (Weather, Telemetry, Task Items) */
@@ -350,49 +381,388 @@
       border-radius: 16px;
       background: var(--lg-subcard-bg);
       border: 1px solid var(--lg-subcard-border);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(18px) saturate(170%);
-      -webkit-backdrop-filter: blur(18px) saturate(170%);
+      box-shadow:
+        inset 0 1px 0.5px rgba(255, 255, 255, 0.78),
+        inset 0 -1px 0.5px rgba(0, 113, 227, 0.08),
+        0 2px 8px rgba(15, 23, 42, 0.03);
+      backdrop-filter: blur(10px) saturate(175%);
+      -webkit-backdrop-filter: blur(10px) saturate(175%);
       transition: transform 0.32s var(--spring-fluid), background 0.25s ease, border-color 0.25s ease, box-shadow 0.28s ease;
     }
     body.bg-slate-950 .lg-subcard {
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+      box-shadow:
+        inset 0 1px 0.5px rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0.5px rgba(56, 189, 248, 0.10),
+        0 4px 12px rgba(0, 0, 0, 0.28);
     }
 
-    /* SwiftUI Segmented Picker (.pickerStyle(.segmented)) */
-    .lg-segmented {
+    /* ==========================================================================
+       APPLE iOS 26 / macOS 26 LIQUID GLASS INTERACTIVE CONTROLS
+       1. Sliding Droplet Pill Tabs  2. Swelling Droplet Switches  3. Optical Sliders
+       ========================================================================== */
+    .lg-segmented,
+    .lg-sliding-nav {
+      position: relative;
       background: var(--lg-seg-track);
+      border: 1px solid rgba(255, 255, 255, 0.55);
       border-radius: 9999px;
       padding: 3px;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      box-shadow:
+        inset 0 1.5px 3px rgba(15, 23, 42, 0.08),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+    }
+    body.bg-slate-950 .lg-segmented,
+    body.bg-slate-950 .lg-sliding-nav {
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow:
+        inset 0 1.5px 4px rgba(0, 0, 0, 0.48),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    /* Physical Sliding Liquid Glass Droplet Indicator */
+    .lg-sliding-thumb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 1;
+      background: var(--lg-seg-thumb);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      box-shadow: var(--lg-seg-thumb-shadow);
+      backdrop-filter: blur(3px) saturate(210%) brightness(1.06);
+      -webkit-backdrop-filter: blur(3px) saturate(210%) brightness(1.06);
+      transform-origin: center center;
+      will-change: transform, width, height;
+      transition:
+        transform 0.42s cubic-bezier(0.22, 1.22, 0.36, 1),
+        width 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+        height 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.28s ease,
+        background 0.28s ease;
+    }
+    body.pb-svg-refract .lg-sliding-thumb {
+      backdrop-filter: url(#pb-liquid-droplet-filter) blur(1.5px) saturate(220%) brightness(1.08);
+    }
+    body.bg-slate-950 .lg-sliding-thumb {
+      border-color: rgba(255, 255, 255, 0.34);
+    }
+    /* Mid-glide droplet stretch + heightened chromatic prism refraction */
+    .lg-sliding-thumb.is-gliding {
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.14) 55%, rgba(186, 230, 253, 0.34) 100%);
+      box-shadow:
+        inset 0 2px 1px rgba(255, 255, 255, 1),
+        inset 2px 0 2px rgba(56, 189, 248, 0.55),
+        inset -2px 0 2px rgba(244, 114, 182, 0.45),
+        0 8px 22px -3px rgba(0, 113, 227, 0.28);
+    }
+    body.bg-slate-950 .lg-sliding-thumb.is-gliding {
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.22) 0%, rgba(56, 189, 248, 0.10) 55%, rgba(192, 132, 252, 0.18) 100%);
+      box-shadow:
+        inset 0 2px 1px rgba(255, 255, 255, 0.72),
+        inset 2px 0 2.5px rgba(56, 189, 248, 0.65),
+        inset -2px 0 2.5px rgba(232, 121, 249, 0.52),
+        0 10px 26px -3px rgba(56, 152, 255, 0.42);
+    }
+    .lg-sliding-nav > button,
+    .lg-segmented > button {
+      position: relative;
+      z-index: 2;
     }
 
     .deck-tab {
       position: relative;
+      z-index: 2;
       border-radius: 9999px;
       color: var(--apple-ink-secondary);
       font-family: var(--font-sf-text);
       letter-spacing: -0.01em;
-      transition: all 0.32s var(--spring-fluid);
+      transition: color 0.26s ease, background-color 0.26s ease, transform 0.24s var(--spring-fluid);
     }
     .deck-tab:hover:not(.active) {
       color: var(--apple-ink);
-      background: rgba(255, 255, 255, 0.34);
+      background: rgba(255, 255, 255, 0.22);
     }
     body.bg-slate-950 .deck-tab:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
     }
     .deck-tab.active {
-      background: var(--lg-seg-thumb);
       color: var(--apple-ink);
+      font-weight: 600;
+    }
+    /* Fallback static highlight only when container does NOT own a .lg-sliding-thumb */
+    :not(.has-sliding-thumb) > .deck-tab.active {
+      background: var(--lg-seg-thumb);
       box-shadow: var(--lg-seg-thumb-shadow);
     }
     body.bg-slate-950 .deck-tab.active {
-      background: rgba(255, 255, 255, 0.16);
       color: #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    }
+
+    /* 2. iOS 26 / macOS 26 Liquid Glass Toggle Switch (.lg-switch) */
+    .lg-switch {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      width: 52px;
+      height: 30px;
+      border-radius: 9999px;
+      padding: 3px;
+      background: rgba(120, 120, 132, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow:
+        inset 0 2px 4px rgba(15, 23, 42, 0.14),
+        inset 0 -1px 0.5px rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: background 0.32s var(--spring-fluid), border-color 0.32s ease, box-shadow 0.32s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body.bg-slate-950 .lg-switch {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
+    }
+    .lg-switch[aria-checked="true"],
+    .lg-switch[aria-pressed="true"] {
+      background: linear-gradient(180deg, #34d399 0%, #22c55e 100%) !important;
+      border-color: rgba(255, 255, 255, 0.52) !important;
+      box-shadow:
+        inset 0 2px 4px rgba(0, 85, 35, 0.26),
+        0 4px 14px -3px rgba(34, 197, 94, 0.45);
+    }
+    .lg-switch.lg-switch-blue[aria-checked="true"],
+    .lg-switch.lg-switch-blue[aria-pressed="true"] {
+      background: linear-gradient(180deg, #38bdf8 0%, #0071e3 100%) !important;
+      box-shadow:
+        inset 0 2px 4px rgba(0, 45, 110, 0.28),
+        0 4px 14px -3px rgba(0, 113, 227, 0.45);
+    }
+    .lg-switch-sm {
+      width: 44px;
+      height: 25px;
+      padding: 2.5px;
+    }
+    .lg-switch-thumb {
+      position: absolute;
+      top: 2.5px;
+      left: 3px;
+      width: 25px;
+      height: 23px;
+      border-radius: 9999px;
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(242, 247, 255, 0.86) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow:
+        inset 0 1.5px 0.5px #ffffff,
+        inset 0 -1px 1px rgba(0, 113, 227, 0.16),
+        0 3px 8px rgba(15, 23, 42, 0.24);
+      transform: translate3d(0, 0, 0) scale(1);
+      transition:
+        transform 0.38s cubic-bezier(0.22, 1.28, 0.36, 1),
+        background 0.22s ease,
+        box-shadow 0.24s ease;
+      pointer-events: none;
+    }
+    .lg-switch-sm .lg-switch-thumb {
+      top: 2px;
+      left: 2.5px;
+      width: 21px;
+      height: 19px;
+    }
+    .lg-switch[aria-checked="true"] .lg-switch-thumb,
+    .lg-switch[aria-pressed="true"] .lg-switch-thumb {
+      transform: translate3d(20px, 0, 0) scale(1);
+    }
+    .lg-switch-sm[aria-checked="true"] .lg-switch-thumb,
+    .lg-switch-sm[aria-pressed="true"] .lg-switch-thumb {
+      transform: translate3d(17px, 0, 0) scale(1);
+    }
+    /* Apple iOS 26 Droplet Swell: thumb turns crystal-clear & refracts the track edge! */
+    .lg-switch:active .lg-switch-thumb,
+    .lg-switch.is-morphing .lg-switch-thumb {
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.10) 60%, rgba(186, 230, 253, 0.28) 100%) !important;
+      backdrop-filter: url(#pb-liquid-droplet-filter) blur(1px) saturate(230%) brightness(1.12);
+      -webkit-backdrop-filter: blur(2px) saturate(220%) brightness(1.12);
+      box-shadow:
+        inset 0 2px 1px rgba(255, 255, 255, 0.98),
+        inset 2px 0 2px rgba(56, 189, 248, 0.60),
+        inset -2px 0 2px rgba(244, 114, 182, 0.48),
+        0 6px 18px rgba(15, 23, 42, 0.28) !important;
+      transform: translate3d(0, 0, 0) scaleX(1.30) scaleY(1.22);
+    }
+    .lg-switch[aria-checked="true"]:active .lg-switch-thumb,
+    .lg-switch[aria-checked="true"].is-morphing .lg-switch-thumb,
+    .lg-switch[aria-pressed="true"]:active .lg-switch-thumb,
+    .lg-switch[aria-pressed="true"].is-morphing .lg-switch-thumb {
+      transform: translate3d(20px, 0, 0) scaleX(1.30) scaleY(1.22);
+    }
+    .lg-switch-sm[aria-checked="true"]:active .lg-switch-thumb,
+    .lg-switch-sm[aria-checked="true"].is-morphing .lg-switch-thumb,
+    .lg-switch-sm[aria-pressed="true"]:active .lg-switch-thumb,
+    .lg-switch-sm[aria-pressed="true"].is-morphing .lg-switch-thumb {
+      transform: translate3d(17px, 0, 0) scaleX(1.28) scaleY(1.20);
+    }
+
+    /* 3. Tactile Liquid Glass Optical Drag Bars (.lg-range-wrap) */
+    .lg-range-wrap {
+      --slider-pct: 25%;
+      --slider-accent: #0071e3;
+      position: relative;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      user-select: none;
+      touch-action: pan-y;
+    }
+    .lg-range-track {
+      position: relative;
+      width: 100%;
+      height: 10px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.085);
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      box-shadow:
+        inset 0 1.5px 3px rgba(15, 23, 42, 0.12),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.72);
+      overflow: hidden;
+    }
+    body.bg-slate-950 .lg-range-track {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1.5px 4px rgba(0, 0, 0, 0.55);
+    }
+    /* Precision optical scale ticks visible right through the glass droplet thumb */
+    .lg-range-ticks {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 9px,
+        rgba(15, 23, 42, 0.16) 9px,
+        rgba(15, 23, 42, 0.16) 10.5px
+      );
+      pointer-events: none;
+    }
+    body.bg-slate-950 .lg-range-ticks {
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 9px,
+        rgba(255, 255, 255, 0.22) 9px,
+        rgba(255, 255, 255, 0.22) 10.5px
+      );
+    }
+    .lg-range-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: var(--slider-pct);
+      border-radius: 9999px;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.85) 0%, var(--slider-accent) 100%);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+      transition: width 0.05s linear;
+    }
+    .lg-range-thumb {
+      position: absolute;
+      top: 50%;
+      left: var(--slider-pct);
+      width: 32px;
+      height: 21px;
+      border-radius: 9999px;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: none;
+      z-index: 3;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.34) 52%, rgba(219, 238, 255, 0.62) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.96);
+      box-shadow:
+        inset 0 1.5px 0.5px #ffffff,
+        inset 0 -1.5px 1px rgba(0, 113, 227, 0.26),
+        inset 1.5px 0 1.5px rgba(56, 189, 248, 0.34),
+        inset -1.5px 0 1.5px rgba(244, 114, 182, 0.24),
+        0 4px 12px rgba(15, 23, 42, 0.20);
+      backdrop-filter: url(#pb-liquid-droplet-filter) blur(1.2px) saturate(215%) brightness(1.08);
+      -webkit-backdrop-filter: blur(2px) saturate(210%) brightness(1.08);
+      transition:
+        transform 0.32s cubic-bezier(0.22, 1.32, 0.36, 1),
+        width 0.28s var(--spring-fluid),
+        height 0.28s var(--spring-fluid),
+        background 0.22s ease,
+        box-shadow 0.24s ease;
+    }
+    body.bg-slate-950 .lg-range-thumb {
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.36) 0%, rgba(56, 189, 248, 0.12) 55%, rgba(192, 132, 252, 0.22) 100%);
+      border-color: rgba(255, 255, 255, 0.52);
+      box-shadow:
+        inset 0 1.5px 0.5px rgba(255, 255, 255, 0.85),
+        inset 0 -1.5px 1px rgba(56, 189, 248, 0.42),
+        inset 1.5px 0 1.5px rgba(56, 189, 248, 0.45),
+        inset -1.5px 0 1.5px rgba(232, 121, 249, 0.36),
+        0 6px 16px rgba(0, 0, 0, 0.52);
+    }
+    /* Active / Hover Drag: Thumb swells into a crystal-clear magnifying liquid lens! */
+    .lg-range-wrap:hover .lg-range-thumb {
+      transform: translate(-50%, -50%) scale(1.09);
+    }
+    .lg-range-wrap.is-dragging .lg-range-thumb,
+    .lg-range-wrap:focus-within .lg-range-thumb {
+      width: 42px;
+      height: 27px;
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.06) 55%, rgba(186, 230, 253, 0.20) 100%);
+      backdrop-filter: url(#pb-liquid-droplet-filter) blur(0.4px) saturate(240%) brightness(1.14);
+      -webkit-backdrop-filter: blur(1px) saturate(230%) brightness(1.14);
+      box-shadow:
+        inset 0 2px 1px rgba(255, 255, 255, 0.98),
+        inset 2.5px 0 2.5px rgba(56, 189, 248, 0.72),
+        inset -2.5px 0 2.5px rgba(244, 114, 182, 0.58),
+        0 10px 24px -2px rgba(0, 113, 227, 0.36);
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+    .lg-range-bubble {
+      position: absolute;
+      bottom: calc(100% + 7px);
+      left: 50%;
+      transform: translateX(-50%) translateY(5px) scale(0.86);
+      opacity: 0;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-family: var(--font-sf-mono);
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
+      color: var(--apple-ink);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16), inset 0 1px 0 #ffffff;
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.26s var(--spring-fluid);
+    }
+    body.bg-slate-950 .lg-range-bubble {
+      color: #ffffff;
+      background: rgba(15, 23, 42, 0.88);
+      border-color: rgba(255, 255, 255, 0.24);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    .lg-range-wrap.is-dragging .lg-range-bubble,
+    .lg-range-wrap:hover .lg-range-bubble {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+    .lg-range-native {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: grab;
+      z-index: 5;
+    }
+    .lg-range-native:active {
+      cursor: grabbing;
     }
 
     /* Concentric Liquid Glass Pills & Capsule Buttons */
@@ -443,9 +813,10 @@
       transform: translateY(-3px) scale(1.004);
       box-shadow: var(--lg-card-hover-shadow);
     }
-    .card-hover:active { transform: scale(0.984); }
+    article.card-hover:active { transform: scale(0.986); }
     button { transition: transform 0.24s var(--spring-fluid), background-color 0.22s ease, box-shadow 0.22s ease, color 0.2s ease; }
     button:active { transform: scale(0.96); }
+    .lg-switch:active { transform: scale(1); }
     :focus-visible { outline: none; box-shadow: 0 0 0 3.5px rgba(0, 122, 255, 0.38); }
 
     /* Spotlight / Apple Glass Input */
@@ -806,105 +1177,28 @@
     }
 
     /* ==========================================================================
-       macOS TAHOE 26 · SwiftUI NavigationSplitView APP SHELL & SIDEBAR
+       MODERN SPATIAL WEBAPP SHELL, AUDIO BRIEFING PULSE & MOBILE GLASS DOCK
        ========================================================================== */
-    #macos-app-shell {
+    #webapp-shell {
       position: relative;
       z-index: 30;
     }
 
-    #macos-sidebar {
-      transition: width 0.36s var(--spring-fluid), opacity 0.28s ease, transform 0.36s var(--spring-fluid), padding 0.36s var(--spring-fluid);
+    @keyframes pbAudioWave {
+      0%, 100% { transform: scaleY(0.45); }
+      50% { transform: scaleY(1); }
     }
-    body.macos-sidebar-collapsed #macos-sidebar {
-      width: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(-18px);
-      overflow: hidden;
-    }
-    @media (min-width: 1024px) {
-      body.macos-sidebar-collapsed #deck-nav-bar {
-        display: flex !important;
-      }
-    }
-
-    .macos-traffic-dot {
-      width: 12px;
-      height: 12px;
+    .pb-audio-bar {
+      display: inline-block;
+      width: 2.5px;
+      height: 11px;
       border-radius: 9999px;
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.18), 0 1px 1px rgba(255, 255, 255, 0.25);
-      transition: transform 0.18s var(--spring-fluid), filter 0.18s ease;
+      background: currentColor;
+      transform-origin: bottom center;
+      animation: pbAudioWave 0.85s ease-in-out infinite;
     }
-    .macos-traffic-dot span {
-      opacity: 0;
-      font-size: 8px;
-      font-weight: 800;
-      line-height: 1;
-      color: rgba(0, 0, 0, 0.62);
-      transition: opacity 0.15s ease;
-    }
-    .macos-traffic-group:hover .macos-traffic-dot span {
-      opacity: 1;
-    }
-    .macos-traffic-dot:active {
-      transform: scale(0.88);
-      filter: brightness(0.9);
-    }
-
-    .macos-sidebar-section-title {
-      font-family: var(--font-sf-text);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: -0.005em;
-      color: var(--apple-ink-tertiary);
-      padding: 0 10px;
-      margin-bottom: 4px;
-      user-select: none;
-    }
-
-    .macos-sidebar-item {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 9px;
-      padding: 7px 10px;
-      border-radius: 10px;
-      font-family: var(--font-sf-text);
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: -0.011em;
-      color: var(--apple-ink-secondary);
-      background: transparent;
-      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s var(--spring-fluid);
-      text-align: left;
-    }
-    .macos-sidebar-item:hover:not(.active) {
-      background: rgba(120, 120, 128, 0.10);
-      color: var(--apple-ink);
-    }
-    body.bg-slate-950 .macos-sidebar-item:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.08);
-      color: #f5f5f7;
-    }
-    .macos-sidebar-item.active {
-      background: rgba(0, 122, 255, 0.14) !important;
-      color: var(--apple-tint) !important;
-      font-weight: 600;
-      box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.55);
-    }
-    body.bg-slate-950 .macos-sidebar-item.active {
-      background: rgba(10, 132, 255, 0.24) !important;
-      color: #64b5ff !important;
-      box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.20);
-    }
+    .pb-audio-bar:nth-child(2) { animation-delay: 0.18s; }
+    .pb-audio-bar:nth-child(3) { animation-delay: 0.34s; }
 
     /* Mobile Floating iOS 26 Liquid Glass Capsule Tab Bar */
     #mobile-deck-bar {
@@ -912,31 +1206,53 @@
       background: var(--lg-bar-bg) !important;
       border: 1px solid var(--lg-bar-border) !important;
       box-shadow: var(--lg-bar-shadow);
-      backdrop-filter: blur(34px) saturate(200%);
-      -webkit-backdrop-filter: blur(34px) saturate(200%);
     }
     .mobile-deck-btn {
+      position: relative;
+      z-index: 2;
       color: var(--apple-ink-secondary);
-      transition: all 0.28s var(--spring-fluid);
+      transition: color 0.28s var(--spring-fluid), transform 0.24s var(--spring-fluid);
     }
     .mobile-deck-btn.active {
       color: var(--apple-tint) !important;
+    }
+    #mobile-deck-bar:not(.has-sliding-thumb) .mobile-deck-btn.active {
       background: var(--apple-tint-soft);
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/gh/naughtyduk/liquidGL/scripts/liquidGL.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/naughtyduk/liquidGL/scripts/liquidGL.js"></script>
 </head>
-<body id="app-body" class="min-h-screen text-[#1d1d1f] antialiased">
+<body id="app-body" class="min-h-screen text-[#14161f] antialiased">
 
-  <!-- Optical SVG Refraction Filters for Apple Liquid Glass Bevels -->
-  <svg width="0" height="0" class="fixed pointer-events-none opacity-0" aria-hidden="true">
+  <!-- Real-Time Snell's-Law Meniscus & RGB Chromatic Dispersion SVG Filters -->
+  <svg id="pb-optical-svg" width="0" height="0" class="fixed pointer-events-none opacity-0" aria-hidden="true">
     <defs>
-      <filter id="apple-liquid-refract" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.014 0.018" numOctaves="2" seed="7" result="noise" />
-        <feGaussianBlur in="noise" stdDeviation="2.2" result="smoothNoise" />
-        <feDisplacementMap in="SourceGraphic" in2="smoothNoise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+      <!-- Floating Navigation Bar Meniscus Refraction + Chromatic Edge Dispersion -->
+      <filter id="pb-liquid-bar-filter" x="-6%" y="-18%" width="112%" height="136%" color-interpolation-filters="sRGB">
+        <feImage id="pb-bar-refract-map" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="barMap" />
+        <feDisplacementMap in="SourceGraphic" in2="barMap" scale="26" xChannelSelector="R" yChannelSelector="G" result="dispR" />
+        <feDisplacementMap in="SourceGraphic" in2="barMap" scale="21" xChannelSelector="R" yChannelSelector="G" result="dispG" />
+        <feDisplacementMap in="SourceGraphic" in2="barMap" scale="16" xChannelSelector="R" yChannelSelector="G" result="dispB" />
+        <feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="rChan" />
+        <feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="gChan" />
+        <feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="bChan" />
+        <feBlend in="rChan" in2="gChan" mode="screen" result="rgBlend" />
+        <feBlend in="rgBlend" in2="bChan" mode="screen" />
+      </filter>
+
+      <!-- Convex Liquid Droplet Lens (Tabs, Toggle Thumbs & Quantum Drag Bars) -->
+      <filter id="pb-liquid-droplet-filter" x="-18%" y="-24%" width="136%" height="148%" color-interpolation-filters="sRGB">
+        <feImage id="pb-droplet-refract-map" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="dropMap" />
+        <feDisplacementMap in="SourceGraphic" in2="dropMap" scale="30" xChannelSelector="R" yChannelSelector="G" result="dR" />
+        <feDisplacementMap in="SourceGraphic" in2="dropMap" scale="23" xChannelSelector="R" yChannelSelector="G" result="dG" />
+        <feDisplacementMap in="SourceGraphic" in2="dropMap" scale="16" xChannelSelector="R" yChannelSelector="G" result="dB" />
+        <feColorMatrix in="dR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cR" />
+        <feColorMatrix in="dG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cG" />
+        <feColorMatrix in="dB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="cB" />
+        <feBlend in="cR" in2="cG" mode="screen" result="cRG" />
+        <feBlend in="cRG" in2="cB" mode="screen" />
       </filter>
     </defs>
   </svg>
@@ -1019,145 +1335,21 @@
   </div>
 
   <!-- =========================================================================
-       macOS TAHOE 26 · SwiftUI NavigationSplitView APPLICATION SHELL
-       Left: Floating Liquid Glass Source-List Sidebar | Right: Unified Toolbar + Stage
+       OPTICAL LIQUID GLASS WEBAPP SHELL (Zero Fake OS Window Chrome)
+       Floating Refractive Capsule Header + Executive Bento Stage + Sticky Planner
        ========================================================================= -->
-  <div id="macos-app-shell" class="min-h-screen flex flex-col lg:flex-row">
+  <div id="webapp-shell" class="min-h-screen flex flex-col">
+    <div id="webapp-stage" class="flex-1 min-w-0 flex flex-col">
 
-    <!-- LEFT COLUMN: Floating Liquid Glass Sidebar (.listStyle(.sidebar)) -->
-    <nav id="macos-sidebar" aria-label="Primary macOS Sidebar" class="hidden lg:flex lg:flex-col lg:w-[256px] lg:shrink-0 sticky top-0 h-screen p-3">
-      <div id="macos-sidebar-glass" class="lg-bar-shell relative flex-1 flex flex-col justify-between rounded-[22px] p-3 overflow-hidden">
-        <!-- Real LiquidGL WebGL Refraction Lens Backing -->
-        <div class="liquidgl-lens" aria-hidden="true"></div>
-
-        <div class="relative z-10 flex flex-col gap-3.5 min-h-0 overflow-y-auto">
-          <!-- macOS Window Traffic Lights + App Title -->
-          <div class="flex items-center justify-between px-2 pt-1 pb-0.5">
-            <div class="macos-traffic-group flex items-center gap-2" role="group" aria-label="Window controls">
-              <button type="button" id="btn-traffic-close" class="macos-traffic-dot bg-[#FF5F57]" title="Lock PulseBoard (L)" aria-label="Lock window"><span>×</span></button>
-              <button type="button" id="btn-traffic-min" class="macos-traffic-dot bg-[#FEBC2E]" title="Hide Sidebar" aria-label="Hide sidebar"><span>–</span></button>
-              <button type="button" id="btn-traffic-zoom" class="macos-traffic-dot bg-[#28C840]" title="Toggle Expanded Stage" aria-label="Expand stage"><span>+</span></button>
-            </div>
-            <span class="font-sf-display text-[12px] font-semibold tracking-tight text-[var(--apple-ink-secondary)] select-none">PulseBoard</span>
-          </div>
-
-          <!-- SwiftUI .searchable Recessed Sidebar Filter Field -->
-          <button type="button" id="btn-sidebar-search" class="lg-input w-full !rounded-[10px] px-2.5 py-1.5 flex items-center justify-between text-xs text-[var(--apple-ink-secondary)] hover:text-[var(--apple-ink)] transition-colors" title="Spotlight Search &amp; Commands (⌘K)">
-            <span class="flex items-center gap-2">
-              <svg class="w-3.5 h-3.5 opacity-65" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path stroke-linecap="round" d="M20 20l-3.5-3.5"></path></svg>
-              <span>Search</span>
-            </span>
-            <kbd class="font-mono-tabular text-[10px] font-medium opacity-60">⌘K</kbd>
-          </button>
-
-          <!-- Sidebar Section: Workspace -->
-          <div>
-            <p class="macos-sidebar-section-title">Workspace</p>
-            <div class="space-y-0.5">
-              <button type="button" class="macos-sidebar-item deck-tab active" data-target-deck="briefing">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-85" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path stroke-linecap="round" d="M7 8h6M7 12h10M7 16h7"></path></svg>
-                  <span class="truncate">Briefing</span>
-                </span>
-                <span class="font-mono-tabular text-[10px] opacity-45">1</span>
-              </button>
-              <button type="button" class="macos-sidebar-item deck-tab" data-target-deck="quantum">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-85" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.2"></circle><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(30 12 12)"></ellipse><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(-30 12 12)"></ellipse></svg>
-                  <span class="truncate">Quantum Lab</span>
-                </span>
-                <span class="font-mono-tabular text-[10px] opacity-45">2</span>
-              </button>
-              <button type="button" class="macos-sidebar-item deck-tab" data-target-deck="rituals">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-85" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5l2.3 2.3 4.7-5"></path></svg>
-                  <span class="truncate">Focus &amp; Rituals</span>
-                </span>
-                <span class="font-mono-tabular text-[10px] opacity-45">3</span>
-              </button>
-              <button type="button" class="macos-sidebar-item deck-tab" data-target-deck="stillness">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-85" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.8 3.2 4.2 6.2 4.2 9A4.2 4.2 0 117.8 12c0-2.8 1.4-5.8 4.2-9z"></path><path stroke-linecap="round" d="M5 19c2 1.3 4.3 2 7 2s5-.7 7-2"></path></svg>
-                  <span class="truncate">Mindfulness</span>
-                </span>
-                <span class="font-mono-tabular text-[10px] opacity-45">4</span>
-              </button>
-              <button type="button" class="macos-sidebar-item deck-tab" data-target-deck="vault">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-85" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5v-11z"></path><path stroke-linecap="round" d="M8 9h8M8 13h5"></path></svg>
-                  <span class="truncate">Vault &amp; Roles</span>
-                </span>
-                <span class="font-mono-tabular text-[10px] opacity-45">5</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Sidebar Section: Library & Tools -->
-          <div class="pt-1">
-            <p class="macos-sidebar-section-title">Library</p>
-            <div class="space-y-0.5">
-              <button type="button" id="btn-sidebar-saved" class="macos-sidebar-item">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-80" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 4h14a1 1 0 011 1v15l-8-4-8 4V5a1 1 0 011-1z"></path></svg>
-                  <span class="truncate">Saved Reading</span>
-                </span>
-                <span id="sidebar-saved-count" class="font-sf-rounded text-[11px] font-semibold px-1.5 py-0.2 rounded-full bg-black/[0.06] dark:bg-white/10">0</span>
-              </button>
-              <button type="button" id="btn-sidebar-focus" class="macos-sidebar-item">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-80" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path stroke-linecap="round" d="M12 9v4l2.5 1.5M9.5 3h5"></path></svg>
-                  <span class="truncate">Focus Timer</span>
-                </span>
-                <span class="font-mono-tabular text-[10px] opacity-45">25m</span>
-              </button>
-              <button type="button" id="btn-sidebar-week" class="macos-sidebar-item">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-80" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M5 19V11M10 19V6M15 19v-8M20 19v-4"></path></svg>
-                  <span class="truncate">Weekly Digest</span>
-                </span>
-              </button>
-              <button type="button" id="btn-sidebar-dayclose" class="macos-sidebar-item">
-                <span class="flex items-center gap-2.5 min-w-0">
-                  <svg class="w-4 h-4 shrink-0 opacity-80" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-                  <span class="truncate">Close the Day</span>
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sidebar Bottom Status Footer -->
-        <div class="relative z-10 pt-3 mt-2 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between px-1.5">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="w-2 h-2 rounded-full bg-[#34c759] shadow-[0_0_8px_rgba(52,199,89,0.65)] shrink-0"></span>
-            <span class="text-[11px] font-medium text-[var(--apple-ink-secondary)] truncate">Weizmann · Rehovot</span>
-          </div>
-          <button type="button" id="btn-sidebar-settings" class="lg-pill w-7 h-7 flex items-center justify-center shrink-0" title="Preferences" aria-label="Preferences">
-            <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path></svg>
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- RIGHT COLUMN: macOS Detail Stage + Unified Window Toolbar -->
-    <div id="macos-detail-pane" class="flex-1 min-w-0 flex flex-col">
-
-      <!-- UNIFIED macOS WINDOW TOOLBAR (.windowToolbarStyle(.unified)) -->
-      <header id="app-header" class="sticky top-0 z-30 px-3 sm:px-5 lg:px-6 pb-2 transition-all duration-300">
-        <div id="app-header-glass" class="lg-bar-shell w-full rounded-[20px] px-3 sm:px-4 py-2 flex flex-wrap items-center justify-between gap-2.5">
-          <!-- Real LiquidGL WebGL Refraction Lens Backing -->
+      <!-- FLOATING REFRACTIVE LIQUID GLASS CAPSULE HEADER -->
+      <header id="app-header" class="sticky top-2.5 z-30 max-w-[1380px] w-full mx-auto px-3 sm:px-5 pb-1.5 transition-all duration-300">
+        <div id="app-header-glass" class="lg-bar-shell w-full rounded-[26px] xl:rounded-full px-3.5 sm:px-5 py-2 flex flex-wrap items-center justify-between gap-2.5">
+          <!-- Real WebGL Optical Refraction Lens Backing -->
           <div class="liquidgl-lens" aria-hidden="true"></div>
 
-          <!-- Left Toolbar Group: Sidebar Toggle + Active Workspace Title -->
+          <!-- Left Header Group: Brand Jewel + Active Context + Live Inline Focus Pill -->
           <div class="relative z-10 flex items-center gap-2.5 min-w-0">
-            <button type="button" id="btn-toggle-sidebar" class="hidden lg:inline-flex lg-pill w-8 h-8 items-center justify-center shrink-0" title="Toggle Sidebar (⌘S)" aria-label="Toggle Sidebar">
-              <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="3" y="4" width="18" height="16" rx="3"></rect>
-                <path d="M9 4v16"></path>
-              </svg>
-            </button>
-
-            <div id="brand-badge" class="w-8 h-8 rounded-[10px] bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center shadow-[0_4px_12px_rgba(0,122,255,0.30),inset_0_1px_0_rgba(255,255,255,0.45)] transition-all shrink-0">
+            <div id="brand-badge" class="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(0,122,255,0.34),inset_0_1px_0_rgba(255,255,255,0.55)] transition-all shrink-0">
               <svg id="edition-icon-sun" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="4"></circle>
                 <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
@@ -1169,37 +1361,42 @@
 
             <div class="min-w-0">
               <div class="flex items-center gap-2">
-                <h1 id="toolbar-view-title" class="font-sf-display text-[16px] sm:text-[17px] font-semibold tracking-tight leading-none truncate">Briefing</h1>
+                <h1 id="toolbar-view-title" class="font-sf-display text-[15.5px] sm:text-[16.5px] font-semibold tracking-tight leading-none truncate">PulseBoard</h1>
                 <span id="edition-pill" class="text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-full bg-sky-500/12 text-sky-700 border border-sky-500/20 shrink-0">
                   Morning
                 </span>
+                <button type="button" id="header-focus-pill" class="hidden lg-pill-active px-2.5 py-0.5 text-[10.5px] font-mono-tabular font-semibold items-center gap-1 shrink-0" title="Open Focus Session">
+                  <span>◔</span>
+                  <span id="header-focus-pill-time">25:00</span>
+                </button>
               </div>
               <p id="header-date" class="text-[11px] text-[var(--apple-ink-secondary)] mt-0.5 tracking-tight truncate">Rehovot · Encrypted Personal Workspace</p>
             </div>
           </div>
 
-          <!-- Tablet / Collapsed-Sidebar Segmented Deck Picker -->
-          <nav id="deck-nav-bar" class="relative z-10 hidden md:flex lg:hidden items-center lg-segmented text-xs font-medium" aria-label="Workspace decks">
-            <button type="button" class="deck-tab active px-3 py-1.5 font-semibold flex items-center gap-1.5" data-target-deck="briefing">
-              <span>Briefing</span>
+          <!-- Center Sliding Liquid Glass Droplet Workspace Switcher -->
+          <nav id="deck-nav-bar" class="relative z-10 hidden md:flex items-center lg-sliding-nav has-sliding-thumb text-xs font-medium" aria-label="Workspace navigation">
+            <span class="lg-sliding-thumb" aria-hidden="true"></span>
+            <button type="button" class="deck-tab active px-3.5 py-1.5 font-semibold flex items-center gap-1.5" data-target-deck="briefing">
+              <span>Today</span>
             </button>
-            <button type="button" class="deck-tab px-3 py-1.5 flex items-center gap-1.5" data-target-deck="quantum">
+            <button type="button" class="deck-tab px-3.5 py-1.5 flex items-center gap-1.5" data-target-deck="quantum">
               <span>Quantum Lab</span>
             </button>
-            <button type="button" class="deck-tab px-3 py-1.5 flex items-center gap-1.5" data-target-deck="rituals">
-              <span>Focus</span>
+            <button type="button" class="deck-tab px-3.5 py-1.5 flex items-center gap-1.5" data-target-deck="vault">
+              <span>Career &amp; Vault</span>
             </button>
-            <button type="button" class="deck-tab px-3 py-1.5 flex items-center gap-1.5" data-target-deck="stillness">
+            <button type="button" class="deck-tab px-3.5 py-1.5 flex items-center gap-1.5" data-target-deck="rituals">
+              <span>Focus &amp; Plan</span>
+            </button>
+            <button type="button" class="deck-tab px-3.5 py-1.5 flex items-center gap-1.5" data-target-deck="stillness">
               <span>Mindfulness</span>
-            </button>
-            <button type="button" class="deck-tab px-3 py-1.5 flex items-center gap-1.5" data-target-deck="vault">
-              <span>Vault</span>
             </button>
           </nav>
 
-          <!-- Right Toolbar Group: Concentric Capsule Action Controls -->
+          <!-- Right Header Group: Search, Audio Briefing, Sliding Day/Night Switcher, Saved, Lock, Settings -->
           <div class="relative z-10 flex items-center gap-1.5 sm:gap-2">
-            <button type="button" id="btn-open-search" class="lg-pill inline-flex items-center gap-1.5 px-2.5 h-8 text-xs font-medium" title="Spotlight Search &amp; Commands (Cmd+K)" aria-label="Search">
+            <button type="button" id="btn-open-search" class="lg-pill inline-flex items-center gap-1.5 px-2.5 h-8 text-xs font-medium" title="Command Palette &amp; Search (⌘K)" aria-label="Search">
               <svg class="w-3.5 h-3.5 opacity-75" fill="none" stroke="currentColor" stroke-width="2.1" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="7"></circle>
                 <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
@@ -1207,15 +1404,26 @@
               <span class="font-mono-tabular text-[10px] opacity-65 font-semibold hidden sm:inline">⌘K</span>
             </button>
 
-            <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 lg-segmented">
-              <button type="button" id="btn-morning" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all" title="Morning Edition">
+            <button type="button" id="btn-audio-briefing" aria-pressed="false" class="lg-pill inline-flex items-center gap-1.5 px-2.5 h-8 text-xs font-semibold shrink-0" title="Listen to 60-second Spoken Executive Briefing">
+              <span id="audio-briefing-bars" class="hidden items-end gap-[2px] h-3" aria-hidden="true">
+                <span class="pb-audio-bar"></span>
+                <span class="pb-audio-bar"></span>
+                <span class="pb-audio-bar"></span>
+              </span>
+              <span id="audio-briefing-icon" class="text-[11px] leading-none">▶</span>
+              <span id="audio-briefing-label" class="hidden xl:inline">Briefing</span>
+            </button>
+
+            <div id="edition-switcher" role="group" aria-label="Edition" class="inline-flex shrink-0 lg-sliding-nav has-sliding-thumb">
+              <span class="lg-sliding-thumb" aria-hidden="true"></span>
+              <button type="button" id="btn-morning" class="deck-tab active flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all" title="Morning Edition">
                 <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="4"></circle>
                   <path stroke-linecap="round" d="M12 2.5v2m0 15v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2.5 12h2m15 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
                 </svg>
                 <span class="hidden sm:inline">Day</span>
               </button>
-              <button type="button" id="btn-night" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all" title="Night Edition">
+              <button type="button" id="btn-night" class="deck-tab flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all" title="Night Edition">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
                 </svg>
@@ -1239,19 +1447,18 @@
             <button type="button" id="btn-open-settings" aria-label="Open settings" title="Settings" class="lg-pill inline-flex shrink-0 items-center justify-center w-8 h-8">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="3.2"></circle>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06-.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55h.01a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path>
               </svg>
             </button>
           </div>
         </div>
       </header>
 
-      <!-- Main macOS Detail Stage -->
-      <main id="main-content" tabindex="-1" class="w-full max-w-[1440px] mx-auto px-3 sm:px-5 lg:px-6 py-3 sm:py-5 outline-none">
+      <!-- Main Optical Stage -->
+      <main id="main-content" tabindex="-1" class="w-full max-w-[1380px] mx-auto px-3 sm:px-5 py-3.5 sm:py-5 outline-none">
 
-        <!-- SwiftUI Hero Summary & Weather Bento Card -->
+        <!-- Executive Command Cockpit & Weather Bento Card -->
         <section id="hero-banner" class="lg-card card-hover relative overflow-hidden p-5 sm:p-6 mb-5 transition-all">
-          <!-- Real LiquidGL WebGL Refraction Lens Backing -->
           <div class="liquidgl-lens" aria-hidden="true"></div>
 
           <div class="flex flex-col lg:grid lg:grid-cols-12 lg:items-center gap-5 lg:gap-7">
@@ -1265,20 +1472,45 @@
               <p id="greeting-subtitle" class="text-xs sm:text-[13.5px] text-[var(--apple-ink-secondary)] mt-1.5 leading-relaxed">
                 Authenticate with your private PIN to decrypt your curated stories, papers, and routines.
               </p>
-              <div id="streak-row" class="hidden mt-3 flex flex-wrap items-center gap-2">
-                <span id="streak-chip" class="font-sf-rounded inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold lg-pill"></span>
-              </div>
-              <div class="flex flex-wrap items-center gap-2 mt-3.5 empty:hidden">
-                <button type="button" id="btn-close-day" class="hidden lg-pill-active inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold active:scale-[0.98] transition-all">
-                  Close the day →
+
+              <!-- Live Executive Synthesis Chips (Interactive Jump Pills) -->
+              <div id="today-synthesis-strip" class="mt-3.5 flex flex-wrap items-center gap-1.5">
+                <button type="button" id="chip-jump-stories" class="lg-pill px-2.5 py-1 text-[11px] font-semibold inline-flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#007aff]"></span>
+                  <span id="chip-stories-text">Stories ready</span>
                 </button>
-                <button type="button" id="btn-open-week" class="hidden lg-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold active:scale-[0.98] transition-all">
-                  Weekly digest
+                <button type="button" id="chip-jump-papers" class="lg-pill px-2.5 py-1 text-[11px] font-semibold inline-flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                  <span id="chip-papers-text">arXiv preprints</span>
+                </button>
+                <button type="button" id="chip-jump-deadlines" class="lg-pill px-2.5 py-1 text-[11px] font-semibold inline-flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                  <span id="chip-deadlines-text">Career radar</span>
+                </button>
+                <button type="button" id="chip-jump-habits" class="lg-pill px-2.5 py-1 text-[11px] font-semibold inline-flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#34c759]"></span>
+                  <span id="chip-habits-text">Daily habits</span>
+                </button>
+                <span id="streak-row" class="hidden inline-flex items-center">
+                  <span id="streak-chip" class="font-sf-rounded inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold lg-pill"></span>
+                </span>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2 mt-3.5">
+                <button type="button" id="btn-hero-audio" class="lg-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold active:scale-[0.98] transition-all">
+                  <span>▶</span>
+                  <span id="btn-hero-audio-label">60s Audio Briefing</span>
+                </button>
+                <button type="button" id="btn-open-week" class="lg-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold active:scale-[0.98] transition-all">
+                  Weekly Digest
+                </button>
+                <button type="button" id="btn-close-day" class="hidden lg-pill-active inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold active:scale-[0.98] transition-all">
+                  Close the Day →
                 </button>
               </div>
             </div>
 
-            <!-- Apple Weather & Science Almanac Bento Tile -->
+            <!-- Rehovot Weather & Science Almanac Bento Tile -->
             <div class="flex flex-col gap-2.5 shrink-0 w-full lg:col-span-5 xl:col-span-4 lg:pl-6 lg:border-l lg:border-black/[0.06] dark:lg:border-white/10">
               <div id="weather-card" class="lg-subcard flex flex-wrap items-center gap-3.5 px-4 py-3 shrink-0">
                 <div class="text-2xl leading-none select-none" id="weather-emoji">🌤️</div>
@@ -1308,9 +1540,8 @@
           </div>
         </section>
 
-        <!-- Apple Mindfulness Reflection Card -->
+        <!-- Daily Mindfulness Reflection Card -->
         <section id="wisdom-card" class="lg-card card-hover relative overflow-hidden p-5 sm:p-6 mb-6 transition-all">
-          <!-- Real LiquidGL WebGL Refraction Lens Backing -->
           <div class="liquidgl-lens" aria-hidden="true"></div>
 
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -1357,10 +1588,8 @@
           </div>
         </section>
 
-    
         <!-- SIGNATURE INTERACTIVE FEATURE: Quantum Spin Dynamics & Bloch Sphere Lab -->
         <section id="quantum-lab-card" class="lg-card card-hover mb-6 p-5 sm:p-6 transition-all overflow-hidden relative">
-          <!-- Real LiquidGL WebGL Refraction Lens Backing -->
           <div class="liquidgl-lens" aria-hidden="true"></div>
 
           <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4 border-b border-black/[0.06] dark:border-white/10">
@@ -1373,10 +1602,17 @@
                   <h3 class="font-sf-display text-base sm:text-[18px] font-semibold tracking-tight text-[var(--apple-ink)]">Quantum Spin Dynamics &amp; NV Control Lab</h3>
                   <span class="font-sf-rounded text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/12 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">Interactive 3D</span>
                 </div>
-                <p class="font-mono-tabular text-[11px] text-[var(--apple-ink-secondary)] mt-0.5">Diamond NV Center · Lindblad Decoherence ($T_1, T_2^*$) · Floquet Drive</p>
+                <p class="font-mono-tabular text-[11px] text-[var(--apple-ink-secondary)] mt-0.5">Diamond NV Center · Off-Resonant Detuning (&Delta;) · Lindblad ($T_1, T_2^*$) · Ramsey &amp; Hahn Echo</p>
               </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- Liquid Glass Toggle Switch for 3D Effective Drive Vector Ω_eff -->
+              <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full lg-subcard">
+                <span class="font-mono-tabular text-[10.5px] font-semibold text-[var(--apple-ink-secondary)] select-none">&Omega;<sub>eff</sub> Axis</span>
+                <button type="button" id="bloch-vec-toggle" role="switch" aria-checked="true" aria-label="Toggle effective Rabi-detuning axis vector" class="lg-switch lg-switch-sm lg-switch-blue">
+                  <span class="lg-switch-thumb"></span>
+                </button>
+              </div>
               <span id="bloch-fidelity-badge" class="font-sf-rounded text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">Purity Tr(&rho;&sup2;) = 1.000</span>
               <button type="button" id="btn-toggle-bloch" class="lg-pill w-8 h-8 flex items-center justify-center" title="Collapse / expand Quantum Lab">
                 <span id="bloch-chevron">▾</span>
@@ -1390,11 +1626,11 @@
               <canvas id="bloch-canvas" width="260" height="260" class="w-[220px] h-[220px] sm:w-[240px] sm:h-[240px] cursor-grab active:cursor-grabbing"></canvas>
               <div class="mt-1.5 flex items-center justify-between w-full px-2">
                 <span id="bloch-state-str" class="font-mono-tabular text-[10.5px] font-semibold text-[var(--apple-ink)]">|&psi;&rang; = 1.00|0&rang; + 0.00|1&rang;</span>
-                <span class="text-[10px] font-medium text-[var(--apple-ink-tertiary)]">Drag to orbit</span>
+                <span class="text-[10px] font-medium text-[var(--apple-ink-tertiary)]">Drag sphere to orbit</span>
               </div>
             </div>
 
-            <!-- Telemetry & Microwave Pulse Sequence Console -->
+            <!-- Telemetry, Liquid Glass Drag Bars & Microwave Pulse Sequence Console -->
             <div class="md:col-span-7 flex flex-col justify-between space-y-3.5">
               <!-- 4-Channel Telemetry Readout -->
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
@@ -1416,21 +1652,54 @@
                 </div>
               </div>
 
-              <!-- Interactive Rabi & Detuning Sliders -->
-              <div class="lg-subcard grid grid-cols-1 sm:grid-cols-2 gap-3 p-3">
+              <!-- Tactile Liquid Glass Optical Droplet Drag Bars (Rabi Ω_R, Detuning Δ, Dephasing Γ_2*) -->
+              <div class="lg-subcard grid grid-cols-1 sm:grid-cols-3 gap-3.5 p-3.5">
                 <div>
                   <div class="flex justify-between text-[11px] mb-1">
-                    <span class="font-medium text-[var(--apple-ink-secondary)]">Rabi Drive &Omega;R</span>
+                    <span class="font-medium text-[var(--apple-ink-secondary)]">Rabi Drive &Omega;<sub>R</sub></span>
                     <span id="bloch-rabi-val" class="font-mono-tabular font-semibold text-[var(--apple-ink)]">12.5 MHz</span>
                   </div>
-                  <input id="bloch-rabi-slider" type="range" min="1" max="50" step="0.5" value="12.5" class="w-full accent-[#007aff] h-1.5 bg-black/[0.08] dark:bg-white/10 rounded-lg cursor-pointer" />
+                  <div class="lg-range-wrap" data-unit=" MHz">
+                    <div class="lg-range-track">
+                      <div class="lg-range-ticks"></div>
+                      <div class="lg-range-fill"></div>
+                    </div>
+                    <span class="lg-range-bubble">12.5 MHz</span>
+                    <div class="lg-range-thumb" aria-hidden="true"></div>
+                    <input id="bloch-rabi-slider" type="range" min="1" max="50" step="0.5" value="12.5" aria-label="Rabi Drive Frequency" class="lg-range-native" />
+                  </div>
                 </div>
+
                 <div>
                   <div class="flex justify-between text-[11px] mb-1">
-                    <span class="font-medium text-[var(--apple-ink-secondary)]">Bath Dephasing &Gamma;2*</span>
+                    <span class="font-medium text-[var(--apple-ink-secondary)]">Detuning &Delta;/2&pi;</span>
+                    <span id="bloch-detuning-val" class="font-mono-tabular font-semibold text-[var(--apple-ink)]">0.0 MHz</span>
+                  </div>
+                  <div class="lg-range-wrap" data-unit=" MHz">
+                    <div class="lg-range-track">
+                      <div class="lg-range-ticks"></div>
+                      <div class="lg-range-fill"></div>
+                    </div>
+                    <span class="lg-range-bubble">0.0 MHz</span>
+                    <div class="lg-range-thumb" aria-hidden="true"></div>
+                    <input id="bloch-detuning-slider" type="range" min="-25" max="25" step="0.5" value="0" aria-label="Off-Resonant Microwave Detuning" class="lg-range-native" />
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-[11px] mb-1">
+                    <span class="font-medium text-[var(--apple-ink-secondary)]">Dephasing &Gamma;<sub>2</sub><sup>*</sup></span>
                     <span id="bloch-gamma-val" class="font-mono-tabular font-semibold text-[var(--apple-ink)]">0.02 MHz</span>
                   </div>
-                  <input id="bloch-gamma-slider" type="range" min="0" max="0.25" step="0.01" value="0.02" class="w-full accent-indigo-600 h-1.5 bg-black/[0.08] dark:bg-white/10 rounded-lg cursor-pointer" />
+                  <div class="lg-range-wrap" data-unit=" MHz">
+                    <div class="lg-range-track">
+                      <div class="lg-range-ticks"></div>
+                      <div class="lg-range-fill"></div>
+                    </div>
+                    <span class="lg-range-bubble">0.02 MHz</span>
+                    <div class="lg-range-thumb" aria-hidden="true"></div>
+                    <input id="bloch-gamma-slider" type="range" min="0" max="0.25" step="0.01" value="0.02" aria-label="Bath Dephasing Rate" class="lg-range-native" />
+                  </div>
                 </div>
               </div>
 
@@ -1445,6 +1714,9 @@
                 <button type="button" id="btn-pulse-pi" class="btn-quantum-action lg-pill px-3 py-1.5 text-xs font-semibold active:scale-95 transition-all">
                   &pi; Echo (Hahn)
                 </button>
+                <button type="button" id="btn-pulse-ramsey" class="btn-quantum-action lg-pill px-3 py-1.5 text-xs font-semibold active:scale-95 transition-all" title="π/2 excitation → free precession under detuning Δ → π/2 readout">
+                  Ramsey (&pi;/2&ndash;&tau;&ndash;&pi;/2)
+                </button>
                 <button type="button" id="btn-toggle-floquet" class="lg-pill-active px-3.5 py-1.5 text-xs font-semibold active:scale-95 transition-all">
                   ▶ Start Floquet Drive
                 </button>
@@ -1456,9 +1728,9 @@
                 </button>
               </div>
 
-              <!-- Fixed Physics Hamiltonian Formula -->
+              <!-- Rotating-Frame Hamiltonian Formula -->
               <p class="font-mono-tabular text-[10.5px] text-[var(--apple-ink-secondary)] leading-relaxed">
-                Hamiltonian: $H(t) = \frac{\Delta}{2}\sigma_z + \Omega_R \cos(\omega t)\sigma_x$ with Lindblad bath dissipator $\mathcal{D}[\sigma_z](\rho)$ on $^{13}\text{C}$-coupled diamond NV spin.
+                Rotating-frame Hamiltonian: $H_{\text{rot}} = \frac{\Delta}{2}\sigma_z + \frac{\Omega_R}{2}\sigma_x$ with tilted axis $\vec{\Omega}_{\text{eff}} = (\Omega_R, 0, \Delta)$ &amp; Lindblad $\Gamma_2^*\mathcal{D}[\sigma_z](\rho)$.
               </p>
             </div>
           </div>
@@ -1482,34 +1754,59 @@
         </nav>
 
         <!-- Urgent <21d Deadlines & Tracked Applications Radar Strip -->
-        <div id="smart-radar-strip" class="hidden mb-6 lg-subcard px-4 py-2.5 flex flex-wrap items-center gap-2"></div>
+        <div id="smart-radar-strip" class="hidden mb-5 lg-subcard px-4 py-2.5 flex flex-wrap items-center gap-2"></div>
 
-        <!-- Multi-Column SwiftUI Content & Inspector Grid -->
+        <!-- Career & Vault Sliding Liquid Glass Sub-Navigation (Eliminates 4000px Scroll Fatigue) -->
+        <div id="vault-subnav-bar" class="hidden mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div class="lg-sliding-nav has-sliding-thumb flex flex-wrap items-center gap-1 text-xs font-medium" role="tablist" aria-label="Career and Vault views">
+            <span class="lg-sliding-thumb" aria-hidden="true"></span>
+            <button type="button" data-vault-tab="all" class="deck-tab active px-3.5 py-1.5 font-semibold">All Dossiers</button>
+            <button type="button" data-vault-tab="urgent" class="deck-tab px-3.5 py-1.5">Urgent &le;21d</button>
+            <button type="button" data-vault-tab="career" class="deck-tab px-3.5 py-1.5">Faculty &amp; R&amp;D</button>
+            <button type="button" data-vault-tab="postdocs" class="deck-tab px-3.5 py-1.5">Postdocs &amp; Labs</button>
+            <button type="button" data-vault-tab="reading" class="deck-tab px-3.5 py-1.5">Deep Vault</button>
+          </div>
+          <span class="text-xs text-[var(--apple-ink-secondary)]">Filtered instantly without scrolling</span>
+        </div>
+
+        <!-- Multi-Column Primary Content & Sticky Planner Grid -->
         <div id="deck-grid-wrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-7">
 
-          <!-- Primary Detail Column (8 cols in Briefing, 12 cols in Quantum / Vault) -->
-          <div id="deck-left-col" class="lg:col-span-8 space-y-10">
+          <!-- Primary Detail Column (8 cols in Today, 12 cols in Quantum / Career & Vault) -->
+          <div id="deck-left-col" class="lg:col-span-8 space-y-8">
 
             <!-- Newsboard -->
             <section id="newsboard-section" aria-labelledby="newsboard-heading">
               <div class="flex flex-wrap items-end justify-between gap-3 pb-3 mb-4 border-b border-black/[0.06] dark:border-white/10">
                 <div>
-                  <p class="text-xs font-semibold text-[var(--apple-tint)] mb-0.5">Today’s Stories</p>
+                  <div class="flex flex-wrap items-center gap-2 mb-0.5">
+                    <p class="text-xs font-semibold text-[var(--apple-tint)]">Today’s Curated Briefing</p>
+                    <span id="today-spectrum-meter" class="hidden text-[10px] font-mono-tabular font-semibold px-2 py-0.5 rounded-full lg-pill"></span>
+                  </div>
                   <h2 id="newsboard-heading" class="font-sf-display text-xl sm:text-[22px] font-bold tracking-tight text-[var(--apple-ink)]">
                     Top Stories
                   </h2>
                   <p id="feed-freshness" class="text-[11.5px] text-[var(--apple-ink-secondary)] mt-0.5">Curated stories decrypted in memory</p>
                 </div>
 
-                <!-- SwiftUI Filter Capsule Strip -->
-                <div id="category-filters" class="flex flex-wrap items-center gap-1.5">
-                  <button type="button" data-category="all" class="cat-btn lg-pill-active px-3 py-1 text-xs font-semibold">All</button>
-                  <button type="button" data-category="Geopolitics & Global" class="cat-btn lg-pill px-3 py-1 text-xs font-medium">Geopolitics &amp; Levant</button>
-                  <button type="button" data-category="Quantum & Physics" class="cat-btn lg-pill px-3 py-1 text-xs font-medium">Quantum &amp; Physics</button>
-                  <button type="button" data-category="Tech & AI" class="cat-btn lg-pill px-3 py-1 text-xs font-medium">Tech &amp; AI</button>
-                  <button type="button" data-category="Mind & Habits" class="cat-btn lg-pill px-3 py-1 text-xs font-medium">Mind &amp; Habits</button>
-                  <button type="button" data-category="saved" class="cat-btn lg-pill px-3 py-1 text-xs font-medium">Saved</button>
-                  <button type="button" id="btn-unread-first" aria-pressed="false" class="lg-pill px-3 py-1 text-xs font-semibold whitespace-nowrap">Unread First</button>
+                <!-- Sliding Liquid Glass Category Pill Bar + Liquid Glass Unread Toggle Switch -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <div id="category-filters" class="lg-sliding-nav has-sliding-thumb flex flex-wrap items-center gap-0.5">
+                    <span class="lg-sliding-thumb" aria-hidden="true"></span>
+                    <button type="button" data-category="all" class="cat-btn deck-tab active px-3 py-1 text-xs font-semibold">All</button>
+                    <button type="button" data-category="Geopolitics & Global" class="cat-btn deck-tab px-3 py-1 text-xs font-medium">Geopolitics</button>
+                    <button type="button" data-category="Quantum & Physics" class="cat-btn deck-tab px-3 py-1 text-xs font-medium">Quantum</button>
+                    <button type="button" data-category="Tech & AI" class="cat-btn deck-tab px-3 py-1 text-xs font-medium">Tech &amp; AI</button>
+                    <button type="button" data-category="Mind & Habits" class="cat-btn deck-tab px-3 py-1 text-xs font-medium">Mind</button>
+                    <button type="button" data-category="saved" class="cat-btn deck-tab px-3 py-1 text-xs font-medium">Saved</button>
+                  </div>
+
+                  <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full lg-subcard">
+                    <span class="text-[11px] font-semibold text-[var(--apple-ink-secondary)] select-none">Unread First</span>
+                    <button type="button" id="btn-unread-first" role="switch" aria-checked="false" aria-pressed="false" aria-label="Prioritize unread stories" class="lg-switch lg-switch-sm lg-switch-blue">
+                      <span class="lg-switch-thumb"></span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -1517,6 +1814,24 @@
               <div id="news-grid" role="feed" aria-labelledby="newsboard-heading" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                 <div class="h-64 rounded-2xl skeleton border border-black/[0.05] dark:border-white/5"></div>
                 <div class="h-64 rounded-2xl skeleton border border-black/[0.05] dark:border-white/5"></div>
+              </div>
+            </section>
+
+            <!-- NEW: Today's Quantum & Physics arXiv Preprint Spotlight (Surfaced Directly in Today!) -->
+            <section id="today-arxiv-spotlight" aria-label="Today's Quantum Preprint Spotlight" class="lg-card card-hover p-5 sm:p-6 relative overflow-hidden">
+              <div class="liquidgl-lens" aria-hidden="true"></div>
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-black/[0.06] dark:border-white/10">
+                <div>
+                  <p class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">Daily Research Radar · quant-ph / cond-mat</p>
+                  <h3 class="font-sf-display text-lg font-bold tracking-tight text-[var(--apple-ink)]">Today’s Top arXiv Preprints</h3>
+                </div>
+                <button type="button" id="btn-goto-quantum-papers" class="lg-pill px-3 py-1.5 text-xs font-semibold text-[var(--apple-tint)]">
+                  Quantum Lab &amp; All Preprints →
+                </button>
+              </div>
+              <div id="today-spotlight-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="h-28 rounded-2xl skeleton"></div>
+                <div class="h-28 rounded-2xl skeleton"></div>
               </div>
             </section>
 
@@ -1656,8 +1971,78 @@
 
           </div>
 
-          <!-- Secondary Inspector Column: Routines, Schedule & Reminders (4 cols) -->
-          <aside id="deck-right-aside" class="lg:col-span-4 space-y-5">
+          <!-- Secondary Sticky Planner Column: Sliding Mode Picker + Priorities, Habits & Schedule (4 cols) -->
+          <aside id="deck-right-aside" class="lg:col-span-4 lg:sticky lg:top-20 self-start space-y-4">
+
+            <!-- Sliding Liquid Glass Planner Mode Picker -->
+            <div id="inspector-mode-bar" class="lg-sliding-nav has-sliding-thumb grid grid-cols-4 gap-1 p-1 text-xs font-medium" role="tablist" aria-label="Daily planner view">
+              <span class="lg-sliding-thumb" aria-hidden="true"></span>
+              <button type="button" data-inspector-mode="focus" class="deck-tab active py-1.5 text-center font-semibold">Focus</button>
+              <button type="button" data-inspector-mode="habits" class="deck-tab py-1.5 text-center">Habits</button>
+              <button type="button" data-inspector-mode="schedule" class="deck-tab py-1.5 text-center">Schedule</button>
+              <button type="button" data-inspector-mode="all" class="deck-tab py-1.5 text-center">All</button>
+            </div>
+
+            <!-- Daily Priorities Reminders Card + Inline Live Pomodoro Timer -->
+            <div id="tasks-card" class="lg-card card-hover p-5 transition-all relative overflow-hidden">
+              <div class="liquidgl-lens" aria-hidden="true"></div>
+
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <div>
+                  <p class="text-[11px] font-semibold text-[#34c759] mb-0.5">Actionable Focus</p>
+                  <h2 id="checklist-title" class="font-sf-display text-[17px] font-semibold tracking-tight text-[var(--apple-ink)]">Top Priorities</h2>
+                  <p class="text-xs text-[var(--apple-ink-secondary)]">Personal daily goals &amp; deep-work timer</p>
+                </div>
+                <span id="tasks-progress" class="font-sf-rounded text-[11px] font-semibold lg-pill px-2.5 py-0.5">Locked</span>
+              </div>
+
+              <!-- Inline Quick Focus Pomodoro Capsule -->
+              <div id="inline-focus-bar" class="lg-subcard px-3 py-2 mb-3.5 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-2 h-2 rounded-full bg-[#007aff] shrink-0"></span>
+                  <span id="inline-focus-time" class="font-mono-tabular text-sm font-bold tracking-tight text-[var(--apple-ink)]">25:00</span>
+                  <span id="inline-focus-label" class="text-[11px] font-medium text-[var(--apple-ink-secondary)] truncate">Deep Work</span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" id="btn-inline-focus-toggle" class="lg-pill-active px-2.5 py-1 text-[11px] font-semibold">▶ Start</button>
+                  <button type="button" id="btn-inline-focus-reset" class="lg-pill w-6 h-6 text-[11px] font-semibold flex items-center justify-center" title="Reset Pomodoro" aria-label="Reset timer">↺</button>
+                  <button type="button" id="btn-open-focus" class="lg-pill w-6 h-6 text-[11px] font-semibold flex items-center justify-center" title="Full-screen Focus Ring" aria-label="Full-screen Focus timer">⛶</button>
+                </div>
+              </div>
+
+              <div class="w-full h-1.5 rounded-full bg-black/[0.06] dark:bg-white/10 overflow-hidden mb-3.5">
+                <div id="tasks-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-300" style="width: 0%"></div>
+              </div>
+
+              <div id="tasks-list" class="space-y-2 mb-3.5">
+                <div class="h-8 rounded-xl skeleton"></div>
+                <div class="h-8 rounded-xl skeleton"></div>
+              </div>
+
+              <form id="add-task-form" class="flex gap-2">
+                <input
+                  type="text"
+                  id="new-task-input"
+                  placeholder="Unlock to add tasks..."
+                  disabled
+                  class="flex-1 min-w-0 lg-input px-3.5 py-2 text-xs placeholder:text-[var(--apple-ink-tertiary)]"
+                  enterkeyhint="done" autocomplete="off" />
+                <button
+                  type="button"
+                  id="btn-task-repeat"
+                  class="lg-pill font-mono-tabular px-2.5 py-2 text-[11px] font-semibold shrink-0"
+                  title="Repeat: off"
+                >↻ Off</button>
+                <button
+                  type="submit"
+                  id="btn-add-task"
+                  disabled
+                  class="lg-pill-active px-3.5 py-2 text-xs font-semibold shrink-0 disabled:opacity-40"
+                >
+                  Add
+                </button>
+              </form>
+            </div>
 
             <!-- Dedicated Routine Checklist -->
             <div id="routine-card" class="lg-card card-hover p-5 transition-all relative overflow-hidden">
@@ -1705,56 +2090,6 @@
                 <div class="h-12 rounded-xl skeleton"></div>
                 <div class="h-12 rounded-xl skeleton"></div>
               </div>
-            </div>
-
-            <!-- Daily Priorities Reminders Card -->
-            <div id="tasks-card" class="lg-card card-hover p-5 transition-all relative overflow-hidden">
-              <div class="liquidgl-lens" aria-hidden="true"></div>
-
-              <div class="flex items-start justify-between gap-2 mb-3">
-                <div>
-                  <p class="text-[11px] font-semibold text-[#34c759] mb-0.5">Reminders</p>
-                  <h2 id="checklist-title" class="font-sf-display text-[17px] font-semibold tracking-tight text-[var(--apple-ink)]">Top Priorities</h2>
-                  <p class="text-xs text-[var(--apple-ink-secondary)]">Personal daily goals</p>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span id="tasks-progress" class="font-sf-rounded text-[11px] font-semibold lg-pill px-2.5 py-0.5">Locked</span>
-                  <button type="button" id="btn-open-focus" class="lg-pill text-[11px] font-semibold px-2.5 py-1" title="Pomodoro focus timer">◔ Focus</button>
-                </div>
-              </div>
-
-              <div class="w-full h-1.5 rounded-full bg-black/[0.06] dark:bg-white/10 overflow-hidden mb-4">
-                <div id="tasks-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-300" style="width: 0%"></div>
-              </div>
-
-              <div id="tasks-list" class="space-y-2 mb-4">
-                <div class="h-8 rounded-xl skeleton"></div>
-                <div class="h-8 rounded-xl skeleton"></div>
-              </div>
-
-              <form id="add-task-form" class="flex gap-2">
-                <input
-                  type="text"
-                  id="new-task-input"
-                  placeholder="Unlock to add tasks..."
-                  disabled
-                  class="flex-1 min-w-0 lg-input px-3.5 py-2 text-xs placeholder:text-[var(--apple-ink-tertiary)]"
-                  enterkeyhint="done" autocomplete="off" />
-                <button
-                  type="button"
-                  id="btn-task-repeat"
-                  class="lg-pill font-mono-tabular px-2.5 py-2 text-[11px] font-semibold shrink-0"
-                  title="Repeat: off"
-                >↻ Off</button>
-                <button
-                  type="submit"
-                  id="btn-add-task"
-                  disabled
-                  class="lg-pill-active px-3.5 py-2 text-xs font-semibold shrink-0 disabled:opacity-40"
-                >
-                  Add
-                </button>
-              </form>
             </div>
 
           </aside>
@@ -1842,8 +2177,8 @@
                   <p class="text-sm font-semibold">Intelligent Notifications</p>
                   <p id="set-notif-status" class="set-desc text-xs text-slate-500 mt-0.5">High-signal alerts for urgent/tracked deadlines (14d, 7d, 3d, 1d), new briefings &amp; schedule transitions. Silenced during night dim hours (22:00–07:00).</p>
                 </div>
-                <button type="button" id="set-notifications" role="switch" aria-checked="false" aria-label="Toggle intelligent notifications" class="shrink-0 relative w-12 h-7 rounded-full border bg-slate-200 transition-colors">
-                  <span id="set-notifications-knob" class="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-white shadow transition-transform"></span>
+                <button type="button" id="set-notifications" role="switch" aria-checked="false" aria-label="Toggle intelligent notifications" class="lg-switch shrink-0">
+                  <span id="set-notifications-knob" class="lg-switch-thumb"></span>
                 </button>
               </div>
               <div class="mt-3 pt-3 border-t border-slate-200/70 dark:border-white/10 space-y-2.5">
@@ -1873,8 +2208,8 @@
                   <p class="text-sm font-semibold">Haptic Feedback</p>
                   <p class="set-desc text-xs text-slate-500 mt-0.5">Tiny vibrations on saves, checks and refreshes. Switching it on gives a short test buzz.</p>
                 </div>
-                <button type="button" id="set-haptics" role="switch" aria-checked="true" aria-label="Toggle haptic feedback" class="shrink-0 relative w-12 h-7 rounded-full border bg-slate-200 transition-colors">
-                  <span id="set-haptics-knob" class="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-white shadow transition-transform"></span>
+                <button type="button" id="set-haptics" role="switch" aria-checked="true" aria-label="Toggle haptic feedback" class="lg-switch shrink-0">
+                  <span id="set-haptics-knob" class="lg-switch-thumb"></span>
                 </button>
               </div>
             </div>
@@ -1882,7 +2217,8 @@
             <div class="set-card lg-subcard mt-4 p-4.5">
               <p class="text-sm font-semibold">Appearance</p>
               <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Auto follows the clock — morning 5:00–18:00, night otherwise.</p>
-              <div class="set-seg-wrap lg-segmented grid grid-cols-3 gap-1 p-1" role="group" aria-label="Edition override">
+              <div class="set-seg-wrap lg-sliding-nav has-sliding-thumb grid grid-cols-3 gap-1 p-1" role="group" aria-label="Edition override">
+                <span class="lg-sliding-thumb" aria-hidden="true"></span>
                 <button type="button" data-set-edition="auto" class="set-seg deck-tab text-xs font-semibold py-1.5">Auto</button>
                 <button type="button" data-set-edition="morning" class="set-seg deck-tab text-xs font-semibold py-1.5">Day</button>
                 <button type="button" data-set-edition="night" class="set-seg deck-tab text-xs font-semibold py-1.5">Night</button>
@@ -1892,7 +2228,8 @@
             <div class="set-card lg-subcard mt-4 p-4.5">
               <p class="text-sm font-semibold">Night Dim Mode</p>
               <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Warmer, darker tones for late-night reading. Auto: 22:00–05:00.</p>
-              <div class="set-seg-wrap lg-segmented grid grid-cols-3 gap-1 p-1" role="group" aria-label="Night dim mode">
+              <div class="set-seg-wrap lg-sliding-nav has-sliding-thumb grid grid-cols-3 gap-1 p-1" role="group" aria-label="Night dim mode">
+                <span class="lg-sliding-thumb" aria-hidden="true"></span>
                 <button type="button" data-set-dim="auto" class="set-seg deck-tab text-xs font-semibold py-1.5">Auto</button>
                 <button type="button" data-set-dim="on" class="set-seg deck-tab text-xs font-semibold py-1.5">On</button>
                 <button type="button" data-set-dim="off" class="set-seg deck-tab text-xs font-semibold py-1.5">Off</button>
@@ -1902,7 +2239,8 @@
             <div class="set-card lg-subcard mt-4 p-4.5">
               <p class="text-sm font-semibold">Reader Text Size</p>
               <p class="set-desc text-xs text-slate-500 mt-0.5 mb-3">Default size when a story opens (the Aa button still cycles it while reading).</p>
-              <div class="set-seg-wrap lg-segmented grid grid-cols-3 gap-1 p-1" role="group" aria-label="Reader text size">
+              <div class="set-seg-wrap lg-sliding-nav has-sliding-thumb grid grid-cols-3 gap-1 p-1" role="group" aria-label="Reader text size">
+                <span class="lg-sliding-thumb" aria-hidden="true"></span>
                 <button type="button" data-set-font="0" class="set-seg deck-tab text-xs font-semibold py-1.5">Standard</button>
                 <button type="button" data-set-font="1" class="set-seg deck-tab text-xs font-semibold py-1.5">Large</button>
                 <button type="button" data-set-font="2" class="set-seg deck-tab text-xs font-semibold py-1.5">Largest</button>
@@ -2167,7 +2505,7 @@
         <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="deck-briefing">
           <span class="flex items-center gap-2.5 font-medium text-[var(--apple-ink)]">
             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path stroke-linecap="round" d="M7 8h6M7 12h10M7 16h7"></path></svg>
-            <span>Go to Briefing</span>
+            <span>Go to Today Briefing</span>
           </span>
           <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">1</span>
         </div>
@@ -2178,24 +2516,24 @@
           </span>
           <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">2</span>
         </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="deck-vault">
+          <span class="flex items-center gap-2.5 font-medium text-[var(--apple-ink)]">
+            <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5v-11z"></path><path stroke-linecap="round" d="M8 9h8M8 13h5"></path></svg>
+            <span>Career, Postdocs &amp; Deep Vault</span>
+          </span>
+          <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">3</span>
+        </div>
         <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="deck-rituals">
           <span class="flex items-center gap-2.5 font-medium text-[var(--apple-ink)]">
             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5l2.3 2.3 4.7-5"></path></svg>
-            <span>Focus &amp; Habit Rituals</span>
+            <span>Focus &amp; Daily Plan</span>
           </span>
-          <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">3</span>
+          <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">4</span>
         </div>
         <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="deck-stillness">
           <span class="flex items-center gap-2.5 font-medium text-[var(--apple-ink)]">
             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.8 3.2 4.2 6.2 4.2 9A4.2 4.2 0 117.8 12c0-2.8 1.4-5.8 4.2-9z"></path><path stroke-linecap="round" d="M5 19c2 1.3 4.3 2 7 2s5-.7 7-2"></path></svg>
             <span>Mindfulness &amp; Reflection</span>
-          </span>
-          <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">4</span>
-        </div>
-        <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="deck-vault">
-          <span class="flex items-center gap-2.5 font-medium text-[var(--apple-ink)]">
-            <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5v-11z"></path><path stroke-linecap="round" d="M8 9h8M8 13h5"></path></svg>
-            <span>Vault, Faculty &amp; Postdocs</span>
           </span>
           <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">5</span>
         </div>
@@ -2206,12 +2544,26 @@
           </span>
           <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">/</span>
         </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="audio-briefing">
+          <span class="flex items-center gap-2.5 font-medium text-[var(--apple-tint)]">
+            <span>▶</span>
+            <span>Listen to 60s Spoken Audio Briefing</span>
+          </span>
+          <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">Audio</span>
+        </div>
         <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="pulse-pi2">
           <span class="flex items-center gap-2.5 font-medium text-[var(--apple-tint)]">
             <span>⚛</span>
             <span>Trigger π/2 Microwave Pulse</span>
           </span>
           <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">Bloch</span>
+        </div>
+        <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="pulse-ramsey">
+          <span class="flex items-center gap-2.5 font-medium text-[var(--apple-tint)]">
+            <span>⚛</span>
+            <span>Run Ramsey (π/2–τ–π/2) Interferometry</span>
+          </span>
+          <span class="font-mono-tabular text-[11px] text-[var(--apple-ink-tertiary)]">Ramsey</span>
         </div>
         <div class="cmd-item flex items-center justify-between px-3 py-2 rounded-[10px] cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 transition-colors" data-cmd="pulse-pi">
           <span class="flex items-center gap-2.5 font-medium text-[var(--apple-tint)]">
@@ -2267,15 +2619,20 @@
   </div>
 
   <!-- iOS 26 Floating Liquid Glass Capsule Tab Bar (Mobile Only) -->
-  <div id="mobile-deck-bar" class="md:hidden fixed left-3 right-3 z-30 lg-bar-shell rounded-full px-2 py-1.5 flex items-center justify-around text-xs">
+  <div id="mobile-deck-bar" class="md:hidden fixed left-3 right-3 z-30 lg-bar-shell has-sliding-thumb rounded-full px-2 py-1.5 flex items-center justify-around text-xs">
     <div class="liquidgl-lens" aria-hidden="true"></div>
+    <span class="lg-sliding-thumb" aria-hidden="true"></span>
     <button type="button" class="mobile-deck-btn relative z-10 active flex flex-col items-center gap-0.5 font-semibold py-1 px-3 rounded-full" data-target-deck="briefing">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path stroke-linecap="round" d="M7 8h6M7 12h10M7 16h7"></path></svg>
-      <span class="text-[10px]">Briefing</span>
+      <span class="text-[10px]">Today</span>
     </button>
     <button type="button" class="mobile-deck-btn relative z-10 flex flex-col items-center gap-0.5 py-1 px-3 rounded-full" data-target-deck="quantum">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.2"></circle><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(30 12 12)"></ellipse><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(-30 12 12)"></ellipse></svg>
       <span class="text-[10px]">Quantum</span>
+    </button>
+    <button type="button" class="mobile-deck-btn relative z-10 flex flex-col items-center gap-0.5 py-1 px-3 rounded-full" data-target-deck="vault">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5v-11z"></path><path stroke-linecap="round" d="M8 9h8M8 13h5"></path></svg>
+      <span class="text-[10px]">Vault</span>
     </button>
     <button type="button" class="mobile-deck-btn relative z-10 flex flex-col items-center gap-0.5 py-1 px-3 rounded-full" data-target-deck="rituals">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5l2.3 2.3 4.7-5"></path></svg>
@@ -2284,10 +2641,6 @@
     <button type="button" class="mobile-deck-btn relative z-10 flex flex-col items-center gap-0.5 py-1 px-3 rounded-full" data-target-deck="stillness">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.8 3.2 4.2 6.2 4.2 9A4.2 4.2 0 117.8 12c0-2.8 1.4-5.8 4.2-9z"></path><path stroke-linecap="round" d="M5 19c2 1.3 4.3 2 7 2s5-.7 7-2"></path></svg>
       <span class="text-[10px]">Breathe</span>
-    </button>
-    <button type="button" class="mobile-deck-btn relative z-10 flex flex-col items-center gap-0.5 py-1 px-3 rounded-full" data-target-deck="vault">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5v-11z"></path><path stroke-linecap="round" d="M8 9h8M8 13h5"></path></svg>
-      <span class="text-[10px]">Vault</span>
     </button>
   </div>
 
@@ -4551,28 +4904,33 @@ Key Insights:
       const btnNight = document.getElementById('btn-night');
       const heroBanner = document.getElementById('hero-banner');
 
-      header.className = 'sticky top-0 z-30 px-3 sm:px-5 lg:px-6 pb-2 transition-all duration-300';
+      const opticalFlags = [
+        body.classList.contains('pb-svg-refract') ? 'pb-svg-refract' : '',
+        body.classList.contains('liquidgl-ready') ? 'liquidgl-ready' : ''
+      ].filter(Boolean).join(' ');
+
+      header.className = 'sticky top-2.5 z-30 max-w-[1380px] w-full mx-auto px-3 sm:px-5 pb-1.5 transition-all duration-300';
       heroBanner.className = 'lg-card card-hover relative overflow-hidden p-5 sm:p-6 mb-5 transition-all';
       document.getElementById('weather-card').className = 'lg-subcard flex flex-wrap items-center gap-3.5 px-4 py-3 shrink-0';
       document.getElementById('schedule-card').className = 'lg-card card-hover p-5 transition-all relative overflow-hidden';
       document.getElementById('tasks-card').className = 'lg-card card-hover p-5 transition-all relative overflow-hidden';
       document.getElementById('btn-open-search').className = 'lg-pill inline-flex items-center gap-1.5 px-2.5 h-8 text-xs font-medium';
-      document.getElementById('edition-switcher').className = 'inline-flex shrink-0 lg-segmented';
+      document.getElementById('edition-switcher').className = 'inline-flex shrink-0 lg-sliding-nav has-sliding-thumb';
       document.getElementById('btn-view-saved').className = 'lg-pill relative inline-flex shrink-0 items-center gap-1.5 px-2.5 h-8 text-xs font-medium';
       document.getElementById('saved-count-badge').className = 'font-sf-rounded px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-black/[0.06] dark:bg-white/10';
       document.getElementById('btn-lock-now').className = 'lg-pill inline-flex shrink-0 items-center justify-center w-8 h-8';
       document.getElementById('btn-open-settings').className = 'lg-pill inline-flex shrink-0 items-center justify-center w-8 h-8';
 
       if (isNight) {
-        body.className = (document.body.classList.contains('macos-sidebar-collapsed') ? 'macos-sidebar-collapsed ' : '') + 'min-h-screen bg-slate-950 text-[var(--apple-ink)] antialiased';
-        brandBadge.className = 'w-8 h-8 rounded-[10px] bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-[0_3px_10px_rgba(99,102,241,0.35),inset_0_1px_0_rgba(255,255,255,0.35)] transition-all shrink-0';
+        body.className = (opticalFlags ? opticalFlags + ' ' : '') + 'min-h-screen bg-slate-950 text-[var(--apple-ink)] antialiased';
+        brandBadge.className = 'w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(99,102,241,0.38),inset_0_1px_0_rgba(255,255,255,0.42)] transition-all shrink-0';
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
-        editionPill.className = 'text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30';
+        editionPill.className = 'text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 shrink-0';
         editionPill.textContent = 'Night';
 
-        btnMorning.className = 'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium text-[var(--apple-ink-secondary)] hover:text-[var(--apple-ink)] transition-all';
-        btnNight.className = 'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/20 text-white shadow-sm transition-all';
+        btnMorning.className = 'deck-tab flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all';
+        btnNight.className = 'deck-tab active flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all';
         btnMorning.setAttribute('aria-pressed', 'false');
         btnNight.setAttribute('aria-pressed', 'true');
 
@@ -4587,7 +4945,7 @@ Key Insights:
 
         const closeDayBtn = document.getElementById('btn-close-day');
         closeDayBtn.classList.remove('hidden');
-        closeDayBtn.textContent = dayClosedToday ? 'Day closed ✓' : 'Close the day →';
+        closeDayBtn.textContent = dayClosedToday ? 'Day closed ✓' : 'Close the Day →';
         closeDayBtn.classList.toggle('opacity-70', dayClosedToday);
         document.getElementById('btn-open-week').classList.remove('hidden');
 
@@ -4597,15 +4955,15 @@ Key Insights:
         document.getElementById('checklist-title').textContent = 'Before You Unplug';
         document.getElementById('new-task-input').className = 'lg-input flex-1 min-w-0 px-3 py-2 text-xs placeholder-[var(--apple-ink-secondary)]/60 focus:outline-none';
       } else {
-        body.className = (document.body.classList.contains('macos-sidebar-collapsed') ? 'macos-sidebar-collapsed ' : '') + 'min-h-screen text-[var(--apple-ink)] antialiased';
-        brandBadge.className = 'w-8 h-8 rounded-[10px] bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center shadow-[0_3px_10px_rgba(0,122,255,0.32),inset_0_1px_0_rgba(255,255,255,0.45)] transition-all shrink-0';
+        body.className = (opticalFlags ? opticalFlags + ' ' : '') + 'min-h-screen text-[var(--apple-ink)] antialiased';
+        brandBadge.className = 'w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(0,122,255,0.34),inset_0_1px_0_rgba(255,255,255,0.52)] transition-all shrink-0';
         sunIcon.classList.remove('hidden');
         moonIcon.classList.add('hidden');
-        editionPill.className = 'text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-full bg-sky-500/12 text-sky-700 dark:text-sky-300 border border-sky-500/20';
+        editionPill.className = 'text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-full bg-sky-500/12 text-sky-700 dark:text-sky-300 border border-sky-500/20 shrink-0';
         editionPill.textContent = 'Morning';
 
-        btnMorning.className = 'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white dark:bg-white/20 text-[var(--apple-ink)] shadow-sm transition-all';
-        btnNight.className = 'flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium text-[var(--apple-ink-secondary)] hover:text-[var(--apple-ink)] transition-all';
+        btnMorning.className = 'deck-tab active flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all';
+        btnNight.className = 'deck-tab flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all';
         btnMorning.setAttribute('aria-pressed', 'true');
         btnNight.setAttribute('aria-pressed', 'false');
 
@@ -4617,7 +4975,7 @@ Key Insights:
 
         renderWeather(false);
         document.getElementById('btn-close-day').classList.add('hidden');
-        document.getElementById('btn-open-week').classList.add('hidden');
+        document.getElementById('btn-open-week').classList.remove('hidden');
 
         document.getElementById('schedule-title').textContent = 'Your Day Ahead';
         document.getElementById('schedule-subtitle').textContent = 'Key blocks & upcoming focus';
@@ -4626,50 +4984,34 @@ Key Insights:
         document.getElementById('new-task-input').className = 'lg-input flex-1 min-w-0 px-3 py-2 text-xs placeholder-[var(--apple-ink-secondary)]/60 focus:outline-none';
       }
 
-      // Update saved count badge (toolbar & macOS sidebar)
+      // Update saved count badge in floating capsule header
       const totalSaved = state.stories.filter(s => s.saved).length + state.papers.filter(p => p.saved).length;
       document.getElementById('saved-count-badge').textContent = String(totalSaved);
-      const sidebarSavedEl = document.getElementById('sidebar-saved-count');
-      if (sidebarSavedEl) sidebarSavedEl.textContent = String(totalSaved);
       document.getElementById('btn-view-saved').setAttribute('aria-pressed', state.selectedCategory === 'saved' ? 'true' : 'false');
       document.getElementById('new-task-input').placeholder = TASK_IDEAS[Math.floor(Date.now() / 86400000) % TASK_IDEAS.length];
 
-      // Update Category Filter Buttons
+      // Update Sliding Liquid Glass Category Filter Buttons
       document.querySelectorAll('.cat-btn').forEach(btn => {
         const cat = btn.getAttribute('data-category');
         const active = cat === state.selectedCategory;
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
         btn.className = active
-          ? 'cat-btn lg-pill-active px-3 py-1 text-xs font-semibold transition-all'
-          : 'cat-btn lg-pill px-3 py-1 text-xs font-medium transition-all';
+          ? 'cat-btn deck-tab active px-3 py-1 text-xs font-semibold transition-all'
+          : 'cat-btn deck-tab px-3 py-1 text-xs font-medium transition-all';
       });
 
-      // Unread-first toggle chip (persisted in pb_prefs), styled to match
+      // Unread-first Liquid Glass Switch (persisted in pb_prefs)
       const ufBtn = document.getElementById('btn-unread-first');
       if (ufBtn) {
-        ufBtn.setAttribute('aria-pressed', pbPrefs.unreadFirst ? 'true' : 'false');
-        ufBtn.className = 'px-3 py-1 text-xs font-semibold whitespace-nowrap transition-all ' + (pbPrefs.unreadFirst ? 'lg-pill-active' : 'lg-pill');
+        const ufOn = Boolean(pbPrefs.unreadFirst);
+        ufBtn.setAttribute('aria-pressed', ufOn ? 'true' : 'false');
+        ufBtn.setAttribute('aria-checked', ufOn ? 'true' : 'false');
+        ufBtn.classList.add('lg-switch', 'lg-switch-sm', 'lg-switch-blue');
       }
 
-      // Keep the active chip visible in the scrollable chip bar
-      const chipBar = document.getElementById('category-filters');
-      const activeChip = chipBar && chipBar.querySelector('.cat-btn[aria-pressed="true"]');
-      if (chipBar && activeChip) {
-        const targetLeft = Math.max(0, activeChip.offsetLeft - (chipBar.clientWidth - activeChip.offsetWidth) / 2);
-        try { chipBar.scrollTo({ left: targetLeft, behavior: pbReducedMotion() ? 'auto' : 'smooth' }); } catch (e) { chipBar.scrollLeft = targetLeft; }
-      }
-
-      // Repaint macOS Tahoe silk wallpaper canvas & recapture LiquidGL lens snapshot on theme/edition change
+      // Repaint optical silk wallpaper canvas & upload live WebGL refraction texture
       if (typeof pbDrawMacWallpaper === 'function') pbDrawMacWallpaper(isNight);
-      if (window.__liquidGLRenderer__ && typeof window.__liquidGLRenderer__.captureSnapshot === 'function') {
-        requestAnimationFrame(() => {
-          try {
-            window.__liquidGLRenderer__.captureSnapshot();
-          } catch (e) {
-            console.warn('LiquidGL snapshot recapture error:', e);
-          }
-        });
-      }
+      if (typeof pbSyncLiquidGLWallpaper === 'function') pbSyncLiquidGLWallpaper();
 
       renderWisdom(isNight);
       renderRoutine(isNight);
@@ -4689,7 +5031,10 @@ Key Insights:
       pbEnsureVaultStories();
       renderVault(isNight);
       if (typeof renderWorkspaceLens === 'function') renderWorkspaceLens(isNight);
+      if (typeof pbRenderTodaySynthesis === 'function') pbRenderTodaySynthesis(isNight);
+      if (typeof pbRenderTodaySpotlight === 'function') pbRenderTodaySpotlight(isNight);
       if (typeof pbApplyCurrentDeck === 'function') pbApplyCurrentDeck(false);
+      if (typeof pbSyncAllSlidingPills === 'function') pbSyncAllSlidingPills();
       if (typeof window.pbSyncBlochTheme === 'function') window.pbSyncBlochTheme();
     }
 
@@ -6708,15 +7053,13 @@ Key Insights:
         el.className = el.className.replace(/\btext-(?:slate-\d+|\[var\(--apple-ink-secondary\)\])\b/g, '') + ' text-[var(--apple-ink-secondary)]';
       });
       document.querySelectorAll('#page-settings .set-seg-wrap').forEach(el => {
-        el.className = 'set-seg-wrap lg-segmented grid grid-cols-3 gap-1 p-1';
+        el.className = 'set-seg-wrap lg-sliding-nav has-sliding-thumb grid grid-cols-3 gap-1 p-1';
       });
       const seg = (on) => 'set-seg deck-tab text-xs font-semibold py-1.5 transition-all ' + (on ? 'active' : '');
       const hap = document.getElementById('set-haptics');
       hap.setAttribute('aria-checked', pbPrefs.haptics !== false ? 'true' : 'false');
-      hap.className = 'shrink-0 relative w-12 h-7 rounded-full border transition-colors ' + (pbPrefs.haptics !== false
-        ? 'bg-emerald-600 border-emerald-600'
-        : (isNight ? 'bg-white/10 border-white/20' : 'bg-black/10 border-black/15'));
-      document.getElementById('set-haptics-knob').style.transform = pbPrefs.haptics !== false ? 'translateX(20px)' : 'translateX(0)';
+      hap.classList.add('lg-switch', 'shrink-0');
+      document.getElementById('set-haptics-knob').style.transform = '';
       if (typeof pbRenderNotifSettings === 'function') pbRenderNotifSettings(isNight);
       document.querySelectorAll('[data-set-edition]').forEach(btn => {
         const on = (pbPrefs.edition || 'auto') === btn.getAttribute('data-set-edition');
@@ -6744,6 +7087,7 @@ Key Insights:
       const footNote = document.getElementById('settings-footer-note');
       if (footNote) footNote.className = 'mt-6 text-[10px] text-center text-[var(--apple-ink-tertiary)]';
       pbRenderAboutCard(); // FEATURE (78): version, storage, update & purge wiring
+      if (typeof pbSyncAllSlidingPills === 'function') setTimeout(pbSyncAllSlidingPills, 20);
     }
 
     document.getElementById('btn-open-settings').addEventListener('click', () => {
@@ -7403,11 +7747,30 @@ Key Insights:
     }
 
     function pbFocusRender() {
-      const timeEl = document.getElementById('focus-time');
-      if (!timeEl) return;
-      timeEl.textContent = pbFocusClock();
-      const fg = document.getElementById('focus-ring-fg');
+      const clockStr = pbFocusClock();
       const total = pbFocusTotalSec();
+      const timeEl = document.getElementById('focus-time');
+      if (timeEl) timeEl.textContent = clockStr;
+
+      // Sync Inline Quick Focus Bar & Header Capsule Live Pill
+      const inlineTimeEl = document.getElementById('inline-focus-time');
+      if (inlineTimeEl) inlineTimeEl.textContent = clockStr;
+      const inlineLabelEl = document.getElementById('inline-focus-label');
+      if (inlineLabelEl) inlineLabelEl.textContent = focusMode === 'work' ? 'Deep Work' : 'Rest Break';
+      const inlineToggleBtn = document.getElementById('btn-inline-focus-toggle');
+      if (inlineToggleBtn) {
+        inlineToggleBtn.textContent = focusRunning ? '⏸ Pause' : (focusRemaining < total ? '▶ Resume' : '▶ Start');
+      }
+      const hdrPill = document.getElementById('header-focus-pill');
+      const hdrPillTime = document.getElementById('header-focus-pill-time');
+      if (hdrPill && hdrPillTime) {
+        const activeSession = focusRunning || focusRemaining < total;
+        hdrPill.classList.toggle('hidden', !activeSession);
+        hdrPill.classList.toggle('inline-flex', activeSession);
+        hdrPillTime.textContent = clockStr;
+      }
+
+      const fg = document.getElementById('focus-ring-fg');
       if (fg) {
         fg.setAttribute('stroke-dasharray', FOCUS_RING_CIRC.toFixed(2));
         fg.setAttribute('stroke-dashoffset', (FOCUS_RING_CIRC * (1 - (total > 0 ? focusRemaining / total : 0))).toFixed(2));
@@ -7423,7 +7786,7 @@ Key Insights:
       const btn = document.getElementById('focus-start-btn');
       if (btn) btn.textContent = focusRunning ? 'Pause' : (focusRemaining < total ? 'Resume' : 'Start');
       document.title = (focusRunning || focusRemaining < total)
-        ? pbFocusClock() + ' · ' + (focusMode === 'work' ? 'Focus' : 'Break') + ' — PulseBoard'
+        ? clockStr + ' · ' + (focusMode === 'work' ? 'Focus' : 'Break') + ' — PulseBoard'
         : (focusTitleSaved || 'PulseBoard — Morning & Night Custom News Dashboard');
     }
 
@@ -8046,8 +8409,16 @@ Key Insights:
           <button type="button" data-switch-lens="${c.lens}" class="lg-pill mt-4 px-3.5 py-2 text-left font-sf-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--apple-tint)] flex items-center justify-between w-full">${c.btn}</button>
         `;
         div.querySelector('[data-switch-lens]').addEventListener('click', () => {
-          pbSetLens(c.lens);
-          window.scrollTo({ top: 260, behavior: pbReducedMotion() ? 'auto' : 'smooth' });
+          const targetLens = c.lens;
+          if (typeof pbSwitchDeck === 'function') {
+            pbSwitchDeck('vault');
+            if (typeof pbApplyVaultSubtab === 'function') {
+              pbApplyVaultSubtab(targetLens === 'briefing' ? 'reading' : targetLens);
+            }
+          } else {
+            pbSetLens(targetLens);
+          }
+          window.scrollTo({ top: 0, behavior: pbReducedMotion() ? 'auto' : 'smooth' });
         });
         grid.appendChild(div);
       });
@@ -8958,10 +9329,8 @@ Key Insights:
       const active = Boolean(pbPrefs.notifEnabled && perm === 'granted');
 
       sw.setAttribute('aria-checked', active ? 'true' : 'false');
-      sw.className = 'shrink-0 relative w-12 h-7 rounded-full border transition-colors ' + (active
-        ? 'bg-emerald-600 border-emerald-600'
-        : (isNight ? 'bg-slate-800 border-slate-700' : 'bg-slate-200 border-slate-200'));
-      knob.style.transform = active ? 'translateX(20px)' : 'translateX(0)';
+      sw.classList.add('lg-switch', 'shrink-0');
+      knob.style.transform = '';
 
       if (statusEl) {
         if (!supported) {
@@ -9617,20 +9986,23 @@ Key Insights:
     let pbToggleFloquetDrive = null;
     let pbResetBlochState = null;
 
-    // 3. Interactive 3D Quantum Bloch Sphere & Lindblad/Floquet Simulation Engine
+    // 3. Interactive 3D Quantum Bloch Sphere & Off-Resonant Lindblad/Floquet/Ramsey Engine
     (function initQuantumLab() {
       const canvas = document.getElementById('bloch-canvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Bloch vector (bx, by, bz) inside unit sphere (|b| <= 1 allows mixed states / decoherence)
+      // Bloch vector (bx, by, bz) inside unit sphere (|b| <= 1 models mixed states / T2* decoherence)
       let bx = 0.0, by = 0.0, bz = 1.0;
       let trail = [{ x: 0, y: 0, z: 1 }];
       let isFloquetActive = false;
       let floquetTimer = null;
-      let rabiFreq = 12.5; // MHz
-      let gamma2 = 0.02;   // MHz dephasing
+      let ramseyTimer = null;
+      let rabiFreq = 12.5;   // MHz
+      let detuningMHz = 0.0; // MHz off-resonant detuning Δ/2π
+      let gamma2 = 0.02;     // MHz transverse dephasing Γ_2*
+      let showEffAxis = true;
       let userRotX = 0.32;
       let userRotY = -0.48;
       let isDragging = false;
@@ -9638,7 +10010,7 @@ Key Insights:
 
       function pushTrail(x, y, z) {
         trail.push({ x, y, z });
-        if (trail.length > 90) trail.shift();
+        if (trail.length > 110) trail.shift();
       }
 
       function renderBloch() {
@@ -9650,8 +10022,6 @@ Key Insights:
         ctx.clearRect(0, 0, w, h);
 
         function project(x, y, z) {
-          // In physics coords: Z is vertical, X is right, Y is out-of-page
-          // Map to screen: X -> x, Z -> y (up), Y -> z (depth)
           const cosX = Math.cos(userRotX), sinX = Math.sin(userRotX);
           const y1 = z * cosX - y * sinX;
           const z1 = z * sinX + y * cosX;
@@ -9661,22 +10031,24 @@ Key Insights:
           return { px: cx + x2 * R, py: cy - y1 * R, zDepth: z2 };
         }
 
-        // Sphere halo & surface (Apple Liquid Glass translucent orb)
+        // Translucent optical sphere halo & specular glass rim
         ctx.save();
         ctx.beginPath();
         ctx.arc(cx, cy, R, 0, Math.PI * 2);
-        const grad = ctx.createRadialGradient(cx - R * 0.25, cy - R * 0.25, R * 0.1, cx, cy, R);
+        const grad = ctx.createRadialGradient(cx - R * 0.28, cy - R * 0.28, R * 0.08, cx, cy, R);
         if (isNight) {
-          grad.addColorStop(0, 'rgba(30, 41, 59, 0.75)');
-          grad.addColorStop(1, 'rgba(2, 6, 23, 0.85)');
+          grad.addColorStop(0, 'rgba(38, 56, 89, 0.68)');
+          grad.addColorStop(0.7, 'rgba(12, 20, 42, 0.72)');
+          grad.addColorStop(1, 'rgba(4, 9, 24, 0.88)');
         } else {
-          grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-          grad.addColorStop(1, 'rgba(240, 244, 250, 0.65)');
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0.94)');
+          grad.addColorStop(0.72, 'rgba(235, 244, 255, 0.68)');
+          grad.addColorStop(1, 'rgba(216, 232, 252, 0.56)');
         }
         ctx.fillStyle = grad;
         ctx.fill();
-        ctx.strokeStyle = isNight ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.12)';
-        ctx.lineWidth = 1.25;
+        ctx.strokeStyle = isNight ? 'rgba(147, 197, 253, 0.28)' : 'rgba(0, 122, 255, 0.22)';
+        ctx.lineWidth = 1.35;
         ctx.stroke();
         ctx.restore();
 
@@ -9689,7 +10061,7 @@ Key Insights:
           const pt = project(Math.cos(ang), Math.sin(ang), 0);
           if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
         }
-        ctx.strokeStyle = isNight ? 'rgba(10, 132, 255, 0.38)' : 'rgba(0, 122, 255, 0.35)';
+        ctx.strokeStyle = isNight ? 'rgba(56, 189, 248, 0.40)' : 'rgba(0, 122, 255, 0.34)';
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 4]);
         ctx.stroke();
@@ -9703,12 +10075,11 @@ Key Insights:
           const pt = project(Math.cos(ang), 0, Math.sin(ang));
           if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
         }
-        ctx.strokeStyle = isNight ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.10)';
+        ctx.strokeStyle = isNight ? 'rgba(255, 255, 255, 0.14)' : 'rgba(15, 23, 42, 0.11)';
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
 
-        // Axes with Apple SF Mono typography
         function drawAxis(ax, ay, az, label, color) {
           const o = project(0, 0, 0);
           const p = project(ax * 1.18, ay * 1.18, az * 1.18);
@@ -9725,11 +10096,36 @@ Key Insights:
           ctx.restore();
         }
 
-        const axisColor = isNight ? 'rgba(148, 163, 184, 0.55)' : 'rgba(120, 113, 108, 0.6)';
+        const axisColor = isNight ? 'rgba(148, 163, 184, 0.58)' : 'rgba(100, 116, 139, 0.65)';
         drawAxis(1, 0, 0, '+x', axisColor);
         drawAxis(0, 1, 0, '+y', axisColor);
-        drawAxis(0, 0, 1, '|0⟩', isNight ? '#0a84ff' : '#007aff');
+        drawAxis(0, 0, 1, '|0⟩', isNight ? '#38bdf8' : '#007aff');
         drawAxis(0, 0, -1, '|1⟩', axisColor);
+
+        // Tilted 3D Effective Drive Vector Ω_eff = (Ω_R, 0, Δ) / √(Ω_R² + Δ²)
+        if (showEffAxis) {
+          const effNorm = Math.sqrt(rabiFreq * rabiFreq + detuningMHz * detuningMHz) || 1;
+          const ex = rabiFreq / effNorm;
+          const ez = detuningMHz / effNorm;
+          const o = project(0, 0, 0);
+          const pEff = project(ex * 1.06, 0, ez * 1.06);
+          ctx.save();
+          ctx.beginPath();
+          ctx.setLineDash([4, 3]);
+          ctx.moveTo(o.px, o.py);
+          ctx.lineTo(pEff.px, pEff.py);
+          ctx.strokeStyle = isNight ? 'rgba(167, 139, 250, 0.85)' : 'rgba(99, 102, 241, 0.82)';
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          ctx.arc(pEff.px, pEff.py, 3.2, 0, Math.PI * 2);
+          ctx.fillStyle = isNight ? '#c4b5fd' : '#6366f1';
+          ctx.fill();
+          ctx.font = '600 9.5px SF Mono, -apple-system-ui-font, monospace';
+          ctx.fillText('Ω_eff', pEff.px + 4, pEff.py - 3);
+          ctx.restore();
+        }
 
         // Trajectory Trail on Bloch Sphere
         if (trail.length > 1) {
@@ -9739,8 +10135,8 @@ Key Insights:
             const pt = project(trail[i].x, trail[i].y, trail[i].z);
             if (i === 0) ctx.moveTo(pt.px, pt.py); else ctx.lineTo(pt.px, pt.py);
           }
-          ctx.strokeStyle = isNight ? 'rgba(100, 210, 255, 0.50)' : 'rgba(0, 122, 255, 0.45)';
-          ctx.lineWidth = 1.6;
+          ctx.strokeStyle = isNight ? 'rgba(100, 210, 255, 0.55)' : 'rgba(0, 122, 255, 0.48)';
+          ctx.lineWidth = 1.7;
           ctx.stroke();
           ctx.restore();
         }
@@ -9754,19 +10150,19 @@ Key Insights:
         ctx.moveTo(center.px, center.py);
         ctx.lineTo(tip.px, tip.py);
         ctx.strokeStyle = isNight ? '#0a84ff' : '#007aff';
-        ctx.lineWidth = 2.8;
+        ctx.lineWidth = 2.9;
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(tip.px, tip.py, 5, 0, Math.PI * 2);
+        ctx.arc(tip.px, tip.py, 5.2, 0, Math.PI * 2);
         ctx.fillStyle = isNight ? '#64d2ff' : '#007aff';
         ctx.fill();
         ctx.strokeStyle = isNight ? '#0f172a' : '#ffffff';
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 1.6;
         ctx.stroke();
         ctx.restore();
 
-        // Telemetry HUD updates with SF Pro / SF Mono typography
+        // Telemetry HUD updates
         const rLen = Math.min(1, Math.sqrt(bx * bx + by * by + bz * bz));
         const purity = Math.min(1, 0.5 * (1 + rLen * rLen));
         const coh = Math.sqrt(bx * bx + by * by);
@@ -9825,7 +10221,7 @@ Key Insights:
       }, { passive: true });
       canvas.addEventListener('touchend', () => { isDragging = false; });
 
-      // Smooth SO(3) rotation around axis (ux, uy, uz) by angle dAngle
+      // Smooth SO(3) rotation around axis (ux, uy, uz) by angle ang
       function rotateVector(vx, vy, vz, ux, uy, uz, ang) {
         const c = Math.cos(ang), s = Math.sin(ang);
         const dot = vx * ux + vy * uy + vz * uz;
@@ -9839,7 +10235,7 @@ Key Insights:
         };
       }
 
-      function animateGate(ux, uy, uz, totalAngle, label, steps = 20) {
+      function animateGate(ux, uy, uz, totalAngle, label, steps = 20, onDone = null) {
         pbPlayClick(880, 0.015);
         const modeEl = document.getElementById('bloch-mode');
         if (modeEl) modeEl.textContent = label;
@@ -9851,13 +10247,45 @@ Key Insights:
           bx = next.x; by = next.y; bz = next.z;
           pushTrail(bx, by, bz);
           renderBloch();
-          if (step >= steps) clearInterval(iv);
+          if (step >= steps) {
+            clearInterval(iv);
+            if (typeof onDone === 'function') onDone();
+          }
         }, 16);
+      }
+
+      // Ramsey (π/2_x – τ free precession under detuning Δ & Γ_2* – π/2_x) Interferometry
+      function pbRunRamseySequence() {
+        if (ramseyTimer) { clearInterval(ramseyTimer); ramseyTimer = null; }
+        const effDetuning = Math.abs(detuningMHz) < 0.5 ? 6.0 : detuningMHz;
+        animateGate(1, 0, 0, Math.PI / 2, 'Ramsey π/2 (1)', 14, () => {
+          const modeEl = document.getElementById('bloch-mode');
+          if (modeEl) modeEl.textContent = 'Free Precess τ';
+          let tauStep = 0;
+          const totalTauSteps = 26;
+          const dPhi = (effDetuning / 12.0) * 0.11;
+          ramseyTimer = setInterval(() => {
+            tauStep++;
+            const next = rotateVector(bx, by, bz, 0, 0, 1, dPhi);
+            const damp = Math.max(0, 1 - gamma2 * 0.14);
+            bx = next.x * damp;
+            by = next.y * damp;
+            bz = next.z;
+            pushTrail(bx, by, bz);
+            renderBloch();
+            if (tauStep >= totalTauSteps) {
+              clearInterval(ramseyTimer);
+              ramseyTimer = null;
+              animateGate(1, 0, 0, Math.PI / 2, 'Ramsey Fringe');
+            }
+          }, 20);
+        });
       }
 
       pbApplyPulse = (type) => {
         if (type === 'pi2') animateGate(1, 0, 0, Math.PI / 2, 'π/2_x Gate');
         else if (type === 'pi') animateGate(1, 0, 0, Math.PI, 'π Hahn Echo');
+        else if (type === 'ramsey') pbRunRamseySequence();
         else if (type === 'hadamard') {
           const invSqrt2 = 1 / Math.sqrt(2);
           animateGate(invSqrt2, 0, invSqrt2, Math.PI, 'Hadamard');
@@ -9866,6 +10294,7 @@ Key Insights:
 
       pbResetBlochState = () => {
         pbPlayClick(660, 0.015);
+        if (ramseyTimer) { clearInterval(ramseyTimer); ramseyTimer = null; }
         bx = 0; by = 0; bz = 1;
         trail = [{ x: 0, y: 0, z: 1 }];
         const modeEl = document.getElementById('bloch-mode');
@@ -9876,6 +10305,7 @@ Key Insights:
       document.getElementById('btn-pulse-pi2')?.addEventListener('click', () => pbApplyPulse('pi2'));
       document.getElementById('btn-pulse-pi')?.addEventListener('click', () => pbApplyPulse('pi'));
       document.getElementById('btn-pulse-hadamard')?.addEventListener('click', () => pbApplyPulse('hadamard'));
+      document.getElementById('btn-pulse-ramsey')?.addEventListener('click', () => pbApplyPulse('ramsey'));
       document.getElementById('btn-reset-bloch')?.addEventListener('click', pbResetBlochState);
       document.getElementById('btn-clear-trail')?.addEventListener('click', () => {
         pbPlayClick(600, 0.01);
@@ -9883,7 +10313,19 @@ Key Insights:
         renderBloch();
       });
 
-      // Sliders for Rabi & Dephasing
+      // Liquid Glass Toggle Switch for Ω_eff Axis Vector
+      const vecToggle = document.getElementById('bloch-vec-toggle');
+      if (vecToggle) {
+        vecToggle.addEventListener('click', () => {
+          showEffAxis = !showEffAxis;
+          vecToggle.setAttribute('aria-checked', showEffAxis ? 'true' : 'false');
+          pbPlayClick(980, 0.012);
+          if (typeof pbPulseSwitchMorph === 'function') pbPulseSwitchMorph(vecToggle);
+          renderBloch();
+        });
+      }
+
+      // Sliders for Rabi Ω_R, Detuning Δ & Dephasing Γ_2*
       const rabiSlider = document.getElementById('bloch-rabi-slider');
       const rabiVal = document.getElementById('bloch-rabi-val');
       const rabiHud = document.getElementById('bloch-rabi');
@@ -9892,6 +10334,18 @@ Key Insights:
           rabiFreq = parseFloat(e.target.value) || 12.5;
           if (rabiVal) rabiVal.textContent = rabiFreq.toFixed(1) + ' MHz';
           if (rabiHud) rabiHud.textContent = rabiFreq.toFixed(1) + ' MHz';
+          renderBloch();
+        });
+      }
+
+      const detSlider = document.getElementById('bloch-detuning-slider');
+      const detVal = document.getElementById('bloch-detuning-val');
+      if (detSlider) {
+        detSlider.addEventListener('input', (e) => {
+          detuningMHz = parseFloat(e.target.value) || 0;
+          const sign = detuningMHz > 0 ? '+' : '';
+          if (detVal) detVal.textContent = sign + detuningMHz.toFixed(1) + ' MHz';
+          renderBloch();
         });
       }
 
@@ -9901,6 +10355,7 @@ Key Insights:
         gammaSlider.addEventListener('input', (e) => {
           gamma2 = parseFloat(e.target.value) || 0;
           if (gammaVal) gammaVal.textContent = gamma2.toFixed(2) + ' MHz';
+          renderBloch();
         });
       }
 
@@ -9921,11 +10376,10 @@ Key Insights:
           let t = 0;
           floquetTimer = setInterval(() => {
             t += 0.04;
-            const omegaX = (rabiFreq / 25.0) * Math.cos(t * 2.2) * 0.12;
-            const omegaZ = 0.05;
+            const omegaX = (rabiFreq / 25.0) * Math.cos(t * 2.2) * 0.13;
+            const omegaZ = (Math.abs(detuningMHz) > 0.05 ? (detuningMHz / 25.0) * 0.14 : 0.035);
             const norm = Math.sqrt(omegaX * omegaX + omegaZ * omegaZ) || 1;
             const rot = rotateVector(bx, by, bz, omegaX / norm, 0, omegaZ / norm, norm);
-            // Apply transverse T2* dephasing damping
             const damp = Math.max(0, 1 - gamma2 * 0.12);
             bx = rot.x * damp;
             by = rot.y * damp;
@@ -9941,6 +10395,32 @@ Key Insights:
 
       pbToggleFloquetDrive = toggleFloquet;
       floquetBtn?.addEventListener('click', toggleFloquet);
+
+      // Paper-to-Simulation Preset Bridge ("⚛ Simulate Regime")
+      window.pbLoadPaperSpinPreset = function(paper) {
+        const txt = ((paper && (paper.title + ' ' + (paper.summary || ''))) || '').toLowerCase();
+        let presetRabi = 18.0, presetDet = 4.5, presetGamma = 0.02, pulseType = 'ramsey';
+        if (/echo|dd|decoupling|coherence|t2|dephasing/.test(txt)) {
+          presetRabi = 24.0; presetDet = 2.0; presetGamma = 0.04; pulseType = 'pi';
+        } else if (/floquet|periodic|dressed|rabi|drive|optimal|grape/.test(txt)) {
+          presetRabi = 34.0; presetDet = 8.5; presetGamma = 0.01; pulseType = 'floquet';
+        } else if (/sensing|magnetometry|nv|ramsey|metrology|clock/.test(txt)) {
+          presetRabi = 16.0; presetDet = 9.0; presetGamma = 0.02; pulseType = 'ramsey';
+        }
+        if (rabiSlider) { rabiSlider.value = String(presetRabi); rabiSlider.dispatchEvent(new Event('input')); }
+        if (detSlider) { detSlider.value = String(presetDet); detSlider.dispatchEvent(new Event('input')); }
+        if (gammaSlider) { gammaSlider.value = String(presetGamma); gammaSlider.dispatchEvent(new Event('input')); }
+        pbSwitchDeck('quantum');
+        pbResetBlochState();
+        setTimeout(() => {
+          if (pulseType === 'floquet') {
+            if (!isFloquetActive) toggleFloquet();
+          } else {
+            pbApplyPulse(pulseType);
+          }
+          pbToast('Loaded spin regime from arXiv preprint');
+        }, 160);
+      };
 
       const toggleBtn = document.getElementById('btn-toggle-bloch');
       const blochBody = document.getElementById('bloch-body');
@@ -10006,7 +10486,6 @@ Key Insights:
       pbPlayClick(1100, 0.01);
       closeCommandPalette();
       if (!cmd && rawQuery) {
-        // Fallback: open full-text search with the typed query
         pbOpenSearch();
         const sInput = document.getElementById('search-input');
         if (sInput) {
@@ -10034,9 +10513,16 @@ Key Insights:
         case 'open-search':
           pbOpenSearch();
           break;
+        case 'audio-briefing':
+          pbToggleAudioBriefing();
+          break;
         case 'pulse-pi2':
           pbSwitchDeck('quantum');
           if (pbApplyPulse) pbApplyPulse('pi2');
+          break;
+        case 'pulse-ramsey':
+          pbSwitchDeck('quantum');
+          if (pbApplyPulse) pbApplyPulse('ramsey');
           break;
         case 'pulse-pi':
           pbSwitchDeck('quantum');
@@ -10055,10 +10541,11 @@ Key Insights:
         case 'open-dayclose':
           openDayClose();
           break;
-        case 'toggle-edition':
+        case 'toggle-edition': {
           const nextEd = (state && state.edition === 'night') ? 'morning' : 'night';
           pbEditionSwitch(nextEd);
           break;
+        }
         case 'lock-dash':
           document.getElementById('btn-lock-now')?.click();
           break;
@@ -10127,7 +10614,6 @@ Key Insights:
         };
       }
 
-      // Click outside slide-over drawer (#page-layer backdrop) on desktop closes the drawer
       const pageLayer = document.getElementById('page-layer');
       if (pageLayer) {
         pageLayer.addEventListener('click', (e) => {
@@ -10138,34 +10624,105 @@ Key Insights:
       }
     })();
 
-    // 5. Unified Deck Navigation Controller (Single Source of Truth)
+    // 5. Unified WebApp Workspace, Sticky Planner Mode & Career Sub-Tab Controllers
     let pbCurrentDeck = 'briefing';
+    let pbInspectorMode = 'all';
+    let pbVaultSubtab = 'all';
+
+    function pbApplyInspectorMode(mode) {
+      pbInspectorMode = mode || 'all';
+      const bar = document.getElementById('inspector-mode-bar');
+      if (bar) {
+        bar.querySelectorAll('[data-inspector-mode]').forEach(btn => {
+          const active = btn.getAttribute('data-inspector-mode') === pbInspectorMode;
+          btn.classList.toggle('active', active);
+          btn.classList.toggle('font-semibold', active);
+          btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        if (typeof pbSyncSlidingPill === 'function') pbSyncSlidingPill(bar);
+      }
+      const tasksCard = document.getElementById('tasks-card');
+      const routineCard = document.getElementById('routine-card');
+      const scheduleCard = document.getElementById('schedule-card');
+      if (tasksCard) tasksCard.classList.toggle('hidden', !(pbInspectorMode === 'focus' || pbInspectorMode === 'all'));
+      if (routineCard) routineCard.classList.toggle('hidden', !(pbInspectorMode === 'habits' || pbInspectorMode === 'all'));
+      if (scheduleCard) scheduleCard.classList.toggle('hidden', !(pbInspectorMode === 'schedule' || pbInspectorMode === 'all'));
+    }
+
+    function pbApplyVaultSubtab(subtab) {
+      pbVaultSubtab = subtab || 'all';
+      const subBar = document.getElementById('vault-subnav-bar');
+      if (subBar) {
+        const nav = subBar.querySelector('.lg-sliding-nav');
+        subBar.querySelectorAll('[data-vault-tab]').forEach(btn => {
+          const active = btn.getAttribute('data-vault-tab') === pbVaultSubtab;
+          btn.classList.toggle('active', active);
+          btn.classList.toggle('font-semibold', active);
+          btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        if (nav && typeof pbSyncSlidingPill === 'function') pbSyncSlidingPill(nav);
+      }
+      if (pbCurrentDeck !== 'vault') return;
+
+      const secRadar = document.getElementById('smart-radar-strip');
+      const secCareer = document.getElementById('career-board-section');
+      const secPostdoc = document.getElementById('postdoc-board-section');
+      const secVault = document.getElementById('backup-articles-section');
+      const secDeadlines = document.getElementById('deadlines-widget');
+
+      if (pbVaultSubtab === 'urgent') {
+        if (secRadar) secRadar.classList.remove('hidden');
+        if (secDeadlines) secDeadlines.classList.remove('hidden');
+        if (secCareer) secCareer.classList.remove('hidden');
+        if (secPostdoc) secPostdoc.classList.remove('hidden');
+        if (secVault) secVault.classList.add('hidden');
+      } else if (pbVaultSubtab === 'career') {
+        if (secCareer) secCareer.classList.remove('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (secVault) secVault.classList.add('hidden');
+      } else if (pbVaultSubtab === 'postdocs') {
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.remove('hidden');
+        if (secVault) secVault.classList.add('hidden');
+      } else if (pbVaultSubtab === 'reading') {
+        if (secCareer) secCareer.classList.add('hidden');
+        if (secPostdoc) secPostdoc.classList.add('hidden');
+        if (secVault) secVault.classList.remove('hidden');
+      } else {
+        if (secCareer) secCareer.classList.remove('hidden');
+        if (secPostdoc) secPostdoc.classList.remove('hidden');
+        if (secVault) secVault.classList.remove('hidden');
+      }
+    }
 
     function pbApplyCurrentDeck(shouldScroll = false) {
       const deckName = pbCurrentDeck || 'briefing';
-      const isNight = state && state.edition === 'night';
 
-      // Sync macOS Unified Toolbar view title
+      // Sync Floating Capsule Header View Title
       const toolbarTitle = document.getElementById('toolbar-view-title');
       if (toolbarTitle) {
         const viewLabels = {
-          briefing: 'Briefing',
+          briefing: 'PulseBoard',
           quantum: 'Quantum Lab',
-          rituals: 'Focus & Rituals',
-          stillness: 'Mindfulness',
-          vault: 'Vault & Roles'
+          vault: 'Career & Vault',
+          rituals: 'Focus & Plan',
+          stillness: 'Mindfulness'
         };
-        toolbarTitle.textContent = viewLabels[deckName] || 'Briefing';
+        toolbarTitle.textContent = viewLabels[deckName] || 'PulseBoard';
       }
 
-      // Sync desktop sidebar & toolbar deck items
-      document.querySelectorAll('.deck-tab').forEach(t => {
-        const active = t.getAttribute('data-target-deck') === deckName;
-        t.classList.toggle('active', active);
-        t.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
+      // Sync desktop capsule nav tabs
+      const deckNav = document.getElementById('deck-nav-bar');
+      if (deckNav) {
+        deckNav.querySelectorAll('.deck-tab[data-target-deck]').forEach(t => {
+          const active = t.getAttribute('data-target-deck') === deckName;
+          t.classList.toggle('active', active);
+          t.classList.toggle('font-semibold', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
 
-      // Sync mobile bottom bar tabs (targeting single #mobile-deck-bar with Apple active tint)
+      // Sync mobile bottom capsule dock
       const mobileBar = document.getElementById('mobile-deck-bar');
       if (mobileBar) {
         mobileBar.querySelectorAll('.mobile-deck-btn').forEach(t => {
@@ -10180,7 +10737,9 @@ Key Insights:
       const secWisdom = document.getElementById('wisdom-card');
       const secQuantumLab = document.getElementById('quantum-lab-card');
       const secLensBar = document.getElementById('workspace-lens-bar');
+      const secVaultSubnav = document.getElementById('vault-subnav-bar');
       const secNews = document.getElementById('newsboard-section');
+      const secSpotlight = document.getElementById('today-arxiv-spotlight');
       const secVault = document.getElementById('backup-articles-section');
       const secPapers = document.getElementById('papers-section');
       const secCareer = document.getElementById('career-board-section');
@@ -10190,10 +10749,9 @@ Key Insights:
       const leftCol = document.getElementById('deck-left-col');
       const asideCol = document.getElementById('deck-right-aside') || document.querySelector('aside');
 
-      // Always keep the legacy secondary lens bar hidden so there is only one clean tab bar
       if (secLensBar) secLensBar.classList.add('hidden');
+      if (secVaultSubnav) secVaultSubnav.classList.toggle('hidden', deckName !== 'vault');
 
-      // Reset column spans
       if (leftCol) {
         leftCol.classList.remove('hidden', 'lg:col-span-12');
         leftCol.classList.add('lg:col-span-8');
@@ -10208,16 +10766,19 @@ Key Insights:
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
         if (secNews) secNews.classList.remove('hidden');
+        if (secSpotlight) secSpotlight.classList.remove('hidden');
         if (secPapers) secPapers.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secCareer) secCareer.classList.add('hidden');
         if (secPostdoc) secPostdoc.classList.add('hidden');
         if (secDossiers) secDossiers.classList.remove('hidden');
+        pbApplyInspectorMode(pbInspectorMode);
       } else if (deckName === 'quantum') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.remove('hidden');
         if (secNews) secNews.classList.add('hidden');
+        if (secSpotlight) secSpotlight.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.remove('hidden');
         if (secCareer) secCareer.classList.add('hidden');
@@ -10237,6 +10798,7 @@ Key Insights:
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
+        if (secSpotlight) secSpotlight.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
         if (secCareer) secCareer.classList.add('hidden');
@@ -10247,11 +10809,13 @@ Key Insights:
           asideCol.classList.remove('lg:col-span-4');
           asideCol.classList.add('lg:col-span-12');
         }
+        pbApplyInspectorMode('all');
       } else if (deckName === 'stillness') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.remove('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
+        if (secSpotlight) secSpotlight.classList.add('hidden');
         if (secVault) secVault.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
         if (secCareer) secCareer.classList.add('hidden');
@@ -10263,20 +10827,19 @@ Key Insights:
           asideCol.classList.remove('lg:col-span-4');
           asideCol.classList.add('lg:col-span-12');
         }
+        pbApplyInspectorMode('habits');
       } else if (deckName === 'vault') {
         if (secHero) secHero.classList.add('hidden');
         if (secWisdom) secWisdom.classList.add('hidden');
         if (secQuantumLab) secQuantumLab.classList.add('hidden');
         if (secNews) secNews.classList.add('hidden');
-        if (secVault) secVault.classList.remove('hidden');
+        if (secSpotlight) secSpotlight.classList.add('hidden');
         if (secPapers) secPapers.classList.add('hidden');
         if (secCareer) {
-          secCareer.classList.remove('hidden');
           const cBody = document.getElementById('career-board-body');
           if (cBody) cBody.classList.remove('hidden');
         }
         if (secPostdoc) {
-          secPostdoc.classList.remove('hidden');
           const pBody = document.getElementById('postdoc-board-body');
           if (pBody) pBody.classList.remove('hidden');
         }
@@ -10286,11 +10849,13 @@ Key Insights:
           leftCol.classList.remove('lg:col-span-8');
           leftCol.classList.add('lg:col-span-12');
         }
+        pbApplyVaultSubtab(pbVaultSubtab);
       }
 
       if (shouldScroll) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
+      if (typeof pbSyncAllSlidingPills === 'function') pbSyncAllSlidingPills();
       if (typeof pbRefreshLiquidGL === 'function') pbRefreshLiquidGL();
     }
 
@@ -10299,12 +10864,10 @@ Key Insights:
       pbCurrentDeck = deckName;
       pbPlayClick(880, 0.015);
 
-      // Close any open full-screen/slide-over page if the user clicks a top-level deck tab
       if (typeof pbActivePage !== 'undefined' && pbActivePage) {
         pbRequestClose();
       }
 
-      // Sync internal lens variable so renderNewsGrid / renderPapers don't artificially truncate items
       if (deckName === 'briefing') {
         window.pbNewsShowAll = true;
         pbPrefs.workspaceLens = 'briefing';
@@ -10329,7 +10892,7 @@ Key Insights:
 
     window.pbSwitchDeck = pbSwitchDeck;
 
-    // Document-level event delegation for [data-target-deck] — rock-solid even if DOM nodes re-render
+    // Document-level event delegation for [data-target-deck], [data-inspector-mode], [data-vault-tab]
     document.addEventListener('click', (e) => {
       const deckBtn = e.target.closest('[data-target-deck]');
       if (deckBtn) {
@@ -10338,13 +10901,27 @@ Key Insights:
         pbSwitchDeck(deckBtn.getAttribute('data-target-deck'));
         return;
       }
+      const inspBtn = e.target.closest('[data-inspector-mode]');
+      if (inspBtn) {
+        e.preventDefault();
+        pbPlayClick(820, 0.012);
+        pbApplyInspectorMode(inspBtn.getAttribute('data-inspector-mode'));
+        return;
+      }
+      const vaultBtn = e.target.closest('[data-vault-tab]');
+      if (vaultBtn) {
+        e.preventDefault();
+        pbPlayClick(820, 0.012);
+        pbApplyVaultSubtab(vaultBtn.getAttribute('data-vault-tab'));
+        return;
+      }
       const btn = e.target.closest('button, .pin-key');
       if (btn && !btn.id?.includes('bloch')) {
         pbPlayClick(750, 0.01);
       }
     });
 
-    // Keyboard 1-5 deck shortcuts (only when no overlay page or input is active)
+    // Keyboard 1-5 workspace shortcuts (1=Today, 2=Quantum, 3=Career & Vault, 4=Focus, 5=Mindfulness)
     document.addEventListener('keydown', (e) => {
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -10356,9 +10933,9 @@ Key Insights:
 
       if (e.key === '1') pbSwitchDeck('briefing');
       else if (e.key === '2') pbSwitchDeck('quantum');
-      else if (e.key === '3') pbSwitchDeck('rituals');
-      else if (e.key === '4') pbSwitchDeck('stillness');
-      else if (e.key === '5') pbSwitchDeck('vault');
+      else if (e.key === '3') pbSwitchDeck('vault');
+      else if (e.key === '4') pbSwitchDeck('rituals');
+      else if (e.key === '5') pbSwitchDeck('stillness');
     });
 
     // Celebration hook when habits are completed
@@ -10376,7 +10953,424 @@ Key Insights:
     })();
 
     // =========================================================================
-    // MACOS TAHOE SILK RIBBON WALLPAPER CANVAS & NAVIGATION SPLIT VIEW WIRING
+    // 6. EXECUTIVE SYNTHESIS CHIPS, ARXIV SPOTLIGHT & 60s SPOKEN AUDIO BRIEFING
+    // =========================================================================
+    function pbRenderTodaySynthesis() {
+      const editionStories = (state.stories || []).filter(s => !s.vault && (!s.edition || s.edition === state.edition));
+      const unreadCount = editionStories.filter(s => typeof pbIsStoryRead === 'function' ? !pbIsStoryRead(s.id) : true).length;
+      const storiesEl = document.getElementById('chip-stories-text');
+      if (storiesEl) {
+        storiesEl.textContent = unreadCount > 0
+          ? unreadCount + ' unread stories'
+          : editionStories.length + ' curated stories';
+      }
+
+      const paperCount = (state.papers || []).length;
+      const papersEl = document.getElementById('chip-papers-text');
+      if (papersEl) papersEl.textContent = paperCount + ' arXiv preprints';
+
+      let urgentCount = 0;
+      (deadlinesDb || []).forEach(d => { const days = pbDaysUntil(d.date); if (days !== null && days >= 0 && days <= 21) urgentCount++; });
+      (careerJobsDb || []).forEach(d => { const days = pbDaysUntil(d.date); if (days !== null && days >= 0 && days <= 21) urgentCount++; });
+      (postdocsDb || []).forEach(d => { const days = pbDaysUntil(d.date); if (days !== null && days >= 0 && days <= 21) urgentCount++; });
+      const dlEl = document.getElementById('chip-deadlines-text');
+      if (dlEl) {
+        dlEl.textContent = urgentCount > 0 ? urgentCount + ' urgent ≤21d' : ((careerJobsDb.length + postdocsDb.length) || 79) + ' open roles';
+      }
+
+      const routines = (state.routines && state.routines[state.edition]) || [];
+      const doneR = routines.filter(r => r.done).length;
+      const habEl = document.getElementById('chip-habits-text');
+      if (habEl) habEl.textContent = routines.length ? (doneR + '/' + routines.length + ' habits') : 'Daily habits';
+
+      // Source Spectrum Balance Meter in Newsboard Header
+      const specEl = document.getElementById('today-spectrum-meter');
+      if (specEl) {
+        let cL = 0, cC = 0, cR = 0, cI = 0;
+        editionStories.forEach(s => {
+          const sp = String(s.spectrum || '').toLowerCase();
+          if (sp.includes('left')) cL++;
+          else if (sp.includes('right')) cR++;
+          else if (sp.includes('center') || sp.includes('centre')) cC++;
+          else if (sp) cI++;
+        });
+        const tot = cL + cC + cR + cI;
+        if (tot >= 2) {
+          specEl.textContent = `Balance · ${cL}L · ${cC + cI}C · ${cR}R`;
+          specEl.classList.remove('hidden');
+        } else {
+          specEl.classList.add('hidden');
+        }
+      }
+    }
+
+    function pbRenderTodaySpotlight() {
+      const listEl = document.getElementById('today-spotlight-list');
+      const secEl = document.getElementById('today-arxiv-spotlight');
+      if (!listEl || !secEl) return;
+      const topPapers = (state.papers || []).slice(0, 2);
+      if (!topPapers.length) {
+        listEl.innerHTML = '<p class="text-xs text-[var(--apple-ink-secondary)] col-span-2">Decrypting curated arXiv preprints…</p>';
+        return;
+      }
+      listEl.innerHTML = '';
+      topPapers.forEach(paper => {
+        const card = document.createElement('article');
+        card.className = 'lg-subcard p-4 flex flex-col justify-between gap-3 transition-all hover:scale-[1.005]';
+        const tagText = paper.tag || paper.category || 'quant-ph';
+        const titleEl = document.createElement('h4');
+        titleEl.className = 'font-sf-display text-[15px] font-semibold leading-snug text-[var(--apple-ink)]';
+        titleEl.textContent = paper.title || 'arXiv Preprint';
+
+        const authEl = document.createElement('p');
+        authEl.className = 'text-[11px] text-[var(--apple-ink-secondary)] mt-1 truncate';
+        authEl.textContent = paper.authors || 'arXiv Quantitative Physics';
+
+        const sumEl = document.createElement('p');
+        sumEl.className = 'text-xs text-[var(--apple-ink-secondary)] mt-2 leading-relaxed line-clamp-3';
+        sumEl.textContent = paper.plainEnglish || paper.summary || '';
+
+        const topWrap = document.createElement('div');
+        const badge = document.createElement('span');
+        badge.className = 'inline-block font-mono-tabular text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/12 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 mb-1.5';
+        badge.textContent = tagText;
+        topWrap.appendChild(badge);
+        topWrap.appendChild(titleEl);
+        topWrap.appendChild(authEl);
+        topWrap.appendChild(sumEl);
+
+        const actions = document.createElement('div');
+        actions.className = 'pt-2.5 border-t border-black/[0.06] dark:border-white/10 flex flex-wrap items-center justify-between gap-2';
+
+        const simBtn = document.createElement('button');
+        simBtn.type = 'button';
+        simBtn.className = 'lg-pill px-2.5 py-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400';
+        simBtn.textContent = '⚛ Simulate Spin Regime';
+        simBtn.addEventListener('click', () => {
+          if (typeof window.pbLoadPaperSpinPreset === 'function') window.pbLoadPaperSpinPreset(paper);
+        });
+
+        const linkGroup = document.createElement('div');
+        linkGroup.className = 'flex items-center gap-1.5';
+        if (paper.url || paper.arxivUrl) {
+          const a = document.createElement('a');
+          a.href = paper.url || paper.arxivUrl;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.className = 'lg-pill px-2.5 py-1 text-[11px] font-semibold text-[var(--apple-tint)]';
+          a.textContent = 'arXiv ↗';
+          linkGroup.appendChild(a);
+        }
+
+        actions.appendChild(simBtn);
+        actions.appendChild(linkGroup);
+        card.appendChild(topWrap);
+        card.appendChild(actions);
+        listEl.appendChild(card);
+      });
+    }
+
+    // Hands-Free 60-Second Spoken Executive Briefing (Web Speech API)
+    let pbBriefingSpeaking = false;
+
+    function pbSyncAudioBriefingUI() {
+      const btn = document.getElementById('btn-audio-briefing');
+      const bars = document.getElementById('audio-briefing-bars');
+      const icon = document.getElementById('audio-briefing-icon');
+      const lbl = document.getElementById('audio-briefing-label');
+      const heroLbl = document.getElementById('btn-hero-audio-label');
+
+      if (btn) {
+        btn.setAttribute('aria-pressed', pbBriefingSpeaking ? 'true' : 'false');
+        btn.classList.toggle('lg-pill-active', pbBriefingSpeaking);
+        btn.classList.toggle('lg-pill', !pbBriefingSpeaking);
+      }
+      if (bars) {
+        bars.classList.toggle('hidden', !pbBriefingSpeaking);
+        bars.classList.toggle('inline-flex', pbBriefingSpeaking);
+      }
+      if (icon) icon.textContent = pbBriefingSpeaking ? '⏹' : '▶';
+      if (lbl) lbl.textContent = pbBriefingSpeaking ? 'Stop' : 'Briefing';
+      if (heroLbl) heroLbl.textContent = pbBriefingSpeaking ? 'Stop Audio Briefing' : '60s Audio Briefing';
+    }
+
+    function pbStopAudioBriefing() {
+      pbBriefingSpeaking = false;
+      try {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      } catch (e) {}
+      pbSyncAudioBriefingUI();
+    }
+
+    function pbToggleAudioBriefing() {
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+        pbToast('Speech synthesis is unavailable in this browser');
+        return;
+      }
+      if (pbBriefingSpeaking) {
+        pbStopAudioBriefing();
+        pbToast('Audio briefing stopped');
+        return;
+      }
+      const gate = document.getElementById('pin-gate-screen');
+      if (gate && !gate.classList.contains('hidden')) return;
+
+      const editionStories = (state.stories || []).filter(s => !s.vault && (!s.edition || s.edition === state.edition)).slice(0, 3);
+      const leadPaper = (state.papers || [])[0];
+      const parts = [
+        (state.edition === 'night' ? 'Good evening, Arnab. Here is your PulseBoard evening briefing.' : 'Good morning, Arnab. Here is your sixty-second PulseBoard executive briefing.')
+      ];
+      editionStories.forEach((s, idx) => {
+        parts.push(`Story ${idx + 1}: ${s.title}. ${s.whyItMatters || s.dek || ''}`);
+      });
+      if (leadPaper) {
+        parts.push(`On arXiv today: ${leadPaper.title}. ${leadPaper.plainEnglish || ''}`);
+      }
+
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(parts.join(' '));
+        utter.rate = 1.03;
+        utter.onend = () => { pbBriefingSpeaking = false; pbSyncAudioBriefingUI(); };
+        utter.onerror = () => { pbBriefingSpeaking = false; pbSyncAudioBriefingUI(); };
+        pbBriefingSpeaking = true;
+        pbSyncAudioBriefingUI();
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        pbBriefingSpeaking = false;
+        pbSyncAudioBriefingUI();
+      }
+    }
+
+    // =========================================================================
+    // 7. SNELL'S-LAW OPTICAL MENISCUS DISPLACEMENT MAPS & LIQUID GLASS CONTROLS
+    // =========================================================================
+    function pbBuildDisplacementFilters() {
+      try {
+        const makeMeniscusDataUrl = (w, h, bezelFrac) => {
+          const c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          const ctx = c.getContext('2d');
+          if (!ctx) return null;
+          const img = ctx.createImageData(w, h);
+          const data = img.data;
+          const r = Math.min(w, h) * 0.5;
+          const bezel = Math.max(4, Math.min(w, h) * bezelFrac);
+
+          for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+              // Signed distance to capsule boundary
+              const qx = Math.abs(x - w * 0.5) - Math.max(0, w * 0.5 - r);
+              const qy = Math.abs(y - h * 0.5) - Math.max(0, h * 0.5 - r);
+              const outDist = Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r;
+              const distInside = -outDist;
+
+              let nx = 0, ny = 0;
+              if (distInside > 0 && distInside < bezel) {
+                // Convex circular meniscus profile (Snell's law normal deflection near curved rim)
+                const u = 1 - (distInside / bezel);
+                const mag = Math.pow(u, 1.55);
+                const dx = x - w * 0.5;
+                const dy = y - h * 0.5;
+                const dLen = Math.hypot(dx, dy) || 1;
+                nx = (dx / dLen) * mag;
+                ny = (dy / dLen) * mag;
+              } else if (distInside >= bezel) {
+                // Subtle magnifying dome curvature across center of droplet
+                const dx = (x - w * 0.5) / (w * 0.5);
+                const dy = (y - h * 0.5) / (h * 0.5);
+                nx = -dx * 0.14;
+                ny = -dy * 0.14;
+              }
+
+              const idx = (y * w + x) * 4;
+              data[idx] = Math.max(0, Math.min(255, Math.round(128 + nx * 127)));
+              data[idx + 1] = Math.max(0, Math.min(255, Math.round(128 + ny * 127)));
+              data[idx + 2] = 128;
+              data[idx + 3] = 255;
+            }
+          }
+          ctx.putImageData(img, 0, 0);
+          return c.toDataURL('image/png');
+        };
+
+        const barMap = document.getElementById('pb-bar-refract-map');
+        const dropMap = document.getElementById('pb-droplet-refract-map');
+        const barUrl = makeMeniscusDataUrl(256, 64, 0.34);
+        const dropUrl = makeMeniscusDataUrl(128, 64, 0.42);
+        if (barMap && barUrl) barMap.setAttribute('href', barUrl);
+        if (dropMap && dropUrl) dropMap.setAttribute('href', dropUrl);
+
+        // Enable real SVG backdrop-filter refraction in Chromium/Blink engines that support url(#filter)
+        const isChromium = !!(window.chrome || /Chrome|Chromium|Edg/.test(navigator.userAgent));
+        if (isChromium && barUrl && dropUrl) {
+          document.body.classList.add('pb-svg-refract');
+        }
+      } catch (e) {}
+    }
+
+    // Sliding Liquid Glass Droplet Pill Synchronizer (Spring Glide + Velocity Stretch)
+    function pbSyncSlidingPill(navEl) {
+      if (!navEl) return;
+      const thumb = navEl.querySelector(':scope > .lg-sliding-thumb');
+      const activeBtn = navEl.querySelector('.deck-tab.active, .mobile-deck-btn.active, .cat-btn.active');
+      if (!thumb || !activeBtn || navEl.offsetParent === null) {
+        if (thumb) thumb.style.opacity = '0';
+        return;
+      }
+      const x = activeBtn.offsetLeft;
+      const y = activeBtn.offsetTop;
+      const w = activeBtn.offsetWidth;
+      const h = activeBtn.offsetHeight;
+      if (w <= 0 || h <= 0) {
+        thumb.style.opacity = '0';
+        return;
+      }
+      const prevX = parseFloat(thumb.dataset.px || String(x));
+      if (Math.abs(prevX - x) > 6) {
+        thumb.classList.add('is-gliding');
+        clearTimeout(thumb._glideTimer);
+        thumb._glideTimer = setTimeout(() => thumb.classList.remove('is-gliding'), 260);
+      }
+      thumb.dataset.px = String(x);
+      thumb.style.opacity = '1';
+      thumb.style.width = w + 'px';
+      thumb.style.height = h + 'px';
+      thumb.style.transform = `translate3d(${x}px, ${y}px, 0)` + (thumb.classList.contains('is-gliding') ? ' scaleX(1.06) scaleY(1.04)' : '');
+    }
+
+    function pbSyncAllSlidingPills() {
+      document.querySelectorAll('.has-sliding-thumb').forEach(pbSyncSlidingPill);
+    }
+
+    function pbPulseSwitchMorph(swEl) {
+      if (!swEl) return;
+      swEl.classList.add('is-morphing');
+      clearTimeout(swEl._morphTimer);
+      swEl._morphTimer = setTimeout(() => swEl.classList.remove('is-morphing'), 300);
+    }
+
+    // Tactile Liquid Glass Optical Droplet Sliders
+    function pbWireLiquidSliders() {
+      document.querySelectorAll('.lg-range-wrap').forEach(wrap => {
+        const input = wrap.querySelector('.lg-range-native');
+        const fill = wrap.querySelector('.lg-range-fill');
+        const thumb = wrap.querySelector('.lg-range-thumb');
+        const bubble = wrap.querySelector('.lg-range-bubble');
+        const unit = wrap.getAttribute('data-unit') || '';
+        if (!input || !fill || !thumb) return;
+
+        const syncSlider = () => {
+          const min = parseFloat(input.min) || 0;
+          const max = parseFloat(input.max) || 100;
+          const val = parseFloat(input.value) || 0;
+          const pct = Math.max(0, Math.min(1, (val - min) / ((max - min) || 1)));
+
+          // Bipolar detuning bar fills from center (0 MHz) outward; unipolar fills from left
+          if (min < 0 && max > 0) {
+            const zeroPct = (0 - min) / (max - min);
+            const leftPct = Math.min(zeroPct, pct) * 100;
+            const widthPct = Math.abs(pct - zeroPct) * 100;
+            fill.style.left = leftPct.toFixed(2) + '%';
+            fill.style.width = widthPct.toFixed(2) + '%';
+          } else {
+            fill.style.left = '0%';
+            fill.style.width = (pct * 100).toFixed(2) + '%';
+          }
+
+          // Pure responsive CSS center coordinate so thumb & floating bubble align even if initially hidden!
+          const centerPos = 'calc(16px + (100% - 32px) * ' + pct.toFixed(4) + ')';
+          thumb.style.left = centerPos;
+
+          if (bubble) {
+            const decimals = (parseFloat(input.step) || 1) < 0.1 ? 2 : 1;
+            const sign = (min < 0 && val > 0) ? '+' : '';
+            bubble.textContent = sign + val.toFixed(decimals) + unit;
+            bubble.style.left = centerPos;
+          }
+        };
+
+        input.addEventListener('input', syncSlider);
+        input.addEventListener('pointerdown', () => wrap.classList.add('is-dragging'));
+        const endDrag = () => wrap.classList.remove('is-dragging');
+        input.addEventListener('pointerup', endDrag);
+        input.addEventListener('pointercancel', endDrag);
+        input.addEventListener('blur', endDrag);
+        window.addEventListener('resize', syncSlider, { passive: true });
+        requestAnimationFrame(syncSlider);
+      });
+    }
+
+    (function pbWireWebAppControls() {
+      // Synthesis Jump Chips
+      document.getElementById('chip-jump-stories')?.addEventListener('click', () => {
+        pbSwitchDeck('briefing');
+        document.getElementById('newsboard-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      document.getElementById('chip-jump-papers')?.addEventListener('click', () => {
+        pbSwitchDeck('quantum');
+        document.getElementById('papers-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      document.getElementById('chip-jump-deadlines')?.addEventListener('click', () => {
+        pbSwitchDeck('vault');
+        pbApplyVaultSubtab('urgent');
+      });
+      document.getElementById('chip-jump-habits')?.addEventListener('click', () => {
+        if (window.innerWidth < 1024) {
+          pbSwitchDeck('rituals');
+        } else {
+          pbApplyInspectorMode('habits');
+          document.getElementById('deck-right-aside')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+
+      // Today arXiv Spotlight -> Full Quantum Lab & Preprints
+      document.getElementById('btn-goto-quantum-papers')?.addEventListener('click', () => {
+        pbSwitchDeck('quantum');
+      });
+
+      // Audio Briefing Buttons + Auto-Stop on Lock or Hidden Tab
+      document.getElementById('btn-audio-briefing')?.addEventListener('click', pbToggleAudioBriefing);
+      document.getElementById('btn-hero-audio')?.addEventListener('click', pbToggleAudioBriefing);
+      document.getElementById('btn-lock-now')?.addEventListener('click', pbStopAudioBriefing);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && pbBriefingSpeaking) pbStopAudioBriefing();
+      });
+
+      // Inline Focus Timer & Header Live Focus Pill
+      document.getElementById('btn-inline-focus-toggle')?.addEventListener('click', () => {
+        pbHaptic(10);
+        pbFocusToggle();
+      });
+      document.getElementById('btn-inline-focus-reset')?.addEventListener('click', () => {
+        pbHaptic(8);
+        pbFocusReset();
+      });
+      document.getElementById('header-focus-pill')?.addEventListener('click', () => {
+        pbOpenFocus();
+      });
+
+      // Liquid Glass Switch droplet swell morph feedback on all switches
+      ['btn-unread-first', 'set-haptics', 'set-notifications'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', () => pbPulseSwitchMorph(el));
+      });
+
+      pbBuildDisplacementFilters();
+      pbWireLiquidSliders();
+      pbFocusRender();
+
+      window.addEventListener('resize', () => {
+        pbDrawMacWallpaper(state && state.edition === 'night');
+        pbSyncLiquidGLWallpaper();
+        pbSyncAllSlidingPills();
+        pbRefreshLiquidGL();
+      }, { passive: true });
+    })();
+
+    // =========================================================================
+    // 8. OPTICAL SILK RIBBON WALLPAPER CANVAS & DIRECT WEBGL TEXTURE UPLOAD
     // =========================================================================
     function pbDrawMacWallpaper(isNight) {
       const canvas = document.getElementById('macos-wallpaper-canvas');
@@ -10394,7 +11388,6 @@ Key Insights:
       ctx.save();
       ctx.scale(dpr, dpr);
 
-      // Base atmospheric gradient (macOS Tahoe Daylight / Midnight)
       const bg = ctx.createLinearGradient(0, 0, w, h);
       if (isNight) {
         bg.addColorStop(0, '#050816');
@@ -10408,17 +11401,16 @@ Key Insights:
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
 
-      // Luminous radial bloom nodes for rich optical lensing contrast
       const blooms = isNight
         ? [
-            { x: w * 0.16, y: h * 0.18, r: w * 0.45, c0: 'rgba(10, 132, 255, 0.44)', c1: 'rgba(10, 132, 255, 0)' },
-            { x: w * 0.84, y: h * 0.22, r: w * 0.42, c0: 'rgba(94, 92, 230, 0.42)', c1: 'rgba(94, 92, 230, 0)' },
-            { x: w * 0.52, y: h * 0.82, r: w * 0.48, c0: 'rgba(48, 209, 88, 0.20)', c1: 'rgba(48, 209, 88, 0)' }
+            { x: w * 0.16, y: h * 0.18, r: w * 0.45, c0: 'rgba(10, 132, 255, 0.48)', c1: 'rgba(10, 132, 255, 0)' },
+            { x: w * 0.84, y: h * 0.22, r: w * 0.42, c0: 'rgba(94, 92, 230, 0.46)', c1: 'rgba(94, 92, 230, 0)' },
+            { x: w * 0.52, y: h * 0.82, r: w * 0.48, c0: 'rgba(48, 209, 88, 0.24)', c1: 'rgba(48, 209, 88, 0)' }
           ]
         : [
-            { x: w * 0.15, y: h * 0.16, r: w * 0.46, c0: 'rgba(0, 122, 255, 0.36)', c1: 'rgba(0, 122, 255, 0)' },
-            { x: w * 0.85, y: h * 0.20, r: w * 0.44, c0: 'rgba(88, 86, 214, 0.30)', c1: 'rgba(88, 86, 214, 0)' },
-            { x: w * 0.52, y: h * 0.85, r: w * 0.50, c0: 'rgba(50, 173, 230, 0.32)', c1: 'rgba(50, 173, 230, 0)' }
+            { x: w * 0.15, y: h * 0.16, r: w * 0.46, c0: 'rgba(0, 122, 255, 0.40)', c1: 'rgba(0, 122, 255, 0)' },
+            { x: w * 0.85, y: h * 0.20, r: w * 0.44, c0: 'rgba(88, 86, 214, 0.34)', c1: 'rgba(88, 86, 214, 0)' },
+            { x: w * 0.52, y: h * 0.85, r: w * 0.50, c0: 'rgba(50, 173, 230, 0.36)', c1: 'rgba(50, 173, 230, 0)' }
           ];
       blooms.forEach(b => {
         const rg = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
@@ -10428,17 +11420,16 @@ Key Insights:
         ctx.fillRect(0, 0, w, h);
       });
 
-      // Layered macOS Tahoe / Sequoia sculpted silk ribbons (high-contrast edges for liquidGL refraction)
       const ribbons = isNight
         ? [
-            { y0: 0.24, c1: 'rgba(56, 189, 248, 0.34)', c2: 'rgba(99, 102, 241, 0.32)', stroke: 'rgba(186, 230, 253, 0.36)', amp: 0.14 },
-            { y0: 0.48, c1: 'rgba(129, 140, 248, 0.28)', c2: 'rgba(192, 132, 252, 0.24)', stroke: 'rgba(224, 231, 255, 0.28)', amp: -0.13 },
-            { y0: 0.72, c1: 'rgba(14, 165, 233, 0.26)', c2: 'rgba(45, 212, 191, 0.22)', stroke: 'rgba(165, 243, 252, 0.25)', amp: 0.11 }
+            { y0: 0.24, c1: 'rgba(56, 189, 248, 0.40)', c2: 'rgba(99, 102, 241, 0.36)', stroke: 'rgba(186, 230, 253, 0.48)', amp: 0.15 },
+            { y0: 0.48, c1: 'rgba(129, 140, 248, 0.34)', c2: 'rgba(192, 132, 252, 0.28)', stroke: 'rgba(224, 231, 255, 0.38)', amp: -0.14 },
+            { y0: 0.72, c1: 'rgba(14, 165, 233, 0.32)', c2: 'rgba(45, 212, 191, 0.26)', stroke: 'rgba(165, 243, 252, 0.34)', amp: 0.12 }
           ]
         : [
-            { y0: 0.22, c1: 'rgba(14, 165, 233, 0.42)', c2: 'rgba(59, 130, 246, 0.36)', stroke: 'rgba(255, 255, 255, 0.85)', amp: 0.15 },
-            { y0: 0.47, c1: 'rgba(99, 102, 241, 0.30)', c2: 'rgba(168, 85, 247, 0.24)', stroke: 'rgba(255, 255, 255, 0.78)', amp: -0.14 },
-            { y0: 0.73, c1: 'rgba(56, 189, 248, 0.34)', c2: 'rgba(255, 255, 255, 0.65)', stroke: 'rgba(255, 255, 255, 0.88)', amp: 0.12 }
+            { y0: 0.22, c1: 'rgba(14, 165, 233, 0.48)', c2: 'rgba(59, 130, 246, 0.42)', stroke: 'rgba(255, 255, 255, 0.92)', amp: 0.16 },
+            { y0: 0.47, c1: 'rgba(99, 102, 241, 0.36)', c2: 'rgba(168, 85, 247, 0.30)', stroke: 'rgba(255, 255, 255, 0.86)', amp: -0.15 },
+            { y0: 0.73, c1: 'rgba(56, 189, 248, 0.40)', c2: 'rgba(255, 255, 255, 0.70)', stroke: 'rgba(255, 255, 255, 0.94)', amp: 0.13 }
           ];
 
       ribbons.forEach(r => {
@@ -10463,7 +11454,6 @@ Key Insights:
         ctx.fillStyle = lg;
         ctx.fill();
 
-        // Caustic specular crest line so glass bevels visibly bend light
         ctx.beginPath();
         ctx.moveTo(-40, h * r.y0);
         ctx.bezierCurveTo(
@@ -10472,11 +11462,49 @@ Key Insights:
           w + 40, h * (r.y0 + r.amp * 0.35)
         );
         ctx.strokeStyle = r.stroke;
-        ctx.lineWidth = 2.2;
+        ctx.lineWidth = 2.4;
         ctx.stroke();
       });
 
       ctx.restore();
+    }
+
+    // Bypass liquidGL's html2canvas fixed-element ignore filter by uploading the live silk ribbon canvas directly to WebGL!
+    function pbSyncLiquidGLWallpaper() {
+      const renderer = window.__liquidGLRenderer__;
+      const wallCanvas = document.getElementById('macos-wallpaper-canvas');
+      if (!renderer || !wallCanvas || wallCanvas.width === 0) return false;
+      try {
+        if (typeof renderer._uploadTexture === 'function') {
+          renderer._uploadTexture(wallCanvas);
+          renderer.staticSnapshotCanvas = wallCanvas;
+          renderer._snapshotBounds = {
+            left: 0,
+            top: 0,
+            width: window.innerWidth || 1440,
+            height: window.innerHeight || 900
+          };
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    }
+
+    function pbEnhanceLiquidGL() {
+      const renderer = window.__liquidGLRenderer__;
+      if (!renderer) return;
+      document.body.classList.add('liquidgl-ready');
+      pbSyncLiquidGLWallpaper();
+      if (Array.isArray(renderer.lenses)) {
+        renderer.lenses.forEach(l => {
+          if (l && l.options) {
+            l.options.aberration = 2.8;
+            l.options.magnify = 1.04;
+            l.options.frost = 0.5;
+          }
+          if (l && typeof l.updateMetrics === 'function') l.updateMetrics();
+        });
+      }
     }
 
     let pbLiquidRefreshTimer = null;
@@ -10486,110 +11514,15 @@ Key Insights:
         const renderer = window.__liquidGLRenderer__;
         if (!renderer) return;
         try {
+          pbSyncLiquidGLWallpaper();
           if (Array.isArray(renderer.lenses)) {
             renderer.lenses.forEach(l => {
               if (l && typeof l.updateMetrics === 'function') l.updateMetrics();
             });
           }
-          if (typeof renderer.captureSnapshot === 'function') {
-            renderer.captureSnapshot();
-          }
         } catch (e) {}
-      }, 90);
+      }, 80);
     }
-
-    (function pbWireMacOSShell() {
-      if (pbPrefs && pbPrefs.sidebarCollapsed === true) {
-        document.body.classList.add('macos-sidebar-collapsed');
-      }
-
-      function toggleMacSidebar() {
-        const collapsed = document.body.classList.toggle('macos-sidebar-collapsed');
-        if (pbPrefs) {
-          pbPrefs.sidebarCollapsed = collapsed;
-          if (typeof pbSavePrefs === 'function') pbSavePrefs();
-        }
-        setTimeout(pbRefreshLiquidGL, 380);
-      }
-
-      const btnToggleSidebar = document.getElementById('btn-toggle-sidebar');
-      if (btnToggleSidebar) btnToggleSidebar.addEventListener('click', toggleMacSidebar);
-
-      const btnTrafficMin = document.getElementById('btn-traffic-min');
-      if (btnTrafficMin) btnTrafficMin.addEventListener('click', toggleMacSidebar);
-
-      const btnTrafficClose = document.getElementById('btn-traffic-close');
-      if (btnTrafficClose) {
-        btnTrafficClose.addEventListener('click', () => {
-          const lockBtn = document.getElementById('btn-lock-now');
-          if (lockBtn) lockBtn.click();
-        });
-      }
-
-      const btnTrafficZoom = document.getElementById('btn-traffic-zoom');
-      if (btnTrafficZoom) {
-        btnTrafficZoom.addEventListener('click', () => {
-          const mainEl = document.getElementById('main-content');
-          if (!mainEl) return;
-          mainEl.classList.toggle('max-w-[1440px]');
-          mainEl.classList.toggle('max-w-none');
-          setTimeout(pbRefreshLiquidGL, 220);
-        });
-      }
-
-      const btnSideSearch = document.getElementById('btn-sidebar-search');
-      if (btnSideSearch) {
-        btnSideSearch.addEventListener('click', () => {
-          const s = document.getElementById('btn-open-search');
-          if (s) s.click();
-        });
-      }
-
-      const btnSideSaved = document.getElementById('btn-sidebar-saved');
-      if (btnSideSaved) {
-        btnSideSaved.addEventListener('click', () => {
-          if (pbCurrentDeck !== 'briefing') pbSwitchDeck('briefing');
-          const sv = document.getElementById('btn-view-saved');
-          if (sv) sv.click();
-        });
-      }
-
-      const btnSideFocus = document.getElementById('btn-sidebar-focus');
-      if (btnSideFocus) {
-        btnSideFocus.addEventListener('click', () => {
-          const f = document.getElementById('btn-open-focus');
-          if (f) f.click();
-        });
-      }
-
-      const btnSideWeek = document.getElementById('btn-sidebar-week');
-      if (btnSideWeek) {
-        btnSideWeek.addEventListener('click', () => {
-          const w = document.getElementById('btn-open-week');
-          if (w) w.click();
-        });
-      }
-
-      const btnSideDayClose = document.getElementById('btn-sidebar-dayclose');
-      if (btnSideDayClose) {
-        btnSideDayClose.addEventListener('click', () => {
-          if (typeof openDayClose === 'function') openDayClose();
-        });
-      }
-
-      const btnSideSettings = document.getElementById('btn-sidebar-settings');
-      if (btnSideSettings) {
-        btnSideSettings.addEventListener('click', () => {
-          const st = document.getElementById('btn-open-settings');
-          if (st) st.click();
-        });
-      }
-
-      window.addEventListener('resize', () => {
-        pbDrawMacWallpaper(state && state.edition === 'night');
-        pbRefreshLiquidGL();
-      }, { passive: true });
-    })();
 
     // =========================================================================
     // LIQUIDGL WEBGL OPTICAL LENS INITIALIZATION (Apple Liquid Glass v2.0)
@@ -10609,10 +11542,10 @@ Key Insights:
           target: '.liquidgl-lens',
           snapshot: '#apple-wallpaper',
           resolution: 1.5,
-          refraction: 0.052,
-          bevelDepth: 0.12,
-          bevelWidth: 0.16,
-          frost: 1.8,
+          refraction: 0.068,
+          bevelDepth: 0.14,
+          bevelWidth: 0.18,
+          frost: 0.5,
           shadow: false,
           specular: true,
           reveal: 'fade',
@@ -10623,10 +11556,12 @@ Key Insights:
       }
     }
 
-    // Paint macOS Tahoe silk wallpaper first, then initialize LiquidGL lenses
+    // Paint optical silk wallpaper first, initialize WebGL lenses, and bind direct canvas texture
     function pbBootLiquidGlass() {
       pbDrawMacWallpaper(state && state.edition === 'night');
       pbInitLiquidGL();
+      pbEnhanceLiquidGL();
+      setTimeout(pbEnhanceLiquidGL, 350);
     }
 
     if (document.readyState === 'loading') {
@@ -10638,9 +11573,9 @@ Key Insights:
       pbDrawMacWallpaper(state && state.edition === 'night');
       if (!window.__liquidGLRenderer__ && typeof window.liquidGL === 'function') {
         pbInitLiquidGL();
-      } else {
-        pbRefreshLiquidGL();
       }
+      pbEnhanceLiquidGL();
+      pbSyncAllSlidingPills();
     });
 
     // =========================================================================
