@@ -1,119 +1,106 @@
 {
-  "generated_at": "2026-11-12T01:14:06Z",
+  "generated_at": "2026-11-12T23:56:28Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261112-d643859e",
+      "id": "news-geopolitics-20261112-b251fa4e",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
-      "source": "NY Post",
+      "source": "CBC World",
       "readMin": 2,
-      "spectrum": "right",
-      "sourceUrl": "https://nypost.com/2026/11/11/world-news/trump-netanyahu-get-into-shouting-match-from-hell-over-iran-war-report/",
-      "title": "Trump, Netanyahu get into ‘shouting match from hell’ over Iran war, Israeli media reports",
-      "dek": "President Trump and Israeli Prime Minister Benjamin Netanyahu got into a heated shouting match over the weekend over their different stances on the future of the Iran war, according to Israeli media.",
-      "content": "President Trump and Israeli Prime Minister Benjamin Netanyahu got into a “shouting match from hell” over the weekend over their different stances on the future of the Iran war , according to Israeli media.\n\nA phone call between the two leaders saw Netanyahu repeatedly push for the war to restart, but Trump stuck to the diplomatic angle to allow the current peace talks with Iran to progress, Ynet and the Yedioth Ahronoth newspaper reported.\n\nThe phone call eventually turned confrontational, descending into “a shouting match from hell,” sources told both outlets.\n\nThe prime minister’s office denied the characterization of the call, slamming the reports as “fake news.”\n\nA senior Israeli official told the outlets that a call did take place over the weekend, but insisted that no clash took place between the two leaders.\n\nTrump and Netanyahu have had a history of heated phone calls over the war, including several clashes in June when the president told The Post that he called the prime minister “f–king crazy” during one call.\n\nThe reports of the weekend call came just days after the Financial Times reported that Netanyahu was calling Trump every day to urge him to resume all-out war.\n\nNetanyahu, whose position as Israel’s longest-serving prime minister hangs in the balance after he lost seats in October’s general election, has been adamant that the US needs to restart strikes on Iran and enforce a regime change.\n\nThe premier told the 26th Knesset assembly on Tuesday that regime change is the only way to end Tehran’s reign of terror and stop its nuclear program.\n\n“Iran is working to renew the nuclear threat. The only way to permanently remove this existential threat is by toppling the ayatollah regime,” he said.\n\nDespite Netanyahu’s insistence, Trump has steered away from restarting the war in favor of letting America’s economic pressure campaign play out to force Tehran to make concessions.\n\nAsked if he would restart the war during his “60 Minutes” interview on Sunday, Trump said he doesn’t think “there’s any reason to.”",
-      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/148360626.jpg?quality=75&strip=all&w=1200",
+      "spectrum": "left",
+      "sourceUrl": "https://www.cbc.ca/news/world/israeli-strike-on-gaza-hospital-kills-six-people-9.7418729?cmp=rss",
+      "title": "Israeli strike on a Gaza hospital kills 6 people, including surgeon, health authorities say",
+      "dek": "An Israeli airstrike on southern Gaza's main hospital overnight killed at least six Palestinians, including a surgeon and a teenage boy, medics said, the latest Israeli attack to undermine a year-old …",
+      "content": "An Israeli airstrike on southern Gaza's main hospital overnight killed at least six Palestinians, including a surgeon and a teenage boy, medics said, the latest Israeli attack to undermine a year-old ceasefire in the war-shattered territory.\n\nThe strike hit a building containing surgery wards at Nasser Hospital in Khan Younis. Israel's military said it targeted a senior Hamas commander and accused the militants of using the hospital complex to plan attacks, which the group denied.\n\nMedics and witnesses said two missiles crashed through the roof of the five-storey building, causing extensive damage. The surgery department, which serves half of Gaza's two million people, was knocked out of service. At least 20 others were wounded.\n\nU.S. President Donald Trump’s Board of Peace, which oversees the ceasefire agreement and a broader peace plan, called on both Israel and Hamas to honour the deal, in a rare response to an individual attack.\n\nAyman Abu Obeid, a doctor who was injured in the attack, said he was on an overnight shift in the hospital when an explosion ripped through the room where he and others were sleeping.\n\n\"All of a sudden, the world turned upside down. It went dark all at once,\" he said from a hospital bed. Near him, piles of mangled furniture and medical equipment could be seen covered in dust from blown-out concrete. Torn wires hung down from the ceiling.\n\nAmong those killed was Rezik Abushira, a surgeon who was featured in a 2026 documentary, American Doctor , working alongside three visiting U.S. doctors who help provide medical care for Palestinians in Gaza. The dead also included a 13-year-old boy, according to Gaza's Education Ministry.\n\nCommenting on the vehicle strike, the Israeli military said it hit a Hamas militant, without giving further details. It did not comment on the two other incidents.\n\nNasser Medical Complex director Dr. Ahmed Al-Farra said that the strike occurred without any prior warning or evacuation notice. The Israeli military claimed it had held \"warning conversations\" with Gaza health officials before Thursday's strike regarding militant use of hospitals. It said it made clear that \"if the activity was not halted, it would act to remove the threats posed by it.\"\n\n\"What sin did the hospital that is treating children, the elderly and women commit to get targeted?\" Khalil Shaheen told CBC News outside of Nasser Hospital.",
+      "image": "https://i.cbc.ca/ais/3a840d87-433a-4cb1-a76b-562ca86638af,1794465518816/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C384%2C5500%2C3093%29%3BResize%3D620",
       "gallery": [
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/president-donald-trump-left-greets-145590026.jpg?w=1024",
-          "alt": "President Trump, left, allegedly got into a screaming match with Israeli Prime Minister Benjamin Netanyahu during a phone call over the weekend. AP Photo/Evan Vucci"
+          "url": "https://i.cbc.ca/ais/9039b1ad-417d-4411-85f0-4fa2dc13bf91,1794512119103/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C5039%2C3358%29%3B",
+          "alt": "A projectile lies next to remains from another projectile."
         },
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/president-donald-trump-speaks-russian-109810842.jpg?w=1024",
-          "alt": "Trump has signaled he is in no rush to restart the war in Iran as diplomatic efforts continue between the US and Iran. White House"
-        }
+          "url": "https://i.cbc.ca/ais/c64de6d8-6bf2-4b76-b701-147a90afe60a,1794513244068/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C5500%2C3886%29%3B",
+          "alt": "Two men wearing white lab coats stand in a crowd of people outdoors."
+        },
+        "https://i.cbc.ca/ais/768a2a4b-a2d5-4d52-bbb5-5c90fdad309b,1794487097884/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C2484%2C1397%29%3BResize%3D620"
       ],
       "saved": false,
-      "author": "Ronny Reyes"
-    },
-    {
-      "id": "news-geopolitics-20261112-31ba4014",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "BBC World",
-      "readMin": 2,
-      "spectrum": "center",
-      "sourceUrl": "https://www.bbc.co.uk/news/articles/cqr7gr0010r2o?at_medium=RSS&at_campaign=rss",
-      "title": "US Treasury Secretary Scott Bessent relocated after alleged Iranian threats",
-      "dek": "Bessent is now one of several Trump administration officials to live on military bases due to safety concerns.",
-      "content": "Image source, Getty Images Image caption, The severity and nature of the threat against Scott Bessent remains unclear\n\nUS Treasury Secretary Scott Bessent has been moved from his Washington DC home to a military base after Iran-linked threats to his life, according to US media reports.\n\nCBS, the BBC's US partner, said the relocation came after a photo of Bessent's home was published in the Wall Street Journal.\n\nBessent has been at the forefront of efforts to isolate Iran economically through sanctions and a wider economic blockade.\n\nWhile the exact nature of the threats against Bessent remain unclear, US intelligence has warned that Iran has \"substantially increased\" efforts to target Americans, including US officials.\n\n\"After the Wall Street Journal published an article featuring an online photo that allowed the location of the secretary's Georgetown home to be geo-located, security concerns began to increase,\" a source told CBS.\n\nGeorgetown is an affluent part of Washington that is home to a number of government officials and prominent residents.\n\nThose security concerns, the source added, prompted authorities to move Bessent to a military base in the area.\n\nIn a statement, a Treasury Department spokesperson said only that Bessent \"will not be deterred\" by threats and \"remains committed\" to the US effort to pressure Iran's economy.\n\nIn September, Director of National Intelligence Jay Clayton warned that Iran has \"substantially increased\" efforts to target Americans.\n\nThe New York Times has reported that the Iranian effort includes the targeting of current and former US officials. One source told the newspaper this has \"reached a more advanced stage\".\n\nOther US officials reportedly on Iran's list of potential targets include former Secretary of State Mike Pompeo, former National Security Advisor John Bolton and Mark Milley, the former chairman of the Joint Chiefs of Staff.\n\nMilley and Bolton's security teams were taken away by the Trump administration shortly after he returned to office last year.\n\nBessent is one of a number of administration officials that live on military bases. The White House's new chief of staff, Stephen Miller, was moved to a base in late 2025 - before the conflict with Iran began.\n\nDefence Secretary Pete Hegseth and Secretary of State Marco Rubio both live on military bases, as did former Attorney General Pam Bondi and former intelligence chief Tulsi Gabbard.",
-      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/274f/live/14e2f1f0-dde6-11f1-9204-cdcddf7d901c.jpg",
-      "gallery": [
-        {
-          "url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/274f/live/14e2f1f0-dde6-11f1-9204-cdcddf7d901c.jpg",
-          "alt": "Image caption, The severity and nature of the threat against Scott Bessent remains unclear"
-        },
-        {
-          "url": "https://ichef.bbci.co.uk/ace/standard/1920/cpsprodpb/0baa/live/f351b160-dcd8-11f1-93e1-3b657b665bcf.jpg",
-          "alt": "Donald Trump shown as he talks to press at a press conference in the White House"
-        },
-        {
-          "url": "https://ichef.bbci.co.uk/ace/standard/3840/cpsprodpb/e7aa/live/f0f44f00-cf67-11f1-8bee-01389bd440f4.jpg",
-          "alt": "Jay Clayton gestures with his right hand"
-        }
-      ],
-      "saved": false,
-      "author": "Bernd Debusmann Jr",
       "alsoCoveredBy": [
         {
-          "outlet": "Israel Hayom",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPTUFINml2Y3dBUXpHdl9fMXIxQ2lGQmJyZHFfblBiOUdqdDE0LVB3UER2YzZDQk8wVkYtVk5QNjJUWTZQTHkxX2p2LWcwR3dWdER4OEJvX0ZtQUYxM0toY1JVWXQ5S0NfOVNXdnY1azhnYy1HdEpzUE12emJLUDg1dUhDVTE3cy1WdUhB?oc=5"
-        },
-        {
-          "outlet": "NY Post",
-          "url": "https://nypost.com/2026/11/11/world-news/us-treasury-chief-scott-bessent-moved-to-military-base-after-iranian-threats/"
+          "outlet": "BBC World",
+          "url": "https://www.bbc.co.uk/news/articles/ckzd9p7e4eqeo?at_medium=RSS&at_campaign=rss"
         }
       ]
     },
     {
-      "id": "news-geopolitics-20261112-7f6061b7",
+      "id": "news-geopolitics-20261112-21c8c1c8",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "The Guardian",
       "readMin": 2,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/11/fresh-concerns-over-gaza-doctor-held-by-israel",
-      "title": "Fresh concerns raised over Gaza doctor held by Israel for 23 months without charge",
-      "dek": "Independent Israeli professor says Hussam Abu Safiya’s life will be at risk until he receives proper medical treatment An independent professor who reviewed the medical records of a prominent Gaza doc…",
-      "content": "A mural of Hussam Abu Safiya painted on a bombed building in Gaza City. The senior doctor was detained by Israeli forces in December 2024. Photograph: Anadolu/Getty Images View image in fullscreen A mural of Hussam Abu Safiya painted on a bombed building in Gaza City. The senior doctor was detained by Israeli forces in December 2024. Photograph: Anadolu/Getty Images Gaza Fresh concerns raised over Gaza doctor held by Israel for 23 months without charge Independent Israeli professor says Hussam Abu Safiya’s life will be at risk until he receives proper medical treatment\n\nAn independent professor who reviewed the medical records of a prominent Gaza doctor held in an Israeli prison without charge for nearly 23 months has raised serious concerns about his health.\n\nHussam Abu Safiya was detained at work on 27 December 2024 and later held in solitary confinement at Rakefet, a notorious underground prison.\n\nDuring a visit by a lawyer from Physicians for Human Rights Israel (PHRI) in the summer, the doctor told of harsh conditions, untreated medical problems and severe food shortages. Witnesses said he had become almost unrecognisable .\n\nNearly 700 days after his arrest , Israeli authorities have yet to bring any formal charges against Abu Safiya, who is the director of Kamal Adwan hospital in northern Gaza.\n\nHe was classified as an “unlawful combatant” along with more than 375 medical workers – a designation Israel has used to justify prolonged detention without trial.\n\nLast month, Israel’s supreme court rejected a petition to release the doctor. Over the weekend, a district court rejected a separate petition to allow Abu Safiya an independent medical examination, despite troubling findings in his medical records that were not adequately investigated, according to Prof Amit Tirosh, an independent Israeli specialist who reviewed a file obtained by PHRI.\n\nView image in fullscreen Hussam Abu Safiya, right, shows a UN delegation around the Kamal Adwan hospital in northern Gaza in September 2024. His family have not been able to communicate with him directly in detention. Photograph: Anadolu/Getty Images In an interview with the Guardian, Tirosh said Abu Safiya’s weight had fallen from 90kg (14st 2lb) in January 2025 to 76kg this May.\n\n“Continuous food deprivation and weight loss, repeated beatings and injuries, with inadequate medical care, can definitely cost Dr Abu Safiya his life,” Tirosh said.",
-      "image": "https://i.guim.co.uk/img/media/699ecf5dbdf9a9dfda3616624a11e0ef11142ff2/560_0_5600_4480/master/5600.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=218a99a571b79b340d691d8ae1a1df62",
+      "sourceUrl": "https://www.theguardian.com/sport/2026/nov/12/lewis-hamilton-gaza-visit-rafah-israel",
+      "title": "Lewis Hamilton says ‘Israel’s genocide in Gaza is appalling’ after Rafah visit",
+      "dek": "F1 driver urges Israel to let aid into Gaza Trip involved tour of facilities with aid workers Formula One driver Lewis Hamilton said on Wednesday that Israel must allow aid ⁠trucks into Gaza, a day af…",
+      "content": "Lewis Hamilton visited the Rafah border crossing between Egypt and the Gaza Strip on Tuesday. Photograph: AFP/Getty Images View image in fullscreen Lewis Hamilton visited the Rafah border crossing between Egypt and the Gaza Strip on Tuesday. Photograph: AFP/Getty Images Lewis Hamilton Lewis Hamilton says ‘Israel’s genocide in Gaza is appalling’ after Rafah visit F1 driver urges Israel to let aid into Gaza\n\nFormula One driver Lewis Hamilton said on Wednesday that Israel must allow aid ⁠trucks into Gaza, a day after he visited the Rafah border crossing in Egypt.\n\nHamilton, a seven-time ⁠world champion, arrived ⁠in ​El Arish on Tuesday, where he was briefed on how aid is prepared and coordinated before it ⁠is sent into Gaza , as he toured the Rafah crossing and the Egyptian Red Crescent’s aid warehouses.\n\nHe has frequently posted on social media about children killed in Israeli airstrikes in Gaza and called for a ceasefire. A ceasefire agreement reached last year has halted major combat operations in Gaza, but the amount of aid reaching the territory continues to fall far short of the agreed-upon minimum of 600 trucks a day.\n\n“The past ⁠three years of Israel’s genocide in Gaza is appalling. It’s an ​injustice for people to ‌be denied their freedom, ‌their safety and their dignity. No human being should be treated ‌as though their life matters less,” the Ferrari driver wrote on Instagram.\n\nIsrael strongly denies accusations of genocide and says its military campaign in Gaza targets Hamas militants.\n\nHamilton described seeing food trucks lined up and ready to go at the border that were ‌regularly held up or faced major delays.\n\n“I saw walls stretching for miles, built to keep them in. Standing there, outside what felt like an open-air prison, all I could think about was getting in to help,” he said in the post. “At the Rafah border, I saw food trucks lined up ready to go, but they’re regularly not allowed in or face major delays. The first driver in line that I spoke to had already been waiting over 12 hours. At the nearby logistics centre, I saw the hard work of the aid workers, but I also saw what gets rejected for crazy reasons. Sleeping bags, first aid kits, medical equipment, wheelchairs even footballs for kids.",
+      "image": "https://i.guim.co.uk/img/media/9f421ee9a5c3c6382f96f0224c1cede036b26ba6/1168_0_5840_4672/master/5840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=2cf8c79c28c0df73ffe3ba8200b18a13",
       "gallery": [],
       "saved": false,
-      "author": "Lorenzo Tondo"
+      "author": "Guardian sport"
     },
     {
-      "id": "news-tech-20261112-23ef94ce",
+      "id": "news-geopolitics-20261112-c6767474",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "The Hindu",
+      "readMin": 3,
+      "spectrum": "left",
+      "sourceUrl": "https://www.thehindu.com/sci-tech/energy-and-environment/india-undergoing-massive-transformation-in-renewable-energy-earthshot-prize-ceo/article71694272.ece",
+      "title": "India undergoing massive transformation in renewable energy: Earthshot Prize CEO",
+      "dek": "“There is a race on right now.",
+      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nEarthshot Prize CEO Jason Knauf. | Photo Credit: Vinaya Deshpande Pandit\n\nIndia is at the forefront of climate solutions, and its innovations have immediate global application, especially when it comes to issues such as heat stress, Earthshot Prize CEO Jason Knauf said. He was speaking with The Hindu on Thursday (November 12, 2026) on the background of the launch of the five-day Earthshot Prize summit, which will take place in Mumbai and Jaipur from November 13 to 17.\n\nAs COP31 gathers in Türkiye for climate negotiations, it is India and Mumbai which will send a message of climate solutions, he said. “There is a race going on right now. The first country that can have access to cheap, clean and abundant energy, is going to have a huge economic advantage. And I think, India knows that. Which is why so much is being done here to use the huge solar resource that India has,” he said.\n\nEarthshot Prize is one of the world’s most prestigious environmental awards. It was founded by Prince William six years ago. This is the first time the awards are being held in India. Prince William will be in India for the events.\n\nOn Thursday (November 12, 2026), Mr. Knauf spoke about how India was an inspiration behind starting the award, why the awards are being held in India and particularly in Mumbai this year, and the lessons he has learnt during his stay in the country. Observing that India is undergoing a “massive transformation” about renewable energy, he said it had an advantage over other countries to bring in sustainable climate solutions. He said there was no debate between economic progress and environmental protection anymore. “What is good for the environment is good for business, and Indian companies are showing that,” Mr. Knauf said, adding that the past Indian winners had been able to raise $800 million in commercial international investment after winning the Earthshot Prize.",
+      "image": "https://th-i.thgim.com/public/news/national/po21yf/article71694797.ece/alternates/LANDSCAPE_1200/earthshot.jpg",
+      "gallery": [],
+      "saved": false,
+      "author": "Vinaya Deshpande Pandit"
+    },
+    {
+      "id": "news-tech-20261112-d45f1353",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
       "source": "Ars Technica",
-      "readMin": 2,
+      "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://arstechnica.com/ai/2026/11/taiwans-chipmaking-giant-tsmc-to-invest-1b-in-anthropic-openai/",
-      "title": "Taiwan’s chipmaking giant TSMC to invest $1B in Anthropic, OpenAI",
-      "dek": "Latest example of the AI boom’s circular financing comes as AI trade wobbles.",
-      "content": "Latest example of the AI boom’s circular financing comes as AI trade wobbles.\n\nTop chip manufacturer TSMC is ready to invest $1 billion in Anthropic and OpenAI. That would give the Taiwanese chipmaker direct stakes in leading AI developers, even as its own contract chipmaking business has profited enormously from the AI data center buildout.\n\nThe chipmaker’s board approved plans to invest up to $500 million in OpenAI preferred stock reserved for large investors and another $500 million to purchase Anthropic common shares at the latter’s expected IPO price, according to Reuters . Such an investment may give markets “a shot of confidence as the artificial-intelligence trade shows signs of strain,” The Wall Street Journal reported.\n\nBut analysts also warned that such circular financing among investors, suppliers, and customers has made it difficult to evaluate real market demand for AI-related hardware and services, according to the Journal.\n\nTSMC’s chip fabrication plants physically produce the vast majority of Nvidia’s chips designed for AI data center workloads and make most of Apple’s custom chips used in iPhones , Mac laptops and desktops, plus Apple’s planned AI computing server . Most of these fabs are located in Taiwan, but TSMC also operates fabs in Japan and China, and it has an expanding US manufacturing cluster in Arizona. It is also building a new fab in Germany.\n\nMeanwhile, Anthropic and OpenAI are both purchasing huge quantities of AI hardware manufactured by TSMC for their data center projects. So TSMC’s announced investment certainly seems to fit into the broader trend of circular financing that has become common during the AI boom, even as tech stocks have gyrated recently as investors have grown increasingly jittery.\n\nStill, TSMC has plenty of money to spare on such a bet. Ongoing demand for AI-related chips has enabled the Taiwanese chipmaker to report six consecutive quarters of record profit, with the latest example being the company earning more than $23 billion in profit during the July through September 2026 quarter, according to Reuters .\n\nTSMC’s planned investment in Anthropic and OpenAI also pales in comparison with circular financing deals from major US tech companies. The most notable example is Nvidia , which has invested $30 billion in OpenAI and $10 billion in Anthropic so far, in addition to putting tens of billions of dollars into many other AI and robotics companies .",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/TSMC-Fab-18-1152x648.jpg",
-      "gallery": [],
+      "sourceUrl": "https://arstechnica.com/tech-policy/2026/11/families-fight-to-keep-googles-disturbing-ai-off-school-issued-chromebooks/",
+      "title": "Google faces calls for AI moratoriums in schools after Gemini pilot backlash",
+      "dek": "Families confront Google after teen’s lawsuit labels Gemini a “suicide coach.”",
+      "content": "Families confront Google after teen’s lawsuit labels Gemini a “suicide coach.”\n\nCHICAGO—Families joined protests in seven cities nationwide on Wednesday, rallying against what they see as Google’s bid to entrench its AI models in schools, turn kids of all ages into Gemini guinea pigs, and hook them on AI.\n\nThe backlash follows a Google statement last week, confirming that there will be no way for students to use Google Search without AI. While Google claimed it was giving schools “more choice, not less”—by turning off Search, Gemini, and Gemini Notebook by default—it would not provide an option that allowed Search without AI. For students, the only way to avoid interacting with AI was to remember to add “-ai” to every query, parents worried.\n\nIn Chicago, many families showed up to protest Google, despite cold, rainy weather. Waving signs, dozens of protesters marched up to Google’s downtown office as workers seemed to be leaving for the day, shouting chants like “Hey Google, nice try, we don’t want your Gemini” and “Hey, Google, leave our kids alone!”\n\nCalled to action by a nonprofit grassroots advocacy group, the Illinois Families for Public Schools (ILFPS), some parents and students had previously won a major AI fight. In August, the group pressured Chicago Public Schools (CPS) to pull out of a Gemini pilot that would have roped in all high school students districtwide—without consulting parents. And now, ILFPS is demanding a moratorium on AI until risks to students are better understood and CPS can draft a policy to protect students from potential learning setbacks or more harmful outcomes from engaging Google’s AI bots. If the group wins, it will join cities like Los Angeles and New York City in cautiously banning AI in schools.\n\nMost alarming to parents, Google now faces a lawsuit from a 13-year-old student in Durham, North Carolina named “Emma Doe.” As Emma has alleged, she was a happy, well-adjusted, straight-A student when she started using Gemini on her school-issued Chromebook. Emma’s parents had no idea she was using Gemini, as the lawsuit alleged that Google “deliberately” kept them in the dark while driving Emma into so-called “AI psychosis.” Over time, normal school-related interactions with the chatbot led to more intense chats, and ultimately the chatbot allegedly coached Emma to plan her own suicide and funeral. The school warned her parents and averted the danger after an internal system flagged a chat labeled “Funeral,” but Emma’s story stoked fears of parents joining protests not just in Durham, but also in Boston; Boulder, Colorado; Chicago; Los Angeles; New York City; and Portland, Oregon.",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Win-win-1152x648.jpeg",
+      "gallery": [
+        "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Crowd.jpeg",
+        "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Crowd-2-1024x768.jpeg",
+        "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Cassie-Creswell-1024x682.jpg"
+      ],
       "saved": false,
-      "author": "Jeremy Hsu"
+      "author": "Ashley Belanger"
     },
     {
-      "id": "news-quantum-20261112-1bcb475d",
+      "id": "news-quantum-20261112-7f3523d8",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
-      "readMin": 2,
+      "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/10/261011211554.htm",
-      "title": "Scientists recreate a bizarre quantum effect that stops a particle cold",
-      "dek": "Oxford physicists have recreated a bizarre quantum effect in which a particle responds to a magnetic field without ever traveling through it.",
-      "content": "A particle does not have to pass through a magnetic field to be influenced by it. That surprising feature of quantum physics has now been recreated by researchers at the University of Oxford, who used a hybrid quantum computer to demonstrate how an invisible magnetic influence can bring a simulated particle's movement to a complete stop.\n\nThe experiment reproduced a phenomenon known as the Aharonov-Bohm effect, in which a charged particle traveling around a region containing magnetic flux experiences a measurable change in its quantum state, even though its path never takes it through the magnetic field itself.\n\nThe Oxford team achieved this using a quantum system that combines qubits, the basic units of quantum information, with quantum oscillators, which represent vibrating motion. Their findings, published in Nature Physics , demonstrate how this combination could help scientists investigate fundamental interactions between matter and fields that are increasingly difficult to simulate using conventional computers.\n\nIn everyday physics, a charged particle responds to the electric and magnetic fields it encounters. Quantum mechanics, however, reveals that particles can behave in ways that have no straightforward counterpart in our ordinary experience.\n\nIn 1959, physicists Yakir Aharonov and David Bohm predicted that a charged particle could be affected by magnetic flux even if it traveled entirely outside the region containing the magnetic field. Rather than experiencing a conventional magnetic force along its path, the particle would undergo a change in its quantum phase.\n\nQuantum phase describes an aspect of a particle's wave behavior that influences how different possible paths interfere with one another. Although the phase itself is not directly visible, differences in phase can produce measurable effects.\n\nThe prediction became known as the Aharonov-Bohm effect and was eventually verified in experiments involving real electrons. It remains one of the clearest demonstrations that the quantum world operates according to rules that go beyond the familiar laws of classical physics.\n\nResearchers are now exploring how this phenomenon behaves in more complex theoretical systems known as lattice gauge theories.\n\nThese theories describe how matter interacts with fields associated with fundamental forces. They represent space as a grid, with matter located at individual points and fields associated with the connections between them. Such models are particularly important in particle physics and high-energy physics, where scientists study the basic particles and interactions that make up the universe.",
-      "image": "https://www.sciencedaily.com/images/1920/hybrid-quantum-system-loop.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261108233047.htm",
+      "title": "After 40 years, CERN finds evidence of a one-in-10-billion particle decay",
+      "dek": "CERN scientists have finally found evidence of a particle decay so rare that it happens only once in roughly 10 billion decays, ending a search spanning more than 40 years.",
+      "content": "After more than 40 years of searching, physicists at CERN have reached a major milestone in their hunt for one of the rarest known particle decays. Researchers working with the LHCb experiment have detected evidence of a process expected to occur only once in approximately 10 billion beauty particle decays.\n\nThe finding, announced during a seminar at CERN, marks the first time a single experiment has produced sufficient evidence for this extraordinarily rare event. Beyond its rarity, the decay is particularly valuable because it could help scientists investigate particles that are too massive to be created directly in the Large Hadron Collider.\n\nAt the center of the discovery is a particle called B d , which contains a beauty quark and a down antiquark. Scientists found evidence that this particle can decay into a pair of muons ( &mu; + &mu; - ). Muons are similar to electrons but have greater mass. The results agree with predictions from the Standard Model, the leading theory describing fundamental particles and their interactions, and help narrow the possibilities for new particles beyond it.\n\nOne reason physicists are so interested in these unusual decays is that quantum effects allow other particles to influence how they occur. Even particles too heavy to be produced in the Large Hadron Collider can potentially leave subtle traces in the rates of these processes.\n\nBy measuring extremely rare decays with high precision, researchers can look for differences between experimental results and theoretical predictions. Such discrepancies could provide indirect evidence of previously unknown particles. Generally, the rarer a decay is, the more sensitive it can be to these hidden influences.\n\nThe decay known as B d &rarr; &mu; + &mu; - belongs to a special category that physicists have long considered 'golden channels' for investigating physics beyond the Standard Model. During this process, a beauty quark and an antiquark with the opposite electric charge annihilate each other. Their energy is transformed into a muon and its antiparticle.\n\nScientists have previously observed a related process involving a different beauty particle, called B s . In 2015, a joint analysis by the LHCb and CMS collaborations reported the first confirmed observation of B s &rarr; &mu; + &mu; - , along with initial evidence for the much rarer B d decay.\n\nHowever, subsequent analyses incorporating data collected through 2018 could not confirm the earlier evidence for B d &rarr; &mu; + &mu; - . The difference in rarity is substantial. The B s decay occurs approximately three times per billion beauty particle decays, while the B d process is predicted to happen about 30 times less frequently.",
+      "image": "https://www.sciencedaily.com/images/1920/particle-collision-physics-accelerator.webp",
       "gallery": [],
       "saved": false
     },
