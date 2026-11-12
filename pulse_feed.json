@@ -1,101 +1,119 @@
 {
-  "generated_at": "2026-11-11T11:37:52Z",
+  "generated_at": "2026-11-12T01:14:06Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261111-d394fb20",
+      "id": "news-geopolitics-20261112-d643859e",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "NY Post",
+      "readMin": 2,
+      "spectrum": "right",
+      "sourceUrl": "https://nypost.com/2026/11/11/world-news/trump-netanyahu-get-into-shouting-match-from-hell-over-iran-war-report/",
+      "title": "Trump, Netanyahu get into ‘shouting match from hell’ over Iran war, Israeli media reports",
+      "dek": "President Trump and Israeli Prime Minister Benjamin Netanyahu got into a heated shouting match over the weekend over their different stances on the future of the Iran war, according to Israeli media.",
+      "content": "President Trump and Israeli Prime Minister Benjamin Netanyahu got into a “shouting match from hell” over the weekend over their different stances on the future of the Iran war , according to Israeli media.\n\nA phone call between the two leaders saw Netanyahu repeatedly push for the war to restart, but Trump stuck to the diplomatic angle to allow the current peace talks with Iran to progress, Ynet and the Yedioth Ahronoth newspaper reported.\n\nThe phone call eventually turned confrontational, descending into “a shouting match from hell,” sources told both outlets.\n\nThe prime minister’s office denied the characterization of the call, slamming the reports as “fake news.”\n\nA senior Israeli official told the outlets that a call did take place over the weekend, but insisted that no clash took place between the two leaders.\n\nTrump and Netanyahu have had a history of heated phone calls over the war, including several clashes in June when the president told The Post that he called the prime minister “f–king crazy” during one call.\n\nThe reports of the weekend call came just days after the Financial Times reported that Netanyahu was calling Trump every day to urge him to resume all-out war.\n\nNetanyahu, whose position as Israel’s longest-serving prime minister hangs in the balance after he lost seats in October’s general election, has been adamant that the US needs to restart strikes on Iran and enforce a regime change.\n\nThe premier told the 26th Knesset assembly on Tuesday that regime change is the only way to end Tehran’s reign of terror and stop its nuclear program.\n\n“Iran is working to renew the nuclear threat. The only way to permanently remove this existential threat is by toppling the ayatollah regime,” he said.\n\nDespite Netanyahu’s insistence, Trump has steered away from restarting the war in favor of letting America’s economic pressure campaign play out to force Tehran to make concessions.\n\nAsked if he would restart the war during his “60 Minutes” interview on Sunday, Trump said he doesn’t think “there’s any reason to.”",
+      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/148360626.jpg?quality=75&strip=all&w=1200",
+      "gallery": [
+        {
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/president-donald-trump-left-greets-145590026.jpg?w=1024",
+          "alt": "President Trump, left, allegedly got into a screaming match with Israeli Prime Minister Benjamin Netanyahu during a phone call over the weekend. AP Photo/Evan Vucci"
+        },
+        {
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/president-donald-trump-speaks-russian-109810842.jpg?w=1024",
+          "alt": "Trump has signaled he is in no rush to restart the war in Iran as diplomatic efforts continue between the US and Iran. White House"
+        }
+      ],
+      "saved": false,
+      "author": "Ronny Reyes"
+    },
+    {
+      "id": "news-geopolitics-20261112-31ba4014",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "BBC World",
+      "readMin": 2,
+      "spectrum": "center",
+      "sourceUrl": "https://www.bbc.co.uk/news/articles/cqr7gr0010r2o?at_medium=RSS&at_campaign=rss",
+      "title": "US Treasury Secretary Scott Bessent relocated after alleged Iranian threats",
+      "dek": "Bessent is now one of several Trump administration officials to live on military bases due to safety concerns.",
+      "content": "Image source, Getty Images Image caption, The severity and nature of the threat against Scott Bessent remains unclear\n\nUS Treasury Secretary Scott Bessent has been moved from his Washington DC home to a military base after Iran-linked threats to his life, according to US media reports.\n\nCBS, the BBC's US partner, said the relocation came after a photo of Bessent's home was published in the Wall Street Journal.\n\nBessent has been at the forefront of efforts to isolate Iran economically through sanctions and a wider economic blockade.\n\nWhile the exact nature of the threats against Bessent remain unclear, US intelligence has warned that Iran has \"substantially increased\" efforts to target Americans, including US officials.\n\n\"After the Wall Street Journal published an article featuring an online photo that allowed the location of the secretary's Georgetown home to be geo-located, security concerns began to increase,\" a source told CBS.\n\nGeorgetown is an affluent part of Washington that is home to a number of government officials and prominent residents.\n\nThose security concerns, the source added, prompted authorities to move Bessent to a military base in the area.\n\nIn a statement, a Treasury Department spokesperson said only that Bessent \"will not be deterred\" by threats and \"remains committed\" to the US effort to pressure Iran's economy.\n\nIn September, Director of National Intelligence Jay Clayton warned that Iran has \"substantially increased\" efforts to target Americans.\n\nThe New York Times has reported that the Iranian effort includes the targeting of current and former US officials. One source told the newspaper this has \"reached a more advanced stage\".\n\nOther US officials reportedly on Iran's list of potential targets include former Secretary of State Mike Pompeo, former National Security Advisor John Bolton and Mark Milley, the former chairman of the Joint Chiefs of Staff.\n\nMilley and Bolton's security teams were taken away by the Trump administration shortly after he returned to office last year.\n\nBessent is one of a number of administration officials that live on military bases. The White House's new chief of staff, Stephen Miller, was moved to a base in late 2025 - before the conflict with Iran began.\n\nDefence Secretary Pete Hegseth and Secretary of State Marco Rubio both live on military bases, as did former Attorney General Pam Bondi and former intelligence chief Tulsi Gabbard.",
+      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/274f/live/14e2f1f0-dde6-11f1-9204-cdcddf7d901c.jpg",
+      "gallery": [
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/274f/live/14e2f1f0-dde6-11f1-9204-cdcddf7d901c.jpg",
+          "alt": "Image caption, The severity and nature of the threat against Scott Bessent remains unclear"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/1920/cpsprodpb/0baa/live/f351b160-dcd8-11f1-93e1-3b657b665bcf.jpg",
+          "alt": "Donald Trump shown as he talks to press at a press conference in the White House"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/3840/cpsprodpb/e7aa/live/f0f44f00-cf67-11f1-8bee-01389bd440f4.jpg",
+          "alt": "Jay Clayton gestures with his right hand"
+        }
+      ],
+      "saved": false,
+      "author": "Bernd Debusmann Jr",
+      "alsoCoveredBy": [
+        {
+          "outlet": "Israel Hayom",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPTUFINml2Y3dBUXpHdl9fMXIxQ2lGQmJyZHFfblBiOUdqdDE0LVB3UER2YzZDQk8wVkYtVk5QNjJUWTZQTHkxX2p2LWcwR3dWdER4OEJvX0ZtQUYxM0toY1JVWXQ5S0NfOVNXdnY1azhnYy1HdEpzUE12emJLUDg1dUhDVTE3cy1WdUhB?oc=5"
+        },
+        {
+          "outlet": "NY Post",
+          "url": "https://nypost.com/2026/11/11/world-news/us-treasury-chief-scott-bessent-moved-to-military-base-after-iranian-threats/"
+        }
+      ]
+    },
+    {
+      "id": "news-geopolitics-20261112-7f6061b7",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "The Guardian",
       "readMin": 2,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/10/lewis-hamilton-egypt-rafah-crossing-gaza-aid-facilities",
-      "title": "Lewis Hamilton visits Egypt’s Rafah crossing and Gaza aid facilities",
-      "dek": "Seven-time F1 world champion tours border area and logistics warehouses operated by Egyptian Red Crescent Lewis Hamilton has visited Egypt’s Rafah border crossing with the Gaza Strip to meet organisat…",
-      "content": "Lewis Hamilton with members of the Egyptian Red Crescent near the Rafah border crossing between Egypt and the Gaza Strip Photograph: Reuters View image in fullscreen Lewis Hamilton with members of the Egyptian Red Crescent near the Rafah border crossing between Egypt and the Gaza Strip Photograph: Reuters Gaza Lewis Hamilton visits Egypt’s Rafah crossing and Gaza aid facilities Seven-time F1 world champion tours border area and logistics warehouses operated by Egyptian Red Crescent\n\nLewis Hamilton has visited Egypt’s Rafah border crossing with the Gaza Strip to meet organisations sending humanitarian aid to the territory.\n\nThe seven-time Formula One world champion has spoken out about conflict and humanitarian crises in the region, and has called for peace. He has frequently posted on social media about children killed in Israeli airstrikes in Gaza and called for a ceasefire.\n\n“I think we need to make sure we’re pushing to free Congo, free Sudan, free Syria, free Palestine . I think there’s a lot of peace that I’m hoping we get to at some stage,” Hamilton said in October.\n\nA ceasefire agreement reached last year has halted major combat operations in Gaza, but the amount of aid reaching the territory continues to fall far short of the agreed-upon minimum of 600 trucks a day.\n\nIsraeli forces have continued to advance, expanding their control from 53% of the territory to at least 60%, an independent commission of UN experts said last month.\n\nView image in fullscreen Lewis Hamilton (in black) listens to an Egyptian Red Crescent official during a visit to a logistics centre in Al-Arish. Photograph: Mohammed Arafat/AP Airstrikes also continue, and Israeli fire along the advancing front has killed at least 196 Palestinians, including 18 women, 32 boys and 11 girls, the commission said.\n\nHamilton toured Egypt’s Rafah border crossing with Gaza before visiting logistics warehouses operated by the Egyptian Red Crescent, which facilitates the entry of aid to Gaza.\n\nAt the crossing, Hamilton greeted aid workers with “Assalamu alaikum” a widely used Arabic greeting meaning “peace be upon you.” He shook hands and briefly spoke to workers and officials.\n\nKhaled Megawer, the governor of North Sinai, where Rafah is located, said the visit was intended to help Hamilton learn about Egypt’s efforts to send aid to Gaza.\n\nThe visit comes after Hamilton made his 400th race start on Sunday at the São Paulo Grand Prix at Interlagos.",
-      "image": "https://i.guim.co.uk/img/media/27bf2d45265593f1960114929744b613770ef7b3/140_0_5118_4095/master/5118.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=4f8fce781b5e181fdfcdd8e2367fd34d",
+      "sourceUrl": "https://www.theguardian.com/world/2026/nov/11/fresh-concerns-over-gaza-doctor-held-by-israel",
+      "title": "Fresh concerns raised over Gaza doctor held by Israel for 23 months without charge",
+      "dek": "Independent Israeli professor says Hussam Abu Safiya’s life will be at risk until he receives proper medical treatment An independent professor who reviewed the medical records of a prominent Gaza doc…",
+      "content": "A mural of Hussam Abu Safiya painted on a bombed building in Gaza City. The senior doctor was detained by Israeli forces in December 2024. Photograph: Anadolu/Getty Images View image in fullscreen A mural of Hussam Abu Safiya painted on a bombed building in Gaza City. The senior doctor was detained by Israeli forces in December 2024. Photograph: Anadolu/Getty Images Gaza Fresh concerns raised over Gaza doctor held by Israel for 23 months without charge Independent Israeli professor says Hussam Abu Safiya’s life will be at risk until he receives proper medical treatment\n\nAn independent professor who reviewed the medical records of a prominent Gaza doctor held in an Israeli prison without charge for nearly 23 months has raised serious concerns about his health.\n\nHussam Abu Safiya was detained at work on 27 December 2024 and later held in solitary confinement at Rakefet, a notorious underground prison.\n\nDuring a visit by a lawyer from Physicians for Human Rights Israel (PHRI) in the summer, the doctor told of harsh conditions, untreated medical problems and severe food shortages. Witnesses said he had become almost unrecognisable .\n\nNearly 700 days after his arrest , Israeli authorities have yet to bring any formal charges against Abu Safiya, who is the director of Kamal Adwan hospital in northern Gaza.\n\nHe was classified as an “unlawful combatant” along with more than 375 medical workers – a designation Israel has used to justify prolonged detention without trial.\n\nLast month, Israel’s supreme court rejected a petition to release the doctor. Over the weekend, a district court rejected a separate petition to allow Abu Safiya an independent medical examination, despite troubling findings in his medical records that were not adequately investigated, according to Prof Amit Tirosh, an independent Israeli specialist who reviewed a file obtained by PHRI.\n\nView image in fullscreen Hussam Abu Safiya, right, shows a UN delegation around the Kamal Adwan hospital in northern Gaza in September 2024. His family have not been able to communicate with him directly in detention. Photograph: Anadolu/Getty Images In an interview with the Guardian, Tirosh said Abu Safiya’s weight had fallen from 90kg (14st 2lb) in January 2025 to 76kg this May.\n\n“Continuous food deprivation and weight loss, repeated beatings and injuries, with inadequate medical care, can definitely cost Dr Abu Safiya his life,” Tirosh said.",
+      "image": "https://i.guim.co.uk/img/media/699ecf5dbdf9a9dfda3616624a11e0ef11142ff2/560_0_5600_4480/master/5600.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=218a99a571b79b340d691d8ae1a1df62",
       "gallery": [],
-      "saved": false
-    },
-    {
-      "id": "news-geopolitics-20261111-2d038dff",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "CBC World",
-      "readMin": 3,
-      "spectrum": "left",
-      "sourceUrl": "https://www.cbc.ca/news/politics/canada-iran-nuclear-commitments-9.7416081?cmp=rss",
-      "title": "Canada reimposes sanctions on Iran for violating nuclear non-proliferation commitments",
-      "dek": "Canada is reimposing sanctions on 11 Iranian energy and financial organizations for the regime's failure to meet promises related to its nuclear program, its ballistic missile development and its ongo…",
-      "content": "Iranian missiles and banners showing portraits of the Iranian Supreme Leader Ayatollah Mojtaba Khamenei, centre, and the late armed forces commanders and nuclear scientists, who were killed in Israel and U.S. strikes, are displayed at Baharestan Square, in Tehran, in September. (Vahid Salemi/The Associated Press) Social Sharing Canada is reimposing sanctions on 11 Iranian energy and financial organizations for the regime's failure to meet promises related to its nuclear program, its ballistic missile development and its ongoing financing of violence beyond its borders.\n\n\"Canada's position is unequivocal: Iran must never be allowed to obtain a nuclear weapon,\" Foreign Affairs Minister Anita Anand said in a statement Tuesday.\n\n\"We will continue to work with our G7 partners and the broader international community toward a comprehensive, verifiable and durable agreement that addresses Iran’s nuclear program and strengthens regional and international security.\"\n\nThe entities being hit with these punitive measures were removed from Canada's sanctions list in 2016 in recognition of the regime's efforts to ensure its nuclear program remained strictly peaceful.\n\nIn June of 2025, the International Atomic Energy Agency (IAEA), which acts as the world's nuclear watchdog, said Iran was no longer complying with its obligations under the Nuclear Non-Proliferation Treaty (NPT).\n\nWhere Trump goes now on the big 3: tariffs, Iran war, immigration\n\nFrance blames Iran for cyberattack that hacked supermarket refrigerators across the country\n\nWhen the U.S. and Israel attacked Iran in February, the regime suspended all of its co-operation with the IAEA, which prevented the agency from monitoring Iran's nuclear activities.\n\nThe federal government said the reimposition of sanctions is aligned with Canada's international partners and their efforts to \"disrupt Iranian financial networks supporting its nuclear program.\"\n\nGlobal Affairs Canada said these entities were also being sanctioned for contributing to the regime's \" ballistic missile program or to the financing of its malign activities \"\n\nGlobal Affairs Canada said the sanctions prohibit people in Canada and Canadians living abroad from engaging in financial or property transactions with the 11 entities that were returned to the sanctions list Tuesday.\n\nAnand's announcement marks the 25th round of sanctions against the regime, targeting 237 Iranian citizens and another 276 Iranian organizations, the government said.\n\nPeter Zimonjic is a senior writer for CBC News who reports for digital, radio and television. He has worked as a reporter and columnist in London, England, for the Telegraph, Times and Daily Mail, and in Canada for the Ottawa Citizen, Torstar and Sun Media. He is the author of Into The Darkness: An Account of 7/7, published by Vintage.",
-      "image": "https://i.cbc.ca/ais/8990086a-7276-4163-8838-5f34d9279530,1794315603592/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C450%2C8640%2C4860%29%3BResize%3D620",
-      "gallery": [
-        "https://i.cbc.ca/ais/e0efd617-5770-422f-b9de-99c05f032646,1759942401729/full/max/0/default.jpg?im=Crop%2Crect%3D%281694%2C261%2C2827%2C2827%29%3BResize%3D76"
-      ],
       "saved": false,
-      "author": "Peter Zimonjic"
+      "author": "Lorenzo Tondo"
     },
     {
-      "id": "news-geopolitics-20261111-6ae2a9ff",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "NY Post",
-      "readMin": 3,
-      "spectrum": "right",
-      "sourceUrl": "https://nypost.com/2026/11/10/us-news/three-iran-backed-operatives-charged-in-plot-targeting-uk-air-base-hosting-us-aircraft/",
-      "title": "Iran ‘terrorist’ orchestrated foiled plot on UK military base from NYC prison cell: feds",
-      "dek": "WASHINGTON — An Iran-backed operative orchestrated a terror plot targeting a US bombers at a British military base from his New York City prison cell — using “coded messages” in phone calls to relativ…",
-      "content": "WASHINGTON — An Iran-backed operative orchestrated a terror plot targeting a US bombers at a British military base from his New York City prison cell — using “coded messages” in phone calls to relatives in Iraq, according to a federal indictment secured Tuesday.\n\nAlleged mastermind Mohammad al-Saadi, a dual Iranian-Iraqi citizen, was arrested in Turkey in May and transferred to the US to face charges related to almost 20 other terrorist attacks in Europe.\n\nDespite being in solitary confinement inside the Metropolitan Detention Center in Brooklyn, he still oversaw the plot against US forces at Royal Air Force Base Fairford and gave final approval, according to a superseding indictment in the Southern District of New York.\n\nBritish police arrested, and then released on bail , seven men following the RAF Fairford security scare and the case had remained mired in mystery until now—though President Trump publicly said he believed the incident was linked to Iran.\n\nThe new indictment says that al-Saadi, working with two codefendants based in Iran, used phone calls with his mother and sister to pass messages to the other suspects, Mohsen Mohajeri and Mohammad al-Hassani.\n\nAll three men are believed to be part of an Islamic Revolutionary Guard Corps-linked terror network.\n\nIt was unclear Tuesday afternoon whether Mohajeri and al-Hassani were in custody.\n\nIn June and July, prosecutors allege that al-Saadi told his mother and sister in the recorded jailhouse calls that he owed money to Mohajeri and asked them to relay messages about “work.”\n\n“What are they doing about all our old work?” he allegedly asked his sister, requesting an update on whether that work had been canceled or paused.\n\nHis sister allegedly informed him that “it isn’t cancelled.”\n\nThree days before the Sept. 27 bust by British police, al-Saadi allegedly asked his family about al-Hassani and was told that his comrade was transferred to the “International Section.”\n\nHe then told his relatives to “give him [al-Hassani] money so we can do it,” putting in motion the attempted attack, the indictment alleges.\n\nAl-Hassani allegedly laid the groundwork ahead of the order.\n\nIn August, he “directed and paid associates in the United Kingdom to conduct preparatory steps and arrange logistics,” including conducting video surveillance of the base, according to the court papers.\n\nThe same alleged co-conspirator paid accomplices to acquire vans, barrels of fuel and chemical accelerants, including potassium chloride, and metal for use as bomb shrapnel — with the vans decorated to resemble fuel and swimming pool business vans, authorities allege.",
-      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/comp-HTOIMQeXoAAKve2-1.jpg?quality=75&strip=all&w=1200",
-      "gallery": [
-        {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/several-suspects-arrested-gunpoint-explosives-142753651_086076.jpg",
-          "alt": "Police arrest suspects at gunpoint in Whelford, near RAF Fairford, on Sunday, Sept. 27, 2026, after explosives were found in a van."
-        },
-        {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-two-men-charged-national-146615912.jpg?w=1024",
-          "alt": "Armed police man a roadblock outside RAF Fairford on Sept. 27 after British authorities disrupted an alleged terror plot targeting the base. AFP via Getty Images"
-        },
-        {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/nouman-essghir-24-appearing-dock-146636882.jpg?w=1024",
-          "alt": "Mohmed Abdulkarim, left, and Nouman Essghir appear at Westminster Magistrates’ Court on Oct. 27 in a court sketch by Elizabeth Cook. ZUMAPRESS.com"
-        }
-      ],
-      "saved": false,
-      "author": "Steven Nelson"
-    },
-    {
-      "id": "news-tech-20261111-35097b64",
+      "id": "news-tech-20261112-23ef94ce",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "The Verge",
+      "source": "Ars Technica",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://www.theverge.com/tech/1030766/google-pixel-tag-tracker-find-hub-uwb-bluetooth-sounding",
-      "title": "Google’s Pixel Tag tracker is now available",
-      "dek": "After years of third-party Android trackers from companies like Samsung, Motorola, and Pebblebee, Google's Pixel Tag is now available for purchase.",
-      "content": "The Pixel Tag launches today for $30 each or discounted to $100 for a four-pack.\n\nThe Pixel Tag launches today for $30 each or discounted to $100 for a four-pack.\n\nIf you buy something from a link, The Verge may earn a commission. See our ethics statement.\n\nAfter years of third-party Android trackers from companies like Samsung , Motorola , and Pebblebee , Google’s Pixel Tag is now available for purchase . First announced in August , the Pixel Tag is designed to work with Google’s tracking network and app that was renamed the Find Hub last year. The Pixel Tag is priced similar to Apple’s AirTag 2 . A single tracker costs $29.99 while a four-pack is discounted to $99.99.\n\nAt 0.4 ounces, the Pixel Tag is slightly lighter than the AirTag 2 and while its oblong design is longer than Apple’s tracker, Google’s is a bit thinner. It doesn’t include a hole to attach it to keys, luggage, or other items you want to track, but you can pair it with accessories that make it easy to tether to objects. Unlike Apple’s AirTags, the Pixel Tag has a button that can be pressed to trigger a sound should your phone get misplaced instead of the tracker.\n\nThe Pixel Tag is slightly thinner than Apple’s AirTag but has an oblong shape.\n\nGoogle says the Pixel Tag will run for over a year on a single CR2032 coin battery, and it has an IP67 rating so it’s dustproof and can survive a shallow dunking. The tracker also features ultra wideband (UWB) support and Channel Sounding through Bluetooth 6.0. Android phones with a UWB chip can display the exact distance and direction to the Pixel Tag in the Find Hub app once you’re close to it, while Bluetooth Channel Sounding is limited to just distance.\n\nThe Pixel Tag is compatible with smartphones running Android 9 or later, but you’ll need devices that specifically include a UWB chip or support Bluetooth 6.0 to take advantage of Find Hub’s precise locating features.",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/pixeltag2.jpg?quality=90&strip=all&crop=0,10.732984293194,100,78.534031413613",
+      "sourceUrl": "https://arstechnica.com/ai/2026/11/taiwans-chipmaking-giant-tsmc-to-invest-1b-in-anthropic-openai/",
+      "title": "Taiwan’s chipmaking giant TSMC to invest $1B in Anthropic, OpenAI",
+      "dek": "Latest example of the AI boom’s circular financing comes as AI trade wobbles.",
+      "content": "Latest example of the AI boom’s circular financing comes as AI trade wobbles.\n\nTop chip manufacturer TSMC is ready to invest $1 billion in Anthropic and OpenAI. That would give the Taiwanese chipmaker direct stakes in leading AI developers, even as its own contract chipmaking business has profited enormously from the AI data center buildout.\n\nThe chipmaker’s board approved plans to invest up to $500 million in OpenAI preferred stock reserved for large investors and another $500 million to purchase Anthropic common shares at the latter’s expected IPO price, according to Reuters . Such an investment may give markets “a shot of confidence as the artificial-intelligence trade shows signs of strain,” The Wall Street Journal reported.\n\nBut analysts also warned that such circular financing among investors, suppliers, and customers has made it difficult to evaluate real market demand for AI-related hardware and services, according to the Journal.\n\nTSMC’s chip fabrication plants physically produce the vast majority of Nvidia’s chips designed for AI data center workloads and make most of Apple’s custom chips used in iPhones , Mac laptops and desktops, plus Apple’s planned AI computing server . Most of these fabs are located in Taiwan, but TSMC also operates fabs in Japan and China, and it has an expanding US manufacturing cluster in Arizona. It is also building a new fab in Germany.\n\nMeanwhile, Anthropic and OpenAI are both purchasing huge quantities of AI hardware manufactured by TSMC for their data center projects. So TSMC’s announced investment certainly seems to fit into the broader trend of circular financing that has become common during the AI boom, even as tech stocks have gyrated recently as investors have grown increasingly jittery.\n\nStill, TSMC has plenty of money to spare on such a bet. Ongoing demand for AI-related chips has enabled the Taiwanese chipmaker to report six consecutive quarters of record profit, with the latest example being the company earning more than $23 billion in profit during the July through September 2026 quarter, according to Reuters .\n\nTSMC’s planned investment in Anthropic and OpenAI also pales in comparison with circular financing deals from major US tech companies. The most notable example is Nvidia , which has invested $30 billion in OpenAI and $10 billion in Anthropic so far, in addition to putting tens of billions of dollars into many other AI and robotics companies .",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/TSMC-Fab-18-1152x648.jpg",
       "gallery": [],
       "saved": false,
-      "author": "Andrew Liszewski"
+      "author": "Jeremy Hsu"
     },
     {
-      "id": "news-quantum-20261111-e989f214",
+      "id": "news-quantum-20261112-1bcb475d",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261105224536.htm",
-      "title": "A quantum breakthrough makes light behave like both a solid and a liquid",
-      "dek": "Scientists have observed a bizarre quantum state of matter that combines the structure of a crystal with the frictionless flow of a liquid, all at room temperature.",
-      "content": "Scientists have demonstrated an extraordinary form of quantum matter that combines two properties that seem incompatible. Known as a supersolid, this unusual state has the orderly structure of a crystal while also displaying the frictionless flow associated with a special kind of liquid. Even more remarkably, researchers have now observed this behavior at room temperature, eliminating the need for the extreme cooling traditionally used to investigate such phenomena.\n\nThe breakthrough was achieved by an international team from the Faculty of Physics at the University of Warsaw, the Military University of Technology (Poland), IBM Research Zurich, and the French National Centre for Scientific Research (CNRS). Rather than relying on atoms cooled to temperatures near absolute zero, the scientists created a supersolid using particles that combine properties of light and matter.\n\nPublished in Science Advances , the findings introduce a new way to investigate exotic quantum behavior under much more accessible conditions. They could also help advance future technologies ranging from optical computing to highly sensitive sensors.\n\nUnder ordinary circumstances, solids and liquids behave very differently. Crystals have an organized internal structure, with their particles arranged in repeating patterns. Liquids, by comparison, can flow and change shape.\n\nQuantum physics, however, allows matter to behave in ways that would be impossible under the familiar rules of everyday life.\n\nOne example is superfluidity, a remarkable phenomenon in which a fluid loses its viscosity, or internal resistance to flowing. A superfluid can move through extremely narrow passages without experiencing the usual friction. Imagine placing an oar into such a liquid. You would encounter almost no resistance until the oar reached a certain speed. Beyond that threshold, tiny swirling structures known as quantum vortices would suddenly form.\n\nDuring the 1960s, physicists proposed an even stranger possibility. What if a superfluid could also develop the repeating internal structure normally associated with a crystal?\n\nThis hypothetical combination became known as a supersolid. In such a state, the material exhibits the spatial organization of a solid while retaining the remarkable flow properties of a superfluid.\n\nFor decades, supersolidity remained a theoretical concept. Experimental confirmation finally arrived in 2017, when researchers observed the phenomenon in ultracold atomic Bose-Einstein condensates. These condensates form when particles enter a collective quantum state and begin behaving as a coordinated system rather than as separate individuals.",
-      "image": "https://www.sciencedaily.com/images/1920/supersolid-state-of-matter.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/10/261011211554.htm",
+      "title": "Scientists recreate a bizarre quantum effect that stops a particle cold",
+      "dek": "Oxford physicists have recreated a bizarre quantum effect in which a particle responds to a magnetic field without ever traveling through it.",
+      "content": "A particle does not have to pass through a magnetic field to be influenced by it. That surprising feature of quantum physics has now been recreated by researchers at the University of Oxford, who used a hybrid quantum computer to demonstrate how an invisible magnetic influence can bring a simulated particle's movement to a complete stop.\n\nThe experiment reproduced a phenomenon known as the Aharonov-Bohm effect, in which a charged particle traveling around a region containing magnetic flux experiences a measurable change in its quantum state, even though its path never takes it through the magnetic field itself.\n\nThe Oxford team achieved this using a quantum system that combines qubits, the basic units of quantum information, with quantum oscillators, which represent vibrating motion. Their findings, published in Nature Physics , demonstrate how this combination could help scientists investigate fundamental interactions between matter and fields that are increasingly difficult to simulate using conventional computers.\n\nIn everyday physics, a charged particle responds to the electric and magnetic fields it encounters. Quantum mechanics, however, reveals that particles can behave in ways that have no straightforward counterpart in our ordinary experience.\n\nIn 1959, physicists Yakir Aharonov and David Bohm predicted that a charged particle could be affected by magnetic flux even if it traveled entirely outside the region containing the magnetic field. Rather than experiencing a conventional magnetic force along its path, the particle would undergo a change in its quantum phase.\n\nQuantum phase describes an aspect of a particle's wave behavior that influences how different possible paths interfere with one another. Although the phase itself is not directly visible, differences in phase can produce measurable effects.\n\nThe prediction became known as the Aharonov-Bohm effect and was eventually verified in experiments involving real electrons. It remains one of the clearest demonstrations that the quantum world operates according to rules that go beyond the familiar laws of classical physics.\n\nResearchers are now exploring how this phenomenon behaves in more complex theoretical systems known as lattice gauge theories.\n\nThese theories describe how matter interacts with fields associated with fundamental forces. They represent space as a grid, with matter located at individual points and fields associated with the connections between them. Such models are particularly important in particle physics and high-energy physics, where scientists study the basic particles and interactions that make up the universe.",
+      "image": "https://www.sciencedaily.com/images/1920/hybrid-quantum-system-loop.webp",
       "gallery": [],
       "saved": false
     },
