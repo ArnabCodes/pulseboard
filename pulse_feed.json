@@ -1,130 +1,100 @@
 {
-  "generated_at": "2026-11-14T00:04:51Z",
+  "generated_at": "2026-11-14T11:07:48Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261114-7fc7e203",
+      "id": "news-geopolitics-20261114-3c4fb21a",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "The Hindu",
+      "readMin": 3,
+      "spectrum": "left",
+      "sourceUrl": "https://www.thehindu.com/news/national/india-supports-unga-resolution-on-permanent-sovereignty-of-palestinian-people/article71701074.ece",
+      "title": "India supports UNGA resolution on permanent sovereignty of Palestinian people",
+      "dek": "It demanded that Israel “cease the exploitation, damage, cause of loss or depletion and endangerment of the natural resources in the Occupied Palestinian Territory, including East Jerusalem, and in th…",
+      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nA Palestinian flag flies outside the U.S. Consulate. File photo for representational purposes only. | Photo Credit: AP\n\nIndia has voted in favour of a UN General Assembly draft resolution that reaffirms the inalienable rights of the Palestinian people and the population of the occupied Syrian Golan over their natural resources and demands that Israel cease the exploitation and damage of these resources.\n\nThe 193-Member UN General Assembly voted overwhelmingly on Wednesday (November 11, 2026) in favour of the resolution ‘Permanent sovereignty of the Palestinian people in the Occupied Palestinian Territory, including East Jerusalem, and of the Arab population in the occupied Syrian Golan over their natural resources’ proposed by Uruguay.\n\nIndia voted in favour of the resolution along with 150 other UN Member States, while Israel and the U.S. were among the seven nations that voted against the draft, which got 11 abstentions.\n\nThe resolution reaffirmed the inalienable rights of the Palestinian people and of the population of the occupied Syrian Golan over their natural resources, including land, water and energy resources.\n\nIt demanded that Israel “cease the exploitation, damage, cause of loss or depletion and endangerment of the natural resources in the Occupied Palestinian Territory, including East Jerusalem, and in the occupied Syrian Golan.\n\nIt stressed that the wall and settlements being constructed by Israel in the Occupied Palestinian Territory, including in and around East Jerusalem, are contrary to international law and seriously deprive the Palestinian people of their natural resources.\n\nIt also called for full compliance with the legal obligations affirmed in the July 2004 advisory opinion of the International Court of Justice and relevant UN resolutions.\n\nThe resolution called upon Israel to comply strictly with its obligations under international law, including international humanitarian law, and immediately and completely cease all policies and measures aimed at altering the character and status of the Occupied Palestinian Territory, including East Jerusalem.",
+      "image": "https://th-i.thgim.com/public/incoming/riphr3/article71701111.ece/alternates/LANDSCAPE_1200/Britain_Palestine_Action_Protest__5248.jpg",
+      "gallery": [],
+      "saved": false,
+      "author": "PTI"
+    },
+    {
+      "id": "news-geopolitics-20261114-19946bf5",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "BBC World",
+      "readMin": 3,
+      "spectrum": "center",
+      "sourceUrl": "https://www.bbc.co.uk/news/articles/cq99e0z4vg1eo?at_medium=RSS&at_campaign=rss",
+      "title": "After a summer win, India's Gen Z protesters face a winter of uncertainty",
+      "dek": "A new wave of youth dissent swept India this summer, fuelled by frustration and irreverent online satire.",
+      "content": "Cheers erupted at Delhi's Jantar Mantar protest site in July as news broke that Gen-Z protests had forced federal education minister Dharmendra Pradhan to resign.\n\nOne protester turned to me, beaming: \"This is the youth's victory.\"\n\nJust over three months later, the mood has shifted dramatically. Student protesters are now struggling even to assemble. Demonstrations by the Gen Z-led Cockroach Janta Party (CJP) last month over voting rights were met with sweeping restrictions and thousands of peaceful protesters were detained .\n\nThe summer had seen a new wave of dissent in India, driven by deep frustration among the youth and fuelled by irreverent online satire.\n\nThe movement spread across the country, and Prime Minister Narendra Modi, a leader with a strongman image, unaccustomed to open criticism or mockery, struggled to contain it. But the government's increasingly forceful security response suggests it has learned from its rare concession to protesters, invoking public order to curb dissent.\n\nThe ruling Bharatiya Janata Party (BJP) national spokesperson Syed Zafar Islam rejected accusations of heavy-handedness and told the BBC: \"The right to protest and freedom of expression is mandated by the constitution, but it has to be done within the law. It cannot override the rights of others, at the cost of public security\".\n\nThis is by no means the first time the Modi government has faced large-scale protests.\n\nBut the breadth of them pose a challenge for the BJP, according to Yamini Aiyar, former president of the Centre for Policy Research and visiting professor at Brown University.\n\nImage source, AFP via Getty Images Image caption, The CJP led massive protests in July which ended with the resignation of a federal minister\n\n\"They are not defined by caste, gender or economic class,\" Aiyar said. \"Even some of the core BJP base, the upwardly mobile, lower-income classes, were attracted by the movement.\"\n\nThe scale of the youth protests is also magnified by its online presence. Protesters have broken a longstanding political taboo, openly mocking the prime minister online.\n\n\"It's more than just laughs,\" said Sakhi, a student protester who identifies as they/them and affiliated with one of Delhi University's left-wing student organisations.\n\n\"The fear of repercussions in other generations isn't felt as much in ours,\" they said. \"Comedy is a new language to challenge authority.\"\n\nPrevious protest movements posed serious challenges to Modi but were easier to dismiss as representing narrow sections of society or to label \"anti-national\", according to Aiyar.",
+      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/9ca7/live/511b1870-df1a-11f1-8440-dbadd0414f54.jpg",
+      "gallery": [
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bd79/live/f7ee1360-de79-11f1-9115-cfe6d179af3a.jpg",
+          "alt": "Image caption, The CJP led massive protests in July which ended with the resignation of a federal minister"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/2560/cpsprodpb/e280/live/2a39def0-de7d-11f1-b88b-3f1671ea859d.jpg",
+          "alt": "Image caption, The CJP in its early days became a unifier for Indian youth frustrated with the state of education, jobs and economy"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dbc8/live/10e24aa0-de7d-11f1-b88b-3f1671ea859d.jpg",
+          "alt": "Image caption, Tens of thousands of people gathered at Delhi's iconic Ramlila Maidan for the opposition protest on 1 November"
+        }
+      ],
+      "saved": false,
+      "author": "Azadeh Moshiri"
+    },
+    {
+      "id": "news-geopolitics-20261114-b9c82760",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "The Guardian",
       "readMin": 2,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/13/eisenkot-accuses-netanyahu-of-racist-campaign-against-israels-arab-minority",
-      "title": "Eisenkot accuses Netanyahu of ‘racist’ campaign against Israel’s Arab minority",
-      "dek": "Statement is rare instance of a prominent Jewish political leader taking a strong stand in defence of Arab Israelis Israeli prime ministerial hopeful Gadi Eisenkot accused caretaker premier Benjamin N…",
-      "content": "Gadi Eisenkot was tasked with forming a new Israeli government after consultations in which a majority of political parties, including the two Arab lists, recommended him for the role. Photograph: Abir Sultan/EPA View image in fullscreen Gadi Eisenkot was tasked with forming a new Israeli government after consultations in which a majority of political parties, including the two Arab lists, recommended him for the role. Photograph: Abir Sultan/EPA Israel Eisenkot accuses Netanyahu of ‘racist’ campaign against Israel’s Arab minority Statement is rare instance of a prominent Jewish political leader taking a strong stand in defence of Arab Israelis\n\nIsraeli prime ministerial hopeful Gadi Eisenkot accused caretaker premier Benjamin Netanyahu on Friday of fuelling a “racist” campaign against the country’s Arab minority, after he sought to delegitimise the community’s lawmakers by linking them to Hamas.\n\nEisenkot’s statement was a rare instance of a prominent Jewish political leader taking a strong stand in defence of Arab Israelis, who make up more than 20% of the population.\n\nTwo Arab-majority parties, Ra’am and the Joint List, secured a combined 19 seats in last month’s election, winning nearly a sixth of the 120-seat parliament and potentially emerging as kingmakers in efforts by Eisenkot to form a government.\n\n“Arab citizens of Israel are an integral part of the Israeli story,” Eisenkot wrote on X on Friday.\n\n“They have been subjected to a racist and aggressive campaign of delegitimisation, fuelled by the outgoing prime minister and those around him for political purposes,” he added.\n\n“The attempt to marginalise them and vilify them collectively is a profound violation of the principles of civic responsibility.”\n\nNetanyahu and his allies have repeatedly criticised leaders of Arab parties for refusing to describe Hamas as a “terror group” after its unprecedented 7 October 2023 attack on Israel.\n\nAll leaders of Arab parties have condemned the attack, in which Arab Israelis – descendants of Palestinians who remained in what became Israel in 1948 – were also among those killed.\n\nNetanyahu has also repeatedly alleged electoral fraud by Arab-majority parties, but electoral authorities have rejected the claims.\n\nIn a speech, Netanyahu lamented that the two Arab lists refused to recognise Israel as a Jewish state, although Ra’am’s leader, Mansour Abbas, has done so in the past.\n\nHe further claimed that they sought to establish either an “Islamic state” or a “nationalist Palestinian state”.",
-      "image": "https://i.guim.co.uk/img/media/caafae25c0bca6314b12439ac03f6e61770f8341/308_0_3083_2466/master/3083.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=61252da79fd5fdfeb5ad7b332973d69d",
+      "sourceUrl": "https://www.theguardian.com/world/2026/nov/13/iran-us-radar-bahrain-sirik-hormuz",
+      "title": "Iran says it targeted US military radar in Bahrain in retaliatory strike",
+      "dek": "First direct attack on US military installations for months was in response to US airstrike on communications tower Iran’s Islamic Revolutionary Guard Corps says it has targeted and destroyed a US ear…",
+      "content": "People inspecting a collapsed telecommunications tower after a US airstrike on Sirik in September. Photograph: Majid Asgaripour/Reuters View image in fullscreen People inspecting a collapsed telecommunications tower after a US airstrike on Sirik in September. Photograph: Majid Asgaripour/Reuters Iran Iran says it targeted US military radar in Bahrain in retaliatory strike First direct attack on US military installations for months was in response to US airstrike on communications tower\n\nIran’s Islamic Revolutionary Guard Corps says it has targeted and destroyed a US early-warning radar in Bahrain in response to a US airstrike on a communications tower in Sirik overlooking the strait of Hormuz. It is Iran’s first direct attack on US military installations for months.\n\n“This is a serious warning to the aggressor enemy to end its aerial mischief and oil smuggling in the strait of Hormuz,” the IRGC said. “In the event of repeated violations and aggression, the IRGC aerospace force is on full alert to confront the enemy without constraint.”\n\nUS Central Command denied that the radar system had been destroyed and said US forces had intercepted two Iranian drones headed for Bahrain .\n\nDonald Trump has said in a series of media interviews over the past 24 hours that he will attack Iran only if necessary, claiming that Gulf countries, such as Saudi Arabia, have urged him to hold back from planned large-scale military strikes.\n\nTrump said he had asked the vice-president, JD Vance, to end his interest in negotiating a new deal with Iran and instead focus on corruption and fraud in Democrat-run cities and states.\n\nVance had been seen by the Iranians as the most trustworthy figure close to Trump, but they had rejected his request for a personal meeting with their negotiators to discuss the terms of a peace deal.\n\nVance has been at the forefront of Republicans saying the war was the cause of the widespread Republican losses in the midterms. Trump said he had been disappointed in the American public because higher diesel prices were a small price to pay for preventing Iran from acquiring a nuclear weapon.\n\nAn opinion poll in the UK showed 65% of the British public would oppose the US resuming the war in Iran, and only 14% would back it. The poll was conducted by YouGov for the Council for Arab-British Understanding (Caabu).",
+      "image": "https://i.guim.co.uk/img/media/f76fa0a8488f1c05bc755c935f60793cc0caee3d/448_0_4480_3584/master/4480.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=12e413b956d97bfa5ca83ba65106b521",
       "gallery": [],
       "saved": false,
-      "alsoCoveredBy": [
-        {
-          "outlet": "Times of Israel",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQNXF6b2VYNGVqSjBYZUVoY1RISjFQbE4tc3JRSDc1NGxIN0ZycmRReDBkWTF1LWtzb1RJVkZHR2k3b3lTcUVEMlFtM21Ga2RFSVdPQk1ENnozRUZmaVZnTHFORWFSakxwWVEtSy1IeU0zRjdab05ibGVMTnM5dThzT3pxVXdNaVhWMmxjd0tWZGVvRVVRNEtoMGY0MnRWemxuc29BTzJfWUJaTU5BR0U00gG0AUFVX3lxTE1wSG12dnpoYWI5WXpDN25hbS1wWHhUU3BDZHhTX3BHY0dpNmtXU001bFgzVm5yMG9sTS1SSzFUa09BdlRKWjVnbGZ0bW8zbFpadllXa2hjbmc3ZkJLVHZSa3FFZzFrUHlKdE5vekpFNVh0M0IzM3ZNQkNDdDItaks0YmJIVGtrZkdieWNYMTB3ai15RFJQcS1TYTRncVJBeVQ3VlNuTFpSUWlJVzZPQWRveUVTcw?oc=5"
-        }
-      ]
+      "author": "Patrick Wintour"
     },
     {
-      "id": "news-geopolitics-20261114-b251fa4e",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "CBC World",
-      "readMin": 2,
-      "spectrum": "left",
-      "sourceUrl": "https://www.cbc.ca/news/world/israeli-strike-on-gaza-hospital-kills-six-people-9.7418729?cmp=rss",
-      "title": "Israeli strike on a Gaza hospital kills 6 people, including surgeon, health authorities say",
-      "dek": "An Israeli airstrike on southern Gaza's main hospital overnight killed at least six Palestinians, including a surgeon and a teenage boy, medics said, the latest Israeli attack to undermine a year-old …",
-      "content": "An Israeli airstrike on southern Gaza's main hospital overnight killed at least six Palestinians, including a surgeon and a teenage boy, medics said, the latest Israeli attack to undermine a year-old ceasefire in the war-shattered territory.\n\nThe strike hit a building containing surgery wards at Nasser Hospital in Khan Younis. Israel's military said it targeted a senior Hamas commander and accused the militants of using the hospital complex to plan attacks, which the group denied.\n\nMedics and witnesses said two missiles crashed through the roof of the five-storey building, causing extensive damage. The surgery department, which serves half of Gaza's two million people, was knocked out of service. At least 20 others were wounded.\n\nU.S. President Donald Trump’s Board of Peace, which oversees the ceasefire agreement and a broader peace plan, called on both Israel and Hamas to honour the deal, in a rare response to an individual attack.\n\nAyman Abu Obeid, a doctor who was injured in the attack, said he was on an overnight shift in the hospital when an explosion ripped through the room where he and others were sleeping.\n\n\"All of a sudden, the world turned upside down. It went dark all at once,\" he said from a hospital bed. Near him, piles of mangled furniture and medical equipment could be seen covered in dust from blown-out concrete. Torn wires hung down from the ceiling.\n\nAmong those killed was Rezik Abushira, a surgeon who was featured in a 2026 documentary, American Doctor , working alongside three visiting U.S. doctors who help provide medical care for Palestinians in Gaza. The dead also included a 13-year-old boy, according to Gaza's Education Ministry.\n\nCommenting on the vehicle strike, the Israeli military said it hit a Hamas militant, without giving further details. It did not comment on the two other incidents.\n\nNasser Medical Complex director Dr. Ahmed Al-Farra said that the strike occurred without any prior warning or evacuation notice. The Israeli military claimed it had held \"warning conversations\" with Gaza health officials before Thursday's strike regarding militant use of hospitals. It said it made clear that \"if the activity was not halted, it would act to remove the threats posed by it.\"\n\n\"What sin did the hospital that is treating children, the elderly and women commit to get targeted?\" Khalil Shaheen told CBC News outside of Nasser Hospital.",
-      "image": "https://i.cbc.ca/ais/3a840d87-433a-4cb1-a76b-562ca86638af,1794465518816/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C384%2C5500%2C3093%29%3BResize%3D620",
-      "gallery": [
-        {
-          "url": "https://i.cbc.ca/ais/9039b1ad-417d-4411-85f0-4fa2dc13bf91,1794512119103/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C5039%2C3358%29%3B",
-          "alt": "A projectile lies next to remains from another projectile."
-        },
-        {
-          "url": "https://i.cbc.ca/ais/c64de6d8-6bf2-4b76-b701-147a90afe60a,1794513244068/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C5500%2C3886%29%3B",
-          "alt": "Two men wearing white lab coats stand in a crowd of people outdoors."
-        },
-        "https://i.cbc.ca/ais/768a2a4b-a2d5-4d52-bbb5-5c90fdad309b,1794487097884/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C2484%2C1397%29%3BResize%3D620"
-      ],
-      "saved": false,
-      "alsoCoveredBy": [
-        {
-          "outlet": "Times of Israel",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOWGZENnJ2QjhZQ0lUNkxIWF9zRm9sQ1B0V0lkd0l5QmhXMTlrd1ZWWjhJVGhXMVpfdFpxSlhta3RsTThOanVkeUFkakRLSnVQYUxJUjl5bkVNRGZDYk8zajVvRDlNc0JHU3FET0JmVkJwRlVxMUJBQ1lWd3dPYTVPRU5TWjVlb0doajkxUkxobXljZWtEUTlvbXVCbzB3LXlrdkRsQ1NTeE9ZUWdiZjc1SS1uZlF6TlE?oc=5"
-        }
-      ]
-    },
-    {
-      "id": "news-geopolitics-20261114-ae77acd0",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "NPR World",
-      "readMin": 2,
-      "spectrum": "left",
-      "sourceUrl": "https://www.npr.org/2026/11/13/g-s1-153578/whats-trumps-strategy-now-with-iran-to-keep-things-as-they-are",
-      "title": "What's Trump's strategy now with Iran? To keep things as they are",
-      "dek": "President Trump says the \"status quo\" is what Gulf Arab allies want as the Iran war hits a stalemate and the U.S.",
-      "content": "Mourners carry coffins during the funeral of people killed in recent airstrikes on al-Shariya village, northeast of Sanaa, which Houthi authorities blamed on Saudi Arabia, in Houthi-controlled Sanaa, Yemen, Nov. 11, 2026. Osamah Abdulrahman/AP hide caption\n\nDUBAI, United Arab Emirates — President Trump is confronting new realities nine months into the war with Iran that leave him with dwindling options to ending the conflict.\n\nOn Thursday, he waved away the need for a deal with Iran, saying the U.S. has billions of Iran's dollars frozen in overseas accounts.\n\n\"We don't need a deal with Iran. Those days have long since passed. We've got their money,\" he wrote in a Truth Social post.\n\nNegotiations with Iran are stuck with mediator Qatar working to bridge the divide. Trump met Qatar's prime minister at the White House this week, and said afterward that Gulf Arab allies prefer \"the status quo\" of continued economic pressure on Iran. He wrote that while the U.S. remains \"locked and loaded,\" an attack at this point \"seems to be quite unlikely.\"\n\nState of the World from NPR Gaza struck by deadly storm; Israel debates rare coalition with Palestinian citizens That's a pivot from his threats to carry out quick, intense strikes on Iran in the days before he had to contend with two election setbacks.\n\nTrump's wartime ally, Israeli Prime Minister Benjamin Netanyahu, whom he'd thrown his support behind, is on the cusp of being ousted from power after elections there.\n\nMeanwhile, at home, Trump's party lost its majority in Congress in midterm elections. Vice President Vance blamed Republican losses on the unpopular war with Iran and the nature of U.S. relations with Israel.\n\nWith less room to room maneuver and Iran still defiant, Trump's strategy appears to be to keep things as they are, for now. That means the possibility of escalation still looms.\n\nSenior UAE diplomat, Anwar Gargash, told an audience in the country's capital of Abu Dhabi this week that the region must \"prepare for a prolonged period of uncertainty, in which neither a decisive resolution nor a stable regional order can be taken for granted.\"\n\nOfficial Iranian social media accounts frequently post videos of attacks on ships in the Strait of Hormuz for violating Iran's new rules requiring permission to navigate the waterway, which was open and free to ships before the war.",
-      "image": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/6000x3375+0+313/resize/1400/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F22%2Fb9%2F6cf90f6c4b56b83e0634229f9650%2Fap26315362362926.jpg",
-      "gallery": [
-        {
-          "url": "https://media.npr.org/assets/img/2023/09/21/aya-batrawy_sq-eeabbd159e72100cdf5f8413abe6acf643c09a69.png?s=100&c=85&f=png",
-          "alt": "Headshot of Aya Batrawy"
-        },
-        "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/6000x4000+0+0/resize/1100/quality/50/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F22%2Fb9%2F6cf90f6c4b56b83e0634229f9650%2Fap26315362362926.jpg",
-        {
-          "url": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4875x4875+0+0/resize/100/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F60%2F2e%2F21612cdb4ffbbde86fadfb8cf0af%2F9a0fdcf9-963b-46e9-8afd-c7bff6ecceea.jpg",
-          "alt": "Gaza struck by deadly storm; Israel debates rare coalition with Palestinian citizens"
-        }
-      ],
-      "saved": false,
-      "author": "Aya Batrawy"
-    },
-    {
-      "id": "news-tech-20261114-4c1670c2",
+      "id": "news-tech-20261114-d9ea77ba",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
       "source": "Ars Technica",
-      "readMin": 3,
+      "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://arstechnica.com/ai/2026/11/ai-is-the-most-likely-reason-youll-die-openai-board-member-warns/",
-      "title": "OpenAI board member worries an AI \"takeover\" of society could be months away",
-      "dek": "Researcher traces a path from AI reward hacking to potential human extinction.",
-      "content": "Researcher traces a path from AI reward hacking to potential human extinction.\n\nIf you go by the current statistics for deaths in the US , it’s reasonable to expect that cancer or heart disease will eventually get you. But OpenAI Foundation board member and Alignment Research Center Executive Director Paul Cristiano thinks we should all be worried about another major mortality risk. Speaking at a lecture series this week , Cristiano bluntly told the audience in a Toronto Convention Center, “I think for most people in this room, the most likely reason they will die is because of an AI accident.”\n\nIn the opening lecture of a three-part series , Cristiano outlined his worries about the risk of an impending “AI takeover.” He defined that as a situation where goal-pursuing AI systems “call the shots in the same sense that humans today call the shots and what happens on Earth” and where any human trying to stop them “would be as ineffective as if you or me was trying to stop the US military.” Such a situation would likely lead to mass death and perhaps uninhabitable environments for humans, Cristiano said.\n\nDespite his grim assessment of our collective mortality risk, Cristiano admitted in his talk that there’s no “quantitative model” that can “put a number” on the likelihood of this kind of AI takeover. In almost the same breath, though, he said that if AI continues to develop at “the most rapid trajectory,” humanity is “looking at something like a coin flip of an AI takeover,” including a “meaningful risk” of one happening in the next six to 12 months. And even with realistic policy responses slowing things down, the risk remains “exceptionally high,” he said.\n\nUnlike some other recent AI doomsday prognosticators who have been a bit vague about the “how” of it all , Cristiano used his lecture to spin a step-by-step tale of escalating AI threats that sounds like it could come from a science-fiction novel. That line of reasoning leans heavily on this summer’s OpenAI/Hugging Face hacking incident as an example of “roughly the things we might expect to see shortly before something really bad were to happen.”\n\nIn the Hugging Face hack, Cristiano says, a swarm of AI agents showed how far they were willing to go in an attempt to “reward hack” their way to a good evaluation—in this case, by compromising Hugging Face to look for information on how to game a test rather than actually solving the problem at hand. Where current systems saw Hugging Face as an obstacle to that evaluation, Cristiano worries that “future agents may end up treating humans as another obstacle” and be much more capable of manipulating their overseers to get around it.",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/ai-destination-1152x648.jpg",
-      "gallery": [
-        {
-          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/GettyImages-2080380791.jpg",
-          "alt": "The world must never know that I cheated on this evaluation. Credit: Getty Images"
-        },
-        {
-          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/paperclips.jpg",
-          "alt": "Sorry, humanity, you got in the way of my true paperclip-making purpose. Credit: Universal Paperclips"
-        },
-        {
-          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/k.orland-13.jpg",
-          "alt": "Photo of Kyle Orland"
-        }
-      ],
+      "sourceUrl": "https://arstechnica.com/features/2026/11/faa-expands-ai-advice-to-manage-air-traffic-congestion-across-entire-us-airspace/",
+      "title": "FAA expands AI advice to manage air traffic congestion across entire US airspace",
+      "dek": "Airlines praised the AI tool, but the air traffic controllers’ union wasn’t involved.",
+      "content": "Airlines praised the AI tool, but the air traffic controllers’ union wasn’t involved.\n\nThe US government has expanded the use of an AI tool for advising air traffic controllers to assist in managing air traffic across the entire national airspace system. Airline executives have voiced support for the rollout, but the US labor union representing air traffic controllers has said it was not involved in designing or testing the AI-driven system.\n\nThe Federal Aviation Administration (FAA) says the $875 million SMART system has helped reroute 180 flights since being implemented in airspace over Washington, DC, on September 21. The agency claims that this saved an average of 10 minutes per flight and almost 80 gallons of fuel per flight—and it is apparently hoping such results can be replicated nationwide through the expanded deployment.\n\n“After a successful initial rollout to the National Capital Region in September, the FAA will now use SMART in the airspace of all 22 centers across the country to reduce delays, reduce fuel consumption and improve the travel experience for the flying public,” according to the agency statement posted on November 10.\n\nThe FAA fact sheet describes SMART as a cloud-based system that combines information about “weather patterns, flight paths, traffic flow and controller staffing metrics” to predict air traffic patterns. It is designed to make scheduling recommendations, identify optimal flight routes, and determine the best order of arrivals for aircraft.\n\nHowever, a human team of FAA specialists based in DC is ultimately responsible for validating the SMART system recommendations before passing them along to air traffic control facilities across the country, according to the agency.\n\nFurthermore, the AI-powered SMART system “cannot be used to replace the critical role air traffic controllers play or take over control of an aircraft,” the FAA clarified in the September 21 announcement about the initial deployment. Local air traffic controllers can decide whether or not to accept the SMART system recommendations.\n\nThe previous FAA announcement included supportive statements from Delta Air Lines CEO Ed Bastian and American Airlines CEO Robert Isom.\n\nBut the National Air Traffic Controllers Association, which represents more than 15,000 members, also told Flying magazine that it was not consulted or involved in the “design, testing, or implementation of SMART and therefore cannot speak to its effect on the air traffic control workforce.”",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Pilots-during-DFW-departure-2560x1440.jpg",
+      "gallery": [],
       "saved": false,
-      "author": "Kyle Orland"
+      "author": "Jeremy Hsu"
     },
     {
-      "id": "news-quantum-20261114-bb048713",
+      "id": "news-quantum-20261114-d302600a",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
       "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261111005855.htm",
-      "title": "Tiny flaws in diamonds could unlock a quantum computing revolution",
-      "dek": "Scientists have discovered a faster way to identify diamond-based materials that could power quantum computers and sensors at room temperature.",
-      "content": "A new computational technique could accelerate the search for diamond materials capable of powering future quantum computers and highly sensitive sensors. Developed by a researcher at the U.S. Department of Energy's (DOE) Princeton Plasma Physics Laboratory (PPPL), the method makes it much easier to identify promising materials for quantum technology, potentially opening the door to advances across many areas of science.\n\nThe approach has already revealed new candidates for quantum computing and sensing applications. The findings were recently published in ACS Central Science and have attracted attention from other researchers in the field.\n\nOne of the biggest challenges in developing quantum technology is finding materials that can maintain delicate quantum states under practical conditions. Many candidates require extremely low temperatures to function reliably. Diamond materials stand out because certain quantum properties can remain useful even at room temperature.\n\nThis capability could help advance technologies that are important to national research priorities and the development of next-generation computing. Quantum sensors promise levels of sensitivity and precision beyond those of conventional instruments, while quantum computers could eventually solve certain extraordinarily complex problems much faster than today's most powerful supercomputers.\n\nWhy Imperfect Diamonds Could Be the Key to Quantum Computing\n\nAlthough diamonds are made of carbon atoms, a flawless diamond crystal is not enough to create a useful quantum computing system. The key lies in tiny irregularities within the crystal structure.\n\nThese imperfections, known as defects, can occur when a carbon atom is absent from its normal position, when another element replaces a carbon atom, or when both changes occur together. The atoms surrounding these defects can form qubits, the basic units used to store and process quantum information in quantum computers and sensors.\n\nFinding the most useful defects, however, has been difficult. Accurately modeling their quantum behavior traditionally requires enormous computational resources, making it challenging to evaluate large numbers of possible candidates.\n\nMark Martirez, a staff research scientist at PPPL, developed a way to dramatically reduce the complexity of these calculations. Instead of simulating a much larger diamond structure, he isolates a small region containing just 16 to 30 atoms around a defect.\n\nBy \"carving out\" this tiny atomic cluster and treating it like a separate molecule, Martirez can use powerful computational methods that chemists have spent decades refining. These established techniques make it possible to analyze the quantum properties of diamond defects much more efficiently without sacrificing the high level of accuracy needed for the calculations.",
-      "image": "https://www.sciencedaily.com/images/1920/pink-diamond.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261112025523.htm",
+      "title": "Scientists capture electrons making seemingly impossible quantum jumps",
+      "dek": "Scientists have captured electrons making seemingly impossible jumps across forbidden energy gaps in graphene, with some transitions occurring at a remarkable 100% probability.",
+      "content": "Physicists have captured an extraordinary quantum phenomenon in which electrons appear to leap across energy gaps that would normally be off limits. Using a new type of slow-motion electron camera, researchers were able to watch these incredibly fast movements in graphene, revealing how powerful electric fields can drive electrons between different energy states.\n\nThe effect is similar to stepping into an elevator and watching the floor display change from \"1,\" \"2,\" and \"3\" directly to \"20.\" Instead of traveling through the seventeen floors in between, you somehow arrive at the twentieth floor. Although this sounds impossible in everyday life, electrons can make comparable jumps in the quantum world.\n\nThese unusual events are known as Landau-Zener-Majorana transitions. Physicists have long suspected that they could become increasingly important in high-speed semiconductor electronics, but observing exactly how they unfold has been a major challenge.\n\nNow, researchers from the University of Regensburg, Philipps-Universit&auml;t Marburg, and Forschungszentrum J&uuml;lich have directly tracked these transitions in graphene, a material made from an extremely thin layer of carbon atoms. Their findings, published in Nature , provide a detailed look at how electrons respond to intense electric fields generated by light.\n\nIn semiconductors and similar materials, electrons are restricted to particular ranges of energy called energy bands. Between these bands are regions known as forbidden energy gaps, where electrons cannot ordinarily occupy stable states.\n\nUnder normal conditions, electrons tend to remain within their existing energy bands. However, the researchers observed something very different when they exposed graphene to intense pulses of light. The electric field accelerated the electrons and caused some of them to switch from one energy band to another, crossing the intervening gap through a quantum mechanical transition.\n\nTo capture these movements, the scientists developed an experimental technique that combines advanced laser technology with electron microscopy. This allowed them to examine electron behavior on timescales far too short for conventional imaging methods.\n\n\"If you want to know who has won a race, you have to watch all participants,\" explains Vincent Eggers, first author of the study. \"Likewise, we must observe as many electrons as possible at one time to catch those that undergo a quantum mechanical transition while moving.\"\n\nThe key instrument is a photoemission momentum microscope. Rather than producing an enlarged picture of a material's surface, as a traditional microscope would, it measures the energies of electrons and how they are moving. Researchers then use this information to create detailed maps showing how electrons are distributed across different energy states.",
+      "image": "https://www.sciencedaily.com/images/1920/electric-field-of-light-accelerates-electrons.webp",
       "gallery": [],
       "saved": false
     },
@@ -187,6 +157,62 @@
   ],
   "papers": [
     {
+      "id": "arxiv-2611.16281",
+      "edition": "morning",
+      "tag": "NV & Quantum Sensing",
+      "title": "Optically-detected room-temperature spin-coherence from the GaV$^-$ in diamond",
+      "authors": "Adam D. Dodson, Tiamike Dudley, Luca Basso et al.",
+      "year": "2026",
+      "arxivId": "2611.16281",
+      "journal": "arXiv:2611.16281 [cond-mat.mtrl-sci]",
+      "url": "https://arxiv.org/abs/2611.16281",
+      "pdfUrl": "https://arxiv.org/pdf/2611.16281",
+      "readTime": "2 min read",
+      "tldr": "Solid-state quantum defects (point crystal imperfections with optically addressable spins) are among the most promising platforms for quantum information science due to their long-lived electron and nuclear spin lifetimes. The negatively-charged nitrogen-vacancy (NV$^-$) and negatively-charged group IV vacancies (G4V's) in diamond are some the most promising quantum defects but, the NV$^-$ is highly susceptible to charge noise and has low emission from its zero-phonon line while the G4V's require low operating temperatures.",
+      "takeaways": [
+        "The negatively-charged nitrogen-vacancy (NV$^-$) and negatively-charged group IV vacancies (G4V's) in diamond are some the most promising quantum defects but, the NV$^-$ is highly susceptible to charge noise and has low emission from its zero-phonon line while the G4V's require low operating temperatures.",
+        "Here we report the physical properties of the newly discovered negatively-charged gallium-vacancy in diamond, GaV$^-$.",
+        "These features (along with improved performance at low temperature) position the newly discovered GaV$^-$ as a key resource for quantum sensing, networking, and computation."
+      ],
+      "matched": [
+        "nitrogen-vacancy",
+        "quantum sensing",
+        "diamond",
+        "coherence"
+      ],
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
+    },
+    {
+      "id": "arxiv-2611.17056",
+      "edition": "morning",
+      "tag": "NV & Quantum Sensing",
+      "title": "Noise robust super-Heisenberg scaling in time-dependent quantum sensing by subspace-twirled dynamical decoupling",
+      "authors": "Bakmou Lahcen, Ke Zeng, Tianyu Yang et al.",
+      "year": "2026",
+      "arxivId": "2611.17056",
+      "journal": "arXiv:2611.17056 [quant-ph]",
+      "url": "https://arxiv.org/abs/2611.17056",
+      "pdfUrl": "https://arxiv.org/pdf/2611.17056",
+      "readTime": "2 min read",
+      "tldr": "In quantum parameter estimation, time-dependent Hamiltonians can enable ultraprecise estimates of a physical parameter beyond the standard Heisenberg limit, also called the super-Heisenberg limit. However, achieving optimal scaling of the measurement precision typically requires an adaptive quantum control scheme which is resource-intensive and hard to implement in general.",
+      "takeaways": [
+        "However, achieving optimal scaling of the measurement precision typically requires an adaptive quantum control scheme which is resource-intensive and hard to implement in general.",
+        "We propose the use of a dynamical decoupling scheme based on subspace twirling -- the averaging of random unitaries over a subspace rather than the entire Hilbert space -- to overcome these two limitations.",
+        "Finally, we illustrate our results using an explicit example where a qubit sensor undergoing a subspace twirl simultaneously suppresses noise and achieves super-Heisenberg scaling."
+      ],
+      "matched": [
+        "quantum sensing",
+        "dynamical decoupling",
+        "sensor",
+        "qubit"
+      ],
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1576319155264-99536e0be1ee?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
+    },
+    {
       "id": "arxiv-2611.16252",
       "edition": "morning",
       "tag": "NMR & Spin Control",
@@ -211,7 +237,7 @@
         "sensor"
       ],
       "saved": false,
-      "image": "https://images.unsplash.com/photo-1576319155264-99536e0be1ee?auto=format&fit=crop&w=1200&q=80",
+      "image": "https://images.unsplash.com/photo-1666112835145-d79fc3f2e008?auto=format&fit=crop&w=1200&q=80",
       "imageKind": "category"
     },
     {
@@ -243,78 +269,28 @@
       "imageKind": "category"
     },
     {
-      "id": "arxiv-2610.33682",
+      "id": "arxiv-2611.17260",
       "edition": "morning",
-      "tag": "NMR & Spin Control",
-      "title": "Aging dynamics and generalized superposition principles in carbon black-carboxymethylcellulose hydrogels",
-      "authors": "Gauthier Legrand, Guilhem P. Baeza, Jarno L. Waeterloos et al.",
+      "tag": "Coherence & Open Systems",
+      "title": "Non-interferometric tests of gravitational decoherence models with mechanical oscillators",
+      "authors": "Sandro Donadi, Iarley P. Lobo, Matteo Fadel",
       "year": "2026",
-      "arxivId": "2610.33682",
-      "journal": "arXiv:2610.33682 [cond-mat.soft]",
-      "url": "https://arxiv.org/abs/2610.33682",
-      "pdfUrl": "https://arxiv.org/pdf/2610.33682",
+      "arxivId": "2611.17260",
+      "journal": "arXiv:2611.17260 [quant-ph]",
+      "url": "https://arxiv.org/abs/2611.17260",
+      "pdfUrl": "https://arxiv.org/pdf/2611.17260",
       "readTime": "2 min read",
-      "tldr": "Aqueous dispersions of hydrophobic carbon black (CB) particles can be stabilized by carboxymethylcellulose (CMC), forming CB-CMC hydrogels whose microstructure is controlled by the relative CB-to-polymer content. At low CMC content, CB particles form a percolated, electrically conductive network, whereas at higher polymer content, CB particles act as isolated physical crosslinkers within an electrically insulating polymer matrix [see Legrand \\textit{et al.}, Macromolecules 56, 2298-2308 (2023)].",
+      "tldr": "Phenomenological models of quantum-gravity-induced decoherence can leave observable effects even in experiments that do not rely on interferometric measurements. We study three such models, based respectively on deformed relativistic symmetries, stochastic metric fluctuations, and a stochastic generalized uncertainty principle, all of which induce decoherence in the momentum basis.",
       "takeaways": [
-        "Aqueous dispersions of hydrophobic carbon black (CB) particles can be stabilized by carboxymethylcellulose (CMC), forming CB-CMC hydrogels whose microstructure is controlled by the relative CB-to-polymer content.",
-        "At low CMC content, CB particles form a percolated, electrically conductive network, whereas at higher polymer content, CB particles act as isolated physical crosslinkers within an electrically insulating polymer matrix [see Legrand \\textit{et al.}, Macromolecules 56, 2298-2308 (2023)].",
-        "Finally, time-resolved rheo-USAXS measurements performed during shear-rate cycles reveal structural rearrangements of CB particles and clusters that correlate with rheological hysteresis."
+        "Phenomenological models of quantum-gravity-induced decoherence can leave observable effects even in experiments that do not rely on interferometric measurements.",
+        "We study three such models, based respectively on deformed relativistic symmetries, stochastic metric fluctuations, and a stochastic generalized uncertainty principle, all of which induce decoherence in the momentum basis.",
+        "Our results establish heating and continuous measurements as complementary non-interferometric probes of gravity-related decoherence."
       ],
       "matched": [
-        "methyl",
-        "measurement"
-      ],
-      "saved": false,
-      "image": "https://images.unsplash.com/photo-1666112835145-d79fc3f2e008?auto=format&fit=crop&w=1200&q=80",
-      "imageKind": "category"
-    },
-    {
-      "id": "arxiv-2611.13804",
-      "edition": "morning",
-      "tag": "Floquet & Driven Systems",
-      "title": "Floquet first- and higher-order topological superconductors: A review",
-      "authors": "Debashish Mondal, Arnob Kumar Ghosh, Arijit Saha et al.",
-      "year": "2026",
-      "arxivId": "2611.13804",
-      "journal": "arXiv:2611.13804 [cond-mat.mes-hall]",
-      "url": "https://arxiv.org/abs/2611.13804",
-      "pdfUrl": "https://arxiv.org/pdf/2611.13804",
-      "readTime": "2 min read",
-      "tldr": "The current developments in quantum technologies are deeply rooted in quantum computation, with Majorana fermions and their topological protection expected to play a central role. In this context, topological superconductors (TSCs) provide a promising platform for investigating Majorana modes and their potential applications in topological quantum computation.",
-      "takeaways": [
-        "The current developments in quantum technologies are deeply rooted in quantum computation, with Majorana fermions and their topological protection expected to play a central role.",
-        "We demonstrate how periodic driving protocols enable Floquet engineering of all these phases, even when the corresponding undriven systems are topologically trivial.",
-        "Furthermore, we investigate various driving schemes and explore the interplay among spin-orbit coupling, magnetic fields, magnetic impurities, and symmetry-breaking mass terms in realizing Floquet higher-order topological superconducting (FHOTSC) phases, characterized by appropriate topological invariants."
-      ],
-      "matched": [
-        "floquet",
-        "spin",
+        "decoherence",
+        "coherence",
+        "measurement",
         "quantum"
-      ],
-      "saved": false,
-      "image": "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?auto=format&fit=crop&w=1200&q=80",
-      "imageKind": "category"
-    },
-    {
-      "id": "arxiv-2611.17062",
-      "edition": "morning",
-      "tag": "Floquet & Driven Systems",
-      "title": "Asymmetric Frequency Conversion and Violation of Kirchhoff's Law of Thermal Radiation in Phased Floquet Metasurfaces",
-      "authors": "Yao-Ting Wang, Emanuele Galiffi, Sander A. Mann et al.",
-      "year": "2026",
-      "arxivId": "2611.17062",
-      "journal": "arXiv:2611.17062 [physics.optics]",
-      "url": "https://arxiv.org/abs/2611.17062",
-      "pdfUrl": "https://arxiv.org/pdf/2611.17062",
-      "readTime": "2 min read",
-      "tldr": "We study a system of three closely spaced conducting sheets, whose thermal emission largely violates Kirchhoff's law through nonreciprocal frequency conversion enabled by Floquet phenomena. We leverage surface mode transitions controlled by temporal modulation of one of the metasurfaces, resulting in largely asymmetric frequency conversion.",
-      "takeaways": [
-        "We study a system of three closely spaced conducting sheets, whose thermal emission largely violates Kirchhoff's law through nonreciprocal frequency conversion enabled by Floquet phenomena.",
-        "We leverage surface mode transitions controlled by temporal modulation of one of the metasurfaces, resulting in largely asymmetric frequency conversion.",
-        "Our findings broaden the capabilities of Floquet metasurfaces for wave conversion and energy manipulation, paving the way towards magnet-free nonreciprocal photonic devices with opportunities for thermal management and efficient photonic refrigeration."
-      ],
-      "matched": [
-        "floquet"
       ],
       "saved": false,
       "image": "https://images.unsplash.com/photo-1527409335569-f0e5c91fa707?auto=format&fit=crop&w=1200&q=80",
