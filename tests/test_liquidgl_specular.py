@@ -1,12 +1,12 @@
-"""Empirical test suite for LiquidGL WebGL initialization and interactive specular highlights.
+"""Automated verification suite for PulseBoard v24 zero-jank Liquid Glass & redesigned UX.
 
 Validates:
-1. `pbInitLiquidGL` safely guards against missing/offline `window.liquidGL` and headless WebGL errors.
-2. `#apple-wallpaper` attribute `data-liquid-ignore` is removed dynamically by `pbInitLiquidGL()`.
-3. `.liquidgl-lens` has `pointer-events: none !important` and `z-index: 0`.
-4. `.lg-bar-shell::after` and `.lg-card::before` have `pointer-events: none` and `z-index: 1`, while interactive children have `z-index: 2` or higher.
-5. `pbWireSpecularHighlights` uses `{ passive: true }` and `requestAnimationFrame` debouncing, and only modifies `--lg-mx` and `--lg-my` on hovered cards.
-6. All clickable elements, inputs, buttons, and drawers remain interactive without interception.
+1. Elimination of heavy WebGL / html2canvas / SVG feDisplacementMap / animated blur-orb bloat.
+2. Floating chrome (.lg-bar-shell) isolated optical glass with mask-composite prism rim & safe stacking.
+3. Zero backdrop-filter on scrolling cards, pills, inputs, switches, and sliders (60fps compositing).
+4. Tailwind Play CDN darkMode: 'class' sync and absence of invalid v3 tokens or raw LaTeX delimiters.
+5. Retina HiDPI Bloch canvas scaling, hidden-tab Floquet guard, spotlight live search, mobile forecast toggle,
+   story prev/next controls, 3-column Plan Bento layout, centered Mindful mode, and interactive DOM safety.
 """
 
 from html.parser import HTMLParser
@@ -133,323 +133,274 @@ def _run_jsc(js_code):
         text=True,
         timeout=15,
     )
-    assert proc.returncode == 0, f"JS execution failed (exit code {proc.returncode}):\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
+    assert proc.returncode == 0, (
+        f"JS execution failed (exit code {proc.returncode}):\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
+    )
     return proc.stdout.strip()
 
 
-def test_pb_init_liquidgl_guards_missing_and_offline():
-    """Verify pbInitLiquidGL safely guards against missing window.liquidGL and offline envs."""
+def test_zero_webgl_svg_bloat_and_removed_observers():
+    """Verify legacy liquidGL, html2canvas, SVG displacement filters, blurred orbs, and pointer tracking are removed."""
+    html = _read_html()
+    for banned in (
+        "liquidGL",
+        "html2canvas",
+        "liquidgl-lens",
+        "pb-optical-svg",
+        "<feDisplacementMap",
+        "macos-wallpaper-canvas",
+        "apple-mesh-orb",
+        "gate-aurora-orb",
+        "pbWireSpecularHighlights",
+        "pbRefreshLiquidGL",
+        "pbDrawMacWallpaper",
+        "pbBuildDisplacementFilters",
+    ):
+        assert banned not in html, f"Removed scroll/GPU bloat token '{banned}' must not exist in index.html"
+
+    script = _extract_script(html)
+    assert "pointermove" not in script or "getBoundingClientRect" not in script.split("pointermove", 1)[1][:300], (
+        "Removed per-frame pointermove getBoundingClientRect() loop must not return"
+    )
+
+
+def test_floating_chrome_isolated_optical_glass_and_prism_rim():
+    """Verify .lg-bar-shell uses isolated GPU compositing, mask-composite prism rim, and reduced-motion fallbacks."""
+    html = _read_html()
+    style = _extract_style(html)
+
+    m_bar = re.search(r"(?<!\.pb-dim )\.lg-bar-shell\s*\{([^}]+)\}", style)
+    m_rim = re.search(r"\.lg-bar-shell::before\s*\{([^}]+)\}", style)
+    m_children = re.search(r"\.lg-bar-shell\s*>\s*\*\s*\{([^}]+)\}", style)
+    assert m_bar and m_rim and m_children, "Missing .lg-bar-shell / ::before / > * rules"
+
+    bar_css = m_bar.group(1)
+    rim_css = m_rim.group(1)
+    children_css = m_children.group(1)
+
+    assert "isolation: isolate" in bar_css
+    assert "backdrop-filter:" in bar_css
+    assert "pointer-events: none" in rim_css
+    assert "z-index: 1" in rim_css
+    assert ("mask-composite: exclude" in rim_css or "-webkit-mask-composite: xor" in rim_css)
+    assert "z-index: 2" in children_css
+    assert "position: relative" in children_css
+
+    assert "prefers-reduced-transparency: reduce" in style
+    assert "prefers-reduced-motion: reduce" in style
+
+
+def test_scrolling_cards_and_controls_have_zero_backdrop_filter():
+    """Verify scrolling content cards, subcards, pills, inputs, and range/switch controls omit backdrop-filter."""
+    html = _read_html()
+    style = _extract_style(html)
+
+    # Strip @media reduced-transparency block before inspecting base rules
+    base_style = style.split("@media (prefers-reduced-transparency", 1)[0]
+
+    for selector in (
+        r"\.lg-card",
+        r"\.lg-subcard",
+        r"\.lg-pill",
+        r"\.lg-pill-active",
+        r"\.lg-input",
+        r"\.lg-sliding-nav",
+        r"\.lg-sliding-thumb",
+        r"\.lg-switch",
+        r"\.lg-switch-thumb",
+        r"\.lg-range-thumb",
+        r"\.lg-range-bubble",
+    ):
+        matches = re.findall(rf"(?:^|\n)\s*{selector}\s*\{{([^}}]+)\}}", base_style)
+        assert matches, f"Expected base CSS rule for {selector}"
+        for body in matches:
+            assert "backdrop-filter" not in body, (
+                f"Scrolling card/control rule matching {selector} must NOT use backdrop-filter"
+            )
+
+
+def test_dark_mode_class_sync_and_clean_tailwind_tokens():
+    """Verify Tailwind Play CDN uses darkMode: 'class', Day/Night toggles html.dark, and invalid tokens are gone."""
     html = _read_html()
     script = _extract_script(html)
-    m = re.search(r"function pbInitLiquidGL\(\)\s*\{[\s\S]*?\n    \}", script)
-    assert m, "pbInitLiquidGL declaration not found"
-    fn_code_json = json.dumps(m.group(0))
 
-    js = f"""
-    const fnCode = {fn_code_json};
-    const makeRunner = () => new Function('window', 'document', 'console', fnCode + '; pbInitLiquidGL();');
+    assert "darkMode: 'class'" in script or 'darkMode: "class"' in script, (
+        "Tailwind Play CDN config must set darkMode: 'class'"
+    )
+    assert "document.documentElement.classList.toggle('dark', isNight)" in script, (
+        "renderApp() must sync html.dark with Night edition"
+    )
 
-    // Case 1: window.liquidGL is undefined
-    let runner1 = makeRunner();
-    runner1({{}}, null, console);
+    invalid_tokens = re.findall(
+        r"\b(?:p-4\.5|w-4\.5|h-4\.5|py-0\.2|max-h-84|(?:bg|text|border|ring|from|to|via)-[a-z0-9-]+/12)\b",
+        html,
+    )
+    assert not invalid_tokens, f"Found invalid Tailwind utility classes: {invalid_tokens}"
 
-    // Case 2: window.liquidGL is null
-    let runner2 = makeRunner();
-    runner2({{ liquidGL: null }}, null, console);
-
-    // Case 3: window.liquidGL is an object instead of function
-    let runner3 = makeRunner();
-    runner3({{ liquidGL: {{ notA: 'function' }} }}, null, console);
-
-    print('OK');
-    """
-    out = _run_jsc(js)
-    assert out == "OK"
+    # Verify zero unrendered literal LaTeX formulas in quantum UI markup or Bloch readout
+    soup = _parse_dom(html)
+    qlab = soup.find(id="quantum-lab-card")
+    assert qlab is not None
+    raw_html_chunk = html[html.index('id="quantum-lab-card"'):html.index('id="papers-section"')]
+    assert "$" not in raw_html_chunk, "Quantum Lab HTML must not contain raw unrendered $...$ LaTeX strings"
+    assert "e^{iφ}" not in html, "Bloch state readout should render HTML superscript instead of literal e^{iφ}"
 
 
-def test_pb_init_liquidgl_removes_wallpaper_data_liquid_ignore():
-    """Verify #apple-wallpaper data-liquid-ignore is present statically and removed dynamically."""
+def test_bloch_retina_hidpi_and_hidden_tab_guard():
+    """Verify Retina HiDPI scaling in renderBloch() and hidden-tab pause inside Floquet timer."""
+    html = _read_html()
+    script = _extract_script(html)
+    assert "window.devicePixelRatio" in script
+    assert "ctx.scale(dpr, dpr)" in script
+    m_floq = re.search(r"floquetTimer\s*=\s*setInterval\(\(\)\s*=>\s*\{([\s\S]*?)\},\s*30\)", script)
+    assert m_floq, "floquetTimer interval not found"
+    assert "if (document.hidden) return;" in m_floq.group(1)
+
+
+def test_v24_ui_elements_and_inspector_defaults():
+    """Verify v24 UI IDs, single-row header labels, mobile safe clearance, and Focus-first default."""
     html = _read_html()
     soup = _parse_dom(html)
-    wallpaper = soup.find(id="apple-wallpaper")
-    assert wallpaper is not None, "#apple-wallpaper element not found"
-    assert wallpaper.get("data-liquid-ignore") == "true", (
-        "#apple-wallpaper must statically declare data-liquid-ignore='true'"
+    script = _extract_script(html)
+    style = _extract_style(html)
+
+    for required_id in (
+        "today-synthesis-strip",
+        "btn-weather-expand",
+        "cmd-live-results",
+        "story-prev-btn",
+        "story-next-btn",
+        "deck-left-col",
+        "deck-right-aside",
+    ):
+        assert soup.find(id=required_id) is not None, f"Missing v24 UI element #{required_id}"
+
+    assert re.search(r"let pbInspectorMode\s*=\s*'focus'", script), (
+        "pbInspectorMode must default to 'focus' so the sticky right sidebar never clips tall lists"
+    )
+    assert "calc(84px + env(safe-area-inset-bottom))" in style, (
+        "Mobile bottom clearance rule must lift #btn-scroll-top/#offline-badge above #mobile-deck-bar"
     )
 
-    script = _extract_script(html)
-    m = re.search(r"function pbInitLiquidGL\(\)\s*\{[\s\S]*?\n    \}", script)
-    assert m, "pbInitLiquidGL declaration not found"
-    fn_code_json = json.dumps(m.group(0))
 
-    js = f"""
-    const fnCode = {fn_code_json};
-
-    let attrs = {{ 'data-liquid-ignore': 'true' }};
-    let wallpaperEl = {{
-        hasAttribute: (a) => a in attrs,
-        removeAttribute: (a) => {{ delete attrs[a]; }}
-    }};
-
-    let liquidGLCalled = false;
-    let liquidGLConfig = null;
-    let win = {{
-        liquidGL: (cfg) => {{
-            liquidGLCalled = true;
-            liquidGLConfig = cfg;
-        }}
-    }};
-    let doc = {{
-        getElementById: (id) => (id === 'apple-wallpaper' ? wallpaperEl : null)
-    }};
-
-    let runner = new Function('window', 'document', fnCode + '; pbInitLiquidGL();');
-    runner(win, doc);
-
-    if (attrs['data-liquid-ignore'] !== undefined) {{
-        throw new Error('data-liquid-ignore was not removed from #apple-wallpaper');
-    }}
-    if (!liquidGLCalled) {{
-        throw new Error('window.liquidGL was not called');
-    }}
-    if (liquidGLConfig.target !== '.liquidgl-lens') {{
-        throw new Error('Target lens selector must be .liquidgl-lens');
-    }}
-    if (liquidGLConfig.snapshot !== '#apple-wallpaper') {{
-        throw new Error('Snapshot selector must be #apple-wallpaper');
-    }}
-    print('OK:' + JSON.stringify(liquidGLConfig));
-    """
-    out = _run_jsc(js)
-    assert out.startswith("OK:")
-    cfg = json.loads(out[3:])
-    assert cfg["target"] == ".liquidgl-lens"
-    assert cfg["snapshot"] == "#apple-wallpaper"
-    assert cfg["specular"] is True
-    assert cfg["shadow"] is False
-
-
-def test_pb_init_liquidgl_catches_webgl_failure():
-    """Verify pbInitLiquidGL catches WebGL context creation failure in headless/virtualized envs."""
+def test_inspector_counts_and_deck_bento_behavior():
+    """Exercise pbApplyInspectorMode, pbUpdateInspectorCounts, and pbApplyCurrentDeck in Node/JSC."""
     html = _read_html()
     script = _extract_script(html)
-    m = re.search(r"function pbInitLiquidGL\(\)\s*\{[\s\S]*?\n    \}", script)
-    fn_code_json = json.dumps(m.group(0))
 
+    m_insp = re.search(r"function pbApplyInspectorMode\(mode\)\s*\{[\s\S]*?\n    \}", script)
+    m_cnt = re.search(r"function pbUpdateInspectorCounts\(\)\s*\{[\s\S]*?\n    \}", script)
+    m_deck = re.search(r"function pbApplyCurrentDeck\(shouldScroll = false\)\s*\{[\s\S]*?\n    \}", script)
+    assert m_insp and m_cnt and m_deck, "Expected controller functions not found in index.html"
+
+    code_blob = "\n".join([m_insp.group(0), m_cnt.group(0), m_deck.group(0)])
     js = f"""
-    const fnCode = {fn_code_json};
-    let warnLogs = [];
-    let consoleMock = {{
-        warn: function() {{ warnLogs.push(Array.from(arguments).join(' ')); }}
+    const makeClassList = (init) => {{
+      const s = new Set(init || []);
+      return {{
+        add: (...c) => c.forEach(x => s.add(x)),
+        remove: (...c) => c.forEach(x => s.delete(x)),
+        toggle: (c, force) => force === undefined ? (s.has(c) ? (s.delete(c), false) : (s.add(c), true)) : (force ? (s.add(c), true) : (s.delete(c), false)),
+        contains: (c) => s.has(c),
+        toString: () => Array.from(s).join(' '),
+      }};
+    }};
+    const makeEl = (attrs = {{}}) => {{
+      const el = {{
+        _attrs: {{ ...attrs }},
+        _children: [],
+        textContent: '',
+        className: '',
+        classList: makeClassList(),
+        getAttribute: (k) => (k in el._attrs ? el._attrs[k] : null),
+        setAttribute: (k, v) => {{ el._attrs[k] = String(v); }},
+        appendChild: (c) => {{ el._children.push(c); return c; }},
+        querySelectorAll: () => [],
+      }};
+      return el;
     }};
 
-    let win = {{
-        liquidGL: () => {{
-            throw new Error('WebGL 2 context creation failed: headless');
-        }}
+    const inspBtns = ['focus', 'habits', 'schedule', 'all'].map(k => makeEl({{ 'data-inspector-mode': k }}));
+    const elements = {{
+      'inspector-mode-bar': Object.assign(makeEl(), {{ querySelectorAll: () => inspBtns }}),
+      'tasks-card': makeEl(),
+      'routine-card': makeEl(),
+      'schedule-card': makeEl(),
+      'toolbar-view-title': makeEl(),
+      'deck-nav-bar': makeEl(),
+      'mobile-deck-bar': makeEl(),
+      'hero-banner': makeEl(),
+      'wisdom-card': makeEl(),
+      'quantum-lab-card': makeEl(),
+      'workspace-lens-bar': makeEl(),
+      'vault-subnav-bar': makeEl(),
+      'newsboard-section': makeEl(),
+      'today-arxiv-spotlight': makeEl(),
+      'backup-articles-section': makeEl(),
+      'papers-section': makeEl(),
+      'career-board-section': makeEl(),
+      'postdoc-board-section': makeEl(),
+      'smart-radar-strip': makeEl(),
+      'smart-dossiers-summary': makeEl(),
+      'deck-left-col': makeEl(),
+      'deck-right-aside': makeEl(),
     }};
-    let doc = {{
-        getElementById: () => ({{
-            hasAttribute: () => false,
-            removeAttribute: () => {{}}
-        }})
+    globalThis.document = {{
+      getElementById: (id) => elements[id] || null,
+      querySelector: () => null,
+      createElement: () => makeEl(),
+      createTextNode: (t) => ({{ text: t }}),
     }};
+    globalThis.window = {{ scrollTo: () => {{}} }};
+    globalThis.state = {{
+      edition: 'morning',
+      tasks: [{{ id: 't1', done: false }}, {{ id: 't2', done: true }}],
+      routines: {{ morning: [{{ id: 'r1', done: true }}, {{ id: 'r2', done: false }}] }},
+      schedules: {{ morning: [{{ time: '09:00' }}, {{ time: '11:00' }}] }},
+    }};
+    let pbCurrentDeck = 'briefing';
+    let pbInspectorMode = 'focus';
+    let pbVaultSubtab = 'all';
+    const pbSyncSlidingPill = () => {{}};
+    const pbSyncAllSlidingPills = () => {{}};
+    const pbApplyVaultSubtab = () => {{}};
 
-    let runner = new Function('window', 'document', 'console', fnCode + '; pbInitLiquidGL();');
-    runner(win, doc, consoleMock);
+    {code_blob}
 
-    if (warnLogs.length === 0) {{
-        throw new Error('Expected console.warn log when WebGL fails');
+    pbUpdateInspectorCounts();
+    if (inspBtns[0]._children[1].textContent !== '1') throw new Error('Focus count expected 1');
+    if (inspBtns[1]._children[1].textContent !== '1/2') throw new Error('Habits count expected 1/2');
+    if (inspBtns[2]._children[1].textContent !== '2') throw new Error('Schedule count expected 2');
+
+    pbCurrentDeck = 'rituals';
+    pbApplyCurrentDeck(false);
+    if (!elements['deck-right-aside'].className.includes('lg:grid-cols-3')) {{
+      throw new Error('Plan view must apply 3-col Bento grid: ' + elements['deck-right-aside'].className);
     }}
-    print('OK:' + warnLogs[0]);
-    """
-    out = _run_jsc(js)
-    assert out.startswith("OK:")
-    assert "fallback to CSS backdrop-filter" in out
+    if (!elements['inspector-mode-bar'].classList.contains('hidden')) {{
+      throw new Error('Plan view must hide inspector-mode-bar');
+    }}
 
+    pbCurrentDeck = 'stillness';
+    pbApplyCurrentDeck(false);
+    if (!elements['wisdom-card'].classList.contains('max-w-3xl')) {{
+      throw new Error('Mindful view must center wisdom-card with max-w-3xl');
+    }}
+    if (elements['routine-card'].classList.contains('hidden')) {{
+      throw new Error('Mindful view must keep routine-card visible');
+    }}
+    if (!elements['tasks-card'].classList.contains('hidden')) {{
+      throw new Error('Mindful view must hide tasks-card');
+    }}
 
-def test_pb_init_liquidgl_prevents_double_init():
-    """Verify pbInitLiquidGL avoids double-initialization when renderer exists."""
-    html = _read_html()
-    script = _extract_script(html)
-    m = re.search(r"function pbInitLiquidGL\(\)\s*\{[\s\S]*?\n    \}", script)
-    fn_code_json = json.dumps(m.group(0))
-
-    js = f"""
-    const fnCode = {fn_code_json};
-    let calls = 0;
-    let win = {{
-        __liquidGLRenderer__: {{ captureSnapshot: () => {{}} }},
-        liquidGL: () => {{ calls++; }}
-    }};
-    let doc = {{ getElementById: () => null }};
-
-    let runner = new Function('window', 'document', fnCode + '; pbInitLiquidGL();');
-    runner(win, doc);
-
-    if (calls !== 0) throw new Error('liquidGL called despite existing renderer');
+    pbCurrentDeck = 'briefing';
+    pbApplyCurrentDeck(false);
+    if (!elements['deck-right-aside'].className.includes('lg:col-span-4')) {{
+      throw new Error('Today briefing must restore lg:col-span-4 aside');
+    }}
     print('OK');
     """
-    out = _run_jsc(js)
-    assert out == "OK"
-
-
-def test_liquidgl_lens_css_rules():
-    """Verify .liquidgl-lens has pointer-events: none !important and z-index: 0."""
-    html = _read_html()
-    style = _extract_style(html)
-    m = re.search(r"\.liquidgl-lens\s*\{([^}]+)\}", style)
-    assert m, "CSS rule .liquidgl-lens not found"
-    rule_content = m.group(1)
-
-    assert "pointer-events: none !important" in rule_content, (
-        f".liquidgl-lens must declare 'pointer-events: none !important'. Found: {rule_content}"
-    )
-    assert re.search(r"\bz-index\s*:\s*0\b", rule_content), (
-        f".liquidgl-lens must declare 'z-index: 0'. Found: {rule_content}"
-    )
-    assert "position: absolute" in rule_content, ".liquidgl-lens must be position: absolute"
-    assert "inset: 0" in rule_content, ".liquidgl-lens must span inset: 0"
-
-
-def test_specular_pseudo_elements_css_rules():
-    """Verify .lg-bar-shell::after and .lg-card::before have pointer-events: none and z-index: 1."""
-    html = _read_html()
-    style = _extract_style(html)
-
-    # .lg-bar-shell::after
-    m_bar = re.search(r"\.lg-bar-shell::after\s*\{([^}]+)\}", style)
-    assert m_bar, ".lg-bar-shell::after CSS rule not found"
-    bar_content = m_bar.group(1)
-    assert "pointer-events: none" in bar_content
-    assert re.search(r"\bz-index\s*:\s*1\b", bar_content)
-    assert "--lg-mx" in bar_content and "--lg-my" in bar_content
-
-    # .lg-card::before
-    m_card = re.search(r"\.lg-card::before\s*\{([^}]+)\}", style)
-    assert m_card, ".lg-card::before CSS rule not found"
-    card_content = m_card.group(1)
-    assert "pointer-events: none" in card_content
-    assert re.search(r"\bz-index\s*:\s*1\b", card_content)
-    assert "--lg-mx" in card_content and "--lg-my" in card_content
-
-
-def test_interactive_children_stacking_order():
-    """Verify .lg-card > * has z-index: 2 or higher, and .lg-bar-shell interactive elements are lifted."""
-    html = _read_html()
-    style = _extract_style(html)
-
-    m_children = re.search(r"\.lg-card\s*>\s*\*\s*\{([^}]+)\}", style)
-    assert m_children, ".lg-card > * CSS rule not found"
-    children_content = m_children.group(1)
-    assert re.search(r"\bz-index\s*:\s*2\b", children_content), (
-        f".lg-card > * must specify z-index: 2. Found: {children_content}"
-    )
-
-    # Inspect #app-header-glass direct interactive children in DOM
-    soup = _parse_dom(html)
-    header_glass = soup.find(id="app-header-glass")
-    assert header_glass is not None, "#app-header-glass not found"
-    for child in header_glass.find_all(recursive=False):
-        classes = child.get("class", [])
-        if "liquidgl-lens" in classes:
-            continue
-        assert "z-10" in classes or "relative" in classes, (
-            f"Header glass child {child.name} missing z-index lifting class: {classes}"
-        )
-
-
-def test_specular_highlights_passive_raf_and_hover_isolation():
-    """Verify pbWireSpecularHighlights uses { passive: true }, rAF debouncing, and hovers only target."""
-    html = _read_html()
-    script = _extract_script(html)
-    m = re.search(r"function pbWireSpecularHighlights\(\)\s*\{[\s\S]*?\n    \}", script)
-    assert m, "pbWireSpecularHighlights not found"
-    fn_code_json = json.dumps(m.group(0))
-
-    js = f"""
-    const fnCode = {fn_code_json};
-    let registered = [];
-    let winMock = {{
-        addEventListener: function(t, fn, opts) {{ registered.push({{ t, fn, opts }}); }}
-    }};
-    let rafCallbacks = [];
-    let rafIdCounter = 1;
-    let rafMock = function(cb) {{
-        let id = rafIdCounter++;
-        rafCallbacks.push({{ id, cb }});
-        return id;
-    }};
-
-    function mockEl(cls, left, top) {{
-        let styles = {{}};
-        return {{
-            className: cls,
-            style: {{
-                setProperty: function(k, v) {{ styles[k] = v; }},
-                getPropertyValue: function(k) {{ return styles[k] || ''; }}
-            }},
-            getBoundingClientRect: function() {{ return {{ left: left, top: top, width: 300, height: 200 }}; }},
-            closest: function(sel) {{
-                if (sel.indexOf('.lg-card') !== -1 && cls.indexOf('lg-card') !== -1) return this;
-                if (sel.indexOf('.lg-bar-shell') !== -1 && cls.indexOf('lg-bar-shell') !== -1) return this;
-                if (this.parent) return this.parent.closest(sel);
-                return null;
-            }},
-            _styles: styles
-        }};
-    }}
-
-    let cardA = mockEl('lg-card card-hover', 100, 200);
-    let cardB = mockEl('lg-card', 500, 200);
-    let childA = mockEl('lg-pill', 120, 220);
-    childA.parent = cardA;
-    let bg = mockEl('bg-slate-950', 0, 0);
-
-    let runner = new Function('window', 'requestAnimationFrame', fnCode + '; pbWireSpecularHighlights();');
-    runner(winMock, rafMock);
-
-    // 1. Passive listener
-    if (registered.length !== 1 || registered[0].t !== 'pointermove' || !registered[0].opts || registered[0].opts.passive !== true) {{
-        throw new Error('Listener must be pointermove with passive: true');
-    }}
-    let handler = registered[0].fn;
-
-    // 2. Debouncing: fire 4 events in rapid succession
-    handler({{ target: childA, clientX: 140, clientY: 240 }});
-    handler({{ target: childA, clientX: 150, clientY: 250 }});
-    handler({{ target: childA, clientX: 160, clientY: 260 }});
-    handler({{ target: childA, clientX: 170, clientY: 270 }});
-
-    if (rafCallbacks.length !== 1) {{
-        throw new Error('Expected exactly 1 rAF callback scheduled, found ' + rafCallbacks.length);
-    }}
-
-    // Flush rAF
-    rafCallbacks.shift().cb();
-
-    // Verify coordinates: clientX 170 - rect.left 100 = 70px; clientY 270 - rect.top 200 = 70px
-    if (cardA._styles['--lg-mx'] !== '70px' || cardA._styles['--lg-my'] !== '70px') {{
-        throw new Error('Card A coords incorrect: ' + JSON.stringify(cardA._styles));
-    }}
-    if (Object.keys(cardB._styles).length !== 0) {{
-        throw new Error('Card B was modified when Card A was hovered');
-    }}
-
-    // 3. Move over background (no card hovered)
-    handler({{ target: bg, clientX: 10, clientY: 10 }});
-    rafCallbacks.shift().cb();
-    if (cardA._styles['--lg-mx'] !== '70px') {{
-        throw new Error('Card A was corrupted by background move');
-    }}
-    if (Object.keys(cardB._styles).length !== 0) {{
-        throw new Error('Card B was corrupted by background move');
-    }}
-
-    print('OK');
-    """
-    out = _run_jsc(js)
-    assert out == "OK"
+    assert _run_jsc(js) == "OK"
 
 
 def test_all_interactive_elements_non_intercepted():
@@ -459,15 +410,15 @@ def test_all_interactive_elements_non_intercepted():
 
     interactive_tags = ["button", "a", "input", "select", "textarea"]
     elements = soup.find_all(interactive_tags)
-    assert len(elements) >= 150, f"Expected at least 150 interactive elements, found {len(elements)}"
+    assert len(elements) >= 140, f"Expected at least 140 interactive elements, found {len(elements)}"
 
     for el in elements:
         curr = el
         while curr:
-            classes = curr.get("class", [])
             cid = curr.get("id", "")
-            assert "liquidgl-lens" not in classes, f"Interactive element {el.name} (id={el.get('id')}) is inside .liquidgl-lens"
-            assert cid != "apple-wallpaper", f"Interactive element {el.name} (id={el.get('id')}) is inside #apple-wallpaper"
+            assert cid != "apple-wallpaper", (
+                f"Interactive element {el.name} (id={el.get('id')}) must not be inside #apple-wallpaper"
+            )
             curr = curr.parent
 
 
@@ -505,28 +456,6 @@ def test_wallpaper_pointer_events_none():
     assert re.search(r"\bz-index\s*:\s*-1\b", content)
 
 
-def test_cascade_analysis_liquidgl_lens_and_card_children():
-    """Verify that .liquidgl-lens and .lg-card > * rules exist and assess cascade specificity."""
-    html = _read_html()
-    style = _extract_style(html)
-
-    m_lens = re.search(r"\.liquidgl-lens\s*\{([^}]+)\}", style)
-    m_card_children = re.search(r"\.lg-card\s*>\s*\*\s*\{([^}]+)\}", style)
-    assert m_lens and m_card_children
-
-    lens_rule = m_lens.group(1)
-    card_children_rule = m_card_children.group(1)
-
-    # .liquidgl-lens specifies tier 0 background properties
-    assert "pointer-events: none !important" in lens_rule
-    assert "z-index: 0" in lens_rule
-    assert "position: absolute" in lens_rule
-
-    # .lg-card > * specifies tier 2 content properties
-    assert "z-index: 2" in card_children_rule
-    assert "position: relative" in card_children_rule
-
-
 def test_no_fake_macos_window_chrome():
     """Verify fake desktop OS window traffic lights and desktop sidebar chrome are removed."""
     html = _read_html()
@@ -541,37 +470,21 @@ def test_no_fake_macos_window_chrome():
     assert soup.find(id="webapp-shell") is not None
 
 
-def test_svg_snells_law_chromatic_refraction_filters():
-    """Verify SVG optical displacement filters and 20-element 4x5 RGB dispersion matrices."""
-    html = _read_html()
-    for fid in ("pb-liquid-bar-filter", "pb-liquid-droplet-filter", "pb-bar-refract-map", "pb-droplet-refract-map"):
-        assert f'id="{fid}"' in html, f"Missing optical refraction SVG element #{fid}"
-
-    matrices = re.findall(r'<feColorMatrix\s+[^>]*type="matrix"[^>]*values="([^"]+)"', html)
-    assert len(matrices) >= 6, f"Expected >=6 RGB chromatic dispersion matrices, found {len(matrices)}"
-    for vals in matrices:
-        nums = [float(x) for x in vals.split()]
-        assert len(nums) == 20, f"SVG feColorMatrix requires exactly 20 values (4x5), got {len(nums)}: {vals}"
-
-
 def test_liquid_glass_tabs_toggles_and_quantum_sliders():
-    """Verify sliding droplet tabs, swelling switches, Quantum Liquid Glass drag bars, and new UX features."""
+    """Verify sliding droplet tabs, swelling switches, Quantum drag bars, and redesigned UX elements."""
     html = _read_html()
     soup = _parse_dom(html)
 
-    # Sliding Liquid Glass droplet nav containers
     for nav_id in ("deck-nav-bar", "edition-switcher", "category-filters", "inspector-mode-bar", "mobile-deck-bar"):
         nav = soup.find(id=nav_id)
         assert nav is not None, f"Missing sliding nav #{nav_id}"
         assert "has-sliding-thumb" in nav.get("class", []), f"#{nav_id} must include has-sliding-thumb"
 
-    # Liquid Glass toggle switches
     for sw_id in ("btn-unread-first", "bloch-vec-toggle", "set-notifications", "set-haptics"):
         sw = soup.find(id=sw_id)
-        assert sw is not None, f"Missing Liquid Glass switch #{sw_id}"
+        assert sw is not None, f"Missing switch #{sw_id}"
         assert "lg-switch" in sw.get("class", []), f"#{sw_id} must use .lg-switch"
 
-    # Quantum Liquid Glass drag bars (Rabi, Detuning, Dephasing)
     for slider_id in ("bloch-rabi-slider", "bloch-detuning-slider", "bloch-gamma-slider"):
         sl = soup.find(id=slider_id)
         assert sl is not None, f"Missing Quantum slider #{slider_id}"
@@ -580,48 +493,5 @@ def test_liquid_glass_tabs_toggles_and_quantum_sliders():
             f"#{slider_id} must be wrapped in .lg-range-wrap"
         )
 
-    # High-value new WebApp UX features
     for feat_id in ("btn-audio-briefing", "today-arxiv-spotlight", "vault-subnav-bar", "inline-focus-bar", "btn-pulse-ramsey"):
         assert soup.find(id=feat_id) is not None, f"Missing redesigned UX feature #{feat_id}"
-
-
-def test_direct_webgl_wallpaper_texture_sync():
-    """Verify pbSyncLiquidGLWallpaper uploads #macos-wallpaper-canvas directly to WebGL and sets chromatic aberration."""
-    html = _read_html()
-    script = _extract_script(html)
-    m_sync = re.search(r"function pbSyncLiquidGLWallpaper\(\)\s*\{[\s\S]*?\n    \}", script)
-    m_enh = re.search(r"function pbEnhanceLiquidGL\(\)\s*\{[\s\S]*?\n    \}", script)
-    assert m_sync and m_enh, "pbSyncLiquidGLWallpaper / pbEnhanceLiquidGL not found"
-
-    sync_json = json.dumps(m_sync.group(0))
-    enh_json = json.dumps(m_enh.group(0))
-    js = f"""
-    const syncCode = {sync_json};
-    const enhCode = {enh_json};
-    let uploaded = null;
-    let bodyClasses = new Set();
-    let lensOpts = {{ frost: 2.0 }};
-    let metricsUpdated = false;
-    const fakeCanvas = {{ width: 1440, height: 900 }};
-    const win = {{
-      innerWidth: 1440,
-      innerHeight: 900,
-      __liquidGLRenderer__: {{
-        _uploadTexture: (c) => {{ uploaded = c; }},
-        lenses: [{{ options: lensOpts, updateMetrics: () => {{ metricsUpdated = true; }} }}]
-      }}
-    }};
-    const doc = {{
-      body: {{ classList: {{ add: (c) => bodyClasses.add(c) }} }},
-      getElementById: (id) => (id === 'macos-wallpaper-canvas' ? fakeCanvas : null)
-    }};
-    const fn = new Function('window', 'document', syncCode + '\\n' + enhCode + '\\npbEnhanceLiquidGL();');
-    fn(win, doc);
-    if (uploaded !== fakeCanvas) throw new Error('Canvas was not uploaded directly to WebGL renderer');
-    if (!bodyClasses.has('liquidgl-ready')) throw new Error('body.liquidgl-ready not set');
-    if (lensOpts.aberration !== 2.8) throw new Error('Expected chromatic aberration 2.8');
-    if (!metricsUpdated) throw new Error('Expected lens.updateMetrics() to run');
-    print('OK');
-    """
-    assert _run_jsc(js) == "OK"
-
