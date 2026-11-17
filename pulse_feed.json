@@ -1,110 +1,109 @@
 {
-  "generated_at": "2026-11-16T12:19:39Z",
+  "generated_at": "2026-11-17T02:14:42Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261116-513ccf03",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "BBC World",
-      "readMin": 2,
-      "spectrum": "center",
-      "sourceUrl": "https://www.bbc.co.uk/news/articles/cwm2mllj1pp8o?at_medium=RSS&at_campaign=rss",
-      "title": "UK and allies call on Israel to allow rapid humanitarian access to Gaza",
-      "dek": "The UK, Australia, Canada and Italy say Israeli authorities are holding back vital supplies at the borders, including 150,00 tents.",
-      "content": "Image source, AFP via Getty Images Image caption, A heavy storm earlier this month damaged tents and caused widespread flooding\n\nThe UK, Australia, Canada and Italy have issued a joint statement urging Israel to \"allow immediate, rapid and unimpeded humanitarian access throughout Gaza\", where they say the situation on the ground is \"dire\".\n\nThe foreign ministers warn recent floods have brought \"further suffering\" to the war-torn territory, which recently had its first winter storm.\n\nThe statement says 150,000 tents and other vital supplies are being held at the border.\n\nThe Israeli military authority which controls the Gaza crossings has said it is co-ordinating with the US-led Board of Peace and the UN on a winter plan, and that 93,000 tents and 8,600 aid trucks with winter supplies had entered the territory.\n\nIt added that reconstruction \"can only begin after Hamas fully disarms\".\n\nThe UN Office for the Co-ordination of Humanitarian Affairs said the widespread flooding and a landslide led to a number of deaths, thousands of damaged shelters and the suspension of critical services.\n\nThe statement from the British, Australian, Canadian and Italian foreign ministers says , external : \"This situation is entirely reversible - and there is still time to act before the winter fully sets in.\"\n\n\"The crossings must be opened, and the tents allowed in. Dual-use items necessary for humanitarian operations and early recovery must be granted entry before it is too late.\"\n\nThe European Union issued a similar statement on Saturday , external , reiterating its \"grave concern\" over what it called the \"persistent and devastating humanitarian crisis\".\n\nThe war in Gaza was triggered by the Hamas-led attack on southern Israel on 7 October 2023, in which about 1,200 people were killed and 251 others were taken hostage.\n\nIsrael responded by launching a military campaign in Gaza, during which more than 74,690 people have been killed, according to the territory's Hamas-run health ministry, whose figures are considered reliable by the UN.\n\nIsraeli air strikes and other attacks have continued to take place almost every day despite the ceasefire agreed in October last year.\n\nBoard of Peace says Israel's aid response after Gaza floods 'insufficent'\n\nFour killed in Gaza after sand embankment collapses onto tents, health ministry says\n\nTens of thousands of tents flooded after heavy rains in Gaza",
-      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/0c14/live/abcff740-e181-11f1-9386-1b849272ca8f.jpg",
-      "gallery": [
-        {
-          "url": "https://ichef.bbci.co.uk/ace/standard/810/cpsprodpb/0c14/live/abcff740-e181-11f1-9386-1b849272ca8f.jpg",
-          "alt": "Image caption, A heavy storm earlier this month damaged tents and caused widespread flooding"
-        },
-        "https://ichef.bbci.co.uk/ace/standard/881/cpsprodpb/7282/live/106c4b40-dd54-11f1-a701-fddedf244c16.jpg",
-        {
-          "url": "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/84c7/live/fc845070-dc20-11f1-a701-fddedf244c16.jpg",
-          "alt": "Palestinians gather at the scene of a deadly collapse of a sand embankment at a tent camp for displaced people near Deir al-Balah, central Gaza (9 November 2026)"
-        }
-      ],
-      "saved": false,
-      "author": "Yolande Knell"
-    },
-    {
-      "id": "news-geopolitics-20261116-63ae6689",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "The Guardian",
-      "readMin": 3,
-      "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/16/israel-amazon-facial-recognition-palestinians",
-      "title": "Revealed: Israel uploaded millions of photos to Amazon’s facial recognition platform to track Palestinians",
-      "dek": "Upload came as the Israeli military was increasing its reliance on Amazon’s cloud platform to meet the technological demands of its bombardment of Gaza The Israeli military uploaded 3.5m photos to Ama…",
-      "content": "The Israeli military uploaded 3.5m photos to Amazon’s cloud platform in order to use the US company’s facial recognition technology to analyse images of Palestinians, the Guardian can reveal.\n\nLeaked documents show the expansive catalogue of images was moved into Amazon’s cloud in the early months of Israel’s devastating aerial bombardment and ground offensive in Gaza.\n\nThe images were uploaded by a department of the Israeli military that holds a vast collection of photos covering the Palestinian populations in Gaza and the West Bank .\n\nThe department informed Amazon of the decision to upload the images in early 2024 so it could use Rekognition, the company’s AI-powered image analysis platform for a facial recognition project.\n\nThe documents obtained by the Guardian form part of an investigation into the Israeli military’s reliance on the technology and infrastructure of Amazon’s cloud computing business to monitor Palestinians.\n\nAccording to the files and interviews with military sources, Israel has in recent years migrated huge volumes of data – including sensitive intelligence material and information about Palestinians living under occupation – into Amazon’s datacentres.\n\nThe large set of images was moved into an Amazon datacentre near Tel Aviv by a department commonly known as Rolling Stone, which sits within a military software unit.\n\nView image in fullscreen Displaced Palestinians wait to cross a checkpoint in Mughraqa in central Gaza in January 2025. Photograph: Eyad Baba/AFP/Getty Images The department takes its name from a system widely used by the Israeli military that serves as a central repository of information about Palestinians living in Gaza and the West Bank.\n\nAt the time, the department was exploring using facial recognition technologies to analyse the extensive catalogues of images of Palestinians it holds, several sources with knowledge of its work said.\n\nAfter Israel’s ground invasion of Gaza in October 2023, its military routinely collected images of Palestinians as they passed through checkpoints, often after they had been forcibly displaced by the bombing campaign.\n\nIt’s not clear whether the 3.5m images uploaded to Amazon’s Rekognition were captured at these checkpoints, which effectively served as pop-up surveillance posts.\n\nHowever, a military source familiar with facial recognition efforts at the checkpoints said Amazon’s cloud infrastructure was used due to the “very large scale” of images collected at the sites.\n\nIsrael has long used facial recognition technology, particularly in its occupation of the West Bank. Face scanning is routine at checkpoints, while Israeli soldiers use custom-built smartphone apps to collect images of people living in the Palestinian territory.",
-      "image": "https://i.guim.co.uk/img/media/bc01b369b562e3e2bf256cd5482bab9f368d5175/1_0_2999_2400/master/2999.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=a63344bc26503b55f076b5d1ddff6183",
-      "gallery": [
-        {
-          "url": "https://i.guim.co.uk/img/media/355cf2c5f41718bbcd90bc12fb6d55a60825f16a/0_0_5553_3702/master/5553.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "Displaced Palestinians wait to cross a checkpoint in Mughraqa in central Gaza in January 2025. Photograph: Eyad Baba/AFP/Getty Images"
-        },
-        {
-          "url": "https://i.guim.co.uk/img/media/6fa9c93d46324b1740e48c53f28fcb6f34928839/0_0_3529_2352/master/3529.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "Amazon founder Jeff Bezos speaks at the America Business Forum in Miami last year. Photograph: Rebecca Blackwell/AP"
-        },
-        {
-          "url": "https://i.guim.co.uk/img/media/a223942f9fdc1b8acda55f3e1afb5de85cbbe5f6/0_0_4744_3108/master/4744.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "A surveillance camera is pictured at a checkpoint in the Palestinian city of Hebron in 2021. Photograph: Hazem Bader/AFP/Getty Images"
-        }
-      ],
-      "saved": false,
-      "author": "Harry Davies"
-    },
-    {
-      "id": "news-geopolitics-20261116-3bffa08a",
+      "id": "news-geopolitics-20261117-b987a5e5",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "The Hindu",
       "readMin": 2,
       "spectrum": "left",
-      "sourceUrl": "https://www.thehindu.com/entertainment/music/beatlemania-hits-india-on-tour-plays-chennai-bengaluru-and-other-cities-in-november/article71643833.ece",
-      "title": "Beatlemania hits India on tour, plays Chennai, Bengaluru and other cities in November",
-      "dek": "It was in the early 1960s that the world woke up to the a unique, new sound of rock and roll when The Beatles first appeared on the music scene from Liverpool, United Kingdom.",
-      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nBeatlemania, a tribute band from Europe, who look exactly like The Beatles | Photo Credit: Special Arrangement\n\nCalling all Beatniks! If you love the boy band from the United Kingdom that stole people’s hearts in the 1960s at the height of the flower power movement, then get ready to sing along and dance in the aisles. Beatlemania, the critically acclaimed The Beatles tribute band from Europe, will perform at Sir Mutha Venkatasubba Rao Concert Hall, Lady Andal School on November 11. They will proceed to tour other cities in India including Bengaluru, Hyderabad, and Goa in November.\n\nBeatlemania is one of the world’s leading and longest-running tribute bands, with over 30 years of touring experience. When a new show, The Magic of The Beatles was conceptualised in 2009, Beatlemania became the original lead cast and creative partners, making them an instant global smash hit.\n\nBeatlemania features a cast that not only look and sound like John Lennon, Paul McCartney, George Harrison, and Ringo Starr, but also generates the same excitement that was the trademark of this band instrumental in creating a musical revolution. The Beatles’ unique sense of humour is thrown in for good measure too.\n\nThe current lineup of Beatlemania is Michael Giagliano as John Lennon, Lee Fuller as Paul McCartney, Nasar Hodson as George Harrison and Brad Brunsdon as Ringo Starr. Dave Peterson, who started the band in 1992, says that a number of changes have been implemented since the band began. The current cast came together about five years ago, he says.\n\nThey have performed a number of times at The Cavern Club, the birthplace of The Beatles , in Liverpool. “It is great there, but very hot inside! The vibe is magical, though!” says Dave.",
-      "image": "https://th-i.thgim.com/public/life-and-style/j7vz8i/article71643853.ece/alternates/LANDSCAPE_1200/1960s%20British%20Invasion%20Band%20Portrait.png",
+      "sourceUrl": "https://www.thehindu.com/news/national/piyush-goyal-in-egypt-for-india-egypt-joint-trade-committee-jtc-meet/article71706845.ece",
+      "title": "India and Egypt form working group to explore trade deal contours",
+      "dek": "During his ongoing visit to Egypt, Commerce Minister Piyush Goyal co-chaired, along with Egypt’s Minister of Investment and Foreign Trade Mohamed Farid Saleh, the 7th session of the India-Egypt Joint …",
+      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nUnion Minister Piyush Goyal with Egypt's Minister of Investment and Foreign Trade Mohamed Farid Saleh during the 7th India-Egypt Joint Trade Committee, in Egypt. Photo: X/@PiyushGoyal via PTI\n\nIndia and Egypt have agreed to establish a joint working group to explore the Terms of Reference (ToR) for a Preferential Trade Agreement or Free Trade Agreement between the two countries, the government announced on Monday (November 16, 2026).\n\nDuring his ongoing visit to Egypt, Commerce Minister Piyush Goyal co-chaired, along with Egypt’s Minister of Investment and Foreign Trade Mohamed Farid Saleh, the 7th session of the India-Egypt Joint Trade Committee (JTC) in Egypt’s New Administrative Capital.\n\nThis was the first time this JTC has been convened at the ministerial level.\n\n“As a key outcome of the 7th Joint Trade Committee meeting, both Ministers agreed to establish a Joint Working Group to explore the Terms of Reference for a Preferential Trade Agreement or Free Trade Agreement to facilitate stronger bilateral trade, improve access to both markets and promote investment linkages between the two countries,” the government said in a release.\n\nThe release also said that both sides reaffirmed their commitment to expanding bilateral trade, with a target of $12 billion.\n\n“Egypt’s proximity to the Suez Canal and its connectivity with African, Arab and European markets make it a valuable partner for export-oriented manufacturing and regional supply chains,” the release said.\n\n“India, in turn, offers Egyptian investors and exporters a large and dynamic market, increasingly competitive infrastructure and opportunities for technology and production partnerships,” it added.\n\nThe committee also reviewed the growth in India-Egypt trade, which increased by 35% to $6.5 billion in 2025-26. Trade during the first half of the current financial year (April-September 2026) also stood at a little more than $5 billion, up 65% over its level in the same period of 2025.",
+      "image": "https://th-i.thgim.com/public/incoming/cjdqcd/article71706918.ece/alternates/LANDSCAPE_1200/15th-PTI-IndiaGVLGQ7IHB.3.jpg.jpg",
       "gallery": [],
-      "saved": false,
-      "author": "Nikhil Raghavan"
+      "saved": false
     },
     {
-      "id": "news-tech-20261116-7392c91e",
+      "id": "news-geopolitics-20261117-d13f2b07",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "NY Post",
+      "readMin": 2,
+      "spectrum": "right",
+      "sourceUrl": "https://nypost.com/2026/11/16/world-news/uss-roosevelt-arrives-in-middle-east-as-trump-mulls-new-iran-strikes/",
+      "title": "US hits massive Naval firepower milestone in the Middle East as Trump mulls Iran strikes",
+      "dek": "The USS Theodore Roosevelt arrived in the Middle East on Monday, the third US aircraft carrier now in the Central Command region — as Iran claims its sixth attack on oil tankers in the past 24 hours.",
+      "content": "The USS Theodore Roosevelt carrier group arrived in the Middle East on Monday — putting a third aircraft carrier in the region for only the second time since the 2003 invasion of Iraq.\n\nThe massive force buildup comes as Iran carried out its sixth attack on oil tankers in the past 24 hours — and President Trump mulls whether to renew strikes on the Islamic Republic.\n\nThe carrier — nicknamed “The Big Stick” for President Teddy Roosevelt’s famous foreign policy axiom — joins the USS George H.W. Bush and USS George Washington to bolster America’s firepower in the region as President Trump continues to weigh his options in Iran.\n\nIt marks the first time three aircraft carriers are actively deployed to the Middle East since April, during one of the most heated periods of the war with Iran.\n\nThe nuclear-powered Roosevelt leads Strike Group 9 and carries a vast array of aircraft on board, including F/A-18 Super Hornet strike fighters, F-35C Lightning II stealth fighters, and EA-18G Growler jammers.\n\nThe Roosevelt also carries MH-60R/S Seahawk helicopters and CMV-22B Osprey aircraft, as well as the E-2D Hawkeye early warning planes.\n\nThe aircraft carrier, along with its 10,000 troops, was ordered to the Middle East last month as Trump was threatening to resume attacks on Iran over the stalled peace negotiations and tit-for-tat strikes along the Strait of Hormuz.\n\nThe president has since said that he’s not interested in reigniting the war and signaled that he would let America’s economic pressure campaign play out to force Iran to negotiate seriously.\n\nIran, meanwhile, has continued to ramp up its attacks on shipping vessels attempting to cross the Strait of Hormuz, with the Islamic Republic attacking six ships since Sunday, its military claimed.\n\nThe Islamic Revolutionary Guard Corps said half a dozen tankers have been hit by mines or projectiles in the past 24 hours as Tehran tries to reassert its control of the waters.\n\nThe United Kingdom Maritime Trade Operations (UKMTO) center confirmed the latest attack after one tanker caught fire early Monday.\n\n“The company security officer of a tanker has reported the vessel being struck by an unknown projectile whilst transiting outbound,” the UKMTO said.\n\n“This resulted in a fire in the engine room. No casualties have been reported and all crew have been accounted for,” the group added.",
+      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/148982797.jpg?quality=75&strip=all&w=1200",
+      "gallery": [
+        {
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/uss-theodore-roosevelt-aircraft-carrier-148939937.jpg?w=1024",
+          "alt": "The aircraft carrier USS Theodore Roosevelt sails alongside the Australian oiler HMAS Stalwart, Nov. 4, 2026. US NAVY/AFP via Getty Images"
+        },
+        {
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-european-union-copernicus-sentinel-148621671.jpg?w=1024",
+          "alt": "A satellite image shows smoke rising from a vessel off the coast of the United Arab Emirates on Nov. 13, 2026. via REUTERS"
+        }
+      ],
+      "saved": false,
+      "author": "Ronny Reyes"
+    },
+    {
+      "id": "news-geopolitics-20261117-8091c323",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "CBC World",
+      "readMin": 2,
+      "spectrum": "left",
+      "sourceUrl": "https://www.cbc.ca/news/world/prince-princess-wales-kate-catherine-william-india-9.7423371?cmp=rss",
+      "title": "William and Kate in India for 1st overseas trip together since her cancer diagnosis",
+      "dek": "Prince William and Princess Catherine arrived in India on Monday for a three-day visit, the first overseas trip together since she was diagnosed with cancer in 2024.",
+      "content": "Prince William and Catherine, Princess of Wales, board a metro train in Mumbai, India, on Monday. (Rafiq Maqbool/The Associated Press) Social Sharing Prince William and Catherine, Princess of Wales, arrived in India on Monday for a three-day visit, their first overseas trip together since she was diagnosed with cancer in 2024.\n\nThe U.K. royal couple began their visit in Mumbai and will attend the Earthshot Prize awards ceremony on Tuesday. William, who, like his father, King Charles, has made campaigning on the environment one ⁠of his biggest causes, founded the ⁠Earthshot Prize in 2020 with the aim of finding solutions to climate change. It awards each of the five winners $1.86 million Cdn.\n\nFacing 'uncomfortable' questions, King Charles shows the 'soft power' of the Crown\n\nPrince Harry says he wants to reconcile with the Royal Family. It may not be so easy\n\nThe ceremony, expected to be the biggest since the prize was established, will feature several prominent guests, including Indian cricket great Sachin Tendulkar, actors Alia Bhatt and Rami Malek and British pop group Take That, making its debut performance in India.\n\n\"India has made an extraordinary contribution to Earthshot over the past six years and is home to more Earthshot finalists and winners than any other country,\" William posted on social media.\n\nShortly after their arrival, the royal couple took part in a game of street cricket in an alley in Ballard Estate, a neighbourhood in Mumbai. Street cricket, a common sight across the city, is an integral part of everyday life in Mumbai.\n\nKate plays a game of street cricket in Mumbai on Monday. (Indranil Mukherjee/AFP/Getty Images)\n\nKate plays cricket in Ballard Estate. (Francis Mascarenhas/Reuters)\n\nThe couple will also attend events highlighting India's cricket, fashion and film industries before travelling to New Delhi, where they are scheduled to meet with Indian Prime Minister Narendra Modi on Wednesday.\n\nThe couple met with Modi on their previous trip to India a decade ago, before William became the heir to the U.K. throne.\n\nThe trip marks a significant return to overseas royal engagements for the Princess of Wales, commonly known as Kate, who announced in March 2024 that she was undergoing treatment for cancer following major abdominal surgery.\n\nKate, 44, disclosed in January 2025 that she was in remission and has gradually resumed her public duties.",
+      "image": "https://i.cbc.ca/ais/3340007d-18a4-4533-872f-6ebb77c996a5,1794837179192/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C3564%2C2004%29%3BResize%3D620",
+      "gallery": [
+        {
+          "url": "https://i.cbc.ca/ais/6ec8fb7e-31ea-4838-be19-9f35d1dcc4e9,1794840027974/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C6000%2C4000%29%3B",
+          "alt": "A woman in a casual dress clothes and heels swings a cricket bat as people look on."
+        },
+        {
+          "url": "https://i.cbc.ca/ais/3ab60f49-d528-43d4-9d82-25f7fa1ad75d,1794838483178/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C2139%2C3209%29%3B",
+          "alt": "A woman in casual dress clothes looks astonished as she holds a cricket bat in its follow through."
+        },
+        "https://i.cbc.ca/ais/8c229ad5-1873-4d5f-9238-adff756cf59a,1794837565568/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C5140%2C3427%29%3B"
+      ],
+      "saved": false
+    },
+    {
+      "id": "news-tech-20261117-65ba7b41",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "The Verge",
+      "source": "Ars Technica",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://www.theverge.com/policy/1034047/nvidia-us-commerce-department-cantwell-lutnick",
-      "title": "Senator slams Commerce Secretary for flow of Nvidia AI chips to China",
-      "dek": "Washington Senator Maria Cantwell, one of the top Democrats on the Senate commerce committee, has taken fire at the Department of Commerce (DOC) under Secretary Howard Lutnick for neglecting to enforc…",
-      "content": "Amid the Jensen Huang fallout, Maria Cantwell accuses Howard Lutnick of giving away ‘America’s technology advantage in AI.’﻿\n\nAmid the Jensen Huang fallout, Maria Cantwell accuses Howard Lutnick of giving away ‘America’s technology advantage in AI.’﻿\n\nWashington Senator Maria Cantwell, one of the top Democrats on the Senate commerce committee, has taken fire at the Department of Commerce (DOC) under Secretary Howard Lutnick for neglecting to enforce protections intended to keep Nvidia’s AI chips away from China. In a letter to Lutnick on Sunday, Cantwell said the DOC has “undermined America’s national security,” and that its failures “help give away America’s technology advantage in AI.”\n\n“Despite clear authority from Congress, the Department of Commerce has allowed advanced AI chips to flow through companies with ties to the People’s Republic of China (PRC). The Department of Commerce has resisted efforts to restrict companies flagged as national security threats, weakened safeguards, and left open pathways for the PRC to train advanced AI models using sensitive American technology.”\n\nIn her letter, Cantwell specifically calls out instances when the DOC reportedly didn’t heed warnings from White House and intelligence officials to restrict Megaspeed’s access to AI chips, prior to allegations that former Nvidia CEO Jensen Huang had an affair with a then-Megaspeed executive suspected of being a Chinese spy . Cantwell also criticizes the DOC for allowing Alibaba and ByteDance to access Nvidia chips through overseas data centers, and extending a loophole that let restricted companies obtain American AI technology through subsidiaries.\n\nThe DOC is also accused of “putting business interests ahead of national security,” with Cantwell noting that Cantor Fitzgerald, the financial services firm formerly led by Lutnick and now steered by his sons, reportedly held $1.2 billion in Nvidia stock at the time of Lutnick’s nomination for Commerce Secretary.\n\nThe letter comes ahead of a meeting in China this Thursday between US President Donald Trump and Chinese President Xi Jinping. While Congress is looking to bolster export restrictions around AI chips, The Wall Street Journal reports that Lutnick is instead expected to unveil a new initiative that will designate Nvidia — along with companies including OpenAI, Anthropic, Amazon, and Microsoft — as an AI “national champion.” The designation reportedly aims to help these companies expand overseas and compete with Chinese technology firms by granting them expedited export licence approvals.",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/STK414_AI_CVIRGINIA_I__0003_1.png?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200",
-      "gallery": [],
+      "sourceUrl": "https://arstechnica.com/tech-policy/2026/11/us-moves-to-cut-chinas-remote-access-to-ai-chips/",
+      "title": "US moves to cut China’s remote access to AI chips",
+      "dek": "Trump bets China won’t mind US blocking remote access to AI chips.",
+      "content": "Trump bets China won’t mind US blocking remote access to AI chips.\n\nOn the heels of the Nvidia scandal , the Trump administration is preparing to crack down on foreign data centers that are fueling China’s advancements in artificial intelligence by allowing remote access to otherwise restricted high-end chips necessary for AI training.\n\nIn a summary of the rule change, the Commerce Department said it was closing a loophole that previously allowed foreign rivals like China, Russia, and Iran to bypass export curbs on certain advanced computer chips by instead renting access to those chips from data centers in Indonesia, Malaysia, Singapore, Thailand, and Brazil.\n\nUS rivals could possibly use that access to train and run advanced AI models “capable of supporting military- and intelligence-related activities that could threaten US national security or foreign policy interests,” the Commerce Department said. Among threats, the US fears rivals could use advanced AI to develop “more effective weapons of mass destruction and advanced conventional weapons, coordinated cyber-espionage and targeted cyber-disruption, algorithmic theft, and weaponized disinformation.”\n\nNow, the rules have been tightened up so much that the South China Morning Post reported that, “as a result, any advanced chips made for a Chinese firm are assumed to be restricted, and factories must ask the US government for a license before shipping them.”\n\nThe rule change takes effect 90 days after it’s posted to the Federal Register. Moving forward, companies headquartered in any of those countries deemed to “present a higher-than-normal risk of diversion” to China, Russia, and Iran must apply for a license with strict know-your-customer controls when transferring high volumes of advanced chips. If a license is granted, companies will have to “perform robust due diligence,” submitting monthly reports on transactions that thoroughly detail all parties involved, as well as their parent companies, and the final destination for chips sold.\n\nIn a press release Sunday, the Commerce Department described the rule change as “designed to ensure that existing restrictions on access to sensitive American technology cannot be circumvented through remote computing arrangements involving data centers in third countries.” An exception was carved out for companies providing computing power “exclusively used for commercial recommender systems.” The Department said it was acting to “prevent certain foreign actors from leveraging advanced computing power based on US technology to threaten US national security and foreign policy interests.”",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/GettyImages-2303586820-1024x648.jpg",
+      "gallery": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2022/06/Ashley-Belanger-400x400.jpg",
+          "alt": "Photo of Ashley Belanger"
+        }
+      ],
       "saved": false,
-      "author": "Jess Weatherbed"
+      "author": "Ashley Belanger"
     },
     {
-      "id": "news-quantum-20261116-4a8b4c43",
+      "id": "news-quantum-20261117-bb048713",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
       "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261114202232.htm",
-      "title": "Physicists defy expectations by controlling the magnetic heart of a single atom",
-      "dek": "Scientists have unexpectedly discovered how to control the magnetic spin inside a single atom's nucleus using radio waves, overturning previous assumptions about atomic behavior.",
-      "content": "Researchers at Delft University of Technology (The Netherlands) have accomplished something that physicists previously thought should not be possible. Using radio waves, they managed to directly control the magnetic spin of the nucleus inside a single atom. The unexpected result challenges existing assumptions about how atomic magnetism behaves and could eventually lead to new ways of storing and retrieving quantum information.\n\nThe findings, published in Nature Communications , also present scientists with a new puzzle. Although the experiment demonstrated that this remarkable level of control is possible, researchers do not yet fully understand the mechanism that makes it work.\n\nAtoms in magnetic metals such as iron and nickel behave like tiny magnets. However, the magnetism within an atom comes from different sources. Both electrons and, in some cases, the atomic nucleus possess a quantum property called spin , which can be thought of as a miniature magnetic compass needle.\n\n\"By far the strongest magnetism comes from the electrons,\" says lead researcher Sander Otte. \"But in some atoms, the nucleus also carries a spin. That spin is much weaker, but it is also much better shielded from the outside world.\"\n\nThat protection makes nuclear spin especially interesting to quantum researchers. Because it is less exposed to disturbances from its surroundings, it could offer a promising way to preserve delicate quantum information.\n\nTo investigate these tiny magnetic properties, Otte's team uses a specially modified scanning tunneling microscope. This powerful instrument allows the researchers to deliver electrical signals to individual atoms with extraordinary precision.\n\nUntil recently, their experiments concentrated primarily on electron spin because it is easier to detect and measure. The nucleus's magnetic spin could only be observed indirectly through a phenomenon known as the hyperfine interaction, which creates a subtle quantum connection between the spins of the electron and nucleus. This connection can cause the two spins to become slightly entangled, meaning their quantum states are linked.\n\nIn the latest study, lead author Hester Vennema and her colleagues took a different approach. They simultaneously applied two separate signals to a single atom, with one directed at the electron and the other at the nucleus.\n\nBy using these signals together, the researchers could investigate their effects independently. What happened next caught them by surprise.\n\nEven when the electron and nuclear spins were largely disentangled, the team was still able to flip the orientation of the nucleus's magnetic spin. Based on their previous understanding, the nucleus should not have responded in this way.",
-      "image": "https://www.sciencedaily.com/images/1920/electron-and-nucleus-spins-controlled-by-wave-signals.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261111005855.htm",
+      "title": "Tiny flaws in diamonds could unlock a quantum computing revolution",
+      "dek": "Scientists have discovered a faster way to identify diamond-based materials that could power quantum computers and sensors at room temperature.",
+      "content": "A new computational technique could accelerate the search for diamond materials capable of powering future quantum computers and highly sensitive sensors. Developed by a researcher at the U.S. Department of Energy's (DOE) Princeton Plasma Physics Laboratory (PPPL), the method makes it much easier to identify promising materials for quantum technology, potentially opening the door to advances across many areas of science.\n\nThe approach has already revealed new candidates for quantum computing and sensing applications. The findings were recently published in ACS Central Science and have attracted attention from other researchers in the field.\n\nOne of the biggest challenges in developing quantum technology is finding materials that can maintain delicate quantum states under practical conditions. Many candidates require extremely low temperatures to function reliably. Diamond materials stand out because certain quantum properties can remain useful even at room temperature.\n\nThis capability could help advance technologies that are important to national research priorities and the development of next-generation computing. Quantum sensors promise levels of sensitivity and precision beyond those of conventional instruments, while quantum computers could eventually solve certain extraordinarily complex problems much faster than today's most powerful supercomputers.\n\nWhy Imperfect Diamonds Could Be the Key to Quantum Computing\n\nAlthough diamonds are made of carbon atoms, a flawless diamond crystal is not enough to create a useful quantum computing system. The key lies in tiny irregularities within the crystal structure.\n\nThese imperfections, known as defects, can occur when a carbon atom is absent from its normal position, when another element replaces a carbon atom, or when both changes occur together. The atoms surrounding these defects can form qubits, the basic units used to store and process quantum information in quantum computers and sensors.\n\nFinding the most useful defects, however, has been difficult. Accurately modeling their quantum behavior traditionally requires enormous computational resources, making it challenging to evaluate large numbers of possible candidates.\n\nMark Martirez, a staff research scientist at PPPL, developed a way to dramatically reduce the complexity of these calculations. Instead of simulating a much larger diamond structure, he isolates a small region containing just 16 to 30 atoms around a defect.\n\nBy \"carving out\" this tiny atomic cluster and treating it like a separate molecule, Martirez can use powerful computational methods that chemists have spent decades refining. These established techniques make it possible to analyze the quantum properties of diamond defects much more efficiently without sacrificing the high level of accuracy needed for the calculations.",
+      "image": "https://www.sciencedaily.com/images/1920/pink-diamond.webp",
       "gallery": [],
       "saved": false
     },
@@ -166,34 +165,6 @@
     }
   ],
   "papers": [
-    {
-      "id": "arxiv-2611.16281",
-      "edition": "morning",
-      "tag": "NV & Quantum Sensing",
-      "title": "Optically-detected room-temperature spin-coherence from the GaV$^-$ in diamond",
-      "authors": "Adam D. Dodson, Tiamike Dudley, Luca Basso et al.",
-      "year": "2026",
-      "arxivId": "2611.16281",
-      "journal": "arXiv:2611.16281 [cond-mat.mtrl-sci]",
-      "url": "https://arxiv.org/abs/2611.16281",
-      "pdfUrl": "https://arxiv.org/pdf/2611.16281",
-      "readTime": "2 min read",
-      "tldr": "Solid-state quantum defects (point crystal imperfections with optically addressable spins) are among the most promising platforms for quantum information science due to their long-lived electron and nuclear spin lifetimes. The negatively-charged nitrogen-vacancy (NV$^-$) and negatively-charged group IV vacancies (G4V's) in diamond are some the most promising quantum defects but, the NV$^-$ is highly susceptible to charge noise and has low emission from its zero-phonon line while the G4V's require low operating temperatures.",
-      "takeaways": [
-        "The negatively-charged nitrogen-vacancy (NV$^-$) and negatively-charged group IV vacancies (G4V's) in diamond are some the most promising quantum defects but, the NV$^-$ is highly susceptible to charge noise and has low emission from its zero-phonon line while the G4V's require low operating temperatures.",
-        "Here we report the physical properties of the newly discovered negatively-charged gallium-vacancy in diamond, GaV$^-$.",
-        "These features (along with improved performance at low temperature) position the newly discovered GaV$^-$ as a key resource for quantum sensing, networking, and computation."
-      ],
-      "matched": [
-        "nitrogen-vacancy",
-        "quantum sensing",
-        "diamond",
-        "coherence"
-      ],
-      "saved": false,
-      "image": "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&w=1200&q=80",
-      "imageKind": "category"
-    },
     {
       "id": "arxiv-2611.17521",
       "edition": "morning",
@@ -304,6 +275,34 @@
       ],
       "saved": false,
       "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
+    },
+    {
+      "id": "arxiv-2611.17260",
+      "edition": "morning",
+      "tag": "Coherence & Open Systems",
+      "title": "Non-interferometric tests of gravitational decoherence models with mechanical oscillators",
+      "authors": "Sandro Donadi, Iarley P. Lobo, Matteo Fadel",
+      "year": "2026",
+      "arxivId": "2611.17260",
+      "journal": "arXiv:2611.17260 [quant-ph]",
+      "url": "https://arxiv.org/abs/2611.17260",
+      "pdfUrl": "https://arxiv.org/pdf/2611.17260",
+      "readTime": "2 min read",
+      "tldr": "Phenomenological models of quantum-gravity-induced decoherence can leave observable effects even in experiments that do not rely on interferometric measurements. We study three such models, based respectively on deformed relativistic symmetries, stochastic metric fluctuations, and a stochastic generalized uncertainty principle, all of which induce decoherence in the momentum basis.",
+      "takeaways": [
+        "Phenomenological models of quantum-gravity-induced decoherence can leave observable effects even in experiments that do not rely on interferometric measurements.",
+        "We study three such models, based respectively on deformed relativistic symmetries, stochastic metric fluctuations, and a stochastic generalized uncertainty principle, all of which induce decoherence in the momentum basis.",
+        "Our results establish heating and continuous measurements as complementary non-interferometric probes of gravity-related decoherence."
+      ],
+      "matched": [
+        "decoherence",
+        "coherence",
+        "measurement",
+        "quantum"
+      ],
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
       "imageKind": "category"
     }
   ]
