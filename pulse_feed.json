@@ -1,128 +1,108 @@
 {
-  "generated_at": "2026-11-18T01:27:54Z",
+  "generated_at": "2026-11-18T12:31:18Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261118-789c31d8",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "CBC World",
-      "readMin": 2,
-      "spectrum": "left",
-      "sourceUrl": "https://www.cbc.ca/news/world/united-kingdom-israel-west-bank-construction-companies-settlements-9.7425375?cmp=rss",
-      "title": "U.K. sanctions Israeli companies involved in building illegal settlements in West Bank",
-      "dek": "Britain said on Tuesday it would impose sanctions on eight Israeli construction companies involved in building settlements in the occupied West Bank, as part of its effort to protect the idea of a two…",
-      "content": "An Israeli settlement is seen as Israeli military machinery uproots olive trees in the Palestinian village of Beit Rima near Ramallah, in the occupied West Bank on Sept. 24. The U.K. announced new sanctions on Tuesday that would be imposed on eight Israeli construction companies involved involved in West Bank settlements. (Ali Sawafta/Reuters) Social Sharing Britain said on Tuesday it would impose sanctions on eight Israeli construction companies involved in building settlements in the occupied West Bank, as well as on an activist group responsible for blocking aid to Gaza.\n\nThe firms targeted for asset freezes and director disqualifications include Har Hevron Development Company, Hemdat Shomron and S.A.G. (Velvel) Construction and Development, which build and develop homes in the West Bank.\n\nThe government announced the sanctions package shortly before the final deadlines for the E1 tender, a settlement project that would bisect the Israeli-occupied West Bank and cut it off from East Jerusalem, fragmenting the land that Palestinians hope will form the heart of a state.\n\n\"Protecting the two-state solution is the North Star of this government's approach,\" British Foreign Secretary Ed Miliband said in a statement. \"That is why my message on E1 is clear: Do not bid, do not build and do not profit from the destruction of the two-state solution.\"\n\nIsraeli Foreign Minister Gideon Saar said the sanctions were a \"hostile act targeting private, law-abiding companies,\" adding that the Israeli government would consider new ways to strengthen settlements in the West Bank.\n\n\"Israel will respond to the British government’s actions with countermeasures. A wide range of possible responses is currently under consideration. Our decisions will be announced in due course,\" he said in a post on X.\n\nSaar remains foreign minister in a caretaker government led by Benjamin Netanyahu. An Oct. 27 election stripped Netanyahu's coalition of its parliamentary majority but no winner emerged, and talks are ongoing to form a new government.\n\nThe Palestinian Authority welcomed the British sanctions and called for other countries to take similar action.\n\nThe sanctions are the latest in a series of measures by Britain targeting the settlement policy and underscore Israel's growing diplomatic isolation among some traditional allies.\n\nBritain's relationship with Israel has deteriorated significantly over the past three years because of disagreements over the way that Israel has conducted its war against Hamas and the Israeli government's plans to expand settlements in the occupied West Bank.",
-      "image": "https://i.cbc.ca/ais/9427ab8a-df96-4947-935a-d4b2f67290a6,1794939693151/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C223%2C4240%2C2385%29%3BResize%3D620",
-      "gallery": [
-        "https://i.cbc.ca/ais/8af1fe4f-b36a-4063-b849-9181133705a6,1779049966062/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C1920%2C1080%29%3BResize%3D620",
-        "https://i.cbc.ca/ais/1470dfe6-f4cd-44f1-8657-3a7f6df910d4,1794317943701/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C1920%2C1080%29%3BResize%3D620"
-      ],
-      "saved": false,
-      "alsoCoveredBy": [
-        {
-          "outlet": "BBC World",
-          "url": "https://www.bbc.co.uk/news/articles/cvglr977x3z0o?at_medium=RSS&at_campaign=rss"
-        },
-        {
-          "outlet": "Times of Israel",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxObEVDWHBSU1REbnl0MmstS0F0ejN5em05UkgxbjctNmVoWjZZZU1WbHhGbE02OXRWS3RVandocHQwTnpYQkxhRE1jNzFmUXpndF9uam5iYmRJLWVHZU4tajh6cmZnTV96OFJMWEhVbGVrZERJenJUaGhhMHhBVjZVYVJLTVRhVFJZbTc4NGcyb3k0NGladGxwX0FVd2xTdW41dTVhVU5tZ0lsX2RWdGxYMdIBtgFBVV95cUxOeHYya19iX3BIbGYyMUhUVzFwaXljdmxQNi1mQkxSeGk0bjFGZWlSQkV0NkZpR2ozXzJFZmtDZS02V3RaR1k4SVZYYkR2UUkwWmhTcFZ3VjcyMm5hR3dNb0lLZEFuVDI0ODBnOERQeGY0dE0yU0YwLTBmaTV6UXQ3eTFZbDc3NXN0UVlRVzZLR1pqdVl2czJfbnhoMzRGa2hiaVZrcUNld000NjhBdWQ1R1AyaFBtUQ?oc=5"
-        }
-      ]
-    },
-    {
-      "id": "news-geopolitics-20261118-1fc3b942",
+      "id": "news-geopolitics-20261118-39886271",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "The Guardian",
       "readMin": 3,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/17/palestinian-woman-shot-dead-israeli-settlers-near-jericho-witnesses-say",
-      "title": "Palestinian woman shot dead by Israeli settlers near Jericho, witnesses say",
-      "dek": "Bullet hit 72-year-old Fadha Wadha in head outside her home in al-Duyuk al-Tahta, in the West Bank, say residents A 72-year-old Palestinian woman has been shot dead in an overnight attack by Israeli s…",
-      "content": "Duyuk al-Tahta, east of Jericho, West Bank, where Fadha Wadha was killed. Several other Palestinians, including her son, were also wounded. Photograph: Issam Rimawi/Anadolu/Getty Images View image in fullscreen Duyuk al-Tahta, east of Jericho, West Bank, where Fadha Wadha was killed. Several other Palestinians, including her son, were also wounded. Photograph: Issam Rimawi/Anadolu/Getty Images Israel Palestinian woman shot dead by Israeli settlers near Jericho, witnesses say Bullet hit 72-year-old Fadha Wadha in head outside her home in al-Duyuk al-Tahta, in the West Bank, say residents\n\nA 72-year-old Palestinian woman has been shot dead in an overnight attack by Israeli settlers in a village near Jericho where settlers have recently moved in after taking over several Palestinian homes.\n\nFadha Wadha was standing outside her home in al-Duyuk al-Tahta in the occupied West Bank when she was struck in the head by a bullet as Israeli settlers fired towards Palestinian houses, according to testimonies from residents. Several other Palestinians, including her son, were wounded by gunfire.\n\nAbu Younis, a cousin of Wadha’s husband, told the Guardian that the violence had begun when a group of settlers attacked a young boy they accused of entering a courtyard seized from its Palestinian residents.\n\nDozens of Israeli settlers, some of them armed, moved into eight buildings in al-Duyuk al-Tahta two weeks ago with the backing of the settler organisation Nachala and a regional council representing illegal settlements in the central West Bank.\n\n“A vehicle carrying settlers chased him,” Younis said. “There were about 15 settlers in several vehicles. They began firing indiscriminately, killing the woman.”\n\nWitnesses said Palestinian residents began to throw stones to defend themselves, as more settlers arrived at the scene, shooting at civilians and injuring six men.\n\nWadha’s son, Arafat Fidhat, was wounded after he rushed to the scene after learning that his mother had been shot. His wife, Naama Fidhat, told Reuters he was in shock when he accidentally collided with a parked car belonging to one of the settlers.\n\nWitnesses said the vehicle was empty at the time, but that settlers responded by opening fire, wounding Arafat in the torso.\n\nView image in fullscreen Mourners attend the funeral of Wadha Fadha, a 72-year-old Palestinian woman killed by Israeli settlers, near Jericho. Photograph: Jamal Awad/Reuters Naama Fidhat said her husband was being taken to a hospital in Ramallah when Israeli soldiers stopped the ambulance and arrested him. She said Israeli soldiers also arrested their son, Wadha’s grandson, early the following morning.",
-      "image": "https://i.guim.co.uk/img/media/b7d5959fd9dbbbea50ccb8f11198cd72513b020c/971_535_2513_2011/master/2513.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=0a23cca4b44fe553c3f901fb03cbe61f",
-      "gallery": [
-        {
-          "url": "https://i.guim.co.uk/img/media/1a14906541e414af2f67939bb9acab82009c950e/177_0_1797_1438/master/1797.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "Mourners attend the funeral of Wadha Fadha, a 72-year-old Palestinian woman killed by Israeli settlers, near Jericho. Photograph: Jamal Awad/Reuters"
-        }
-      ],
+      "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/18/pete-hegseth-iran-war-pentagon",
+      "title": "Key Hegseth adviser faces questions over ties to Israeli defense contractor and Saudi Arabia",
+      "dek": "A government watchdog has also labeled Hegseth’s defense policy appointee a ‘walking conflict of interest’ One of defense secretary Pete Hegseth ’s key advisers faces questions about potential conflic…",
+      "content": "Pete Hegseth arrives for his Senate armed services confirmation hearing on Capitol Hill on 14 January 2025 in Washington DC. Photograph: Anna Moneymaker/Getty Images View image in fullscreen Pete Hegseth arrives for his Senate armed services confirmation hearing on Capitol Hill on 14 January 2025 in Washington DC. Photograph: Anna Moneymaker/Getty Images Pete Hegseth Key Hegseth adviser faces questions over ties to Israeli defense contractor and Saudi Arabia A government watchdog has also labeled Hegseth’s defense policy appointee a ‘walking conflict of interest’\n\nOne of defense secretary Pete Hegseth ’s key advisers faces questions about potential conflicts of interest over his many roles, including advising the US defense department, Saudi Arabia, and an Israeli defence contractor.\n\nFormer Republican senator Norm Coleman emerged as an informal yet omnipresent guide for Hegseth in December 2024 as the former Fox News host navigated confirmation hearings for his nomination as defense secretary. Hegseth now finds himself under fire after articles of impeachment were filed by Republican congressman Thomas Massie charging him with “high crimes and misdemeanors,” including waging war against Iran in violation of the War Powers Act, but Hegseth’s imprint on the Pentagon goes beyond the disastrous war against Iran.\n\nAt the start of his marathon 4 hours and 24 minutes hearing before the Senate armed services committee – a hearing that delved into allegations of sexual misconduct, workplace drinking and marital infidelity – Hegseth took time to “thank the former senator from Minnesota, Norm Coleman, for his mentorship and friendship in this process”\n\nColeman’s service to Hegseth appears to have been rewarded in June, when the secretary of war appointed Coleman to the Defense Policy Board, uniquely situating Coleman to advise on defense procurement decisions of interest to the former senator’s clients.\n\n“Serving as a sherpa to rich people seeking to climb Mount Everest is dangerous and thankless work that is often underappreciated by Westerners,” said Jeff Hauser, founder and executive director of the Revolving Door Project, a group that scrutinizes executive branch appointees to ensure they use their office to serve the broad public interest. “But serving successfully as a sherpa to a controversial nominee tends to breed enormous goodwill.”\n\nColeman is a man of many, often highly remunerative, hats . He is the chairman of the Republican Jewish Coalition (RJC), a group comprised of a who’s-who of pro-Israel Republican megadonors. He chairs the Congressional Leadership Fund, one of the biggest super Pacs supporting House Republicans. And he serves as a lobbyist for Saudi Arabia and now as vice chairman of the Defense Policy Board , a Pentagon advisory committee focusing on “matters pertaining to strategic planning, the policy implications of U.S. force structure and modernization, regional defense policies, and other defense policy and national security issues of special interest to the Department”.",
+      "image": "https://i.guim.co.uk/img/media/e7003dbab58ac06c59f727fae7b424e439481434/903_0_4524_3618/master/4524.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=304d7b52c3b19b06405f4529a79d7066",
+      "gallery": [],
       "saved": false,
-      "author": "Lorenzo Tondo",
-      "alsoCoveredBy": [
-        {
-          "outlet": "BBC World",
-          "url": "https://www.bbc.co.uk/news/articles/cqrlg377638yo?at_medium=RSS&at_campaign=rss"
-        }
-      ]
+      "author": "Eli Clifton"
     },
     {
-      "id": "news-geopolitics-20261118-3fef5fb7",
+      "id": "news-geopolitics-20261118-8f31ec13",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "The Hindu",
+      "readMin": 3,
+      "spectrum": "left",
+      "sourceUrl": "https://www.thehindu.com/business/Economy/india-us-trade-deal-signing-will-still-take-some-time-says-commerce-secretary-rajesh-agrawal/article71715672.ece",
+      "title": "India-U.S. trade deal signing will still ‘take some time’, says Commerce Secretary Rajesh Agrawal",
+      "dek": "He added that the deal can be signed only after the U.S.",
+      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nUnion Commerce Secretary Rajesh Agrawal. File | Photo Credit: ANI\n\nThe actual signing of the India-U.S. trade will still “take some time”, Commerce Secretary Rajesh Agrawal said on Wednesday (November 18, 2026), adding that the negotiation part and the legal text will be completed soon.\n\nThe delay in signing, he said, was because it can be done only after the U.S. concludes its Section 301 investigations into its trade partners and finalises its tariff structure. A few days ago, Commerce Minister Piyush Goyal asserted that the U.S. has acknowledged that India will receive lower tariffs as compared to its competitors.\n\n“This is a deal that has been announced in February, the contours have already been announced as part of the joint statement,” Mr. Agrawal said while speaking at the curtain raiser of the FICCI Annual General Meeting. “The legal agreement has also been negotiated and it is now in final stages and it will be concluded soon.”\n\nHe was referring to the joint statement between India and the U.S. in February that announced the framework of an interim deal on trade.\n\nAlso Read | 100% U.S. tariff threat: Can India’s new trade deals reduce its dependence on America?\n\nHowever, Mr. Agrawal explained that the “challenge” is that this framework was announced against the background of the executive tariffs system that the U.S. President Donald Trump had put in place. At the time, the tariff on India was 50%. Later in February, the U.S. Supreme Court struck down the legal foundation of these tariffs.\n\n“Now a new tariff architecture is being created by the U.S.,” Mr. Agrawal explained. “So until that tariff architecture comes back in place, the signing of a deal is something that I think will take some time. But concluding the negotiations and having everything ready will be something that we will strive to achieve as soon as possible.”",
+      "image": "https://th-i.thgim.com/public/incoming/avri4y/article71715727.ece/alternates/LANDSCAPE_1200/WTO-urges-IndiaGIOG9I0KS.4.jpg.jpg",
+      "gallery": [],
+      "saved": false,
+      "author": "T.C.A. Sharad Raghavan"
+    },
+    {
+      "id": "news-geopolitics-20261118-cac74f24",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "NY Post",
       "readMin": 3,
       "spectrum": "right",
-      "sourceUrl": "https://nypost.com/2026/11/17/world-news/israeli-parliament-elects-new-knesset-speaker-backed-by-netanyahus-opponents/",
-      "title": "Israeli parliament elects new Knesset speaker backed by Netanyahu’s opponents",
-      "dek": "Israel's Knesset elected Matan Kahana as speaker with 66 votes, a key victory for Benjamin Netanyahu’s opponents to roll back his policies.",
-      "content": "The Israeli parliament elected a new speaker on Tuesday, a key step toward rolling back policies passed by the outgoing government led by Prime Minister Benjamin Netanyahu .\n\nThe newly-elected speaker is Matan Kahana, an ally of Gadi Eisenkot, the party leader currently working to form the next government and replace Netanyahu. Eisenkot’s bloc has pledged to undo some of Netanyahu’s most contentious policies following Kahana’s election.\n\nHe was approved as speaker with 66 votes in the 120-member chamber, backed by the Jewish-led opposition parties and by the Arab-led parties. The candidate backed by Netanyahu’s bloc, Ofir Katz, received 52 votes following a stormy debate that stretched some seven hours.\n\nIn his first comments as speaker, Kahana struck a conciliatory note. “It is possible to be divided and hold opposing positions, yet still respect the institutions of the state and, above all, respect those who think differently,” he said. “The Knesset of Israel is the home of all the citizens of the state of Israel, and I intend to be the speaker of everyone.”\n\nThe vote took place weeks after Oct. 27 parliamentary elections in which Netanyahu and his allies lost their parliamentary majority . Eisenkot was subsequently given the task by Israel’s president to try to form a new coalition government.\n\n“The appointment of Matan Kahana as Knesset speaker is a worthy democratic move that reflects the absolute majority in favor of change,” Eisenkot said ahead of Tuesday’s vote.\n\nEisenkot has up to five more weeks to secure enough alliances to form a coalition. As negotiations continue on the sidelines, his bloc, along with the Arab-led parties, can use their majority in the newly-sworn in Knesset to advance their legislative agenda. They introduced several bills last week, including to set term limits on the role of prime minister, to form a government-led inquiry into the Hamas-led Oct. 7, 2023, attacks and to reverse laws to limit the powers of the judiciary.\n\nKahana gives the opposition bloc a major legislative advantage, according to Assaf Shapira with the Israel Democracy Institute, a Jerusalem think tank.\n\n“It’s important because there is not much time, because the speaker of the Knesset can make the legislative process much, much faster or much slower,” Shapira said.\n\nEisenkot and his allies are under pressure to swiftly advance their legislative priorities in the weeks ahead. Currently a member of Eisenkot’s Yashar party, Roy Folkman, heads the temporary committee that decides much of the Knesset’s work until a government is formed.",
-      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/149139702.jpg?quality=75&strip=all&w=1200",
+      "sourceUrl": "https://nypost.com/2026/11/18/world-news/iran-fires-at-kuwait-widening-strikes-after-us-hit-iranian-island/",
+      "title": "Iran fires at Kuwait, widening strikes after US hit Iranian island",
+      "dek": "Iran targeted US sites at Kuwait's Ali Al Salem base following US strikes on Qeshm Island, marking Tehran's first attack on Kuwait since September.",
+      "content": "Iran said it targeted US drone and missile sites in Kuwait overnight after the United States struck Qeshm Island in the Strait of Hormuz, marking Tehran’s first attack on the US-allied Gulf state since September.\n\nUnderlining a broader uptick in hostilities in recent days, Bahrain said it intercepted Iranian aerial attacks on Wednesday for a third time in a week, accusing Tehran of a “systematic hostile approach” towards the Gulf kingdom, where the US Navy’s Fifth Fleet is headquartered.\n\nThe latest attacks highlighted the obstacles facing diplomatic efforts to end a conflict that has destabilized the Middle East, disrupted shipping, driven up global energy prices and drawn in countries across the region.\n\nThe Iranian army said it had targeted US drone and missile installations at Kuwait’s Ali Al Salem base after Kuwait said its air defenses were countering hostile drone attacks.\n\nIt followed US airstrikes on Tuesday evening , when American fighter aircraft targeted a missile launch site on Qeshm in retaliation for Iranian attacks on US personnel and assets, a US military official told Reuters. Iranian media, citing an Iranian official, said the US attack caused no damage to infrastructure.\n\nKuwait said it reserved the right to take all necessary measures to safeguard its sovereignty and protect its territory and vital facilities against any aggression or threat.\n\nIn videos published by state media on Wednesday, Iranian Army commander-in-chief Amir Hatami issued a fresh warning to the United States, which launched the war against Iran alongside Israel in February.\n\n“If the enemy repeats its mistake… we have the readiness and the plans to confront it and its supporters in a stronger, more crushing way and without geographic limitations,” he said.\n\nThe United States and Israel attacked Iran on February 28 and Tehran responded with strikes on Israel and Gulf states hosting US military bases.\n\nThe conflict later spread to Lebanon, where fighting erupted between Israel and Iran-backed Hezbollah, and to Yemen, from where the Iran-aligned Houthis have launched attacks on Saudi energy facilities, airports and other targets.\n\nGlobal oil and gas prices have shot up with shipping through the Strait of Hormuz severely disrupted after Tehran declared it closed, while the US has imposed a naval blockade on Iran, hitting Iran’s economy hard.\n\nQatari and Iranian officials met on Tuesday for talks aimed at “bridging perspectives and narrowing the gap between proposals presented on the ground,” Qatari spokesperson Majed Al Ansari said.",
+      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/RC27QOA8QSRZ-913088351-3.jpg?quality=75&strip=all&w=1200",
       "gallery": [
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/israeli-religious-services-minister-matan-149132887.jpg?w=1024",
-          "alt": "Israel’s Knesset elected Matan Kahana as speaker with 66 votes, a key victory for Benjamin Netanyahu’s opponents to roll back his policies. AFP via Getty Images"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/100-kilometers-long-arrow-shaped-149126719_269baf.jpg?w=1024",
+          "alt": "Iran said it targeted US drone and missile sites in Kuwait overnight after the United States struck Qeshm Island in the Strait of Hormuz. NASA"
         },
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-opposition-leader-gadi-eisenkot-148268859.jpg?w=1024",
-          "alt": "Kahana is an ally of Gadi Eisenkot (pictured), who is forming the next government to replace Netanyahu. ZUMAPRESS.com"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/reuters-able-confirm-location-minarets-149203290.jpg?w=1024",
+          "alt": "Smoke rises on Qeshm Island, Iran, following a U.S. airstrike on a missile launch site, on Nov. 17, 2026. Social Media via REUTERS"
         },
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-jerusalem-following-israels-legislative-148228924.jpg?w=1024",
-          "alt": "Kahana’s vote took place weeks after the Oct. 27 parliamentary elections that led to Netanyahu’s bloc losing its majority. Getty Images"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-shows-result-numerous-strikes-145830829_1692b2.jpg?w=1024",
+          "alt": "A satellite image taken over Ali Al Salem Air Base in Kuwait shows the result of numerous strikes on a section of the base. Airbus DS via AP"
         }
       ],
-      "saved": false,
-      "alsoCoveredBy": [
-        {
-          "outlet": "The Guardian",
-          "url": "https://www.theguardian.com/world/2026/nov/17/israeli-parliament-elects-new-knesset-speaker-backed-netanyahus-opponents"
-        }
-      ]
+      "saved": false
     },
     {
-      "id": "news-tech-20261118-3e43b640",
+      "id": "news-tech-20261118-df6cf170",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "The Verge",
-      "readMin": 2,
+      "source": "Ars Technica",
+      "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.theverge.com/tech/1036045/ifixit-teardown-apple-homeview-smart-home-hub",
-      "title": "iFixit’s Apple HomeView teardown reveals a device that will be difficult to repair",
-      "dek": "After finding recent versions of Apple's iPads and HomePods much easier to disassemble for battery replacements or other repairs, iFixit assumed it would be the same story for Apple's new HomeView hub…",
-      "content": "Apple’s inroads on designing repairable devices seems to have been abandoned with the HomeView.﻿\n\nApple’s inroads on designing repairable devices seems to have been abandoned with the HomeView.﻿\n\nAfter finding recent versions of Apple’s iPads and HomePods much easier to disassemble for battery replacements or other repairs, iFixit assumed it would be the same story for Apple’s new HomeView hub that looks like a seven-inch tablet stuck to a smart speaker. The reality was much different and by the time they got the HomeView apart iFixit’s skilled techs had “ripped a connector, snapped a speaker in two, and put more force on the poor logic board than any of us were comfortable with.”\n\nThe tablet section of the HomeView proved to be the bigger challenge to disassemble as a result of some questionable decisions with Apple’s design. The glue used to secure the display in place “held on harder than on any Apple product we’ve opened recently,” iFixit says. And while Apple’s decision to turn the HomeView’s entire aluminum chassis into a heat sink was clever, the thermal bond between a heat shield and the device’s logic board made separating the two a “remarkably risky operation.” While these design decisions possibly streamlined assembly at a factory, the extensive use of glue makes servicing the HomeView incredibly difficult.\n\nIn an accompanying teardown video iFixit also reveals how much smaller the speaker drivers are in the wall-mounted version of the HomeView versus the tabletop option. Although both versions are priced at $299, the wall version costs a little more when you factor in the required mount that’s not included, leaving iFixit feeling that you’re getting less performance while spending more money.",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/ifixit.jpg?quality=90&strip=all&crop=0%2C10.742803501923%2C100%2C78.514392996155&w=1200",
-      "gallery": [],
+      "sourceUrl": "https://arstechnica.com/ai/2026/11/google-will-let-you-opt-out-of-ai-training-in-gemini-without-losing-your-history/",
+      "title": "Google makes it easier to use Gemini without training AI on your data",
+      "dek": "AI training and chat history will now have separate toggles in the Gemini activity settings.",
+      "content": "AI training and chat history will now have separate toggles in the Gemini activity settings.\n\nIt can be hard to use Google products—or even the Internet itself—without coming into contact with Gemini AI. That is, of course, by design . The more you use Gemini, the more data Google collects to train and improve its generative AI chatbot. The options to limit training on your data have been scant, but Google is finally adding more controls to the Gemini app.\n\nThe change currently rolling out to Gemini will separate your chat history from training, which allows you to retain basic AI functionality without handing Google quite so much control over your data. Prior to this change, the only way to opt out of contributing your chat contents (including attachments) for training was to turn off your history. That made it impossible to go back and pick up a chat down the road.\n\nAs the new settings roll out, users will see separate toggles for model training and chat history. The history setting will continue to support an adjustable limit, but you will no longer have to change it to stop Google from training on your Gemini usage. Meanwhile, AI training will be an opt-out situation. You’ll need to find the toggle to block Google from using your chats for AI training. It’s under Activity in the Gemini settings. You can also access the menu from your Google account under Data and Privacy > My Activity > Other activity > Gemini Apps Activity.\n\nImportantly, this only applies to future interactions with Gemini. If you have previously fed any data into Google’s AI, that’s already part of the training data. That can include your inputs, Gemini’s responses, uploaded files, tool calls, your location, and data from connected apps. Google says it may retain this data for up to three years to improve its models. The company has previously noted it attempts to filter personal information out of the Gemini activity history, but that isn’t a guarantee.\n\nRegardless of your chosen activity settings, you can always manually remove anything you don’t want saved on the same page with the history and training toggles. However, reviewed chats that are already part of the training data won’t be retroactively deleted. Opting out of training doesn’t mean Google won’t have your data, either. Google may use this data in other ways for up to three years—it just won’t add it to AI-training data sets.",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-5-1152x648.jpg",
+      "gallery": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/2026-11-17-10_26_12-.png",
+          "alt": "The current Gemini Activity page is an all or nothing affair. Credit: Google"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2025/02/AV4.jpg",
+          "alt": "Photo of Ryan Whitwam"
+        }
+      ],
       "saved": false,
-      "author": "Andrew Liszewski"
+      "author": "Ryan Whitwam"
     },
     {
-      "id": "news-quantum-20261118-4a8b4c43",
+      "id": "news-quantum-20261118-9f7a6cef",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
       "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261114202232.htm",
-      "title": "Physicists defy expectations by controlling the magnetic heart of a single atom",
-      "dek": "Scientists have unexpectedly discovered how to control the magnetic spin inside a single atom's nucleus using radio waves, overturning previous assumptions about atomic behavior.",
-      "content": "Researchers at Delft University of Technology (The Netherlands) have accomplished something that physicists previously thought should not be possible. Using radio waves, they managed to directly control the magnetic spin of the nucleus inside a single atom. The unexpected result challenges existing assumptions about how atomic magnetism behaves and could eventually lead to new ways of storing and retrieving quantum information.\n\nThe findings, published in Nature Communications , also present scientists with a new puzzle. Although the experiment demonstrated that this remarkable level of control is possible, researchers do not yet fully understand the mechanism that makes it work.\n\nAtoms in magnetic metals such as iron and nickel behave like tiny magnets. However, the magnetism within an atom comes from different sources. Both electrons and, in some cases, the atomic nucleus possess a quantum property called spin , which can be thought of as a miniature magnetic compass needle.\n\n\"By far the strongest magnetism comes from the electrons,\" says lead researcher Sander Otte. \"But in some atoms, the nucleus also carries a spin. That spin is much weaker, but it is also much better shielded from the outside world.\"\n\nThat protection makes nuclear spin especially interesting to quantum researchers. Because it is less exposed to disturbances from its surroundings, it could offer a promising way to preserve delicate quantum information.\n\nTo investigate these tiny magnetic properties, Otte's team uses a specially modified scanning tunneling microscope. This powerful instrument allows the researchers to deliver electrical signals to individual atoms with extraordinary precision.\n\nUntil recently, their experiments concentrated primarily on electron spin because it is easier to detect and measure. The nucleus's magnetic spin could only be observed indirectly through a phenomenon known as the hyperfine interaction, which creates a subtle quantum connection between the spins of the electron and nucleus. This connection can cause the two spins to become slightly entangled, meaning their quantum states are linked.\n\nIn the latest study, lead author Hester Vennema and her colleagues took a different approach. They simultaneously applied two separate signals to a single atom, with one directed at the electron and the other at the nucleus.\n\nBy using these signals together, the researchers could investigate their effects independently. What happened next caught them by surprise.\n\nEven when the electron and nuclear spins were largely disentangled, the team was still able to flip the orientation of the nucleus's magnetic spin. Based on their previous understanding, the nucleus should not have responded in this way.",
-      "image": "https://www.sciencedaily.com/images/1920/electron-and-nucleus-spins-controlled-by-wave-signals.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261115085554.htm",
+      "title": "A material just one atom thick reveals a strange quantum secret",
+      "dek": "Researchers at the University of Osaka have discovered a remarkable quantum state forming at the boundary between a one-atom-thick material and a metal.",
+      "content": "Scientists at the University of Osaka in Japan have made a significant discovery in quantum physics, directly observing an unusual electronic state forming where a material just one atom thick meets a metal. Known as a heavy fermion state, this phenomenon causes electrons to behave as though they have much greater mass than normal. These states are associated with extraordinary quantum effects, including unconventional superconductivity, and the discovery could provide a new way to develop materials with unusual electronic properties.\n\nTo investigate this behavior, the researchers produced a carefully controlled, single atomic layer of ytterbium and copper (YbCu 2 ) on the surface of a copper crystal. They then used powerful synchrotron light to study the electrons and their interactions at the boundary between the two materials. The results showed that electrons confined to the thin atomic layer could interact with freely moving electrons in the copper beneath it, producing the unusual heavy fermion behavior.\n\nThe experiments uncovered two separate heavy fermion states with different characteristics. One existed primarily within the two-dimensional atomic layer, while the other reached beyond that layer and into the three-dimensional copper crystal below.\n\nThe second state was particularly important because it provided the first direct evidence of heavy fermion behavior generated by interactions across such an interface. Researchers traced the effect to the mixing, or hybridization, of localized ytterbium 4f electrons in the atomic layer with mobile conduction electrons inside the copper substrate. This interaction demonstrated how combining materials with different electronic characteristics can produce quantum behavior that neither material would necessarily exhibit on its own.\n\n\"This achievement was made possible by our continued efforts to create high-quality materials and measure their electronic states as precisely as possible,\" says senior author Professor Shin-ichi Kimura. \"Our next goal is to engineer and control such heavy-electron states, opening the way to previously unexplored quantum states, including unconventional superconductivity.\"\n\nThe discovery suggests that the boundaries between materials could become powerful tools for creating and controlling exotic quantum states. Rather than relying only on the properties of individual substances, scientists may be able to develop entirely new electronic behaviors by carefully selecting and combining ultrathin atomic layers with suitable underlying materials.\n\nFuture research could focus on adjusting the structures of these interfaces, controlling the electronic orbitals involved, and manipulating moir&eacute; patterns that arise when atomic arrangements overlap. Such approaches may allow researchers to produce and fine-tune quantum phenomena in materials with extremely small dimensions, including effects that cannot be achieved in conventional materials. Ultimately, this could open new possibilities for engineering advanced quantum materials and investigating unconventional superconductivity.",
+      "image": "https://www.sciencedaily.com/images/1920/heavy-fermion-at-interface.webp",
       "gallery": [],
       "saved": false
     },
@@ -213,6 +193,32 @@
       "imageKind": "category"
     },
     {
+      "id": "arxiv-2611.22074",
+      "edition": "morning",
+      "tag": "NV & Quantum Sensing",
+      "title": "Electrostatic screening and nitrogen-vacancy charge states in boron-doped/nitrogen-doped diamond junctions",
+      "authors": "Masato Koga, Haizen Cho, El Mustapha Mansouri et al.",
+      "year": "2026",
+      "arxivId": "2611.22074",
+      "journal": "arXiv:2611.22074 [cond-mat.mtrl-sci]",
+      "url": "https://arxiv.org/abs/2611.22074",
+      "pdfUrl": "https://arxiv.org/pdf/2611.22074",
+      "readTime": "2 min read",
+      "tldr": "Boron-doped diamond (BDD) enables the integration of electrical functionality with nitrogen-vacancy (NV) centers, but the influence of junction electrostatics on NV charge-state stability remains unclear. In this study, we investigate the equilibrium electrostatics of BDD/nitrogen-doped diamond junctions using self-consistent Poisson-Fermi calculations.",
+      "takeaways": [
+        "Boron-doped diamond (BDD) enables the integration of electrical functionality with nitrogen-vacancy (NV) centers, but the influence of junction electrostatics on NV charge-state stability remains unclear.",
+        "In this study, we investigate the equilibrium electrostatics of BDD/nitrogen-doped diamond junctions using self-consistent Poisson-Fermi calculations.",
+        "The results reveal two distinct electrostatic length scales in the nitrogen-doped substrate: a near-interface region of ionized donors that produces dominant band bending and determines the NV$^{0/-}$ charge-state boundary, and a much longer screening tail associated with weak donor ionization in the neutral bulk."
+      ],
+      "matched": [
+        "nitrogen-vacancy",
+        "diamond"
+      ],
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1666112835145-d79fc3f2e008?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
+    },
+    {
       "id": "arxiv-2611.16252",
       "edition": "morning",
       "tag": "NMR & Spin Control",
@@ -237,84 +243,59 @@
         "sensor"
       ],
       "saved": false,
-      "image": "https://images.unsplash.com/photo-1666112835145-d79fc3f2e008?auto=format&fit=crop&w=1200&q=80",
-      "imageKind": "category"
-    },
-    {
-      "id": "arxiv-2611.19395",
-      "edition": "morning",
-      "tag": "Coherence & Open Systems",
-      "title": "Unruh-induced decoherence and entanglement degradation in Ramsey interferometry",
-      "authors": "E. D. C Brandão, O. P. de Sá Neto, F. C. E. Lima et al.",
-      "year": "2026",
-      "arxivId": "2611.19395",
-      "journal": "arXiv:2611.19395 [quant-ph]",
-      "url": "https://arxiv.org/abs/2611.19395",
-      "pdfUrl": "https://arxiv.org/pdf/2611.19395",
-      "readTime": "2 min read",
-      "tldr": "We propose a modified Ramsey interferometric protocol to probe decoherence associated with the Unruh effect through fringe visibility. The scheme employs Unruh-DeWitt detectors coupled to a massless scalar field in the Minkowski vacuum through an interaction that induces pure dephasing without transitions between their internal energy levels.",
-      "takeaways": [
-        "We propose a modified Ramsey interferometric protocol to probe decoherence associated with the Unruh effect through fringe visibility.",
-        "The scheme employs Unruh-DeWitt detectors coupled to a massless scalar field in the Minkowski vacuum through an interaction that induces pure dephasing without transitions between their internal energy levels.",
-        "This suggests that the entanglement degradation can be quantified directly from the interference contrast."
-      ],
-      "matched": [
-        "decoherence",
-        "coherence",
-        "entanglement"
-      ],
-      "saved": false,
       "image": "https://images.unsplash.com/photo-1527409335569-f0e5c91fa707?auto=format&fit=crop&w=1200&q=80",
       "imageKind": "category"
     },
     {
-      "id": "arxiv-2611.21560",
+      "id": "arxiv-2611.22192",
       "edition": "morning",
-      "tag": "NV & Quantum Sensing",
-      "title": "Optimal Quantum Sensing Algorithms for Discrete-Frequency Spectroscopy",
-      "authors": "Yu-Jie Liu, Richard R. Allen, Ruohan Shen et al.",
+      "tag": "Floquet & Driven Systems",
+      "title": "Symmetry-selected entanglement death at Floquet resonances of parametrically coupled qubits",
+      "authors": "Kamran Akbari, Stephen Hughes",
       "year": "2026",
-      "arxivId": "2611.21560",
-      "journal": "arXiv:2611.21560 [quant-ph]",
-      "url": "https://arxiv.org/abs/2611.21560",
-      "pdfUrl": "https://arxiv.org/pdf/2611.21560",
+      "arxivId": "2611.22192",
+      "journal": "arXiv:2611.22192 [quant-ph]",
+      "url": "https://arxiv.org/abs/2611.22192",
+      "pdfUrl": "https://arxiv.org/pdf/2611.22192",
       "readTime": "2 min read",
-      "tldr": "Spectroscopy is a versatile tool that drives scientific discovery and underpins modern technologies. Quantum sensing offers promising opportunities to advance spectroscopy through enhanced sensitivity and spectral and spatial resolution.",
+      "tldr": "Periodic modulation of a qubit--qubit coupling is a standard way to engineer quantum interactions, but a strong modulation also reorganizes the transitions through which the qubits dissipate into a comb of Floquet channels. We study two identical, strongly coupled qubits whose transverse coupling is modulated anharmonically, as by a nonlinear coupler, with each qubit damped by its own reservoir.",
       "takeaways": [
-        "Quantum sensing offers promising opportunities to advance spectroscopy through enhanced sensitivity and spectral and spatial resolution.",
-        "Here, we develop an algorithmic approach to quantum sensing tailored to various spectroscopic tasks, providing new avenues for improvement.",
-        "For all tasks, we design optimal quantum sensing algorithms achieving a $\\sqrt{N}$ speedup over conventional frequency-scanning approaches."
+        "Periodic modulation of a qubit--qubit coupling is a standard way to engineer quantum interactions, but a strong modulation also reorganizes the transitions through which the qubits dissipate into a comb of Floquet channels.",
+        "The modulation raises the ground-state concurrence of the cycle-averaged Hamiltonian from 0.45 to above 0.8, yet the steady-state concurrence stays close to its undriven value except at Floquet resonances selected by symmetry.",
+        "Comparing time-independent and Floquet master equations, with and without the secular approximation, we show that the basis in which the dissipator is built changes the entanglement by up to 0.2 for an Ohmic bath and 0.5 for a flat one, whereas the secular approximation matters only near anticrossings with gaps comparable to the damping."
       ],
       "matched": [
-        "nitrogen-vacancy",
-        "quantum sensing",
-        "sensor",
-        "qubit"
+        "floquet",
+        "master equation",
+        "qubit",
+        "entanglement"
       ],
       "saved": false,
-      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
+      "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
       "imageKind": "category"
     },
     {
-      "id": "arxiv-2611.19483",
+      "id": "arxiv-2611.23046",
       "edition": "morning",
-      "tag": "Floquet & Driven Systems",
-      "title": "Bright-Dark State Interplay Governs Vibronic Decoherence in Molecular Aggregates",
-      "authors": "Sreeja Loho Choudhury, Abhradeep Sarkar, Raja Ghosh",
+      "tag": "NV & Quantum Sensing",
+      "title": "Frequency Multiplexing of Purcell-Enhanced Optically Coherent NV Centers",
+      "authors": "Alok Gokhale, Marco E. Stucki, Malo Bezard et al.",
       "year": "2026",
-      "arxivId": "2611.19483",
-      "journal": "arXiv:2611.19483 [cond-mat.stat-mech]",
-      "url": "https://arxiv.org/abs/2611.19483",
-      "pdfUrl": "https://arxiv.org/pdf/2611.19483",
+      "arxivId": "2611.23046",
+      "journal": "arXiv:2611.23046 [quant-ph]",
+      "url": "https://arxiv.org/abs/2611.23046",
+      "pdfUrl": "https://arxiv.org/pdf/2611.23046",
       "readTime": "2 min read",
-      "tldr": "In this study, we establish a spectroscopy-driven framework that connects optically bright vibronic eigenstates to their subsequent decoherence dynamics in excitonic molecular aggregates. Combining the Multiparticle Holstein Formalism with explicit system--bath interactions, we demonstrate that relaxation-induced purity loss is governed by three interconnected factors: (i) the bath spectral window, which determines the accessibility of intra- and interband relaxation pathways; (ii) the local network of dark vibronic states surrounding the optically prepared bright state; and (iii) the energetic placement of the bright state, which controls downhill relaxation.",
+      "tldr": "Integrating optically coherent quantum emitters into nanophotonic structures is key to scalable quantum networks. Realizing them with nitrogen-vacancy (NV) centers in diamond is hindered by the degradation of optical coherence accompanying nanofabrication.",
       "takeaways": [
-        "In this study, we establish a spectroscopy-driven framework that connects optically bright vibronic eigenstates to their subsequent decoherence dynamics in excitonic molecular aggregates.",
-        "Combining the Multiparticle Holstein Formalism with explicit system--bath interactions, we demonstrate that relaxation-induced purity loss is governed by three interconnected factors: (i) the bath spectral window, which determines the accessibility of intra- and interband relaxation pathways; (ii) the local network of dark vibronic states surrounding the optically prepared bright state; and (iii) the energetic placement of the bright state, which controls downhill relaxation.",
-        "Remarkably, states with different excitation energies exhibit nearly identical purity dynamics when their local relaxation networks are similar."
+        "Realizing them with nitrogen-vacancy (NV) centers in diamond is hindered by the degradation of optical coherence accompanying nanofabrication.",
+        "Here, we overcome this challenge by integrating multiple NV centers into a monolithic diamond photonic crystal nanocavity while preserving near-lifetime-limited optical coherence.",
+        "We observe linewidths as narrow as 19 MHz, enabling the frequency multiplexing of spectrally distinct NV centers within a common cavity mode, while maintaining charge-state stability over several minutes under resonant excitation."
       ],
       "matched": [
-        "decoherence",
+        "nv center",
+        "nitrogen-vacancy",
+        "diamond",
         "coherence"
       ],
       "saved": false,
