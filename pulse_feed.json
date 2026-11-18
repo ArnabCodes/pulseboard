@@ -1,114 +1,128 @@
 {
-  "generated_at": "2026-11-17T12:40:16Z",
+  "generated_at": "2026-11-18T01:27:54Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261117-3c3ecf02",
+      "id": "news-geopolitics-20261118-789c31d8",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "CBC World",
+      "readMin": 2,
+      "spectrum": "left",
+      "sourceUrl": "https://www.cbc.ca/news/world/united-kingdom-israel-west-bank-construction-companies-settlements-9.7425375?cmp=rss",
+      "title": "U.K. sanctions Israeli companies involved in building illegal settlements in West Bank",
+      "dek": "Britain said on Tuesday it would impose sanctions on eight Israeli construction companies involved in building settlements in the occupied West Bank, as part of its effort to protect the idea of a two…",
+      "content": "An Israeli settlement is seen as Israeli military machinery uproots olive trees in the Palestinian village of Beit Rima near Ramallah, in the occupied West Bank on Sept. 24. The U.K. announced new sanctions on Tuesday that would be imposed on eight Israeli construction companies involved involved in West Bank settlements. (Ali Sawafta/Reuters) Social Sharing Britain said on Tuesday it would impose sanctions on eight Israeli construction companies involved in building settlements in the occupied West Bank, as well as on an activist group responsible for blocking aid to Gaza.\n\nThe firms targeted for asset freezes and director disqualifications include Har Hevron Development Company, Hemdat Shomron and S.A.G. (Velvel) Construction and Development, which build and develop homes in the West Bank.\n\nThe government announced the sanctions package shortly before the final deadlines for the E1 tender, a settlement project that would bisect the Israeli-occupied West Bank and cut it off from East Jerusalem, fragmenting the land that Palestinians hope will form the heart of a state.\n\n\"Protecting the two-state solution is the North Star of this government's approach,\" British Foreign Secretary Ed Miliband said in a statement. \"That is why my message on E1 is clear: Do not bid, do not build and do not profit from the destruction of the two-state solution.\"\n\nIsraeli Foreign Minister Gideon Saar said the sanctions were a \"hostile act targeting private, law-abiding companies,\" adding that the Israeli government would consider new ways to strengthen settlements in the West Bank.\n\n\"Israel will respond to the British government’s actions with countermeasures. A wide range of possible responses is currently under consideration. Our decisions will be announced in due course,\" he said in a post on X.\n\nSaar remains foreign minister in a caretaker government led by Benjamin Netanyahu. An Oct. 27 election stripped Netanyahu's coalition of its parliamentary majority but no winner emerged, and talks are ongoing to form a new government.\n\nThe Palestinian Authority welcomed the British sanctions and called for other countries to take similar action.\n\nThe sanctions are the latest in a series of measures by Britain targeting the settlement policy and underscore Israel's growing diplomatic isolation among some traditional allies.\n\nBritain's relationship with Israel has deteriorated significantly over the past three years because of disagreements over the way that Israel has conducted its war against Hamas and the Israeli government's plans to expand settlements in the occupied West Bank.",
+      "image": "https://i.cbc.ca/ais/9427ab8a-df96-4947-935a-d4b2f67290a6,1794939693151/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C223%2C4240%2C2385%29%3BResize%3D620",
+      "gallery": [
+        "https://i.cbc.ca/ais/8af1fe4f-b36a-4063-b849-9181133705a6,1779049966062/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C1920%2C1080%29%3BResize%3D620",
+        "https://i.cbc.ca/ais/1470dfe6-f4cd-44f1-8657-3a7f6df910d4,1794317943701/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C1920%2C1080%29%3BResize%3D620"
+      ],
+      "saved": false,
+      "alsoCoveredBy": [
+        {
+          "outlet": "BBC World",
+          "url": "https://www.bbc.co.uk/news/articles/cvglr977x3z0o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outlet": "Times of Israel",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxObEVDWHBSU1REbnl0MmstS0F0ejN5em05UkgxbjctNmVoWjZZZU1WbHhGbE02OXRWS3RVandocHQwTnpYQkxhRE1jNzFmUXpndF9uam5iYmRJLWVHZU4tajh6cmZnTV96OFJMWEhVbGVrZERJenJUaGhhMHhBVjZVYVJLTVRhVFJZbTc4NGcyb3k0NGladGxwX0FVd2xTdW41dTVhVU5tZ0lsX2RWdGxYMdIBtgFBVV95cUxOeHYya19iX3BIbGYyMUhUVzFwaXljdmxQNi1mQkxSeGk0bjFGZWlSQkV0NkZpR2ozXzJFZmtDZS02V3RaR1k4SVZYYkR2UUkwWmhTcFZ3VjcyMm5hR3dNb0lLZEFuVDI0ODBnOERQeGY0dE0yU0YwLTBmaTV6UXQ3eTFZbDc3NXN0UVlRVzZLR1pqdVl2czJfbnhoMzRGa2hiaVZrcUNld000NjhBdWQ1R1AyaFBtUQ?oc=5"
+        }
+      ]
+    },
+    {
+      "id": "news-geopolitics-20261118-1fc3b942",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
       "source": "The Guardian",
-      "readMin": 2,
+      "readMin": 3,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/17/ed-miliband-israel-west-bank-settlements-sanctions",
-      "title": "Ed Miliband announces first sanctions on Israeli firms working in West Bank",
-      "dek": "Move is designed to hinder building of more illegal settlements, which Foreign Office says Israel has ‘refused to clamp down on’ UK politics live – latest updates Ed Miliband has announced the first s…",
-      "content": "Israeli police stand guard near the settlement of Maale Adummim, in a land corridor known as E1, outside Jerusalem in the occupied West Bank Photograph: Menahem Kahana/AFP/Getty Images View image in fullscreen Israeli police stand guard near the settlement of Maale Adummim, in a land corridor known as E1, outside Jerusalem in the occupied West Bank Photograph: Menahem Kahana/AFP/Getty Images West Bank Ed Miliband announces first sanctions on Israeli firms working in West Bank Move is designed to hinder building of more illegal settlements, which Foreign Office says Israel has ‘refused to clamp down on’\n\nEd Miliband has announced the first set of sanctions against Israeli companies planning to build illegal settlements in the West Bank, after he pledged to try to prevent settlements that destroy the chances of a two-state solution.\n\nThe UK foreign secretary also announced he was placing sanctions on a rightwing activist Israeli group involved in trying to block aid into Gaza as recently as last month.\n\nMiliband announced the measures just before tenders for the large E1 West Bank settlement were due to be allocated by the Israeli government, while saying he wanted to work with a new Israeli government in a more cooperative way.\n\nView image in fullscreen Gadi Eisenkot and Benjamin Netanyahu at the Knesset on 10 November. Photograph: Amir Levy/Getty Images Israel’s possible new prime minister, Gadi Eisenkot has said that, if appointed, he will take a tougher approach than Benjamin Netanyahu to settler violence.\n\nThe sanctions are designed to stop the flow of finance to eight identified construction firms, although in practice the extent to which any of the firms are dependent on British finance is yet to be tested.\n\nOn 8 September, Miliband announced an expansion of its Global Human Rights sanctions regime, as well as a complex set of measures, yet to be implemented, designed to ban the trade in goods from illegal settlements. The Foreign Office said that it welcomed and encouraged trade with “green line Israel” and firmly distinguished this with activity in settlements.\n\nView image in fullscreen Palestinian children at a makeshift school established inside tents in Gaza City. Photograph: Omar Ashtawy/HL/Getty Images The Foreign Office said the current Israeli government had “not only refused to clamp down on illegal settlement, but has facilitated and encouraged them”. More settlements had been approved under the four years of this Israeli government than in the previous 20 years.",
-      "image": "https://i.guim.co.uk/img/media/c9523ec5228a42aa647f50bbf3dbb4fc03f57ce3/28_0_3300_2640/master/3300.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=360494a978ff64e698328d170754c092",
+      "sourceUrl": "https://www.theguardian.com/world/2026/nov/17/palestinian-woman-shot-dead-israeli-settlers-near-jericho-witnesses-say",
+      "title": "Palestinian woman shot dead by Israeli settlers near Jericho, witnesses say",
+      "dek": "Bullet hit 72-year-old Fadha Wadha in head outside her home in al-Duyuk al-Tahta, in the West Bank, say residents A 72-year-old Palestinian woman has been shot dead in an overnight attack by Israeli s…",
+      "content": "Duyuk al-Tahta, east of Jericho, West Bank, where Fadha Wadha was killed. Several other Palestinians, including her son, were also wounded. Photograph: Issam Rimawi/Anadolu/Getty Images View image in fullscreen Duyuk al-Tahta, east of Jericho, West Bank, where Fadha Wadha was killed. Several other Palestinians, including her son, were also wounded. Photograph: Issam Rimawi/Anadolu/Getty Images Israel Palestinian woman shot dead by Israeli settlers near Jericho, witnesses say Bullet hit 72-year-old Fadha Wadha in head outside her home in al-Duyuk al-Tahta, in the West Bank, say residents\n\nA 72-year-old Palestinian woman has been shot dead in an overnight attack by Israeli settlers in a village near Jericho where settlers have recently moved in after taking over several Palestinian homes.\n\nFadha Wadha was standing outside her home in al-Duyuk al-Tahta in the occupied West Bank when she was struck in the head by a bullet as Israeli settlers fired towards Palestinian houses, according to testimonies from residents. Several other Palestinians, including her son, were wounded by gunfire.\n\nAbu Younis, a cousin of Wadha’s husband, told the Guardian that the violence had begun when a group of settlers attacked a young boy they accused of entering a courtyard seized from its Palestinian residents.\n\nDozens of Israeli settlers, some of them armed, moved into eight buildings in al-Duyuk al-Tahta two weeks ago with the backing of the settler organisation Nachala and a regional council representing illegal settlements in the central West Bank.\n\n“A vehicle carrying settlers chased him,” Younis said. “There were about 15 settlers in several vehicles. They began firing indiscriminately, killing the woman.”\n\nWitnesses said Palestinian residents began to throw stones to defend themselves, as more settlers arrived at the scene, shooting at civilians and injuring six men.\n\nWadha’s son, Arafat Fidhat, was wounded after he rushed to the scene after learning that his mother had been shot. His wife, Naama Fidhat, told Reuters he was in shock when he accidentally collided with a parked car belonging to one of the settlers.\n\nWitnesses said the vehicle was empty at the time, but that settlers responded by opening fire, wounding Arafat in the torso.\n\nView image in fullscreen Mourners attend the funeral of Wadha Fadha, a 72-year-old Palestinian woman killed by Israeli settlers, near Jericho. Photograph: Jamal Awad/Reuters Naama Fidhat said her husband was being taken to a hospital in Ramallah when Israeli soldiers stopped the ambulance and arrested him. She said Israeli soldiers also arrested their son, Wadha’s grandson, early the following morning.",
+      "image": "https://i.guim.co.uk/img/media/b7d5959fd9dbbbea50ccb8f11198cd72513b020c/971_535_2513_2011/master/2513.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=0a23cca4b44fe553c3f901fb03cbe61f",
       "gallery": [
         {
-          "url": "https://i.guim.co.uk/img/media/6fa7ad5b010e4a02729fc253d667499427d3f416/0_0_4500_3000/master/4500.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "Gadi Eisenkot and Benjamin Netanyahu at the Knesset on 10 November. Photograph: Amir Levy/Getty Images"
-        },
-        {
-          "url": "https://i.guim.co.uk/img/media/ac913cbe2c203c03dc4fc07b4ab9875a04311157/0_0_8192_5464/master/8192.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "Palestinian children at a makeshift school established inside tents in Gaza City. Photograph: Omar Ashtawy/HL/Getty Images"
+          "url": "https://i.guim.co.uk/img/media/1a14906541e414af2f67939bb9acab82009c950e/177_0_1797_1438/master/1797.jpg?width=445&dpr=1&s=none&crop=none",
+          "alt": "Mourners attend the funeral of Wadha Fadha, a 72-year-old Palestinian woman killed by Israeli settlers, near Jericho. Photograph: Jamal Awad/Reuters"
         }
       ],
       "saved": false,
-      "author": "Patrick Wintour"
+      "author": "Lorenzo Tondo",
+      "alsoCoveredBy": [
+        {
+          "outlet": "BBC World",
+          "url": "https://www.bbc.co.uk/news/articles/cqrlg377638yo?at_medium=RSS&at_campaign=rss"
+        }
+      ]
     },
     {
-      "id": "news-geopolitics-20261117-b850ae0e",
+      "id": "news-geopolitics-20261118-3fef5fb7",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
-      "source": "The Hindu",
-      "readMin": 2,
-      "spectrum": "left",
-      "sourceUrl": "https://www.thehindu.com/news/national/telangana/civil-society-questions-detention-of-sio-members/article71711056.ece",
-      "title": "Civil society questions detention of SIO members over their stance on Telangana-Israel collaboration event",
-      "dek": "Civil society members said that the detentions were contrary to India’s consistent foreign policy of supporting Palestine",
-      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nMembers of Students Islamic Organisation (SIO) in Telangana were taken into preventive detention over their stance on Telangana government’s Israel-Telangana Strengthening Technology and Business Collaboration at T-Hub in Hyderabad | Photo Credit: SPECIAL ARRANGEMENT\n\nFollowing the preventative detention of members of Students Islamic Organisation on Monday in Hyderabad , members of civil society accused the police of curtailing democratic right to question the Telangana government’s Israel-Telangana Strengthening Technology and Business Collaboration at T-Hub and called for divestment.\n\nThe civil society members said that the detentions were contrary to India’s consistent foreign policy of supporting Palestine. They pointed to what they described as a pattern of targeting educated and successful Muslim youth for raising questions on matters of public interest.\n\nThe Telangana police on Monday (November 16, 2026) picked up SIO members soon after civil society members had addressed the media raising serious concerns about the event at T-Hub.\n\nAddressing the media in Hyderabad on Tuesday (November 17, 2026), academic Padmaja Shaw alleged a systematic pattern of targeting educated and successful Muslim youth. Referring to the detention of the SIO members, she said the action appeared intended to send a message that those who spoke out would face police action.\n\nShe recalled an earlier incident at the English and Foreign Languages University (EFLU), where female students were picked up over Palestinian literature. She said the police had reacted as though mentioning Palestine was a crime, despite the academic nature of the institution. Ms. Shaw also questioned whether Telangana Police were acting under the influence of the Union government rather than the State government.\n\nWhile privacy rights activist Srinivas Kodali pointed out that Israeli investment was not new but the time has come to discuss and deliberate on divestment, S Q Masood said most surveillance systems were Israeli technology and efforts must be taken to challenge illegal surveillance in Telangana.",
-      "image": "https://th-i.thgim.com/public/incoming/e8zpax/article71711350.ece/alternates/LANDSCAPE_1200/WhatsApp%20Image%202026-11-16%20at%205.43.19%20AM.jpeg",
-      "gallery": [],
-      "saved": false,
-      "author": "Syed Mohammed"
-    },
-    {
-      "id": "news-geopolitics-20261117-9c3d3780",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "BBC World",
-      "readMin": 2,
-      "spectrum": "center",
-      "sourceUrl": "https://www.bbc.co.uk/news/articles/cr868wd2qg18o?at_medium=RSS&at_campaign=rss",
-      "title": "Indian woman gang-raped while pregnant in 2002 'heartbroken' after two perpetrators bailed",
-      "dek": "Bilkis Bano has spoken of her \"pain, shock and disbelief\" at the top court order and vowed to fight back.",
-      "content": "Image source, ANI Image caption, The attack on Bilkis Bano and her family was one of the most horrific crimes during the Gujarat riots\n\nThe article has details that some readers may find disturbing\n\nA pregnant Muslim woman who was gang-raped and saw 14 family members murdered during the 2002 Gujarat riots has spoken of her \"pain, shock and disbelief\" after two of her rapists were recently granted bail.\n\nBilkis Bano said in a statement that she heard about the top court order through press reports and vowed to fight back.\n\nThe freed men are from a group of 11 convicts - part of a Hindu mob - serving life terms for the attack on Bano.\n\nAll the men were also freed in 2022 after a Gujarat government order. That decision, and the celebrations as they left prison, caused global outrage . In 2024, the Supreme Court overturned the order .\n\nIn a short three-page order dated 28 October, the Supreme Court granted bail to Bipinchand Kanaiyalal Joshi and Pradip Ramanlal Modhiya and suspended their sentences while their petition challenging a 2017 Bombay High Court order is being heard.\n\nThe judges explained that the early release was because the two convicts \"have been under incarceration for a period of more than 17 years\" and \"that one of the appellants has a severe handicap\".\n\nOn Tuesday, Bano's lawyer Shobha Gupta told the BBC that the news of Joshi and Modhiya's release had left \"Bilkis heartbroken\".\n\n\"She has to restart her battle for justice. She had no information that this case was coming up in the Supreme Court. What is troubling for us is that every time something like this happens, we worry that it could affect her faith in judiciary.\"\n\nImage source, Getty Images Image caption, The riots began after a fire on a passenger train in Godhra town killed 60 Hindu pilgrims\n\nGupta said it was difficult to understand why the convicts were being released because \"it's not a routine criminal case, it's a case that shocks the conscience of the world, of entire humanity\".\n\nThe attack on Bano and her family was one of the most horrific crimes during the Gujarat riots, which began after 60 Hindu pilgrims were killed in a fire on a passenger train in the town of Godhra.",
-      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/9c83/live/904d30a0-e1a4-11f1-973a-a76c1b2f887a.jpg",
+      "source": "NY Post",
+      "readMin": 3,
+      "spectrum": "right",
+      "sourceUrl": "https://nypost.com/2026/11/17/world-news/israeli-parliament-elects-new-knesset-speaker-backed-by-netanyahus-opponents/",
+      "title": "Israeli parliament elects new Knesset speaker backed by Netanyahu’s opponents",
+      "dek": "Israel's Knesset elected Matan Kahana as speaker with 66 votes, a key victory for Benjamin Netanyahu’s opponents to roll back his policies.",
+      "content": "The Israeli parliament elected a new speaker on Tuesday, a key step toward rolling back policies passed by the outgoing government led by Prime Minister Benjamin Netanyahu .\n\nThe newly-elected speaker is Matan Kahana, an ally of Gadi Eisenkot, the party leader currently working to form the next government and replace Netanyahu. Eisenkot’s bloc has pledged to undo some of Netanyahu’s most contentious policies following Kahana’s election.\n\nHe was approved as speaker with 66 votes in the 120-member chamber, backed by the Jewish-led opposition parties and by the Arab-led parties. The candidate backed by Netanyahu’s bloc, Ofir Katz, received 52 votes following a stormy debate that stretched some seven hours.\n\nIn his first comments as speaker, Kahana struck a conciliatory note. “It is possible to be divided and hold opposing positions, yet still respect the institutions of the state and, above all, respect those who think differently,” he said. “The Knesset of Israel is the home of all the citizens of the state of Israel, and I intend to be the speaker of everyone.”\n\nThe vote took place weeks after Oct. 27 parliamentary elections in which Netanyahu and his allies lost their parliamentary majority . Eisenkot was subsequently given the task by Israel’s president to try to form a new coalition government.\n\n“The appointment of Matan Kahana as Knesset speaker is a worthy democratic move that reflects the absolute majority in favor of change,” Eisenkot said ahead of Tuesday’s vote.\n\nEisenkot has up to five more weeks to secure enough alliances to form a coalition. As negotiations continue on the sidelines, his bloc, along with the Arab-led parties, can use their majority in the newly-sworn in Knesset to advance their legislative agenda. They introduced several bills last week, including to set term limits on the role of prime minister, to form a government-led inquiry into the Hamas-led Oct. 7, 2023, attacks and to reverse laws to limit the powers of the judiciary.\n\nKahana gives the opposition bloc a major legislative advantage, according to Assaf Shapira with the Israel Democracy Institute, a Jerusalem think tank.\n\n“It’s important because there is not much time, because the speaker of the Knesset can make the legislative process much, much faster or much slower,” Shapira said.\n\nEisenkot and his allies are under pressure to swiftly advance their legislative priorities in the weeks ahead. Currently a member of Eisenkot’s Yashar party, Roy Folkman, heads the temporary committee that decides much of the Knesset’s work until a government is formed.",
+      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/149139702.jpg?quality=75&strip=all&w=1200",
       "gallery": [
         {
-          "url": "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/9c83/live/904d30a0-e1a4-11f1-973a-a76c1b2f887a.jpg",
-          "alt": "Image caption, The attack on Bilkis Bano and her family was one of the most horrific crimes during the Gujarat riots"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/israeli-religious-services-minister-matan-149132887.jpg?w=1024",
+          "alt": "Israel’s Knesset elected Matan Kahana as speaker with 66 votes, a key victory for Benjamin Netanyahu’s opponents to roll back his policies. AFP via Getty Images"
         },
         {
-          "url": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/203b/live/62aadef0-e25c-11f1-8bed-2b9fd907b22d.jpg",
-          "alt": "Image caption, The riots began after a fire on a passenger train in Godhra town killed 60 Hindu pilgrims"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-opposition-leader-gadi-eisenkot-148268859.jpg?w=1024",
+          "alt": "Kahana is an ally of Gadi Eisenkot (pictured), who is forming the next government to replace Netanyahu. ZUMAPRESS.com"
         },
         {
-          "url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d87f/live/4aa37be0-e25d-11f1-84cb-b9a30b11458c.jpg",
-          "alt": "Image caption, The riots continued for three days and more than 1,000 people died, most of them Muslims"
+          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/2026-jerusalem-following-israels-legislative-148228924.jpg?w=1024",
+          "alt": "Kahana’s vote took place weeks after the Oct. 27 parliamentary elections that led to Netanyahu’s bloc losing its majority. Getty Images"
         }
       ],
       "saved": false,
-      "author": "Geeta Pandey"
+      "alsoCoveredBy": [
+        {
+          "outlet": "The Guardian",
+          "url": "https://www.theguardian.com/world/2026/nov/17/israeli-parliament-elects-new-knesset-speaker-backed-netanyahus-opponents"
+        }
+      ]
     },
     {
-      "id": "news-tech-20261117-2c89da7d",
+      "id": "news-tech-20261118-3e43b640",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "Ars Technica",
+      "source": "The Verge",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://arstechnica.com/gadgets/2026/11/microsoft-details-how-three-problems-combined-for-a-global-outage/",
-      "title": "Three small failures combined to take down Microsoft 365",
-      "dek": "A hidden bug, shifting traffic, and reduced capacity led to cascading failures.",
-      "content": "A hidden bug, shifting traffic, and reduced capacity led to cascading failures.\n\nA hidden defect in Microsoft’s cloud gateway, dormant since July, was to blame for one of the largest outages in the company’s history last week. A preliminary Post-Incident Report (PIR) released by the company outlines how the latent bug, changes in traffic, and reduced server capacity combined to knock much of Microsoft 365 and Exchange infrastructure offline at the end of last week. Microsoft’s report lists the incident’s final status as “a technical issue not related to cyber or AI/agents.”\n\nMicrosoft’s preliminary report places the outage between November 12 at 16:20 UTC and November 13 at 16:10 UTC, just under 24 hours total, and additional monitoring remained in place for any affected systems through November 14.\n\nThe outage started on November 12 and quickly rippled through businesses and public offices that depend on Microsoft’s cloud and email exchange infrastructure. The outage is covered in Microsoft’s incident IDs EX1550543 and MO1550821. You need Microsoft 365 admin credentials to see the full report on the company’s status pages, but Office Watch has reproduced the preliminary report , and the University of Pennsylvania maintains an archive of Microsoft’s service-health updates .\n\nMicrosoft attributes the outage to three factors. A change deployed to Microsoft’s cloud gateway starting in July created a bug where, under certain conditions, CPU and memory resources could become exhausted and unresponsive. Microsoft contends that the defect was never discovered in pre-release testing because the hardware used was less powerful than some systems already deployed in production, where higher CPU core counts on newer machines apparently contributed to the lockout.\n\nThe second factor was server load. Microsoft said that “Traffic shifts during standard network maintenance and upgrades exposed a latent bug.” The company keeps two independent gateway systems in place to access Microsoft 365 for resilience. If one system encounters trouble and users can’t get through the front door, the other is opened to keep traffic flowing. According to the report, about 15 hours prior to the outage, traffic from Teams was shifted from the alternate gateway to the primary, where Exchange Online access is maintained. The switchover was a standard fail-safe, but it left the gateway handling more traffic, with a different mix of requests than before. As requests continued to pile up, affected servers exhausted their capacity and refused new connection requests.",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/10/network-outage.jpg",
-      "gallery": [
-        {
-          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/5814.jpg",
-          "alt": "Photo of Nick Indge"
-        }
-      ],
+      "sourceUrl": "https://www.theverge.com/tech/1036045/ifixit-teardown-apple-homeview-smart-home-hub",
+      "title": "iFixit’s Apple HomeView teardown reveals a device that will be difficult to repair",
+      "dek": "After finding recent versions of Apple's iPads and HomePods much easier to disassemble for battery replacements or other repairs, iFixit assumed it would be the same story for Apple's new HomeView hub…",
+      "content": "Apple’s inroads on designing repairable devices seems to have been abandoned with the HomeView.﻿\n\nApple’s inroads on designing repairable devices seems to have been abandoned with the HomeView.﻿\n\nAfter finding recent versions of Apple’s iPads and HomePods much easier to disassemble for battery replacements or other repairs, iFixit assumed it would be the same story for Apple’s new HomeView hub that looks like a seven-inch tablet stuck to a smart speaker. The reality was much different and by the time they got the HomeView apart iFixit’s skilled techs had “ripped a connector, snapped a speaker in two, and put more force on the poor logic board than any of us were comfortable with.”\n\nThe tablet section of the HomeView proved to be the bigger challenge to disassemble as a result of some questionable decisions with Apple’s design. The glue used to secure the display in place “held on harder than on any Apple product we’ve opened recently,” iFixit says. And while Apple’s decision to turn the HomeView’s entire aluminum chassis into a heat sink was clever, the thermal bond between a heat shield and the device’s logic board made separating the two a “remarkably risky operation.” While these design decisions possibly streamlined assembly at a factory, the extensive use of glue makes servicing the HomeView incredibly difficult.\n\nIn an accompanying teardown video iFixit also reveals how much smaller the speaker drivers are in the wall-mounted version of the HomeView versus the tabletop option. Although both versions are priced at $299, the wall version costs a little more when you factor in the required mount that’s not included, leaving iFixit feeling that you’re getting less performance while spending more money.",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/ifixit.jpg?quality=90&strip=all&crop=0%2C10.742803501923%2C100%2C78.514392996155&w=1200",
+      "gallery": [],
       "saved": false,
-      "author": "Nick Indge"
+      "author": "Andrew Liszewski"
     },
     {
-      "id": "news-quantum-20261117-9f7a6cef",
+      "id": "news-quantum-20261118-4a8b4c43",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
       "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261115085554.htm",
-      "title": "A material just one atom thick reveals a strange quantum secret",
-      "dek": "Researchers at the University of Osaka have discovered a remarkable quantum state forming at the boundary between a one-atom-thick material and a metal.",
-      "content": "Scientists at the University of Osaka in Japan have made a significant discovery in quantum physics, directly observing an unusual electronic state forming where a material just one atom thick meets a metal. Known as a heavy fermion state, this phenomenon causes electrons to behave as though they have much greater mass than normal. These states are associated with extraordinary quantum effects, including unconventional superconductivity, and the discovery could provide a new way to develop materials with unusual electronic properties.\n\nTo investigate this behavior, the researchers produced a carefully controlled, single atomic layer of ytterbium and copper (YbCu 2 ) on the surface of a copper crystal. They then used powerful synchrotron light to study the electrons and their interactions at the boundary between the two materials. The results showed that electrons confined to the thin atomic layer could interact with freely moving electrons in the copper beneath it, producing the unusual heavy fermion behavior.\n\nThe experiments uncovered two separate heavy fermion states with different characteristics. One existed primarily within the two-dimensional atomic layer, while the other reached beyond that layer and into the three-dimensional copper crystal below.\n\nThe second state was particularly important because it provided the first direct evidence of heavy fermion behavior generated by interactions across such an interface. Researchers traced the effect to the mixing, or hybridization, of localized ytterbium 4f electrons in the atomic layer with mobile conduction electrons inside the copper substrate. This interaction demonstrated how combining materials with different electronic characteristics can produce quantum behavior that neither material would necessarily exhibit on its own.\n\n\"This achievement was made possible by our continued efforts to create high-quality materials and measure their electronic states as precisely as possible,\" says senior author Professor Shin-ichi Kimura. \"Our next goal is to engineer and control such heavy-electron states, opening the way to previously unexplored quantum states, including unconventional superconductivity.\"\n\nThe discovery suggests that the boundaries between materials could become powerful tools for creating and controlling exotic quantum states. Rather than relying only on the properties of individual substances, scientists may be able to develop entirely new electronic behaviors by carefully selecting and combining ultrathin atomic layers with suitable underlying materials.\n\nFuture research could focus on adjusting the structures of these interfaces, controlling the electronic orbitals involved, and manipulating moir&eacute; patterns that arise when atomic arrangements overlap. Such approaches may allow researchers to produce and fine-tune quantum phenomena in materials with extremely small dimensions, including effects that cannot be achieved in conventional materials. Ultimately, this could open new possibilities for engineering advanced quantum materials and investigating unconventional superconductivity.",
-      "image": "https://www.sciencedaily.com/images/1920/heavy-fermion-at-interface.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261114202232.htm",
+      "title": "Physicists defy expectations by controlling the magnetic heart of a single atom",
+      "dek": "Scientists have unexpectedly discovered how to control the magnetic spin inside a single atom's nucleus using radio waves, overturning previous assumptions about atomic behavior.",
+      "content": "Researchers at Delft University of Technology (The Netherlands) have accomplished something that physicists previously thought should not be possible. Using radio waves, they managed to directly control the magnetic spin of the nucleus inside a single atom. The unexpected result challenges existing assumptions about how atomic magnetism behaves and could eventually lead to new ways of storing and retrieving quantum information.\n\nThe findings, published in Nature Communications , also present scientists with a new puzzle. Although the experiment demonstrated that this remarkable level of control is possible, researchers do not yet fully understand the mechanism that makes it work.\n\nAtoms in magnetic metals such as iron and nickel behave like tiny magnets. However, the magnetism within an atom comes from different sources. Both electrons and, in some cases, the atomic nucleus possess a quantum property called spin , which can be thought of as a miniature magnetic compass needle.\n\n\"By far the strongest magnetism comes from the electrons,\" says lead researcher Sander Otte. \"But in some atoms, the nucleus also carries a spin. That spin is much weaker, but it is also much better shielded from the outside world.\"\n\nThat protection makes nuclear spin especially interesting to quantum researchers. Because it is less exposed to disturbances from its surroundings, it could offer a promising way to preserve delicate quantum information.\n\nTo investigate these tiny magnetic properties, Otte's team uses a specially modified scanning tunneling microscope. This powerful instrument allows the researchers to deliver electrical signals to individual atoms with extraordinary precision.\n\nUntil recently, their experiments concentrated primarily on electron spin because it is easier to detect and measure. The nucleus's magnetic spin could only be observed indirectly through a phenomenon known as the hyperfine interaction, which creates a subtle quantum connection between the spins of the electron and nucleus. This connection can cause the two spins to become slightly entangled, meaning their quantum states are linked.\n\nIn the latest study, lead author Hester Vennema and her colleagues took a different approach. They simultaneously applied two separate signals to a single atom, with one directed at the electron and the other at the nucleus.\n\nBy using these signals together, the researchers could investigate their effects independently. What happened next caught them by surprise.\n\nEven when the electron and nuclear spins were largely disentangled, the team was still able to flip the orientation of the nucleus's magnetic spin. Based on their previous understanding, the nucleus should not have responded in this way.",
+      "image": "https://www.sciencedaily.com/images/1920/electron-and-nucleus-spins-controlled-by-wave-signals.webp",
       "gallery": [],
       "saved": false
     },
