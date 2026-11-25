@@ -1,117 +1,132 @@
 {
-  "generated_at": "2026-11-24T04:09:06Z",
+  "generated_at": "2026-11-25T02:53:00Z",
   "stories": [
     {
-      "id": "news-geopolitics-20261124-8050b3cd",
+      "id": "news-geopolitics-20261125-d5bd5b4a",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
-      "source": "NY Post",
+      "source": "BBC World",
       "readMin": 2,
-      "spectrum": "right",
-      "sourceUrl": "https://nypost.com/2026/11/23/world-news/iranian-singer-convicted-of-outraging-public-decency-lashed-74-times-for-performing-without-hijab/",
-      "title": "Iranian singer lashed 74 times for performing without hijab after conviction for ‘outraging public decency’",
-      "dek": "Parastoo Ahmadi, 29, was lashed on Monday over the live-streamed YouTube concert in 2024, which went viral in Iran.",
-      "content": "An Iranian singer was lashed 74 times after being convicted of “outraging public decency” over a performance in which she performed without her hijab.\n\nParastoo Ahmadi, 29, was whipped on Monday over the livestreamed YouTube concert in 2024, which went viral in Iran.\n\nIn Iran, women are banned from singing by themselves in public and are required by law to wear a hijab and modest clothes in public.\n\nThe concert was filmed at the Dayr-Gachin Caravanserai, a historic site along the Silk Road route in Iran, on Dec. 11, 2024. There was no live audience, but the video was viewed around 3 million times.\n\nAhmadi wore a sleeveless dress and no headscarf during the performance.\n\nIn the description of the concert, shared on her YouTube channel, Ahmadi wrote: “I want to sing for the people I love. This is a right that I could not give up, that is, singing for the land that I love passionately.”\n\nIn June, a criminal court in Qom convicted Ahmadi and eight others of “offending public decency by producing and disseminating vulgar and immoral content online.”\n\nThe artist’s lawyers appealed the sentence in September, but it was rejected.\n\nArtists Sohail Faghih-Nasiri, Amin Taheri and Amirali Pirnia, who also performed, and concert organizer Mohsen Lashkari, were also lashed, EuroNews reported.\n\nIn addition to the flogging, all five artists were sentenced to a two-year travel ban and a two-year ban on artistic activity.\n\nAhmadi’s lawyer told Iranian newspaper Etemad that Ahmadi and four members of her production team presented themselves to provincial authorities in Qom on Monday for their punishments.",
-      "image": "https://nypost.com/wp-content/uploads/sites/2/2026/11/149848446.jpg?quality=75&strip=all&w=1200",
+      "spectrum": "center",
+      "sourceUrl": "https://www.bbc.co.uk/news/articles/c6rrg7ggq190o?at_medium=RSS&at_campaign=rss",
+      "title": "Israeli air strike kills Hamas internal security chief in Gaza",
+      "dek": "Naeem Abu Nahel, who had been in the post for two months, is among seven Palestinians reportedly killed in Israeli strikes on Tuesday.",
+      "content": "Image source, Reuters Image caption, A funeral was held earlier in southern Gaza for three Palestinians killed in an Israeli strike\n\nAt least seven Palestinians, including a senior Hamas security official, have been killed in Israeli air strikes in the Gaza Strip, health officials and first responders say.\n\nNaeem Abu Nahel, the head of Hamas's internal security service, was targeted in western Gaza City, Gaza's Hamas-run interior ministry said. The 50-year-old had only been in the position since September, when his predecessor was captured in a raid by Israeli special forces .\n\nIsraeli Prime Minister Benjamin Netanyahu and Defence Minister Israel Katz announced that Abu Nahel was \"eliminated\" by the Israeli military.\n\nThe six other people were killed in two earlier air strikes elsewhere in Gaza.\n\nThree people, including a teenage boy, were killed in the Wadi Gaza area, south of Gaza City, according to the health officials and first responders. The other three were killed at a police station in the al-Mawasi area, west of Khan Younis, they added.\n\nGaza's police force, which operates under the interior ministry, said two of its officers were among those who died in the second attack. It also accused Israel of \"an ongoing campaign targeting the police apparatus aimed at sowing chaos\" in the territory.\n\nThe Israeli military said it struck \"military operatives\" in both areas.\n\nWitnesses said an Israeli drone targeted Naeem Abu Nahel as he was walking on a side street near a tent camp for displaced people in Gaza City.\n\nSeveral other people were reportedly seriously injured in the strike.\n\nThe Israeli military said Abu Nahel had \"possessed extensive institutional knowledge\" about Hamas's internal security service - which is responsible for enforcing discipline, protecting infrastructure and rooting out informants - and that his death constituted \"a blow to the apparatus's management capabilities\".\n\nIt also alleged that he had advanced attacks on Israeli troops and civilians during the war and that it killed him \"to remove the threat he posed\".\n\nGaza's interior ministry said Abu Nahel's killing followed what it described as the internal security service's \"important achievements in combating gangs collaborating with the occupation [Israel] and operating in areas under the control of its military\".\n\nImage source, AFP via Getty Images Image caption, Gaza's health ministry warned that there was a rapid rise in cases of meningitis in October",
+      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/9451/live/7a525660-e7fb-11f1-99b6-a35a62fa4264.jpg",
       "gallery": [
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/iranian-singer-lashed-74-times-149847204.jpg?w=1024",
-          "alt": "Iranian singer Parastoo Ahmadi was lashed 74 times after being convicted of outraging public decency for performing without a mandatory hijab. Parastoo Ahmadi / YouTube"
+          "url": "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/9451/live/7a525660-e7fb-11f1-99b6-a35a62fa4264.jpg",
+          "alt": "Image caption, A funeral was held earlier in southern Gaza for three Palestinians killed in an Israeli strike"
         },
         {
-          "url": "https://nypost.com/wp-content/uploads/sites/2/2026/11/iranian-singer-lashed-74-times-149847209.jpg?w=1024",
-          "alt": "Parastoo Ahmadi filmed the performance in 2024, and had no live audience. Parastoo Ahmadi / YouTube"
+          "url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c909/live/1c04cd30-e815-11f1-ab42-55d8d8278025.jpg",
+          "alt": "Image caption, Gaza's health ministry warned that there was a rapid rise in cases of meningitis in October"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/ee79/live/56061990-e382-11f1-a094-5fdc692f3e33.jpg",
+          "alt": "Palestinian families flee their homes and tents in response to an Israeli military evacuation order during an operation in central Gaza (18 November 2026)"
         }
       ],
       "saved": false,
-      "author": "Emily Lefroy",
+      "author": "David Gritten",
       "alsoCoveredBy": [
         {
           "outlet": "Times of Israel",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOejlGYXlKX0ZhUTUwbmxuSXVnN0QtbzRZR3A3dWUzNDVhcHpTeEJYYV8xakx0RnZxOENaMFJuVGdFamdPMHc5c19vVk8zOVIwb1lNazVtZFR0Uk90RFBhMVpiUnNsYVBiRHZfNVdDV3ZTMEJad1J4WXBhRUk3WnVDQ0l3S0I5MF9oM1hGaEhBVFlSV3pkMjZOSktMMNIBoAFBVV95cUxQc1ZZVVpKNmtIajdKbzV3ZnB6Vy1OVWppaXlKY281M0xFRzNnMXJyZzFHb0U5WFNhVkpwQm0yZnBuVVZ0WXpzYWFqeGlBdjZoQVhDUGZBZTFYLWw1ek9hbDJxd3BGaVJTWU53QlEzY2duMDlfNjJJQlVHSXJ2Q2pGN1M3R0Nfc0VDZEh6QjNNZzVuYzAtbVV5eWRGNWFyNUtt?oc=5"
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNOWpBNkx4aVRfTzhhbE1zUVZFaFM2b0g0bEk5ejllcW9PRk9qbVQzSC1QR0pMX2VEeVQ2Zko0c0VFYU9BdExzNUNnX094VVYwcHdxbXdYc2VfcDRHYjBrTGU0NDctZ01kSXp6SDgwVlVrcFpTTlRZOHJIalRzbXBxeDVQMXctMk9tbE9Eei1lemJmQVc5NmNONDVXb295UEVwMGpBNTMzS1RaVkY4RU9KUHo4YnE?oc=5"
         }
       ]
     },
     {
-      "id": "news-geopolitics-20261124-0d9c9ed3",
+      "id": "news-geopolitics-20261125-cedc2cb5",
       "edition": "morning",
       "featured": false,
       "category": "Geopolitics & Global",
-      "source": "The Guardian",
+      "source": "BBC World",
+      "readMin": 3,
+      "spectrum": "center",
+      "sourceUrl": "https://www.bbc.co.uk/news/articles/c893rl37ywdgo?at_medium=RSS&at_campaign=rss",
+      "title": "Land mine casualties soar in Syria, two years after war",
+      "dek": "Nearly 1,000 children are among those killed or injured by explosives left over from the conflict, figures show.",
+      "content": "Image source, PA Image caption, Syrians coming back after the war are falling victim to mines and other explosives\n\nEleven-year-old Alaa was tending her family's goats with her siblings in a field behind their home in Umm Khuzaym, north-west Syria, on Sunday when there was a flash and a deafening bang.\n\n\"Then we heard people screaming,\" Alaa's father, Walid Mohammed Al-Ghafar, told the BBC.\n\nWalid ran outside to find his daughter lying face down, killed, and her 10-year-old brother, Mahmoud, seriously injured.\n\nThe incident and others this week bring to nearly 1,000 the number of children killed or injured by explosive ordnance in Syria since the fall of Bashar al-Assad in December 2024, according to the UN Mine Action Service (Unmas).\n\nThe village is one of many where families have returned to homes and farmland that were once on the front lines of Syria's 13-year civil war.\n\nAlaa's father said demining teams had visited several times to clear the fields. He and other residents believed it was safe for farmers and children to move around.\n\nBut mines and other explosives can lie far beyond former battle lines, making it difficult to establish which areas are safe.\n\n\"Remnants of war from today's conflicts are often very widely and broadly scattered, often without patterns, which makes it extremely difficult to do clearance,\" Katrin Atkins, research lead at Landmine Monitor, a global mine monitoring initiative, told the BBC.\n\nThe dangers are reflected in a sharp rise in casualties across Syria.\n\nA total of 1,602 people were killed or injured by landmines and explosive remnants of war in 2025 alone, an increase of more than 50% on the previous year, according to the Landmine Monitor report, published by the International Campaign to Ban Landmines on Tuesday.\n\nThe report attributes the rise in Syria partly to the large-scale return of refugees and internally displaced people following Assad's overthrow.\n\n\"When you look at population movement, a couple of months later you see an increase of incidents in these areas, because that's exactly where people go and start to use the fields again,\" Atkins said.\n\nMore than 60% of casualties recorded by the world's largest landmine clearance charity, the Halo Trust, involve farming, agriculture or shepherding, according to its Syria programme manager, Simon Jackson.\n\n\"They're not going to wait for the government or for organisations like us to come and tell them that everything is safe and clear,\" he told the BBC. \"People are taking risks out of desperation.\"",
+      "image": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/bf76/live/b1401ed0-e816-11f1-99b6-a35a62fa4264.jpg",
+      "gallery": [
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/999/cpsprodpb/bf76/live/b1401ed0-e816-11f1-99b6-a35a62fa4264.jpg",
+          "alt": "Image caption, Syrians coming back after the war are falling victim to mines and other explosives"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/999/cpsprodpb/c4ab/live/c7e065e0-e817-11f1-99b6-a35a62fa4264.jpg",
+          "alt": "Image caption, Both government forces and rebels laid land mines during the civil war"
+        },
+        {
+          "url": "https://ichef.bbci.co.uk/ace/standard/1920/cpsprodpb/32b3/live/2a2c9e80-d477-11f1-93e1-3b657b665bcf.jpg",
+          "alt": "A girl wearing a pink baseball cap with a white sack over her shoulder looks at the camera, with a second girl behind her and a crowd of people behind them standing further away"
+        }
+      ],
+      "saved": false,
+      "author": "Samantha Granville"
+    },
+    {
+      "id": "news-geopolitics-20261125-c754b462",
+      "edition": "morning",
+      "featured": false,
+      "category": "Geopolitics & Global",
+      "source": "The Hindu",
       "readMin": 3,
       "spectrum": "left",
-      "sourceUrl": "https://www.theguardian.com/world/2026/nov/23/student-arrest-racist-campaign-israel-palestine-benjamin-netanyahu",
-      "title": "Israel seeks to jail Palestinian student activist without trial after dorm arrest",
-      "dek": "Mahdi Tounsi appeared with visible bruising after being interrogated by police on his association with Israeli-Palestinian organisations Israeli professors, students and rights activists are calling f…",
-      "content": "Detained student Mahdi Tounsi with his cats. His hair and beard were shaved in detention, and his glasses were taken away. Photograph: Handout View image in fullscreen Detained student Mahdi Tounsi with his cats. His hair and beard were shaved in detention, and his glasses were taken away. Photograph: Handout Israel Israel seeks to jail Palestinian student activist without trial after dorm arrest Mahdi Tounsi appeared with visible bruising after being interrogated by police on his association with Israeli-Palestinian organisations\n\nIsraeli professors, students and rights activists are calling for the immediate release of Mahdi Tounsi, a sociology student at Jerusalem’s Hebrew University who has been held without charge for more than two weeks after he was seized from his dorm room.\n\nThe detention comes amid a racist campaign of delegitimisation against Palestinian citizens of Israel, whose votes were critical to stripping Benjamin Netanyahu’s coalition of its majority in elections last month.\n\nPolice took Tounsi, 26, a criminology and sociology student from East Jerusalem who is active in Jewish-Palestinian campaign groups, from his dorm room on 8 November.\n\nWhen he appeared by video link at a court hearing on 19 November he had visible bruises on his face, did not have the glasses he needs to see properly, and his hair and beard had been shaved.\n\nTounsi told his lawyer that police beat him in the dorm, in the patrol car and at the police station, Israeli media reported . Interrogators questioned him about his activism with Israeli-Palestinian organisations Standing Together and Ir Amim.\n\nBoth groups called for his immediate release and warned against using security agencies to silence political activity and critical speech.\n\n“[This] could happen to any student and any one of us, especially in a month when the government is persecuting Arab citizens, from [ journalist ] Abed Abu Shehadeh to the leaders of Arab political parties,” Standing Together said in a statement, calling on the university to intervene to ensure a fair judicial process.\n\nView image in fullscreen A screengrab of Mahdi Tounsi in custody. Photograph: Ofer Cassif/X Ir Amim described Tounsi as thoughtful, gentle and a valued partner “in movements bringing Palestinians and Israelis together”, in a statement that also warned of “serious concerns for his safety, wellbeing, and right to due process”.\n\nAfter losing the election, Netanyahu and his allies weaponised false accusations of mass fraud – Israel’s election commission validated the results – in an attempt to hold on to power by delegitimising the votes of Palestinian citizens of Israel.",
-      "image": "https://i.guim.co.uk/img/media/3b697e211fd94382a4c76bc1361873d607c3ea2d/0_41_1200_960/master/1200.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=a500dcfdf1b5c72e43d6a6e5180563aa",
-      "gallery": [
-        {
-          "url": "https://i.guim.co.uk/img/media/406f9adc842ec3e4117dfba04a64c0c68c6692cd/0_0_5568_3712/master/5568.jpg?width=445&dpr=1&s=none&crop=none",
-          "alt": "Demonstrators call for the release of Mahdi Tounsi outside the Jerusalem district court. Photograph: Jess Flom/JNA/Zuma Press Wire/Shutterstock"
-        }
-      ],
+      "sourceUrl": "https://www.thehindu.com/news/national/uttar-pradesh/as-long-as-india-continues-to-hold-sikh-gurus-in-reverence-no-power-in-the-world-will-be-able-to-harm-india-says-yogi-adityanath/article71740947.ece",
+      "title": "As long as India continues to hold Sikh Gurus in reverence, no power in the world will be able to harm India, says Yogi Adityanath",
+      "dek": "The sacrifice, penance, martyrdom, and spiritual consciousness of the Sikh Gurus are invaluable treasures of India’s national unity, social harmony, and cultural pride",
+      "content": "Account subscription benefits alongside Premium Stories, Editorials, Opinions and more. Unlock these with Subscription\n\nThe View From India Looking at World Affairs from the Indian perspective.\n\nFirst Day First Show News and reviews from the world of cinema and streaming.\n\nToday's Cache Your download of the top 5 technology stories of the day.\n\nData Point Decoding the headlines with facts, figures, and numbers\n\nHealth Matters Ramya Kannan writes to you on getting to good health, and staying there\n\nThe Hindu On Books Books of the week, reviews, excerpts, new titles and features.\n\nUttar Pradesh Chief Minister Yogi Adityanath visits a Gurudwara on the occasion of Prakash Purab of Guru Nanak Dev, in Lucknow on November 24, 2026. | Photo Credit: ANI\n\nUttar Pradesh Chief Minister Yogi Adityanath on Tuesday (November 24, 2026) said that no power in the world will be able to harm India as long as it continues to hold Sikh Gurus in reverence and respect.\n\n“The sacrifice, penance, martyrdom, and spiritual consciousness of the Sikh Gurus are invaluable treasures of India’s national unity, social harmony, and cultural pride,” Mr. Adityanath said, addressing a program organised on the occasion of the 557th Prakash Parv of Sahib Shri Guru Nanak Dev Ji in Lucknow .\n\n“Through ‘Ek Onkar’, Guru Nanak Dev Ji Maharaj gave the message of uniting all humanity. His teachings remain as relevant today as they were then. We must not confine these teachings to events and celebrations alone, but imbibe them in our lives and continuously familiarize the younger generation with them as well,” he added.\n\nReferring to the spiritual and religious significance of Kartik Purnima, the U.P. Chief Minister said, “Today is an extremely sacred day for entire state. Since 4 am, I have been receiving updates on the number of devotees and arrangements at various religious sites across the state. At Shukratal in Muzaffarnagar, lakhs of devotees are taking a holy dip in the Ganga.\n\nAt Garhmukteshwar in Hapur, approximately 15 lakh devotees took a holy dip on Tuesday. Meanhwhile, more than 15 lakh devotees took a dip of faith in the Ganga at Tigri in Amroha. A large number of devotees also arrived in Prayagraj and Farrukhabad, while lakhs of them visited the Ganga in Ayodhya and Kashi,”.\n\nReferring to the journeys undertaken by Guru Nanak Dev Ji and social conditions prevailing during his time, Mr. Adityanath said, “When he conveyed the message of unity to humanity, society was grappling with numerous social evils and divisions. Society was fragmented in the name of caste, untouchability and discrimination.",
+      "image": "https://th-i.thgim.com/public/incoming/sbnzfs/article71740949.ece/alternates/LANDSCAPE_1200/20261124244L.jpg",
+      "gallery": [],
       "saved": false,
-      "author": "Emma Graham-Harrison"
+      "author": "Mayank Kumar"
     },
     {
-      "id": "news-geopolitics-20261124-3910e6b8",
-      "edition": "morning",
-      "featured": false,
-      "category": "Geopolitics & Global",
-      "source": "CBC World",
-      "readMin": 2,
-      "spectrum": "left",
-      "sourceUrl": "https://www.cbc.ca/news/world/iran-singer-flogging-9.7432912?cmp=rss",
-      "title": "Iranian singer subjected to 74 lashes for performing without her hijab",
-      "dek": "An Iranian singer and four members of her production team have each received 74 lashes after being sentenced for \"offending public decency ‌by producing and publishing obscene and immoral content onli…",
-      "content": "People walk past a mural depicting the late leader of the Islamic Revolution, Ayatollah Ruhollah Khomeini, and Iran's late Supreme Leader Ayatollah Ali Khamenei, on a street in Tehran on Nov. 20. (Majid Asgaripour/West Asia News Agency/Reuters) Social Sharing An Iranian singer and four members of her production team have each received 74 lashes after being sentenced for \"offending public decency ‌by producing and publishing obscene and immoral content online,\" an Iranian news website said on Monday.\n\nParastoo Ahmadi and the four others ​were also handed two-year bans on artistic ​and musical activities and travel, the Emtedad website quoted lawyer Mostafa Nili as saying.\n\nThe ​case followed the release of a ⁠video on YouTube ⁠in December 2024 showing ‌Ahmadi performing without the mandatory hijab alongside male musicians in Qom, south of the capital of Tehran, Norway-based human rights group Hengaw said.\n\nWestern governments ⁠and human rights groups have criticized flogging as torture and a violation of international law. Iran rejects accusations ‌over its human rights record, saying Western countries should focus on their own human rights problems.\n\nIranian authorities did not immediately respond to a ​request for comment by Reuters.\n\nA woman holds a placard with a picture of Iranian woman Mahsa Amini during a protest against her death, in Berlin, Sept. 28, 2022. (Markus Schreiber/The Associated Press)\n\nRules requiring women to wear the ⁠hijab were a flashpoint during protests in 2022 after ⁠the in-custody death of Kurdish Iranian woman Mahsa ⁠Amini, ⁠who was ​arrested for allegedly violating the dress code.\n\nThe rules have increasingly ​been flouted on ⁠the streets of Tehran and beyond, and enforcement of the rules has also become more selective.\n\nEmtedad did not specify whether Nili had represented the five defendants.",
-      "image": "https://i.cbc.ca/ais/683cbc24-e7be-4509-a235-c438c139dc54,1795461768224/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C302%2C5790%2C3256%29%3BResize%3D620",
-      "gallery": [
-        {
-          "url": "https://i.cbc.ca/ais/2c566091-3f61-4da5-9057-390f97f484b0,1795460717160/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C8640%2C5760%29%3B",
-          "alt": "A placard with a photo and name on it"
-        }
-      ],
-      "saved": false,
-      "alsoCoveredBy": [
-        {
-          "outlet": "The Guardian",
-          "url": "https://www.theguardian.com/world/2026/nov/23/iranian-singer-lashes-performing-without-hijab"
-        }
-      ]
-    },
-    {
-      "id": "news-tech-20261124-31b2b9b6",
+      "id": "news-tech-20261125-94b310a9",
       "edition": "morning",
       "featured": false,
       "category": "Tech & AI",
-      "source": "The Verge",
-      "readMin": 2,
+      "source": "Ars Technica",
+      "readMin": 3,
       "spectrum": "",
-      "sourceUrl": "https://www.theverge.com/tech/1041000/kagi-mail-email-google-gmail-alternative",
-      "title": "Google alternative Kagi launches an email service",
-      "dek": "Kagi, which already offers a paid alternative to Google Search and its own Orion browser as a rival to Chrome, is taking on another Google service: Gmail.",
-      "content": "Kagi Mail is launching in public beta with a 60-day free trial.\n\nKagi Mail is launching in public beta with a 60-day free trial.\n\nKagi, which already offers a paid alternative to Google Search and its own Orion browser as a rival to Chrome, is taking on another Google service: Gmail. Today, Kagi announced a public beta of Kagi Mail, a new email service that has “no surveillance, no ads, open standards, and no lock-in.”\n\nWith Kagi Mail, you get an @ kagimail.com address, but the service also supports unlimited aliases and domains. It also offers 50GB of storage and a built-in calendar. On the roadmap, you can expect contacts and an address book in Q1 2027, but native mobile apps aren’t expected to arrive until Q3 2027.\n\n“Does the world need another email service? We asked ourselves that question more than once,” Kagi says. “There are great ones out there, and we’re fans of what Fastmail and Tuta are doing. We still built our own, for the same reason we build everything at Kagi: technology should do its job and then get out of your way.”\n\nKagi Mail is available now with a 60-day free trial before you have to pay $99 per year. The service is available as part of a $25 per month Kagi Ultimate subscription.",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/mail-inbox-overview.RlzZ8Gtt.png?quality=90&strip=all&crop=0%2C8.1151832460733%2C100%2C83.769633507853&w=1200",
-      "gallery": [],
+      "sourceUrl": "https://arstechnica.com/science/2026/11/how-brewers-can-protect-beers-from-smoke-tainted-hops/",
+      "title": "How brewers can protect beers from smoke-tainted hops",
+      "dek": "Study: Brewers can still use up to 50% of smoke-tainted hops without affecting beer taste and aroma.",
+      "content": "Study: Brewers can still use up to 50% of smoke-tainted hops without affecting beer taste and aroma.\n\nThe 2020 Oregon wildfires burned over 1 million acres, destroyed thousands of structures, and killed 11 people. Smoke from the fires spread across the entire region; this “smoke taint” adversely affected not only local wine production , but also hops grown for beer brewing. Since the Pacific Northwest produces more than 95 percent of US hops and about 40 percent of the global supply, the potential economic impact is significant.\n\nThat’s why Oregon State University (OSU) scientists have been studying how brewers could offset the negative impacts of smoke taint while still incorporating affected hops in their brews. Most recently, they found that it all depends on the quantity of tainted hops that are included and when hops are added during the brewing process, according to a new paper published in the Journal of the American Society of Brewing Chemists.\n\nAs previously reported , the chemistry of brewing beer is a very active area of research. For instance, in 2018 , OSU chemist Thomas Shellhammer—who also co-authored this latest paper— identified the growing popularity of “ dry hopping ” (adding hops after fermentation, common for pale ales) among craft brewers as the likely culprit of the exploding beer bottle phenomenon.\n\nAll beer contains hops, a key flavoring agent that also imparts useful antimicrobial properties. (Beer spoils quickly without them.) Brewers mash and steep grain in hot water, which converts all that starch into sugars. This is traditionally the stage where hops are added to the liquid extract (wort) and boiled to give the beer that hint of bitterness. During the boiling process, a portion of the resins (alpha acids) in hops isomerize into iso-alpha acids. That chemical rearrangement of the molecules is what produces bitterness. Yeast is then added to trigger fermentation, turning the sugars into alcohol.\n\nFar from being the chemically inert ingredient brewers have long assumed, hops contain starch enzymes that, under certain conditions, can boost their activity to such a great extent that excessive re-fermentation occurs (“hop-creep”) after bottling. Dry-hopped beers produce significantly higher CO 2 levels and packaging pressures, because there is much more re-fermentation going on than usual. And sometimes that pressure builds until the bottle explodes.\n\nIn the wake of the 2020 wildfires, Shellhammer turned his attention to smoke-tainted hops. The primary culprit is volatile phenols (VP), which are produced when the lignin in plant cells is exposed to the high heat of a wildfire. Earlier this year, the OSU team discovered that smoke exposure while the hops are drying increased VP uptake and substantially altered the hops’ aroma; those with higher levels took on meaty, smoky, and artificial BBQ notes; medicinal flavors have also been reported. Those notes were so strong that they overpowered more desirable beery qualities, like citrus notes or aroma intensity.",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/hops3-1152x648-1795358176.jpg",
+      "gallery": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/hops4-640x427.jpg",
+          "alt": "Credit: Ellie Lafferty/Oregon State University"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/hops3-640x427.jpg",
+          "alt": "cupped pair of hands holding freshly harvested hops"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2018/08/arspic300.jpg",
+          "alt": "Photo of Jennifer Ouellette"
+        }
+      ],
       "saved": false,
-      "author": "Jay Peters"
+      "author": "Jennifer Ouellette"
     },
     {
-      "id": "news-quantum-20261124-1bcb475d",
+      "id": "news-quantum-20261125-adcbad98",
       "edition": "morning",
       "featured": false,
       "category": "Quantum & Physics",
       "source": "ScienceDaily Physics",
       "readMin": 2,
       "spectrum": "",
-      "sourceUrl": "https://www.sciencedaily.com/releases/2026/10/261011211554.htm",
-      "title": "Scientists recreate a bizarre quantum effect that stops a particle cold",
-      "dek": "Oxford physicists have recreated a bizarre quantum effect in which a particle responds to a magnetic field without ever traveling through it.",
-      "content": "A particle does not have to pass through a magnetic field to be influenced by it. That surprising feature of quantum physics has now been recreated by researchers at the University of Oxford, who used a hybrid quantum computer to demonstrate how an invisible magnetic influence can bring a simulated particle's movement to a complete stop.\n\nThe experiment reproduced a phenomenon known as the Aharonov-Bohm effect, in which a charged particle traveling around a region containing magnetic flux experiences a measurable change in its quantum state, even though its path never takes it through the magnetic field itself.\n\nThe Oxford team achieved this using a quantum system that combines qubits, the basic units of quantum information, with quantum oscillators, which represent vibrating motion. Their findings, published in Nature Physics , demonstrate how this combination could help scientists investigate fundamental interactions between matter and fields that are increasingly difficult to simulate using conventional computers.\n\nIn everyday physics, a charged particle responds to the electric and magnetic fields it encounters. Quantum mechanics, however, reveals that particles can behave in ways that have no straightforward counterpart in our ordinary experience.\n\nIn 1959, physicists Yakir Aharonov and David Bohm predicted that a charged particle could be affected by magnetic flux even if it traveled entirely outside the region containing the magnetic field. Rather than experiencing a conventional magnetic force along its path, the particle would undergo a change in its quantum phase.\n\nQuantum phase describes an aspect of a particle's wave behavior that influences how different possible paths interfere with one another. Although the phase itself is not directly visible, differences in phase can produce measurable effects.\n\nThe prediction became known as the Aharonov-Bohm effect and was eventually verified in experiments involving real electrons. It remains one of the clearest demonstrations that the quantum world operates according to rules that go beyond the familiar laws of classical physics.\n\nResearchers are now exploring how this phenomenon behaves in more complex theoretical systems known as lattice gauge theories.\n\nThese theories describe how matter interacts with fields associated with fundamental forces. They represent space as a grid, with matter located at individual points and fields associated with the connections between them. Such models are particularly important in particle physics and high-energy physics, where scientists study the basic particles and interactions that make up the universe.",
-      "image": "https://www.sciencedaily.com/images/1920/hybrid-quantum-system-loop.webp",
+      "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261123005341.htm",
+      "title": "A simple metal is hiding a strange new form of magnetism",
+      "dek": "Scientists have discovered a strange form of magnetism in an ordinary-looking metal that has no overall magnetization yet profoundly changes how electrons behave.",
+      "content": "A surprisingly simple metal has revealed an unusual form of magnetism that could open new possibilities for quantum technology. Researchers have found compelling evidence of a rare magnetic state in which electrons behave in unexpected ways, even though the material produces no overall magnetization.\n\nThe material, known as europium silicide (EuSi), contains an intricate magnetic structure that influences how electrons move and how their spins are oriented. This behavior is associated with a phenomenon called p-wave magnetism, an emerging area of research that could eventually help scientists develop new approaches to controlling electronic properties.\n\nThe discovery is particularly significant because EuSi is a relatively simple metallic compound. Unlike many materials previously considered for studying this exotic form of magnetism, it offers researchers a practical way to investigate the underlying physics in detail.\n\nThe research began about three years ago at the Max Planck Institute for Chemical Physics of Solids (MPI CPfS) in Dresden, Germany. Dr. Erjian Cheng successfully grew high-quality single crystals of EuSi, providing the material needed for detailed experiments.\n\nWhen researchers first examined the crystals using photoemission techniques, which probe the energies and behavior of electrons inside materials, they noticed something unexpected. The magnetic arrangement of the atoms had a remarkably strong influence on the electronic band structure, which describes the energy levels electrons can occupy and helps determine how a material conducts electricity.\n\nThat observation raised an intriguing possibility. Could this simple compound contain an unconventional form of magnetism in which the spin of an electron is connected to the direction it travels?\n\n\"When we first measured the electronic structure of EuSi, we were surprised by the exceptionally large effect of magnetism on the electrons,\" explains Cheng. \"That observation led us to investigate whether this simple compound could host a much more unusual magnetic state. The combination of crystal growth, neutron scattering and spin-resolved spectroscopy now provides compelling evidence for p-wave magnetism.\"\n\nAnswering that question required an international collaboration involving 38 scientists from 19 institutions. Participants included researchers from ShanghaiTech University, the Hong Kong University of Science and Technology, the Max Planck Institute for the Physics of Complex Systems and Oak Ridge National Laboratory.\n\nOrdinary magnets, such as those attached to refrigerators, typically rely on a magnetic arrangement called ferromagnetism. In these materials, many electron spins align in the same direction, producing an overall magnetic field.",
+      "image": "https://www.sciencedaily.com/images/1920/arpes-probing-the-p-wave-spin-texture-in-eusi.webp",
       "gallery": [],
       "saved": false
     },
@@ -256,6 +271,34 @@
       "imageKind": "category"
     },
     {
+      "id": "arxiv-2611.31444",
+      "edition": "morning",
+      "tag": "Coherence & Open Systems",
+      "title": "Quantum Control Under Control-Dependent Decoherence",
+      "authors": "Cyril Morluyan Cordor, Anthony M. Bloch, Eitan Geva",
+      "year": "2026",
+      "arxivId": "2611.31444",
+      "journal": "arXiv:2611.31444 [quant-ph]",
+      "url": "https://arxiv.org/abs/2611.31444",
+      "pdfUrl": "https://arxiv.org/pdf/2611.31444",
+      "readTime": "2 min read",
+      "tldr": "Decoherence, which arises from the interaction of a quantum system with a typically much larger thermal environment, or bath, poses major challenges to the controllability of quantum systems. The dynamics of such open quantum systems is often represented by Markovian quantum master equations of the Lindblad or Redfield type.",
+      "takeaways": [
+        "Decoherence, which arises from the interaction of a quantum system with a typically much larger thermal environment, or bath, poses major challenges to the controllability of quantum systems.",
+        "The dynamics of such open quantum systems is often represented by Markovian quantum master equations of the Lindblad or Redfield type.",
+        "To this end, we examine the effect of accounting for control-dependent decoherence on the controllability of an open quantum system in the case of a two-level system coupled to a thermal bath."
+      ],
+      "matched": [
+        "decoherence",
+        "open quantum system",
+        "master equation",
+        "coherence"
+      ],
+      "saved": false,
+      "image": "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&w=1200&q=80",
+      "imageKind": "category"
+    },
+    {
       "id": "arxiv-2611.26215",
       "edition": "morning",
       "tag": "Floquet & Driven Systems",
@@ -280,33 +323,7 @@
         "spin"
       ],
       "saved": false,
-      "image": "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&w=1200&q=80",
-      "imageKind": "category"
-    },
-    {
-      "id": "arxiv-2611.24346",
-      "edition": "morning",
-      "tag": "NMR & Spin Control",
-      "title": "Spin dynamics in disordered systems with generic spin-momentum couplings: A matrix-rational formulation",
-      "authors": "Masataka Kakoi",
-      "year": "2026",
-      "arxivId": "2611.24346",
-      "journal": "arXiv:2611.24346 [cond-mat.mes-hall]",
-      "url": "https://arxiv.org/abs/2611.24346",
-      "pdfUrl": "https://arxiv.org/pdf/2611.24346",
-      "readTime": "2 min read",
-      "tldr": "We develop a microscopic framework for the disorder-averaged density-matrix dynamics of pseudospin-$1/2$ systems with anisotropic and nonlinear spin-momentum couplings. Starting from the Diffuson, we introduce a matrix-valued rational approximation for its frequency dependence that does not rely on a low-frequency or weak-coupling expansion.",
-      "takeaways": [
-        "We develop a microscopic framework for the disorder-averaged density-matrix dynamics of pseudospin-$1/2$ systems with anisotropic and nonlinear spin-momentum couplings.",
-        "Comparisons with direct numerical simulations demonstrate quantitative agreement for both the post-quench spin dynamics and spin relaxation times across a broad range of coupling strengths, extending beyond the diffusive regime.",
-        "The matrix-rational formulation provides a unified description of ultrafast spin dynamics and long-time relaxation."
-      ],
-      "matched": [
-        "spin dynamics",
-        "spin"
-      ],
-      "saved": false,
-      "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+      "image": "https://images.unsplash.com/photo-1694903110330-cc64b7e1d21d?auto=format&fit=crop&w=1200&q=80",
       "imageKind": "category"
     }
   ]
